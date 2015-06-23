@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <?php echo $this->headTitle('ZF2 '. $this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false) ?>
+        <?php echo $this->headTitle('CMS '. $this->translate(''))->setSeparator(' - ')->setAutoEscape(false) ?>
 
         <?php echo $this->headMeta()
             ->appendName('viewport', 'width=device-width, initial-scale=1.0')
@@ -11,45 +11,120 @@
         ?>
 
         <!-- Le styles -->
-        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image', 'href' => $this->basePath() . '/img/favicon.ico'))
+						->prependStylesheet($this->basePath() . '/css/responsive.css')
                         ->prependStylesheet($this->basePath() . '/css/style.css')
-                        ->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
-                        ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css') ?>
+						->prependStylesheet($this->basePath() . '/libs/font-awesome/css/font-awesome.min.css')
+                        ->prependStylesheet($this->basePath() . '/libs/bootstrap/css/bootstrap-theme.min.css')
+                        ->prependStylesheet($this->basePath() . '/libs/bootstrap/css/bootstrap.min.css') ?>
 
         <!-- Scripts -->
         <?php echo $this->headScript()
-            ->prependFile($this->basePath() . '/js/bootstrap.min.js')
-            ->prependFile($this->basePath() . '/js/jquery.min.js')
+            ->prependFile($this->basePath() . '/libs/bootstrap/js/bootstrap.min.js')
+            ->prependFile($this->basePath() . '/js/jquery-1.11.3.js')
             ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
             ->prependFile($this->basePath() . '/js/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',))
         ; ?>
 
     </head>
     <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="<?php echo $this->url('home') ?>"><img src="<?php echo $this->basePath('img/zf2-logo.png') ?>" alt="Zend Framework 2"/>&nbsp;<?php echo $this->translate('Skeleton Application') ?></a>
-                </div>
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Home') ?></a></li>
-                    </ul>
-                </div><!--/.nav-collapse -->
-            </div>
-        </nav>
-        <div class="container">
-            <?php echo $this->content; ?>
-            <hr>
-            <footer>
-                <p>&copy; 2005 - <?php echo date('Y') ?> by Zend Technologies Ltd. <?php echo $this->translate('All rights reserved.') ?></p>
-            </footer>
-        </div> <!-- /container -->
+		<header>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="row header">
+									<div class="col-lg-6 col-xs-6">
+										<div class="logo">Logo</div>
+									</div>
+									<div class="col-lg-6 col-xs-6 profile">
+										<div class="user pull-right">
+											<ul id="user-profile">
+												<li>
+													<a href="#"><var></var> User <span class="caret"></span></a>
+													<ul id="control-user">
+														<li><a href="#">ád</a></li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+										<div class="nav-mobile">
+											<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-controls="bs-example-navbar-collapse-1" aria-expanded="false">
+												<i class="fa fa-bars"></i>
+											</button>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-12 menu">
+								<div class="menu-top">
+									<nav class="nav-admin navbar navbar-default">
+										<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+											<ul class="nav navbar-nav">
+												<li><a href="#"><i class="icon dashboard"></i>Tổng quan</a>
+												</li>
+												<li>
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon iconproduct"></i> Hàng hóa <span class="caret"></span></a>
+													<ul class="dropdown-menu">
+														<li><a href="#"><i class="icon iconcategory"></i> Danh mục</a></li>
+														<li><a href="#"><i class="icon iconcheckstore"></i> Kiểm kho</a></li>
+													</ul>
+												</li>
+												<li>
+													<a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon iconstore"></i> Giao dịch <span class="caret"></span></a>
+													<ul class="dropdown-menu">
+														<li><a href="#"><i class="icon iconinvoice"></i> Hóa đơn</a></li>
+														<li><a href="#"><i class="icon iconrefund"></i> Trả hàng</a></li>
+														<li><a href="#"><i class="icon iconpurchaseorders"></i> Nhập hàng</a></li>
+														<li><a href="#"><i class="icon iconpurchasereturn"></i> Trả hàng nhập</a></li>
+														<li><a href="#"><i class="icon iconfulfillment"></i> Chuyển hàng</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon iconpartner"></i> Đối tác <span class="caret"></span></a>
+													<ul class="dropdown-menu">
+														<li><a href="#"><i class="icon iconcustomer"></i> Khách hàng</a></li>
+														<li><a href="#"><i class="icon iconsupplier"></i> Nhà cung cấp</a></li>
+														<li><a href="#"><i class="icon icontrademark"></i> Thương Hiệu</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon iconreport"></i> Báo cáo <span class="caret"></span></a>
+													<ul class="dropdown-menu">
+														<li><a href="#"><i class="icon iconsale"></i> Bán hàng</a></li>
+														<li><a href="#"><i class="icon iconproduct"></i> Hàng hóa</a></li>
+														<li><a href="#"><i class="icon iconfinancial"></i> Tài chính </a></li>
+														<li><a href="#"><i class="icon iconliabilities"></i> Công nợ</a></li>
+														<li><a href="#"><i class="icon icondayend"></i> Cuối ngày</a></li>
+													</ul>
+												</li>
+												<li>
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon iconconfig"></i> Thiết lập <span class="caret"></span></a>
+													<ul class="dropdown-menu">
+														<li><a href="#"><i class="icon iconuser"></i> Quản lý thành viên</a></li>
+														<li><a href="#"><i class="icon iconstaff"></i> Quản lý nhân viên</a></li>
+														<li><a href="#"><i class="icon iconshop"></i> Quản lý cửa hàng </a></li>
+														<li><a href="#"><i class="icon iconsystem"></i> Phân quyền hệ thống</a></li>
+														<li><a href="#"><i class="icon iconemail"></i> Quản lý Email</a></li>
+													</ul>
+												</li>
+												<li><a href="#"> <i class="icon iconsale"></i>Bán hàng </a></li>
+												<li><a href="#"><i class="icon iconhelp"></i> Hỗ trợ </a></li>
+											</ul>
+										</div>
+									</nav><!-- /.navbar-collapse -->
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+        </header>
         <?php echo $this->inlineScript() ?>
+		<!--<div class="showcase"></div>-->
     </body>
 </html>

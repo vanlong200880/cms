@@ -1,37 +1,187 @@
-body {
-    padding-top: 60px;
-    padding-bottom: 40px;
+html, body{
+	font-size: 14px;
+}
+ul ,li{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
 }
 
-.zf-green {
-    color: #68b604;
+header{
+	background: #38b8e6;
+}
+.nav-admin{
+	background: none;
+	border-radius: 0;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	border: none;
+	height: auto;
+	margin-bottom: 0;
+	min-height: 0;
+}
+.nav-admin.navbar-default .navbar-nav>li>a,
+.nav-admin.navbar-default .navbar-nav>.active>a, 
+.nav-admin.navbar-default .navbar-nav>.open>a{
+	color: #FFF;
+}
+.nav-admin.navbar-default .navbar-nav>li:hover,
+.nav-admin.navbar-default .navbar-nav>li>a:focus, 
+.nav-admin.navbar-default .navbar-nav>li>a:hover,
+.nav-admin.navbar-default .navbar-nav>.active>a, 
+.nav-admin.navbar-default .navbar-nav>.open>a{
+	background: #1a9dcc;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	-moz-border-top-left-radius: 3px;
+	-moz-border-top-right-radius: 3px;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	text-shadow: none;
+}
+/*.nav-admin.navbar-default .navbar-nav>li:hover .dropdown-menu{
+	display: block;
+}*/
+.nav-admin .dropdown-menu{
+	background: #1a9dcc;
+	padding: 5px 10px;
+	border: 0;
+	box-shadow: 0 9px 12px rgba(0,0,0,.175);
+	-moz-box-shadow: 0 9px 12px rgba(0,0,0,.175);
+	-webkit-box-shadow: 0 9px 12px rgba(0,0,0,.175);
+}
+.nav-admin .dropdown-menu>li>a{
+	color: #FFF;
+	padding: 7px 20px;
+}
+.nav-admin .dropdown-menu>li>a:focus, 
+.nav-admin .dropdown-menu>li>a:hover{
+	background: #38b8e6;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+.nav-admin .nav{
+	float: right;
+}
+.nav-admin .nav li a{
+}
+.nav-admin.navbar-default .navbar-nav>.active>a, 
+.nav-admin.navbar-default .navbar-nav>.open>a{
+	box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+}
+.nav-admin.navbar-default .navbar-nav .open .dropdown-menu>li>a{
+	color: #FFF;
+}
+.nav-admin .nav li a i.icon{
+	width: 25px;
+	height: 22px;
+	display: inline-block;
+	vertical-align: middle;
+	background: url(../img/icon.png) no-repeat 0px 4px;
+}
+.nav-admin .nav li a i.icon.iconproduct{
+	background-position: -30px 2px;
+}
+.nav-admin .nav li a i.icon.iconstore{
+	background-position: -60px 4px;
+}
+.nav-admin .nav li a i.icon.iconpartner{
+	background-position: -90px 2px;
+}
+.nav-admin .nav li a i.icon.iconreport{
+	background-position: -120px 2px;
+}
+.nav-admin .nav li a i.icon.iconconfig{
+	background-position: -210px 2px;
+}
+.nav-admin .nav li a i.icon.iconsale{
+	background-position: -180px 4px;
+}
+.nav-admin .nav li a i.icon.iconhelp{
+	background-position: -270px 2px;
+}
+.nav-admin .nav li a i.icon.iconcategory{
+	background-position: -150px 2px;
+}
+.nav-admin .nav li a i.icon.iconcheckstore{
+	background-position: -300px 2px;
 }
 
-.btn-success {
-  background-color: #57a900;
-  background-image: -moz-linear-gradient(top, #70d900, #57a900);
-  background-image: -ms-linear-gradient(top, #70d900, #57a900);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#70d900), to(#57a900));
-  background-image: -webkit-linear-gradient(top, #70d900, #57a900);
-  background-image: -o-linear-gradient(top, #70d900, #57a900);
-  background-image: linear-gradient(top, #70d900, #57a900);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#70d900', endColorstr='#57a900', GradientType=0);
+.nav-admin .nav li a i.icon.iconinvoice{
+	background-position: -330px 2px;
+}
+.nav-admin .nav li a i.icon.iconrefund{
+	background-position: -360px 2px;
+}
+.nav-admin .nav li a i.icon.iconpurchasereturn{
+	background-position: -450px 2px;
+}
+.nav-admin .nav li a i.icon.iconpurchaseorders{
+	background-position: -390px 2px;
+}
+.nav-admin .nav li a i.icon.iconfulfillment{
+	background-position: -420px 2px;
+}
+.nav-admin .nav li a i.icon.iconfinancial{
+	background-position: -480px 2px;
+}
+.nav-admin .nav li a i.icon.iconliabilities{
+	background-position: -510px 2px;
+}
+.nav-admin .nav li a i.icon.icondayend{
+	background-position: -540px 2px;
+}
+.nav-admin .nav li a i.icon.iconcustomer{
+	background-position: -570px 2px;
+}
+.nav-admin .nav li a i.icon.iconsupplier{
+	background-position: -270px 2px;
+}
+.nav-admin .nav li a i.icon.icontrademark{
+	background-position: 0px -26px;
 }
 
-.btn-success:hover,
-.btn-success:active,
-.btn-success.active,
-.btn-success.disabled,
-.btn-success[disabled] {
-  background-color: #57a900;
+.nav-admin .nav li a i.icon.iconuser{
+	background-position: -90px 2px;
 }
-
-.btn-success:active, .btn-success.active {
-  background-color: #57a900;
+.nav-admin .nav li a i.icon.iconstaff{
+	background-position: -570px 2px;
 }
-
-div.container a.brand {
-    background: url("../img/zf2-logo.png") no-repeat scroll 0 10px transparent;
-    margin-left: 0;
-    padding: 8px 20px 12px 40px;
+.nav-admin .nav li a i.icon.iconshop{
+	background-position: 0px -26px;
+}
+.nav-admin .nav li a i.icon.iconsystem{
+	background-position: -210px 2px;
+}
+.nav-admin .nav li a i.icon.iconemail{
+	background-position: -330px 2px;
+}
+#user-profile li ul{
+	display: none;
+}
+#user-profile li a{
+	color: #FFF;
+	text-decoration: none;
+}
+#user-profile li a var{
+	width: 30px;
+	height: 30px;
+	background: #FFF;
+	display: inline-block;
+	border-radius: 50%;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	vertical-align: middle;
+}
+#user-profile li a:hover ul#control-user{
+	display: block;
+	position: absolute;
+	right: 0;
+	z-index: 99;
 }
