@@ -14,12 +14,14 @@
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image', 'href' => $this->basePath() . '/img/favicon.ico'))
 						->prependStylesheet($this->basePath() . '/css/responsive.css')
                         ->prependStylesheet($this->basePath() . '/css/style.css')
+						->prependStylesheet($this->basePath() . '/libs/bootstrap-select/dist/css/bootstrap-select.min.css')
 						->prependStylesheet($this->basePath() . '/libs/font-awesome/css/font-awesome.min.css')
                         ->prependStylesheet($this->basePath() . '/libs/bootstrap/css/bootstrap-theme.min.css')
-                        ->prependStylesheet($this->basePath() . '/libs/bootstrap/css/bootstrap.min.css') ?>
+                        ->prependStylesheet($this->basePath() . '/libs/bootstrap/css/bootstrap.min.css')?>
 
         <!-- Scripts -->
         <?php echo $this->headScript()
+			->prependFile($this->basePath() . '/libs/bootstrap-select/dist/js/bootstrap-select.min.js')
             ->prependFile($this->basePath() . '/libs/bootstrap/js/bootstrap.min.js')
             ->prependFile($this->basePath() . '/js/jquery-1.11.3.js')
             ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
@@ -43,8 +45,9 @@
 											<ul id="user-profile">
 												<li>
 													<a href="#"><var></var> User <span class="caret"></span></a>
-													<ul id="control-user">
-														<li><a href="#">ád</a></li>
+													<ul id="user">
+														<li><a href="#"><i class="icon iconprofile"></i> Tài khoản</a></li>
+														<li><a href="#"><i class="icon iconlogout"></i> Đăng xuất</a></li>
 													</ul>
 												</li>
 											</ul>
@@ -124,6 +127,62 @@
 
 			</div>
         </header>
+		
+		<div class="main">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-6">
+						<h1>Danh mục</h1>
+					</div>
+					<div class="col-lg-6">
+						
+					</div>
+				</div>
+			</div>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="content">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="filter">
+										<fieldset>
+											<legend>Tìm kiếm</legend>
+											<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+												<div class="form-group">
+													<label for="keyword" class="col-lg-2 col-md-2 col-sm-12 control-label">Từ khóa</label>
+													<div class="col-lg-10 col-md-10 col-sm-12">
+														<input type="email" class="form-control" id="keyword">
+													</div>
+												</div>
+											</div>
+											<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+												<div class="form-group">
+													<label for="keyword" class="col-lg-2 col-md-2 col-sm-12 control-label">Danh mục</label>
+													<div class="col-lg-10 col-md-10 col-sm-12">
+														<select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
+															<option>cow</option>
+															<option>bull</option>
+															<option class="get-class" disabled>ox</option>
+															<optgroup label="test" data-subtext="another test">
+																<option>ASD</option>
+																<option selected>Bla</option>
+																<option>Ble</option>
+															</optgroup>
+														  </select>
+													</div>
+												</div>
+											</div>
+											<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">sdfsf</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
         <?php echo $this->inlineScript() ?>
 		<!--<div class="showcase"></div>-->
     </body>

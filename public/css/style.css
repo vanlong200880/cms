@@ -1,5 +1,6 @@
 html, body{
 	font-size: 14px;
+	background: #eef3f7;
 }
 ul ,li{
 	list-style-type: none;
@@ -22,6 +23,9 @@ header{
 	height: auto;
 	margin-bottom: 0;
 	min-height: 0;
+}
+.nav-admin.navbar-default .navbar-nav>li>a{
+	padding: 10px 15px;
 }
 .nav-admin.navbar-default .navbar-nav>li>a,
 .nav-admin.navbar-default .navbar-nav>.active>a, 
@@ -64,9 +68,6 @@ header{
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 }
-.nav-admin .nav{
-	float: right;
-}
 .nav-admin .nav li a{
 }
 .nav-admin.navbar-default .navbar-nav>.active>a, 
@@ -78,7 +79,7 @@ header{
 .nav-admin.navbar-default .navbar-nav .open .dropdown-menu>li>a{
 	color: #FFF;
 }
-.nav-admin .nav li a i.icon{
+i.icon{
 	width: 25px;
 	height: 22px;
 	display: inline-block;
@@ -162,12 +163,47 @@ header{
 .nav-admin .nav li a i.icon.iconemail{
 	background-position: -330px 2px;
 }
+.profile{
+	margin: 10px 0;
+}
+#user-profile li{
+	position: relative;
+	height: 40px;
+}
 #user-profile li ul{
 	display: none;
+	position: absolute;
+	z-index: 99;
+	background: #0590d4;
+	width: 150px;
+	right: 0;
+	padding: 10px 15px;
+	margin-top: 10px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+#user-profile li ul:before{
+	content: ' ';
+	width: 0;
+	height: 0;
+	border-bottom: 10px solid #0590d4; 
+	border-left: 5px solid transparent; 
+	border-right: 5px solid transparent;
+	position: absolute;
+	right: 10px;
+	top: -10px;
 }
 #user-profile li a{
 	color: #FFF;
 	text-decoration: none;
+}
+#user-profile li ul li a{
+	line-height: 35px;
+	transition: all 3s linear;
+	-webkit-transition: all 0.3s linear;
+	-moz-transition: all 0.3s linear;
+	color: #FFF;
 }
 #user-profile li a var{
 	width: 30px;
@@ -178,10 +214,50 @@ header{
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
 	vertical-align: middle;
+	text-align: center;
+	color: #939393;
+	line-height: 30px;
+	background: #FFF url('../img/icon.png') no-repeat;
+ 	background-position: -22px -18px;
 }
-#user-profile li a:hover ul#control-user{
+#user-profile li a i.icon{
+	width: 18px;
+	height: 18px;
+}
+i.icon.iconlogout{
+	background-position: -570px 2px;
+}
+i.icon.iconprofile{
+	background-position: 0px -25px;
+}
+#user-profile li:hover a{
+	color: #ffde00;
+}
+.nav-admin .navbar-collapse{
+	padding: 0;
+}
+#user-profile li:hover ul#user{
 	display: block;
-	position: absolute;
-	right: 0;
-	z-index: 99;
+}
+#user-profile li:hover ul#user li a{
+	color: #FFF;
+}
+ul#user li a:hover{
+	color: #ffde00 !important;
+}
+.content{
+	background: #FFF;
+	border: 1px solid #8c8c8c;
+	padding: 15px;
+}
+.filter fieldset{
+	border: 1px solid #DDD;
+}
+
+.filter fieldset legend{
+	border: none;
+	width: auto;
+	margin-left: 15px;
+	padding: 0 5px;
+	font-size: 16px;
 }
