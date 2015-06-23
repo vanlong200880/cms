@@ -261,3 +261,15 @@ ul#user li a:hover{
 	padding: 0 5px;
 	font-size: 16px;
 }
+.btn-search{
+	border-radius: 0;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	background: #57ae00;
+	box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	border: 0;
+	color: #FFF;
+	text-shadow: none;
+}
