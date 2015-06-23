@@ -145,40 +145,196 @@
 						<div class="content">
 							<div class="row">
 								<div class="col-lg-12">
-									<div class="filter">
-										<fieldset>
-											<legend>Tìm kiếm</legend>
-											<div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
-												<div class="form-group">
-													<label for="keyword" class="col-lg-2 col-md-2 col-sm-12 control-label">Từ khóa</label>
-													<div class="col-lg-10 col-md-10 col-sm-12">
-														<input type="email" class="form-control" id="keyword">
-													</div>
-												</div>
-											</div>
-											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-												<div class="form-group">
-													<label for="keyword" class="col-lg-2 col-md-2 col-sm-12 control-label">Danh mục</label>
-													<div class="col-lg-10 col-md-10 col-sm-12">
-														<select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
-															<option>cow</option>
-															<option>bull</option>
-															<option class="get-class" disabled>ox</option>
-															<optgroup label="test" data-subtext="another test">
-																<option>ASD</option>
-																<option selected>Bla</option>
-																<option>Ble</option>
-															</optgroup>
-														  </select>
-													</div>
-												</div>
-											</div>
-											<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-												<button type="submit" class="btn btn-default btn-search">Sign in</button>
-											</div>
-										</fieldset>
+									<div class="filter"> 
+                                        <form class="form-horizontal">
+                                            <fieldset>
+                                                <legend>Tìm kiếm</legend>
+                                                <div class="col-lg-5 col-md-5 col-xs-12">
+                                                    <div class="form-group">
+                                                        <label for="keyword" class="col-lg-3 col-md-3 control-label">Từ khóa</label>
+                                                        <div class="col-lg-9 col-md-9">
+                                                            <input type="email" class="form-control" id="keyword">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5 col-md-5">
+                                                    <div class="form-group">
+                                                        <label for="keyword" class="col-lg-3 col-md-3 control-label">Danh mục</label>
+                                                        <div class="col-lg-9 col-md-9">
+                                                            <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
+                                                                <option>cow</option>
+                                                                <option>bull</option>
+                                                                <option class="get-class" disabled>ox</option>
+                                                                <optgroup label="test" data-subtext="another test">
+                                                                    <option>ASD</option>
+                                                                    <option selected>Bla</option>
+                                                                    <option>Ble</option>
+                                                                </optgroup>
+                                                              </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 col-md-2">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <button type="button" class="btn btn-default btn-custom">Tìm</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </form>
 									</div>
-								</div>
+								</div> <!-- end search -->
+                                
+                                <div class="col-lg-12">
+                                    <div class="form-table">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="all"><input type="checkbox" class="form-all"></th>
+                                                    <th>Mã</th>
+                                                    <th>Tên</th>
+                                                    <th>Mô tả</th>
+                                                    <th class="weight">Vị trí</th>
+                                                    <th class="quantity">Số lượng</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="checkbox" class="form-checkbox"></td>
+                                                    <td>1</td>
+                                                    <td class="column-title">
+                                                        <strong>Tên</strong>
+                                                        <div class="row-action">
+                                                            <span class="edit">
+                                                                <a href="#">Sửa</a> | 
+                                                            </span>
+                                                            <span class="quick-edit">
+                                                                <a href="#">Sửa nhanh</a> | 
+                                                            </span>
+                                                            <span class="delete">
+                                                                <a href="#">Xóa</a> | 
+                                                            </span>
+                                                            <span class="view">
+                                                                <a href="#">Xem</a>
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td>Mô tả</td>
+                                                    <td>1</td>
+                                                    <td>200</td>
+                                                </tr>
+                                                <tr id="edit-1" class="edit-row">
+                                                    <td colspan="6" class="">
+                                                        <div class="column-qiuck-edit">
+                                                            
+                                                            <div class="col-lg-12"><h2>Sửa nhanh</h2></div>
+                                                            <div class="col-lg-12">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group">
+                                                                            <label for="name">Tên</label>
+                                                                            <input type="text" class="form-control" id="name">
+                                                                        </div>
+
+                                                                        <div class="form-group">
+                                                                            <label for="name">Slug</label>
+                                                                            <input type="text" class="form-control" id="name">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div class="col-lg-12">
+                                                                <div class="row">
+                                                                    <div class="col-lg-3">
+                                                                        <div class="form-group">
+                                                                            <label for="name">Vị trí</label>
+                                                                            <input type="text" class="form-control" id="name">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3">
+                                                                        <label>Danh mục cha</label>
+                                                                        <select id="basic-1" class="selectpicker show-tick form-control" data-live-search="true">
+                                                                            <option>cow</option>
+                                                                            <option>bull</option>
+                                                                            <option class="get-class" disabled>ox</option>
+                                                                            <optgroup label="test" data-subtext="another test">
+                                                                                <option>ASD</option>
+                                                                                <option selected>Bla</option>
+                                                                                <option>Ble</option>
+                                                                            </optgroup>
+                                                                          </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group">
+                                                                            <button type="button" class="btn btn-default btn-back">Trở lại</button>
+                                                                            <button type="button" class="btn btn-default btn-custom pull-right">Cập nhật</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6"></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td><input type="checkbox" class="form-checkbox"></td>
+                                                    <td>1</td>
+                                                    <td class="column-title">
+                                                        <strong>Tên</strong>
+                                                        <div class="row-action">
+                                                            <span class="edit">
+                                                                <a href="#">Sửa</a> | 
+                                                            </span>
+                                                            <span class="quick-edit">
+                                                                <a href="#">Sửa nhanh</a> | 
+                                                            </span>
+                                                            <span class="delete">
+                                                                <a href="#">Xóa</a> | 
+                                                            </span>
+                                                            <span class="view">
+                                                                <a href="#">Xem</a>
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td>Mô tả</td>
+                                                    <td>1</td>
+                                                    <td>200</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="checkbox" class="form-checkbox"></td>
+                                                    <td>1</td>
+                                                    <td class="column-title">
+                                                        <strong>Tên</strong>
+                                                        <div class="row-action">
+                                                            <span class="edit">
+                                                                <a href="#">Sửa</a> | 
+                                                            </span>
+                                                            <span class="quick-edit">
+                                                                <a href="#">Sửa nhanh</a> | 
+                                                            </span>
+                                                            <span class="delete">
+                                                                <a href="#">Xóa</a> | 
+                                                            </span>
+                                                            <span class="view">
+                                                                <a href="#">Xem</a>
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td>Mô tả</td>
+                                                    <td>1</td>
+                                                    <td>200</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
 							</div>
 						</div>
 					</div>

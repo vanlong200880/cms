@@ -7,6 +7,9 @@ ul ,li{
 	padding: 0;
 	margin: 0;
 }
+a{
+    color: #000;
+}
 
 header{
 	background: #38b8e6;
@@ -261,7 +264,11 @@ ul#user li a:hover{
 	padding: 0 5px;
 	font-size: 16px;
 }
-.btn-search{
+.btn.btn-custom.active,
+.btn.btn-custom:active,
+.btn.btn-custom:focus,
+.btn.btn-custom:visited,
+.btn.btn-custom{
 	border-radius: 0;
 	-moz-border-radius: 0;
 	-webkit-border-radius: 0;
@@ -272,4 +279,86 @@ ul#user li a:hover{
 	border: 0;
 	color: #FFF;
 	text-shadow: none;
+    outline: none;
+    padding-left: 20px;
+    padding-right: 20px;
+    transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -webkit-transition: all 0.3s ease-out;
+    text-transform: uppercase;
+}
+
+.btn.btn-back.active,
+.btn.btn-back:active,
+.btn.btn-back:focus,
+.btn.btn-back:visited,
+.btn.btn-back{
+	border-radius: 0;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	background: #d5d5d5;
+	box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	border: 0;
+	color: #000;
+	text-shadow: none;
+    outline: none;
+    padding-left: 20px;
+    padding-right: 20px;
+    transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -webkit-transition: all 0.3s ease-out;
+    box-shadow: 1px 1px 1px #000;
+    text-transform: uppercase;
+}
+
+.btn.btn-custom:hover{
+    background: #38b8e6;
+}
+
+/* table */
+.form-table{
+    margin-top: 30px;
+}
+.form-table .table{
+    border: 1px solid #DDD;
+}
+
+.form-table .table th{
+    background: #a0e3fb;
+}
+.form-table .table th.all{
+    width: 15px;
+}
+.form-table .table th.quantity{
+    width: 100px;
+}
+.form-table .table th.weight{
+    width: 100px;
+}
+.row-action{
+    visibility: hidden;
+}
+.row-action span a{
+    color: #0590d4;
+}
+.row-action span a:hover{
+    color: #38b8e6;
+}
+.form-table .table tr:hover .row-action{
+   visibility: visible;
+}
+.column-qiuck-edit{
+    background: #f0f0f0;
+    height: 300px;
+}
+.edit-row{
+    background: #f0f0f0;
+}
+.column-qiuck-edit h2{
+    margin-top: 0;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
 }
