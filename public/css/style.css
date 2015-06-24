@@ -354,7 +354,7 @@ ul#user li a:hover{
     height: 300px;
 }
 .edit-row{
-    background: #f0f0f0;
+    background: #f0f0f0 !important;
 }
 .column-qiuck-edit h2{
     margin-top: 0;
