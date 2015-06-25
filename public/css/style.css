@@ -13,6 +13,11 @@ a{
 
 header{
 	background: #38b8e6;
+    position: fixed;
+    z-index: 99;
+    width: 100%;
+    top: 0;
+    left: 0;
 }
 .nav-admin{
 	background: none;
@@ -82,90 +87,7 @@ header{
 .nav-admin.navbar-default .navbar-nav .open .dropdown-menu>li>a{
 	color: #FFF;
 }
-i.icon{
-	width: 25px;
-	height: 22px;
-	display: inline-block;
-	vertical-align: middle;
-	background: url(../img/icon.png) no-repeat 0px 4px;
-}
-.nav-admin .nav li a i.icon.iconproduct{
-	background-position: -30px 2px;
-}
-.nav-admin .nav li a i.icon.iconstore{
-	background-position: -60px 4px;
-}
-.nav-admin .nav li a i.icon.iconpartner{
-	background-position: -90px 2px;
-}
-.nav-admin .nav li a i.icon.iconreport{
-	background-position: -120px 2px;
-}
-.nav-admin .nav li a i.icon.iconconfig{
-	background-position: -210px 2px;
-}
-.nav-admin .nav li a i.icon.iconsale{
-	background-position: -180px 4px;
-}
-.nav-admin .nav li a i.icon.iconhelp{
-	background-position: -270px 2px;
-}
-.nav-admin .nav li a i.icon.iconcategory{
-	background-position: -150px 2px;
-}
-.nav-admin .nav li a i.icon.iconcheckstore{
-	background-position: -300px 2px;
-}
 
-.nav-admin .nav li a i.icon.iconinvoice{
-	background-position: -330px 2px;
-}
-.nav-admin .nav li a i.icon.iconrefund{
-	background-position: -360px 2px;
-}
-.nav-admin .nav li a i.icon.iconpurchasereturn{
-	background-position: -450px 2px;
-}
-.nav-admin .nav li a i.icon.iconpurchaseorders{
-	background-position: -390px 2px;
-}
-.nav-admin .nav li a i.icon.iconfulfillment{
-	background-position: -420px 2px;
-}
-.nav-admin .nav li a i.icon.iconfinancial{
-	background-position: -480px 2px;
-}
-.nav-admin .nav li a i.icon.iconliabilities{
-	background-position: -510px 2px;
-}
-.nav-admin .nav li a i.icon.icondayend{
-	background-position: -540px 2px;
-}
-.nav-admin .nav li a i.icon.iconcustomer{
-	background-position: -570px 2px;
-}
-.nav-admin .nav li a i.icon.iconsupplier{
-	background-position: -270px 2px;
-}
-.nav-admin .nav li a i.icon.icontrademark{
-	background-position: 0px -26px;
-}
-
-.nav-admin .nav li a i.icon.iconuser{
-	background-position: -90px 2px;
-}
-.nav-admin .nav li a i.icon.iconstaff{
-	background-position: -570px 2px;
-}
-.nav-admin .nav li a i.icon.iconshop{
-	background-position: 0px -26px;
-}
-.nav-admin .nav li a i.icon.iconsystem{
-	background-position: -210px 2px;
-}
-.nav-admin .nav li a i.icon.iconemail{
-	background-position: -330px 2px;
-}
 .profile{
 	margin: 10px 0;
 }
@@ -274,9 +196,9 @@ ul#user li a:hover{
 	-webkit-border-radius: 0;
 	background: #57ae00;
 	box-shadow: none;
+    border: 1px solid #57ae00;
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
-	border: 0;
 	color: #FFF;
 	text-shadow: none;
     outline: none;
@@ -312,9 +234,16 @@ ul#user li a:hover{
     box-shadow: 1px 1px 1px #000;
     text-transform: uppercase;
 }
-
-.btn.btn-custom:hover{
-    background: #38b8e6;
+.btn-custom.apply{
+    
+}
+.btn-custom.apply.active,
+.btn-custom.apply:active,
+.btn-custom.apply:focus,
+.btn-custom.apply:visited,
+.btn-custom.apply{
+    background: #860303;
+    border-color: #860303;
 }
 
 /* table */
@@ -401,3 +330,189 @@ ul#user li a:hover{
 	margin: 0;
 }
 /* end paging */
+
+/* sidebar */
+.sidebar{
+    width: 220px;
+    background: #f4f4f4;
+    position: fixed;
+    height: 100%;
+    border-right: 1px solid #dadada;
+}
+
+.menu-nav{
+    /*padding-left: 15px;*/
+}
+.menu-nav li a{
+    padding-left: 10px;
+    padding-right: 5px;
+    width: 100%;
+    display: inline-block;
+      padding: 12px 10px 12px 15px;
+    position: relative;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #dbdbdb;
+}
+.menu-nav li a i.pull-right{
+    margin-top: 3px;
+}
+.menu-nav li.active{
+    background: #FFF;
+    border-top: 1px solid #dbdbdb;
+    border-bottom: 1px solid #dbdbdb;
+}
+.menu-nav li.active a{
+    border: 0;
+}
+.menu-nav li.active a.active{
+    font-weight: bold;
+}
+span.icon{
+	width: 25px;
+	height: 22px;
+	display: inline-block;
+	vertical-align: middle;
+	background: url(../img/icon.png) no-repeat 0px 4px;
+}
+ul.item{
+    padding-left: 25px;
+}
+ul.item li a{
+    border: 0;
+}
+
+.menu-nav li a span.icon.iconproduct{
+	background-position: -30px 2px;
+}
+
+.menu-nav li a span.icon.iconstore{
+	background-position: -60px 4px;
+}
+.menu-nav li a span.icon.iconpartner{
+	background-position: -90px 2px;
+}
+.menu-nav li a span.icon.iconreport{
+	background-position: -120px 2px;
+}
+.menu-nav li a span.icon.iconconfig{
+	background-position: -210px 2px;
+}
+.menu-nav li a span.icon.iconsale{
+	background-position: -180px 4px;
+}
+.menu-nav li a span.icon.iconhelp{
+	background-position: -270px 2px;
+}
+.menu-nav li a span.icon.iconcategory{
+	background-position: -150px 2px;
+}
+.menu-nav li a span.icon.iconcheckstore{
+	background-position: -300px 2px;
+}
+
+.menu-nav li a span.icon.iconinvoice{
+	background-position: -330px 2px;
+}
+
+/*
+.nav-admin .nav li a i.icon.iconstore{
+	background-position: -60px 4px;
+}
+.nav-admin .nav li a i.icon.iconpartner{
+	background-position: -90px 2px;
+}
+.nav-admin .nav li a i.icon.iconreport{
+	background-position: -120px 2px;
+}
+.nav-admin .nav li a i.icon.iconconfig{
+	background-position: -210px 2px;
+}
+.nav-admin .nav li a i.icon.iconsale{
+	background-position: -180px 4px;
+}
+.nav-admin .nav li a i.icon.iconhelp{
+	background-position: -270px 2px;
+}
+.nav-admin .nav li a i.icon.iconcategory{
+	background-position: -150px 2px;
+}
+.nav-admin .nav li a i.icon.iconcheckstore{
+	background-position: -300px 2px;
+}
+
+.nav-admin .nav li a i.icon.iconinvoice{
+	background-position: -330px 2px;
+}
+.nav-admin .nav li a i.icon.iconrefund{
+	background-position: -360px 2px;
+}
+.nav-admin .nav li a i.icon.iconpurchasereturn{
+	background-position: -450px 2px;
+}
+.nav-admin .nav li a i.icon.iconpurchaseorders{
+	background-position: -390px 2px;
+}
+.nav-admin .nav li a i.icon.iconfulfillment{
+	background-position: -420px 2px;
+}
+.nav-admin .nav li a i.icon.iconfinancial{
+	background-position: -480px 2px;
+}
+.nav-admin .nav li a i.icon.iconliabilities{
+	background-position: -510px 2px;
+}
+.nav-admin .nav li a i.icon.icondayend{
+	background-position: -540px 2px;
+}
+.nav-admin .nav li a i.icon.iconcustomer{
+	background-position: -570px 2px;
+}
+.nav-admin .nav li a i.icon.iconsupplier{
+	background-position: -270px 2px;
+}
+.nav-admin .nav li a i.icon.icontrademark{
+	background-position: 0px -26px;
+}
+
+.nav-admin .nav li a i.icon.iconuser{
+	background-position: -90px 2px;
+}
+.nav-admin .nav li a i.icon.iconstaff{
+	background-position: -570px 2px;
+}
+.nav-admin .nav li a i.icon.iconshop{
+	background-position: 0px -26px;
+}
+.nav-admin .nav li a i.icon.iconsystem{
+	background-position: -210px 2px;
+}
+.nav-admin .nav li a i.icon.iconemail{
+	background-position: -330px 2px;
+}*/
+
+
+
+
+.main{
+    margin-left: 220px;
+}
+.wrapper{
+    margin-top: 60px;
+}
+.main h1{
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 0 15px 0;
+}
+.function-title{
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+.selected-custom{
+    border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    width: 200px;
+    float: left;
+    margin-right: 5px;
+}
