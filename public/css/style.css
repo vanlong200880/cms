@@ -351,7 +351,6 @@ ul#user li a:hover{
 }
 .column-qiuck-edit{
     background: #f0f0f0;
-    height: 300px;
 }
 .edit-row{
     background: #f0f0f0 !important;
@@ -362,3 +361,43 @@ ul#user li a:hover{
     font-weight: bold;
     text-transform: uppercase;
 }
+#table-data tr th a{
+	width: 100%;
+	display: inline-block;
+	color: #000;
+	text-decoration: none;
+}
+#table-data tr th i{
+	margin-left: 5px;
+	visibility: hidden;
+}
+#table-data tr th a.desc i,
+#table-data tr th a.asc i{
+	display: inline-block;
+	visibility: visible;
+}
+#table-data tr th a:hover i{
+	visibility: visible;
+}
+#table-data tr th a:hover i:before,
+#table-data tr th a.desc:hover i:before{
+	content: "\f0de";
+}
+#table-data tr th a.asc:hover i:before{
+	content: "\f0dd";
+}
+
+/* paging */
+.pager{
+	text-align: right;
+}
+.pager ul li a{
+	border-radius: 0;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	margin-left: 5px;
+}
+.pager .pagination{
+	margin: 0;
+}
+/* end paging */

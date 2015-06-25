@@ -34,17 +34,19 @@ jQuery(document).ready(function($){
         html +='                        </div>';
         html +='                    </div>';
         html +='                    <div class="col-lg-3">';
-        html +='                        <label>Danh mục cha</label>';
-        html +='                        <select id="basic-1" class="selectpicker show-tick form-control" data-live-search="true">';
-        html +='                            <option>cow</option>';
-        html +='                            <option>bull</option>';
-        html +='                            <option class="get-class" disabled>ox</option>';
-        html +='                            <optgroup label="test" data-subtext="another test">';
-        html +='                                <option>ASD</option>';
-        html +='                                <option selected>Bla</option>';
-        html +='                                <option>Ble</option>';
-        html +='                            </optgroup>';
-        html +='                          </select>';
+		html +='                        <div class="form-group">';
+        html +='                            <label>Danh mục cha</label>';
+        html +='                            <select id="basic-1" class="selectpicker show-tick form-control" data-live-search="true">';
+        html +='                                <option>cow</option>';
+        html +='                                <option>bull</option>';
+        html +='                                <option class="get-class" disabled>ox</option>';
+        html +='                                <optgroup label="test" data-subtext="another test">';
+        html +='                                    <option>ASD</option>';
+        html +='                                    <option selected>Bla</option>';
+        html +='                                    <option>Ble</option>';
+        html +='                                </optgroup>';
+        html +='                             </select>';
+		html +='                        </div>';
         html +='                    </div>';
         html +='                </div>';
         html +='            </div>';
@@ -65,4 +67,34 @@ jQuery(document).ready(function($){
         $(this).closest('tr').after(html);
         $('.selectpicker').selectpicker('refresh');
    });
+   $('.form-table').on('click', '.table>tbody>tr .btn-back', function(){
+		$(".form-table .table>tbody>tr").removeAttr('style');
+		$('.edit-row').remove();
+   });
+   
+//   function sortTable(f, n){
+//	   var rows = $('#table-data tbody tr').get();
+//	   rows.sort(function(a, b){
+//		  var A = $(a).children('td').eq(n).text().toUpperCase();
+//		  var B = $(b).children('td').eq(n).text().toUpperCase();
+//		  if(A < B)
+//			  return -1*f;
+//		  if(A > B)
+//			  return 1*f;
+//		  return 0;
+//	   });
+//	   $.each(rows, function(index, row){
+//		  $('#table-data').children('tbody').append(row); 
+//	   });
+//   }
+//   var f = 1;
+//   $("#table-data>thead>tr>th").click(function(){
+//	   if(!$(this).hasClass('no-sort'))
+//	   {
+//		   f *= -1;
+//			var n = $(this).prevAll().length;
+//			sortTable(f,n);
+//	   }
+//    
+//	});
 });

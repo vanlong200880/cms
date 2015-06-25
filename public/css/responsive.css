@@ -11,9 +11,6 @@
 	.profile{
 		text-align: right;
 	}
-/*	.collapse{
-		display: block;
-	}*/
 	.nav-admin .nav{
 		float: left;
 		width: 100%;
@@ -67,5 +64,14 @@
 	}
 	.header{
 		border-bottom: 1px solid #0D97C9;
+	}
+	.column_descripton{
+		display: none;
+	}
+}
+@media screen and (max-width: 600px) {
+	.column_weight,
+	.column_quantity{
+		display: none;
 	}
 }
