@@ -14,6 +14,7 @@
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image', 'href' => $this->basePath() . '/img/favicon.ico'))
 						->prependStylesheet($this->basePath() . '/css/responsive.css')
                         ->prependStylesheet($this->basePath() . '/css/style.css')
+						->prependStylesheet($this->basePath() . '/libs/scrollbar/jquery.mCustomScrollbar.min.css')
 						->prependStylesheet($this->basePath() . '/libs/bootstrap-select/dist/css/bootstrap-select.min.css')
 						->prependStylesheet($this->basePath() . '/libs/font-awesome/css/font-awesome.min.css')
                         ->prependStylesheet($this->basePath() . '/libs/bootstrap/css/bootstrap-theme.min.css')
@@ -22,6 +23,7 @@
         <!-- Scripts -->
         <?php echo $this->headScript()
             ->prependFile($this->basePath() . '/js/scripts.js')
+			->prependFile($this->basePath() . '/libs/scrollbar/jquery.mCustomScrollbar.concat.min.js')
 			->prependFile($this->basePath() . '/libs/bootstrap-select/dist/js/bootstrap-select.min.js')
             ->prependFile($this->basePath() . '/libs/bootstrap/js/bootstrap.min.js')
             ->prependFile($this->basePath() . '/js/jquery-1.11.3.js')
@@ -39,6 +41,7 @@
 							<div class="col-lg-12">
 								<div class="row header">
 									<div class="col-lg-6 col-xs-6">
+										<div class="menu-sliderbar"><i class="fa fa-bars"></i></div>
 										<div class="logo">Logo</div>
 									</div>
 									<div class="col-lg-6 col-xs-6 profile">
@@ -154,6 +157,224 @@
                                 </ul>
                             </li>
                             <li>
+                                <a href="#"><span class="icon iconpartner"></span> Đối tác <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Khách hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Nhà cung cấp</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Thương Hiệu</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><span class="icon iconinvoice"></span> Báo cáo <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Bán hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Hàng hóa</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Tài chính </a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Công nợ</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Cuối ngày</a></li>
+                                </ul>
+                            </li>
+							
+							<li>
+                                <a href="#"><span class="icon iconpartner"></span> Đối tác <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Khách hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Nhà cung cấp</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Thương Hiệu</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><span class="icon iconinvoice"></span> Báo cáo <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Bán hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Hàng hóa</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Tài chính </a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Công nợ</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Cuối ngày</a></li>
+                                </ul>
+                            </li>
+							
+							<li>
+                                <a href="#"><span class="icon iconpartner"></span> Đối tác <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Khách hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Nhà cung cấp</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Thương Hiệu</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><span class="icon iconinvoice"></span> Báo cáo <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Bán hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Hàng hóa</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Tài chính </a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Công nợ</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Cuối ngày</a></li>
+                                </ul>
+                            </li>
+							<li>
+                                <a href="#"><span class="icon iconpartner"></span> Đối tác <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Khách hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Nhà cung cấp</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Thương Hiệu</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><span class="icon iconinvoice"></span> Báo cáo <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Bán hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Hàng hóa</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Tài chính </a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Công nợ</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Cuối ngày</a></li>
+                                </ul>
+                            </li>
+							<li>
+                                <a href="#"><span class="icon iconpartner"></span> Đối tác <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Khách hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Nhà cung cấp</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Thương Hiệu</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><span class="icon iconinvoice"></span> Báo cáo <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Bán hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Hàng hóa</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Tài chính </a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Công nợ</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Cuối ngày</a></li>
+                                </ul>
+                            </li>
+							<li>
+                                <a href="#"><span class="icon iconpartner"></span> Đối tác <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Khách hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Nhà cung cấp</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Thương Hiệu</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><span class="icon iconinvoice"></span> Báo cáo <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Bán hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Hàng hóa</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Tài chính </a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Công nợ</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Cuối ngày</a></li>
+                                </ul>
+                            </li>
+							<li>
+                                <a href="#"><span class="icon iconpartner"></span> Đối tác <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Khách hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Nhà cung cấp</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Thương Hiệu</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><span class="icon iconinvoice"></span> Báo cáo <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Bán hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Hàng hóa</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Tài chính </a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Công nợ</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Cuối ngày</a></li>
+                                </ul>
+                            </li>
+							<li>
+                                <a href="#"><span class="icon iconpartner"></span> Đối tác <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Khách hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Nhà cung cấp</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Thương Hiệu</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><span class="icon iconinvoice"></span> Báo cáo <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Bán hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Hàng hóa</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Tài chính </a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Công nợ</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Cuối ngày</a></li>
+                                </ul>
+                            </li>
+							<li>
+                                <a href="#"><span class="icon iconpartner"></span> Đối tác <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Khách hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Nhà cung cấp</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Thương Hiệu</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><span class="icon iconinvoice"></span> Báo cáo <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Bán hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Hàng hóa</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Tài chính </a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Công nợ</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Cuối ngày</a></li>
+                                </ul>
+                            </li>
+							<li>
+                                <a href="#"><span class="icon iconpartner"></span> Đối tác <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Khách hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Nhà cung cấp</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Thương Hiệu</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><span class="icon iconinvoice"></span> Báo cáo <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Bán hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Hàng hóa</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Tài chính </a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Công nợ</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Cuối ngày</a></li>
+                                </ul>
+                            </li>
+							<li>
+                                <a href="#"><span class="icon iconpartner"></span> Đối tác <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Khách hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Nhà cung cấp</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Thương Hiệu</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><span class="icon iconinvoice"></span> Báo cáo <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Bán hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Hàng hóa</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Tài chính </a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Công nợ</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Cuối ngày</a></li>
+                                </ul>
+                            </li>
+							<li>
+                                <a href="#"><span class="icon iconpartner"></span> Đối tác <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Khách hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Nhà cung cấp</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Thương Hiệu</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><span class="icon iconinvoice"></span> Báo cáo <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Bán hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Hàng hóa</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Tài chính </a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Công nợ</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Cuối ngày</a></li>
+                                </ul>
+                            </li>
+							<li>
                                 <a href="#"><span class="icon iconpartner"></span> Đối tác <i class="fa pull-right fa-angle-right"></i></a>
                                 <ul class="item">
                                     <li><a href="#"><i class="fa fa-angle-right"></i> Khách hàng</a></li>

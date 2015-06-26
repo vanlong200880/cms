@@ -97,4 +97,36 @@ jQuery(document).ready(function($){
 //	   }
 //    
 //	});
+
+	/* menu */
+	$('.menu-sliderbar').on('click', function(){
+		if($(this).hasClass('on'))
+		{
+			$('.sidebar').removeAttr('style');
+			$('.main').removeAttr('style');
+			$(this).removeClass('on');
+		}
+		else
+		{
+			$(this).addClass('on');
+			$('.sidebar').css('margin-left','-220px');
+			$('.main').css('margin-left','0');
+		}
+		
+	});
+	$('.menu-top ul.menu-nav>li>a').on('click', function(){
+		$(this).addClass('active');
+		var item = $(this).siblings('ul.item');
+		$('.menu-top ul.menu-nav li ul.item').not(item).slideUp(function(){
+			$(this).siblings('a').children('i').removeClass('fa-rotate-90');
+		});
+		item.slideToggle(function(){
+			$(this).siblings('a').children('i').toggleClass('fa-rotate-90');
+		});
+	});
+	(function($){
+		$(window).load(function(){
+			$(".sidebar").mCustomScrollbar();
+		});
+	})(jQuery);
 });

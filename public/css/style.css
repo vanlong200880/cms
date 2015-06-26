@@ -338,6 +338,10 @@ ul#user li a:hover{
     position: fixed;
     height: 100%;
     border-right: 1px solid #dadada;
+	-webkit-transition: all 0.3s ease-in-out 0s;
+	-moz-transition: all 0.3s ease-in-out 0s;
+	-o-transition: all 0.3s ease-in-out 0s;
+	transition: all 0.3s ease-in-out 0s;
 }
 
 .menu-nav{
@@ -376,11 +380,40 @@ span.icon{
 }
 ul.item{
     padding-left: 25px;
+	display: none;
 }
 ul.item li a{
     border: 0;
 }
+.menu-nav{
+	margin-bottom: 150px;
+}
+.sidebar .mCSB_inside>.mCSB_container{
+	margin: 0;
+}
+.sidebar .mCSB_scrollTools .mCSB_draggerRail{
+	background: transparent;
+}
+.sidebar .mCSB_scrollTools{
+	width: 5px;
+}
 
+.sidebar .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{
+	background-color: #38B8E6;
+}
+.sidebar .mCSB_scrollTools .mCSB_draggerContainer{
+	display: none;
+}
+.sidebar:hover .mCSB_scrollTools .mCSB_draggerContainer{
+	display: block;
+}
+.menu-sliderbar{
+	cursor: pointer;
+	font-size: 31px;
+	width: 45px;
+	height: 45px;
+	color: #FFF;
+}
 .menu-nav li a span.icon.iconproduct{
 	background-position: -30px 2px;
 }
@@ -495,6 +528,10 @@ ul.item li a{
 
 .main{
     margin-left: 220px;
+	-webkit-transition: all 0.3s ease-in-out 0s;
+	-moz-transition: all 0.3s ease-in-out 0s;
+	-o-transition: all 0.3s ease-in-out 0s;
+	transition: all 0.3s ease-in-out 0s;
 }
 .wrapper{
     margin-top: 60px;
