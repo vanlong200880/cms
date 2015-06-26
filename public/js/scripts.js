@@ -113,7 +113,7 @@ jQuery(document).ready(function($){
 			$('.main').css('margin-left','0');
 		}
 		
-	});
+	}); 
 	$('.menu-top ul.menu-nav>li>a').on('click', function(){
 		$(this).addClass('active');
 		var item = $(this).siblings('ul.item');
