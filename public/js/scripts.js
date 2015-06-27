@@ -102,20 +102,48 @@ jQuery(document).ready(function($){
 	$('.menu-sliderbar').on('click', function(){
 		if($(this).hasClass('on'))
 		{
-			$('.sidebar').removeAttr('style');
-			$('.main').removeAttr('style');
-			$(this).removeClass('on');
+            $(this).removeClass('on');
+            if(width < 667){
+                $('.sidebar').removeAttr('style');
+                $('.main').removeAttr('style');
+                $('.sidebar').css('margin-left','-220px');
+                $('.main').css('margin-left','0');
+            }
+            else
+            {
+                $('.sidebar').removeAttr('style');
+                $('.main').removeAttr('style');
+            }			
 		}
 		else
 		{
-			$(this).addClass('on');
-			$('.sidebar').css('margin-left','-220px');
-			$('.main').css('margin-left','0');
-		}
-		
+            $(this).addClass('on');
+            width = window.innerWidth;
+            if(width < 667)
+            {
+                $('.main').css('margin-right','-220px');
+                $('.sidebar').css('margin-left','0');
+                $('.main').css('margin-left','220px');
+            }
+            else
+            {
+                $('.sidebar').css('margin-left','-220px');
+                $('.main').css('margin-left','0');
+            }
+		}	
 	}); 
+    var target = $('.menu-top ul.menu-nav>li');
+    if(target.find('active'))
+    {
+        $('.menu-top ul.menu-nav>li.active').children('ul.item').slideToggle(function(){
+            target.children('a i').toggleClass('fa-rotate-90');
+        });
+    }
 	$('.menu-top ul.menu-nav>li>a').on('click', function(){
-		$(this).addClass('active');
+        $('.menu-top ul.menu-nav li').not(this).removeClass('active');
+        $('.menu-top ul.menu-nav li a').not(this).removeClass('active');
+		$(this).parent('li').addClass('active');
+        $(this).addClass('active');
 		var item = $(this).siblings('ul.item');
 		$('.menu-top ul.menu-nav li ul.item').not(item).slideUp(function(){
 			$(this).siblings('a').children('i').removeClass('fa-rotate-90');
@@ -129,4 +157,25 @@ jQuery(document).ready(function($){
 			$(".sidebar").mCustomScrollbar();
 		});
 	})(jQuery);
+    
+    var width_load = window.innerWidth;
+    if(width_load < 667)
+    {
+        $('.sidebar').css('margin-left','-220px');
+        $('.main').css('margin-left','0');
+    }
+    window.onresize = function() {
+        var width = window.innerWidth;
+        if(width < 667)
+        {
+            $('.sidebar').css('margin-left','-220px');
+			$('.main').css('margin-left','0');
+        }
+        else
+        {
+            $('.sidebar').removeAttr('style');
+			$('.main').removeAttr('style');
+        }
+        
+    }
 });
