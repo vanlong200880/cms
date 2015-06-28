@@ -15,6 +15,9 @@
     .navbar-nav .open .dropdown-menu{
         position: absolute;
     }
+    .form-horizontal .control-label{
+        text-align: left;
+    }
 }
 @media screen and (max-width: 667px) {
 	.column_weight,
@@ -27,10 +30,11 @@
     .menu-sliderbar{
         margin-left: 0;
     }
-/*    .sidebar{
-        margin-left: -220px;
+}
+@media screen and (max-width: 480px) {
+    .btn.btn-custom.active, .btn.btn-custom:active, .btn.btn-custom:focus, .btn.btn-custom:visited, .btn.btn-custom{
+        text-transform: none;
+        padding-left: 5px;
+        padding-right: 5px;
     }
-    .main{
-        margin-left: 0;
-    }*/
 }

@@ -176,6 +176,10 @@ jQuery(document).ready(function($){
             $('.sidebar').removeAttr('style');
 			$('.main').removeAttr('style');
         }
-        
     }
+    
+    // check all item
+    $(".form-all").change(function(){
+        $("input.check-all:checkbox").prop('checked', $(this).prop("checked"));
+    });
 });

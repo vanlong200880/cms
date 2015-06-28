@@ -1,0 +1,349 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('CMS '. $this->translate(''))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image', 'href' => $this->basePath() . '/img/favicon.ico'))
+						->prependStylesheet($this->basePath() . '/css/responsive.css')
+                        ->prependStylesheet($this->basePath() . '/css/style.css')
+						->prependStylesheet($this->basePath() . '/libs/scrollbar/jquery.mCustomScrollbar.min.css')
+						->prependStylesheet($this->basePath() . '/libs/bootstrap-select/dist/css/bootstrap-select.min.css')
+						->prependStylesheet($this->basePath() . '/libs/font-awesome/css/font-awesome.min.css')
+                        ->prependStylesheet($this->basePath() . '/libs/bootstrap/css/bootstrap-theme.min.css')
+                        ->prependStylesheet($this->basePath() . '/libs/bootstrap/css/bootstrap.min.css')?>
+
+        <!-- Scripts -->
+        <?php echo $this->headScript()
+            ->prependFile($this->basePath() . '/js/scripts.js')
+			->prependFile($this->basePath() . '/libs/scrollbar/jquery.mCustomScrollbar.concat.min.js')
+			->prependFile($this->basePath() . '/libs/bootstrap-select/dist/js/bootstrap-select.min.js')
+            ->prependFile($this->basePath() . '/libs/bootstrap/js/bootstrap.min.js')
+            ->prependFile($this->basePath() . '/js/jquery-1.11.3.js')
+            ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+            ->prependFile($this->basePath() . '/js/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',))
+        ; ?>
+
+    </head>
+    <body>
+		<header>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="row header">
+									<div class="col-lg-4 col-xs-4">
+                                        <div class="logo">
+                                            <a href="#">Logo</a>
+                                        </div>
+										<div class="menu-sliderbar"><i class="fa fa-bars"></i></div>
+									</div>
+									<div class="col-lg-8 col-xs-8 profile">
+										<div class="user pull-right">
+                                            <ul id="user-profile" class="nav navbar-nav">
+                                                <li class="dropdown user user-menu">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                        <span class="icon-profile">
+                                                            <img src="<?php echo $this->basePath('default/avatar.png');?>">
+                                                        </span>
+                                                        <span>admin1212 <i class="caret"></i></span>
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        <!-- User image -->
+                                                        <li class="user-header bg-light-blue">
+                                                            <img src="<?php echo $this->basePath('default/avatar.png');?>" class="img-circle">
+                                                            <p>
+                                                                admin1212 - Administrator <small>đăng ký ngày 26-03-2015</small>
+                                                            </p>
+                                                        </li>
+
+                                                        <!-- Menu Footer-->
+                                                        <li class="user-footer">
+                                                            <div class="pull-left">
+                                                                <a href="/profile" class="btn-profile">Profile</a>
+                                                            </div>
+                                                            <div class="pull-right">
+                                                                <a href="/profile/logout.html" class="btn-profile logout">Sign out</a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+        </header>
+		
+        <div class="wrapper">
+            <nav class="sidebar">
+                    <div class="menu-top">
+                        
+                        <ul class="menu-nav">
+                            <li><a href="javascript:void(0)"><span class="icon dashboard"></span>Tổng quan</a>
+                            </li>
+                            <li>
+                                <a href="#"><span class="icon iconproduct"></span> Hàng hóa <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Danh mục</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Kiểm kho</a></li>
+                                </ul>
+                            </li>
+                            <li class="active">
+                                <a  href="#" class="active"><span class="icon iconstore"></span> Giao dịch <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Hóa đơn</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Trả hàng</a></li>
+                                    <li><a href="#" class="active"><i class="fa fa-angle-right"></i> Nhập hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Trả hàng nhập</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Chuyển hàng</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><span class="icon iconpartner"></span> Đối tác <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Khách hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Nhà cung cấp</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Thương Hiệu</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><span class="icon iconinvoice"></span> Báo cáo <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Bán hàng</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Hàng hóa</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Tài chính </a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Công nợ</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Cuối ngày</a></li>
+                                </ul>
+                            </li>
+							
+                            <li>
+                                <a href="#"><span class="icon iconconfig"></span> Thiết lập <i class="fa pull-right fa-angle-right"></i></a>
+                                <ul class="item">
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Quản lý thành viên</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Quản lý nhân viên</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Quản lý cửa hàng </a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Phân quyền hệ thống</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-right"></i> Quản lý Email</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#"> <span class="icon iconsale"></span>Bán hàng </a></li>
+                            <li><a href="#"><span class="icon iconhelp"></span> Hỗ trợ </a></li>
+                        </ul>
+                        
+                        
+                    </div>
+            </nav>
+            <div class="main">
+                <div class="container-fluid">
+                    <div class="row function-title">
+                        <div class="col-lg-12">
+                            <h1>Danh mục</h1>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <select class="form-control selected-custom">
+                                        <option>----</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                    <button type="button" class="btn btn-default btn-custom apply">Thực hiện</button>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><button type="button" class="btn btn-default btn-custom pull-right">Thêm mới</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="filter"> 
+                                            <form class="form-horizontal">
+                                                <fieldset>
+                                                    <legend>Tìm kiếm</legend>
+                                                    <div class="col-lg-5 col-md-5">
+                                                        <div class="form-group">
+                                                            <label for="keyword" class="col-lg-3 col-md-4 control-label">Từ khóa</label>
+                                                            <div class="col-lg-9 col-md-8 col-sm-12">
+                                                                <input type="email" class="form-control" id="keyword">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-5 col-md-5">
+                                                        <div class="form-group">
+                                                            <label for="keyword" class="col-lg-3 col-md-4 control-label">Danh mục</label>
+                                                            <div class="col-lg-9 col-md-8">
+                                                                <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
+                                                                    <option>cow</option>
+                                                                    <option>bull</option>
+                                                                    <option class="get-class" disabled>ox</option>
+                                                                    <optgroup label="test" data-subtext="another test">
+                                                                        <option>ASD</option>
+                                                                        <option selected>Bla</option>
+                                                                        <option>Ble</option>
+                                                                    </optgroup>
+                                                                  </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-2">
+                                                        <div class="col-lg-12">
+                                                            <div class="form-group">
+                                                                <button type="button" class="btn btn-default btn-custom">Tìm</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                    </div> <!-- end search -->
+
+                                    <div class="col-lg-12">
+                                        <div class="form-table">
+                                            <table id="table-data" class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th id="all" class="all"><input type="checkbox" class="form-all"></th>
+                                                        <th id="key" class="name column_name no-sort">
+                                                            <a href="#">Mã <i class="fa fa-sort-asc"></i></a>
+                                                        </th>
+                                                        <th id="name">
+                                                            <a class="desc" href="#">Tên <i class="fa fa-sort-desc"></i></a>
+                                                        </th>
+                                                        <th class="description column_descripton">Mô tả</th>
+                                                        <th class="weight column_weight">Vị trí</th>
+                                                        <th class="quantity column_quantity">Số lượng</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="checkbox" class="form-checkbox check-all"></td>
+                                                        <td>1</td>
+                                                        <td class="column-title column_name">
+                                                            <strong class="key-title">A Tên 1</strong>
+                                                            <div class="row-action">
+                                                                <span class="edit">
+                                                                    <a href="#">Sửa</a> | 
+                                                                </span>
+                                                                <span class="quick-edit">
+                                                                    <a data-name="Tên 1" data-slug="ten-1" data-weight="1" href="javascript:void(0)">Sửa nhanh</a> | 
+                                                                </span>
+                                                                <span class="delete">
+                                                                    <a href="#">Xóa</a> | 
+                                                                </span>
+                                                                <span class="view">
+                                                                    <a href="#">Xem</a>
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="column_descripton">Mô tả</td>
+                                                        <td class="column_weight">1</td>
+                                                        <td class="column_quantity">200</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><input type="checkbox" class="form-checkbox check-all"></td>
+                                                        <td>2</td>
+                                                        <td class="column-title column_name">
+                                                            <strong>C Tên 2</strong>
+                                                            <div class="row-action">
+                                                                <span class="edit">
+                                                                    <a href="#">Sửa</a> | 
+                                                                </span>
+                                                                <span class="quick-edit">
+                                                                    <a data-name="Tên 2" data-slug="ten-2" data-weight="2" href="javascript:void(0)">Sửa nhanh</a> | 
+                                                                </span>
+                                                                <span class="delete">
+                                                                    <a href="#">Xóa</a> | 
+                                                                </span>
+                                                                <span class="view">
+                                                                    <a href="#">Xem</a>
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="column_descripton">Mô tả</td>
+                                                        <td class="column_weight">1</td>
+                                                        <td class="column_quantity">200</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input type="checkbox" class="form-checkbox check-all"></td>
+                                                        <td>3</td>
+                                                        <td class="column-title column_name">
+                                                            <strong>B Tên 3</strong>
+                                                            <div class="row-action">
+                                                                <span class="edit">
+                                                                    <a href="#">Sửa</a> | 
+                                                                </span>
+                                                                <span class="quick-edit">
+                                                                    <a data-name="Tên 3" data-slug="ten-3" data-weight="3" href="javascript:void(0)">Sửa nhanh</a> | 
+                                                                </span>
+                                                                <span class="delete">
+                                                                    <a href="#">Xóa</a> | 
+                                                                </span>
+                                                                <span class="view">
+                                                                    <a href="#">Xem</a>
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="column_descripton">Mô tả</td>
+                                                        <td class="column_weight">1</td>
+                                                        <td class="column_quantity">200</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="pager">
+                                <ul class="pagination">
+                                    <li><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
+                                    <li><a href="#" title="Lùi lại"><i class="fa fa-angle-left"></i></a></li>
+                                    <li><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li class="active"><a>3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#" title="Tiếp theo"><i class="fa fa-angle-right"></i></a></li>
+                                    <li><a href="#" title="Trang Cuối"><i class="fa fa-angle-double-right"></i></a></li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+		
+        <?php echo $this->inlineScript() ?>
+		<!--<div class="showcase"></div>-->
+    </body>
+</html>

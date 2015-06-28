@@ -316,9 +316,9 @@ i.icon.iconprofile{
 	border-radius: 0;
 	-moz-border-radius: 0;
 	-webkit-border-radius: 0;
-	background: #57ae00;
+	background: #38b8e6;
 	box-shadow: none;
-    border: 1px solid #57ae00;
+    border: 1px solid #38b8e6;
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 	color: #FFF;
@@ -331,7 +331,11 @@ i.icon.iconprofile{
     -webkit-transition: all 0.3s ease-out;
     text-transform: uppercase;
 }
-
+.btn.btn-back.add,
+.btn.btn-custom.add{
+    text-transform: none;
+    margin-right: 5px;
+}
 .btn.btn-back.active,
 .btn.btn-back:active,
 .btn.btn-back:focus,
@@ -341,10 +345,10 @@ i.icon.iconprofile{
 	-moz-border-radius: 0;
 	-webkit-border-radius: 0;
 	background: #d5d5d5;
+    border: 1px solid #d5d5d5;
 	box-shadow: none;
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
-	border: 0;
 	color: #000;
 	text-shadow: none;
     outline: none;
@@ -353,7 +357,7 @@ i.icon.iconprofile{
     transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     -webkit-transition: all 0.3s ease-out;
-    box-shadow: 1px 1px 1px #000;
+    box-shadow: none;
     text-transform: uppercase;
 }
 .btn-custom.apply{
@@ -378,6 +382,7 @@ i.icon.iconprofile{
 
 .form-table .table th{
     background: #a0e3fb;
+    vertical-align: top;
 }
 .form-table .table th.all{
     width: 15px;
@@ -424,7 +429,6 @@ i.icon.iconprofile{
 }
 #table-data tr th a.desc i,
 #table-data tr th a.asc i{
-	display: inline-block;
 	visibility: visible;
 }
 #table-data tr th a:hover i{
@@ -679,4 +683,24 @@ ul.item li a{
     width: 50%;
     float: left;
     margin-right: 5px;
+}
+#key{
+    min-width: 60px;
+}
+
+/* box */
+.box{
+    background: #f0f0f0;
+    padding: 15px;
+    border: 1px solid #38b8e6;
+    margin-bottom: 15px;
+}
+.box .box-header{
+    margin-bottom: 15px;
+}
+.box h2{
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
 }
