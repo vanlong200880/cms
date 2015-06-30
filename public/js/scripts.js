@@ -182,4 +182,8 @@ jQuery(document).ready(function($){
     $(".form-all").change(function(){
         $("input.check-all:checkbox").prop('checked', $(this).prop("checked"));
     });
+    // tooltip
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
 });

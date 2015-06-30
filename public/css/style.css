@@ -11,8 +11,12 @@ a{
     color: #000;
     text-decoration: none;
 }
+a:active,
+a:visited,
+a:focus,
 a:hover{
     color: #38b8e6;
+    text-decoration: none;
 }
 
 header{
@@ -329,13 +333,13 @@ i.icon.iconprofile{
     transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     -webkit-transition: all 0.3s ease-out;
-    text-transform: uppercase;
 }
 .btn.btn-back.add,
 .btn.btn-custom.add{
     text-transform: none;
     margin-right: 5px;
 }
+
 .btn.btn-back.active,
 .btn.btn-back:active,
 .btn.btn-back:focus,
@@ -352,17 +356,14 @@ i.icon.iconprofile{
 	color: #000;
 	text-shadow: none;
     outline: none;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
     transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     -webkit-transition: all 0.3s ease-out;
     box-shadow: none;
-    text-transform: uppercase;
 }
-.btn-custom.apply{
-    
-}
+
 .btn-custom.apply.active,
 .btn-custom.apply:active,
 .btn-custom.apply:focus,
@@ -392,6 +393,18 @@ i.icon.iconprofile{
 }
 .form-table .table th.weight{
     width: 100px;
+}
+.form-table .table th.status{
+    width: 100px;
+}
+.column_status{
+    text-align: center;
+}
+.column_status a.checked{
+    color: #57c222;
+}
+.column_status a.unchecked{
+    color: #b80000;
 }
 .row-action{
     visibility: hidden;
@@ -577,85 +590,6 @@ ul.item li a{
 	background-position: -330px 2px;
 }
 
-/*
-.nav-admin .nav li a i.icon.iconstore{
-	background-position: -60px 4px;
-}
-.nav-admin .nav li a i.icon.iconpartner{
-	background-position: -90px 2px;
-}
-.nav-admin .nav li a i.icon.iconreport{
-	background-position: -120px 2px;
-}
-.nav-admin .nav li a i.icon.iconconfig{
-	background-position: -210px 2px;
-}
-.nav-admin .nav li a i.icon.iconsale{
-	background-position: -180px 4px;
-}
-.nav-admin .nav li a i.icon.iconhelp{
-	background-position: -270px 2px;
-}
-.nav-admin .nav li a i.icon.iconcategory{
-	background-position: -150px 2px;
-}
-.nav-admin .nav li a i.icon.iconcheckstore{
-	background-position: -300px 2px;
-}
-
-.nav-admin .nav li a i.icon.iconinvoice{
-	background-position: -330px 2px;
-}
-.nav-admin .nav li a i.icon.iconrefund{
-	background-position: -360px 2px;
-}
-.nav-admin .nav li a i.icon.iconpurchasereturn{
-	background-position: -450px 2px;
-}
-.nav-admin .nav li a i.icon.iconpurchaseorders{
-	background-position: -390px 2px;
-}
-.nav-admin .nav li a i.icon.iconfulfillment{
-	background-position: -420px 2px;
-}
-.nav-admin .nav li a i.icon.iconfinancial{
-	background-position: -480px 2px;
-}
-.nav-admin .nav li a i.icon.iconliabilities{
-	background-position: -510px 2px;
-}
-.nav-admin .nav li a i.icon.icondayend{
-	background-position: -540px 2px;
-}
-.nav-admin .nav li a i.icon.iconcustomer{
-	background-position: -570px 2px;
-}
-.nav-admin .nav li a i.icon.iconsupplier{
-	background-position: -270px 2px;
-}
-.nav-admin .nav li a i.icon.icontrademark{
-	background-position: 0px -26px;
-}
-
-.nav-admin .nav li a i.icon.iconuser{
-	background-position: -90px 2px;
-}
-.nav-admin .nav li a i.icon.iconstaff{
-	background-position: -570px 2px;
-}
-.nav-admin .nav li a i.icon.iconshop{
-	background-position: 0px -26px;
-}
-.nav-admin .nav li a i.icon.iconsystem{
-	background-position: -210px 2px;
-}
-.nav-admin .nav li a i.icon.iconemail{
-	background-position: -330px 2px;
-}*/
-
-
-
-
 .main{
     margin-left: 220px;
 	-webkit-transition: all 0.3s ease-in-out 0s;
@@ -709,9 +643,6 @@ ul.item li a{
     height: 34px;
     text-align: center;
     line-height: 34px;
-/*    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;*/
     background: #38b8e6;
     color: #FFF;
     margin-left: -25px;
@@ -722,4 +653,35 @@ ul.item li a{
     border-radius: 0;
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
+}
+
+.modal-custom .modal-content{
+    border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+}
+.modal-custom .modal-content .modal-header{
+    border-bottom: 0;
+    background: #38b8e6;
+    position: relative;
+    color: #FFF;
+}
+.modal-custom .modal-content input[type='text']{
+    border-color: red;
+}
+.modal-custom .modal-header .close{
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 0;
+    width: 55px;
+    height: 55px;
+    line-height: 55px;
+    text-align: center;
+    font-size: 21px;
+    text-shadow: 0;
+    background: #8ADAF7;
+}
+.box-botton{
+    border: 1px solid #860303;
 }
