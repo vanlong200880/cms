@@ -15,7 +15,6 @@ a:active,
 a:visited,
 a:focus,
 a:hover{
-    color: #38b8e6;
     text-decoration: none;
 }
 
@@ -629,8 +628,8 @@ ul.item li a{
     border: 1px solid #38b8e6;
     margin-bottom: 15px;
 }
-.box .box-header{
-    margin-bottom: 15px;
+.box .box-body{
+    margin-top: 15px;
 }
 .box h2{
     font-size: 16px;

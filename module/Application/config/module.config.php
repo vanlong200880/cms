@@ -74,7 +74,9 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
-            'Application\Controller\Product' => 'Application\Controller\ProductController'
+            'Application\Controller\Product' => 'Application\Controller\ProductController',
+            'Application\Controller\Trademark' => 'Application\Controller\TrademarkController',
+            'Application\Controller\Supplier' => 'Application\Controller\SupplierController'
         ),
     ),
     'view_manager' => array(

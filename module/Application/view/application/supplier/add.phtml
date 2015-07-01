@@ -1,0 +1,198 @@
+<div class="container-fluid">
+    <div class="row function-title">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <h1>Thêm nhà cung cấp</h1>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <button type="button" class="btn btn-default btn-custom pull-right">Trở lại</button>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="content">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="box">
+                                    <div class="box-header"><h2>Thông tin chung</h2></div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="name">Tên nhà cung cấp</label>
+                                                    <input type="text" data-toggle="tooltip" data-placement="top" title="Nhập tên nhà cung cấp" class="form-control" id="name" placeholder="Tên nhà cung cấp">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label for="weight">Điện thoại</label>
+                                                            <input type="phone" class="form-control" id="weight" placeholder="Số điện thoại" data-toggle="tooltip" data-placement="top" title='Nhập số điện thoại'>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="box">
+                                    <div class="box-header"><h2>Thông tin thêm</h2></div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="color">Email</label>
+                                                    <input type="email" class="form-control" data-toggle="tooltip" data-placement="top" title='Nhập Email' id="color" placeholder="Email">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="name">Địa chỉ</label>
+                                                    <input type="text" class="form-control" id="size" placeholder="Địa chỉ" data-toggle="tooltip" data-placement="top" title='Nhập địa chỉ'>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="name">Công ty ( doanh nghiệp )</label>
+                                                    <input type="text" class="form-control" id="size" placeholder="Tên công ty (doanh nghiệp)" data-toggle="tooltip" data-placement="top" title='Nhập tên công ty (doanh nghiệp)'>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label for="weight">Mã số thuế</label>
+                                                            <input type="text" class="form-control" id="weight" placeholder="Mã số thuế" data-toggle="tooltip" data-placement="top" title='Nhập mã số thuế'>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <label for="weight">Ghi chú</label>
+                                                            <textarea class="form-control" rows="3" name="description" placeholder="Ghi chú" data-toggle="tooltip" data-placement="top" title="Ghi chú"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="box box-botton">
+                                    <div class="box-footer">
+                                        <button type="reset" class="btn btn-default btn-back add">Nhập lại</button>
+                                        <button type="button" class="btn btn-default btn-custom add">Lưu</button>
+                                        <button type="button" class="btn btn-default btn-custom add">Lưu & Thêm mới</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-category modal-custom" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+            <h4 class="modal-title" id="gridSystemModalLabel">Thêm nhóm hàng</h4>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="keyword">Tên nhóm</label>
+                        <input type="text" class="form-control" id="category_ajax" placeholder="Tên nhóm">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="quantity">Nhóm cha</label>
+                            <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
+                                <option>cow</option>
+                                <option>bull</option>
+                                <option class="get-class" disabled>ox</option>
+                                <optgroup label="test" data-subtext="another test">
+                                    <option>ASD</option>
+                                    <option selected>Bla</option>
+                                    <option>Ble</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-back add" data-dismiss="modal">Bỏ qua</button>
+            <button type="button" class="btn btn-primary btn-custom add">Lưu</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bs-store modal-custom" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+            <h4 class="modal-title" id="gridSystemModalLabel">Thêm kho hàng</h4>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="keyword">Tên kho</label>
+                        <input type="text" class="form-control" id="category_ajax" placeholder="Tên kho hàng">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-back add" data-dismiss="modal">Bỏ qua</button>
+            <button type="button" class="btn btn-primary btn-custom add">Lưu</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bs-trademark modal-custom" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+            <h4 class="modal-title" id="gridSystemModalLabel">Thêm thương hiệu</h4>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="keyword">Tên thương hiệu</label>
+                        <input type="text" class="form-control" id="category_ajax" placeholder="Tên thương hiệu">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-back add" data-dismiss="modal">Bỏ qua</button>
+            <button type="button" class="btn btn-primary btn-custom add">Lưu</button>
+        </div>
+    </div>
+  </div>
+</div>
