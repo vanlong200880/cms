@@ -18,9 +18,11 @@
     .form-horizontal .control-label{
         text-align: left;
     }
+    table{
+        border-collapse: inherit;
+    }
 }
 @media screen and (max-width: 667px) {
-	.column_weight,
 	.column_quantity{
 		display: none;
 	}

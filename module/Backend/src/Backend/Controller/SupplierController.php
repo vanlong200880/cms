@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Controller;
+namespace Backend\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 

@@ -8,7 +8,7 @@ jQuery(document).ready(function($){
         var weight = $(this).attr('data-weight');
         var html = '';
         html +='<tr id="edit-1" class="edit-row">';
-        html +='    <td colspan="6" class="">';
+        html +='    <td colspan="7" class="">';
         html +='        <div class="column-qiuck-edit">';
         html +='            <div class="col-lg-12"><h2>Sửa nhanh</h2></div>';
         html +='            <div class="col-lg-12">';
