@@ -598,7 +598,6 @@ ul.item li a{
 }
 .wrapper{
     margin-top: 60px;
-    overflow: hidden;
 }
 .main h1{
     font-size: 20px;
@@ -635,7 +634,8 @@ ul.item li a{
     font-size: 16px;
     font-weight: bold;
     margin: 0;
-    padding: 0;
+    padding: 0 0 5px 0;
+    border-bottom: 2px solid #DDD;
 }
 .add-item{
     width: 34px;
@@ -683,4 +683,32 @@ ul.item li a{
 }
 .box-botton{
     border: 1px solid #860303;
+}
+.validation{
+    color: red;
+}
+.help{
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    line-height: 15px;
+    text-align: center;
+    background-color: #38b8e6;
+    color: #FFF;
+    font-size: 10px;
+}
+.update_weight{
+    width: 50px;
+}
+.status a{
+    color: #38b8e6;
+    cursor: pointer;
+}
+.unstatus a{
+    color: #b80000;
+    cursor: pointer;
 }
