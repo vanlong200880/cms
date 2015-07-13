@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2015 at 12:04 PM
+-- Generation Time: Jul 13, 2015 at 12:00 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -28,22 +28,32 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id Primary key',
-  `name` varchar(255) NOT NULL COMMENT 'Category Name',
-  `description` varchar(255) DEFAULT NULL COMMENT 'Category Description',
-  `alias` varchar(255) NOT NULL COMMENT 'Category Alias',
-  `created` int(10) NOT NULL DEFAULT '0' COMMENT 'Date Create Category',
-  `changed` int(10) NOT NULL,
-  `weight` int(10) NOT NULL DEFAULT '0',
-  `status` int(1) NOT NULL DEFAULT '1' COMMENT '1: Publish, 0: Unpublish',
   `parent` int(11) NOT NULL COMMENT 'Date update',
-  `language` varchar(2) NOT NULL DEFAULT 'vi',
-  `seotitle` varchar(255) DEFAULT NULL COMMENT 'Seo Title',
-  `seokeyword` varchar(255) DEFAULT NULL COMMENT 'Seo Keyword',
-  `seodescription` varchar(255) DEFAULT NULL COMMENT 'Seo Description',
   `deleted_flag` int(1) NOT NULL DEFAULT '0' COMMENT '1: deleted',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `alias` (`alias`),
-  FULLTEXT KEY `description` (`description`)
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `category_language`
+--
+
+CREATE TABLE IF NOT EXISTS `category_language` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `categoryid` int(11) NOT NULL,
+  `languageid` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `alias` varchar(255) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `created` int(10) NOT NULL,
+  `changed` int(10) NOT NULL,
+  `seotitle` varchar(255) DEFAULT NULL,
+  `seokeyword` varchar(255) DEFAULT NULL,
+  `seodescription` varchar(255) DEFAULT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`,`categoryid`,`languageid`),
+  UNIQUE KEY `alias` (`alias`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -75,6 +85,20 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `name` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
   `phone` varchar(12) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `language`
+--
+
+CREATE TABLE IF NOT EXISTS `language` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(2) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -119,27 +143,38 @@ CREATE TABLE IF NOT EXISTS `order_detail` (
 CREATE TABLE IF NOT EXISTS `product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(20) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `delete_flag` int(1) NOT NULL DEFAULT '0' COMMENT '1: is deleted',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_language`
+--
+
+CREATE TABLE IF NOT EXISTS `product_language` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `productid` int(11) NOT NULL,
+  `languageid` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `excerpt` text NOT NULL,
-  `content` longtext NOT NULL,
   `alias` varchar(255) NOT NULL,
+  `excerpt` varchar(255) NOT NULL,
+  `content` longtext NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '1: Published, 0: Unpublished',
   `created` int(10) NOT NULL,
   `modified` int(10) NOT NULL,
-  `weight` int(10) NOT NULL DEFAULT '0',
-  `category_id` int(11) NOT NULL,
+  `weight` int(10) NOT NULL,
   `comment` bigint(20) NOT NULL,
-  `language` varchar(4) NOT NULL DEFAULT 'vi',
   `author` int(11) NOT NULL,
-  `flag` int(11) NOT NULL DEFAULT '0' COMMENT '1: is deleted',
   `sale` int(2) NOT NULL DEFAULT '0' COMMENT 'Min:0 - Max: 99',
   `hot` int(1) NOT NULL DEFAULT '0' COMMENT '1: hot',
   `sticky` int(1) NOT NULL DEFAULT '0' COMMENT '1: Sticky show home page',
-  `promote` int(1) NOT NULL DEFAULT '0' COMMENT '1: promote',
-  `color` varchar(255) DEFAULT NULL COMMENT 'Red, Blue, Green, ...',
-  `size` varchar(255) DEFAULT NULL COMMENT 'M, L, 35, 37, ...',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `alias` (`alias`)
+  `promote` int(1) NOT NULL DEFAULT '0',
+  `color` varchar(255) NOT NULL COMMENT 'Red, Blue, Green, ...',
+  `size` varchar(255) NOT NULL COMMENT 'M, L, 35, 37, ...',
+  PRIMARY KEY (`id`,`productid`,`languageid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
