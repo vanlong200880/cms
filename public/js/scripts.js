@@ -67,9 +67,19 @@ jQuery(document).ready(function($){
         $(this).closest('tr').after(html);
         $('.selectpicker').selectpicker('refresh');
    });
+   
    $('.form-table').on('click', '.table>tbody>tr .btn-back', function(){
 		$(".form-table .table>tbody>tr").removeAttr('style');
 		$('.edit-row').remove();
+   });
+   
+   
+   $(".language ul>li>a").on('click', function(){
+	   var lang = $(this).attr('data-lang');
+	   $input = $("div.lang-"+lang);
+	   $(".box .box-language").addClass('hidden');
+	   $input.removeClass('hidden');
+
    });
    
 //   function sortTable(f, n){

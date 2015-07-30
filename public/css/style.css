@@ -712,3 +712,6 @@ ul.item li a{
     color: #b80000;
     cursor: pointer;
 }
+.language .nav{
+	border-bottom: none;
+}
