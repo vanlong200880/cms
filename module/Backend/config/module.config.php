@@ -46,6 +46,7 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
+            'Backend\Controller\Language' => 'Backend\Controller\LanguageController',
             'Backend\Controller\Index' => 'Backend\Controller\IndexController',
             'Backend\Controller\Product' => 'Backend\Controller\ProductController',
             'Backend\Controller\Trademark' => 'Backend\Controller\TrademarkController',
