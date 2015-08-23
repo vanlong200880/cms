@@ -1,153 +1,93 @@
 <div class="container-fluid">
     <div class="row function-title">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <h1>Thêm danh mục</h1>
+            <h1>Add language</h1>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <a href="<?php echo $this->url('backend', array('controller' => 'category','action' => 'index')); ?>" class="btn btn-default btn-custom pull-right">Trở lại</a>
+            <a href="<?php echo $this->url('backend', array('controller' => 'language','action' => 'index')); ?>" class="btn btn-default btn-custom pull-right">Back</a>
         </div>
     </div>
 </div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="content">
-                <div class="row">
-                    <div class="col-lg-12">
-						<div class="row">
-							<div class="col-lg-12 language">
-								<ul class="nav nav-tabs" role="tablist">
-									<li role="presentation" class="active"><a href="#vi" data-lang="vi" aria-controls="vi" role="tab" data-toggle="tab">Tiếng Việt</a></li>
-									<li role="presentation"><a href="#en" data-lang="en" aria-controls="en" role="tab" data-toggle="tab">English</a></li>
-								</ul>
-							</div>
-						</div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                <div class="box">
-                                    <div class="box-header"><h2>Thông tin chung</h2></div>
-                                    <div class="box-body">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="form-group">
-													<div class="box-language lang-vi">
-														<label for="name">Tên <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Tên danh mục ( Đây là trường bắt buộc nhập ).">?</span></label>
-														<input type="text" class="form-control" value="" name="name[vi]" placeholder="Tên" data-name ="Tên">
-													</div>
-													<div class="box-language lang-en hidden">
-														<label for="name">Name <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Category Name.">?</span></label>
-														<input type="text" class="form-control" value="" name="name[en]" placeholder="name">
-													</div>
-													
-                                                    
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="form-group">
-													<div class="box-language lang-vi">
-														<label for="slug">Slug <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Alias ( Đây là trường bắt buộc nhập - viết liền không dấu - cách nhau bởi đấu '-'. VD: product-name ).">?</span></label>
-														<input type="text" class="form-control" placeholder="Slug" name="slug[vi]">
-													</div>
-													<div class="box-language lang-vi">
-														<label for="slug">Slug <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Alias">?</span></label>
-														<input type="text" class="form-control hidden" name="slug[en]" placeholder="Slug">
-													</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <label for="category">Danh mục cha <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Chọn danh mục cha ( Đây là trường bắt buộc chọn ).">?</span></label>
-                                                            <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
-                                                                <option selected>-- Choose --</option>
-                                                                <option>Category</option>
-                                                                <option> &nbsp; &nbsp;Parent 1</option>
-                                                                <option> &nbsp; &nbsp; &nbsp; &nbsp;Child 1</option>
-                                                                <option> &nbsp; &nbsp; &nbsp; &nbsp;Child 2</option>
-                                                                <option> &nbsp; &nbsp; &nbsp; &nbsp;Child 3</option>
-                                                                <option> &nbsp; &nbsp;Parent 2</option>
-                                                                <option> &nbsp; &nbsp;Parent 3</option>
-                                                                <option> &nbsp; &nbsp;Parent 4</option>
-                                                                <option> Category 1</option>
-                                                                <option> Category 2</option>
-                                                                <option> Category 3</option>
-                                                            </select>
+<form id="language-form">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="box">
+                                        <div class="box-header"><h2>Language information</h2></div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <div class="box-language lang-vi">
+                                                            <label for="name">Name <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Language name (This field is not empty)">?</span></label>
+                                                            <input type="text" id="name" class="form-control" value="" name="name" placeholder="Name" data-name ="Name">
+                                                            <span id="error-name" class="error"></span>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            
-                                            <div class="col-lg-12">
-                                                <div class="form-group">
-                                                    <label for="description">Mô tả <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
-                                                    <textarea class="form-control" rows="3" name="description[vi]"></textarea>
-													<textarea class="form-control hidden" rows="3" name="description[en]"></textarea>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-12">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <label for="weight">Vị trí <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
-                                                            <input type="number" value="0" class="form-control" id="weight" name="weigh[vi]" placeholder="Vị trí">
-															<input type="number" value="0" class="form-control hidden" id="weight" name="weigh[en]" placeholder="Weight">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <div class="box-language lang-vi">
+                                                            <label for="code">Code <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Language code (This field is not empty).">?</span></label>
+                                                            <input type="text" maxlength="2" id="code" class="form-control" placeholder="Code" name="code">
+                                                            <span id="error-code" class="error"></span>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                                <div class="col-lg-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label for="icon">Icon <span class="help" data-toggle="tooltip" data-placement="right" title="This field is not empty.">?</span></label>
+                                                                <p class="help-block">File format jpg, JPG, png, PNG. (max-width: 40px, max-height: 20px).</p>
+                                                                <input type="file" class="form-control" id="icon" name="icon" placeholder="Icon">
+                                                                <span id="error-image" class="error"></span>
+                                                            </div>
+                                                            <div id="view-image" class="form-group"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                            <div class="col-lg-12">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <span><input checked type="checkbox" name="status[vi]"> Trạng thái</span>
-																	<span class="hidden"><input checked type="checkbox" name="status[en]"> Published</span>
-                                                                </label>
+                                                <div class="col-lg-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <div class="checkbox">
+                                                                    <label>
+                                                                        <span><input checked type="checkbox" name="status"> Published</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <div class="checkbox">
+                                                                    <label>
+                                                                        <span><input checked type="checkbox" name="default"> Default</span>
+                                                                    </label>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                <div class="box">
-                                    <div class="box-header"><h2>Cài đặt SEO</h2></div>
-                                    <div class="box-body">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="form-group">
-                                                    <label for="title">Tiêu đề SEO <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
-                                                    <input type="text" class="form-control" name="metatitle[vi]" placeholder="Tiêu đề">
-													<input type="text" class="form-control hidden" name="metatitle[en]" placeholder="Meta title">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="form-group">
-                                                    <label for="keyword">Từ khóa SEO <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
-                                                    <input type="text" class="form-control" name="metakeyword[vi]" placeholder="Từ khóa seo">
-													<input type="text" class="form-control hidden" name="metakeyword[en]" placeholder="Meta keyword">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="form-group">
-                                                    <label for="description">Mô tả SEO <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
-                                                    <textarea class="form-control" rows="3" name="metadescriptionp[vi]"></textarea>
-													<textarea class="form-control hidden" rows="3" name="metadescriptionp[en]"></textarea>
-                                                </div>
-                                            </div>
+
+                                        <div class="box-footer">
+                                            <button type="reset" class="btn btn-default btn-back add">Reset</button>
+                                            <button id="save" type="button" class="btn btn-default btn-custom add">Save</button>
+                                            <button type="button" class="btn btn-default btn-custom add">Save & Add News</button>
                                         </div>
-                                    </div>
-                                    <div class="box-footer">
-                                        <button type="reset" class="btn btn-default btn-back add">Nhập lại</button>
-                                        <button type="button" class="btn btn-default btn-custom add">Lưu</button>
-                                        <button type="button" class="btn btn-default btn-custom add">Lưu & Thêm mới</button>
+
                                     </div>
                                 </div>
                             </div>
@@ -157,4 +97,193 @@
             </div>
         </div>
     </div>
-</div>
+</form>
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+        // plugin validate image type
+        (function($) {
+            $.fn.checkFileType = function(options) {
+                var defaults = {
+                    allowedExtensions: [],
+                    success: function() {},
+                    error: function() {}
+                };
+                options = $.extend(defaults, options);
+
+                return this.each(function() {
+
+                    $(this).on('change keyup blue', function(e) {
+                        var value = $(this).val(),
+                            file = value.toLowerCase(),
+                            extension = file.substring(file.lastIndexOf('.') + 1);
+                        if(value === '' || value === null)
+                        {
+                             options.error(
+                                    {
+                                        err: 'The field is not empty.'
+                                    }
+                                );
+                        }else{
+                            if ($.inArray(extension, options.allowedExtensions) == -1) {
+                                options.error(
+                                        {
+                                            err: 'File format not allowed.'
+                                        }
+                                    );
+                                $(this).focus();
+                            } else {
+                                readURL(this);
+                                options.success();
+                            }
+                        }
+                    });
+
+                });
+            };
+        })(jQuery);
+        // get image review before update
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $image = '<img id="blah" src="'+ e.target.result +'"/>';
+                   $("#view-image").empty().append($image);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $('#icon').checkFileType({
+            allowedExtensions: ['jpg', 'jpeg'],
+            success: function() {
+            // code here
+                $("#error-image").empty();
+                $("#icon").removeClass('input-error');
+            },
+            error: function(e) {
+                $("#icon").addClass('input-error');
+                $("#error-image").empty().append(e.err);
+                $("#view-image").empty();
+            }
+        });
+        //add scroll to top
+        function sCrollToTop(html)
+        {
+            $('html, body').animate({
+                scrollTop: (html.offset().top-100)
+            }, 0);
+        }
+        
+        // function validate language name
+        function validateName()
+        {
+            var name = $("input[name=name]");
+            var error = $("#error-name");
+            var characterReg = /^\s*[a-zA-Z0-9._%+\-\,\s]+\s*$/;
+            if(name.val() === '' || name.val() === null || name.val().length <= 0){
+                error.empty().append('The field is not empty.');
+                name.addClass('input-error');
+                sCrollToTop(name);
+                return false;
+            }else{
+                if(!characterReg.test(name.val())){
+                    error.empty().append('No special characters allowed.');
+                    name.addClass('input-error');
+                    sCrollToTop(name);
+                    return false;
+                }
+                else{
+                    name.removeClass('input-error');
+                    error.empty();
+                    return true;
+                }
+            }
+        }
+        // function validate language code
+        function validateCode()
+        {
+            var code = $("input[name=code]");
+            var error = $("#error-code");
+            var codeReg = /^\s*[a-zA-Z]+\s*$/;
+            if(code.val() === '' || code.val() === null){
+                error.empty().append('The field is not empty.');
+                code.addClass('input-error');
+                sCrollToTop(code);
+                return false;
+            }else{
+                if(code.val().length < 2)
+                {
+                    error.empty().append('minimum 2 characters.');
+                    code.addClass('input-error');
+                    sCrollToTop(code);
+                    return false;
+                }else{
+                    if(code.val().length > 2){
+                        error.empty().append('Maximum 2 characters.');
+                        code.addClass('input-error');
+                        sCrollToTop(code);
+                        return false;
+                    }else{
+                        if(!codeReg.test(code.val())){
+                            error.empty().append('No special characters allowed.');
+                            code.addClass('input-error');
+                            sCrollToTop(code);
+                            return false;
+                        }
+                        else{
+                            code.removeClass('input-error');
+                            error.empty();
+                            return true;
+                        }
+                    }
+                }
+                
+            }
+        }
+        // function validate language icon
+        function validateIamge()
+        {
+            var image = $("input[name=icon]");
+            var error = $("#error-image");
+            if(image.val() === '' || image.val() === null){
+                error.empty().append('The field is not empty.');
+                image.addClass('input-error');
+                sCrollToTop(image);
+                return false;
+            }else{
+                image.removeClass('input-error');
+                error.empty();
+                return true;
+            }
+        }
+        
+        function validateLanguage()
+        {
+            if(validateName() && validateCode() && validateIamge()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        $("input[name=name]").bind('change keyup blur', function(){
+            validateName();
+        });
+        $("input[name=code]").bind('change keyup blur', function(){
+            validateCode();
+        });
+        $("#save").on('click', function(){
+            validateLanguage();
+            $('#icon').checkFileType({
+                allowedExtensions: ['jpg', 'jpeg'],
+                success: function() {
+                // code here
+                    $("#error-image").empty();
+                },
+                error: function() {
+                    $("#error-image").empty().append('File format not allowed.');
+                    $("#view-image").empty();
+                }
+            });
+        });
+        
+    });
+</script>

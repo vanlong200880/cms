@@ -715,3 +715,12 @@ ul.item li a{
 .language .nav{
 	border-bottom: none;
 }
+.error{
+    color: red;
+}
+.input-error{
+    border: 1px solid #FF0000;
+}
+#view-image img{
+    max-width: 100%;
+}
