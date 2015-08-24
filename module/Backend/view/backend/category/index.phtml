@@ -16,7 +16,7 @@
                     </select>
                     <button type="button" class="btn btn-default btn-custom apply">Thực hiện</button>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><button type="button" class="btn btn-default btn-custom pull-right">Thêm mới</button></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><a href="<?php echo $this->url('backend', array('controller' => 'category', 'action' => 'add')) ?>" class="btn btn-default btn-custom pull-right">Thêm mới</a></div>
             </div>
         </div>
     </div>
@@ -83,6 +83,7 @@
                                         <th class="description column_descripton">Mô tả</th>
                                         <th class="weight column_weight">Vị trí</th>
                                         <th class="quantity column_quantity">Số lượng</th>
+                                        <th class="quantity column_quantity">Ngôn ngữ</th>
                                         <th class="status column_status">Trang thái</th>
                                     </tr>
                                 </thead>
@@ -110,6 +111,7 @@
                                         <td class="column_descripton">Mô tả</td>
                                         <td class="column_weight"><input value="1" name="updateweight[]" class="update_weight form-control"></td>
                                         <td class="column_quantity">200</td>
+                                        <td class="column_quantity">en</td>
                                         <td class="column_status status"><a title="Hiển thị" class="fa fa-check-circle"></a></td>
                                     </tr>
 
@@ -136,6 +138,7 @@
                                         <td class="column_descripton">Mô tả</td>
                                         <td class="column_weight"><input value="1" name="updateweight[]" class="update_weight form-control"></td>
                                         <td class="column_quantity">200</td>
+                                        <td class="column_quantity">vi</td>
                                         <td class="column_status unstatus"><a title="Không hiển thị" class="fa fa-minus-circle"></a></td>
                                     </tr>
                                     <tr>
@@ -161,6 +164,7 @@
                                         <td class="column_descripton">Mô tả</td>
                                         <td class="column_weight"><input value="1" name="updateweight[]" class="update_weight form-control"></td>
                                         <td class="column_quantity">200</td>
+                                        <td class="column_quantity">en</td>
                                         <td class="column_status unstatus"><a title="Không hiển thị" class="fa fa-minus-circle"></a></td>
                                     </tr>
                                 </tbody>
@@ -192,3 +196,82 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+        $('.form-table .table>tbody>tr>td span.quick-edit a').on('click', function(){
+             $(".form-table .table>tbody>tr").removeAttr('style');
+             $(this).closest('tr').css('display', 'none');
+             $('.edit-row').remove();
+             var name = $(this).attr('data-name');
+             var slug = $(this).attr('data-slug');
+             var weight = $(this).attr('data-weight');
+             var html = '';
+             html +='<tr id="edit-1" class="edit-row">';
+             html +='    <td colspan="8" class="">';
+             html +='        <div class="column-qiuck-edit">';
+             html +='            <div class="col-lg-12"><h2>Sửa nhanh</h2></div>';
+             html +='            <div class="col-lg-12">';
+             html +='                <div class="row">';
+             html +='                    <div class="col-lg-6">';
+             html +='                        <div class="form-group">';
+             html +='                            <label for="name">Tên</label>';
+             html +='                            <input type="text" class="form-control" value="'+name+'" id="name">';
+             html +='                        </div>';
+             html +='                        <div class="form-group">';
+             html +='                            <label for="name">Slug</label>';
+             html +='                            <input type="text" class="form-control" value="'+slug+'" id="slug">';
+             html +='                        </div>';
+             html +='                    </div>';
+             html +='                </div>';
+             html +='            </div>';
+             html +='            <div class="col-lg-12">';
+             html +='                <div class="row">';
+             html +='                    <div class="col-lg-3">';
+             html +='                        <div class="form-group">';
+             html +='                            <label for="name">Vị trí</label>';
+             html +='                            <input type="text" class="form-control" value="'+weight+'" id="weight">';
+             html +='                        </div>';
+             html +='                    </div>';
+             html +='                    <div class="col-lg-3">';
+             html +='                        <div class="form-group">';
+             html +='                            <label>Danh mục cha</label>';
+             html +='                            <select id="basic-1" class="selectpicker show-tick form-control" data-live-search="true">';
+             html +='                                <option>cow</option>';
+             html +='                                <option>bull</option>';
+             html +='                                <option class="get-class" disabled>ox</option>';
+             html +='                                <optgroup label="test" data-subtext="another test">';
+             html +='                                    <option>ASD</option>';
+             html +='                                    <option selected>Bla</option>';
+             html +='                                    <option>Ble</option>';
+             html +='                                </optgroup>';
+             html +='                             </select>';
+             html +='                        </div>';
+             html +='                    </div>';
+             html +='                </div>';
+             html +='            </div>';
+             html +='            <div class="col-lg-12">';
+             html +='                <div class="row">';
+             html +='                    <div class="col-lg-6">';
+             html +='                        <div class="form-group">';
+             html +='                            <button type="button" class="btn btn-default btn-back">Trở lại</button>';
+             html +='                            <button type="button" class="btn btn-default btn-custom pull-right">Cập nhật</button>';
+             html +='                        </div>';
+             html +='                    </div>';
+             html +='                </div>';
+             html +='            </div>';
+             html +='            <div class="col-lg-6"></div>';
+             html +='        </div>';
+             html +='    </td>';
+             html +='</tr>';
+             $(this).closest('tr').after(html);
+             $('.selectpicker').selectpicker('refresh');
+        });
+
+        $('.form-table').on('click', '.table>tbody>tr .btn-back', function(){
+             $(".form-table .table>tbody>tr").removeAttr('style');
+             $('.edit-row').remove();
+        });
+   
+  
+});
+</script>

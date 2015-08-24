@@ -79,7 +79,7 @@
                                                     <a href="#">Edit</a> | 
                                                 </span>
                                                 <span class="quick-edit">
-                                                    <a data-name="Tên 1" data-slug="ten-1" data-weight="1" href="javascript:void(0)">Quick Edit</a> | 
+                                                    <a data-name="Tiếng Việt" data-code="vi" data-weight="1" href="javascript:void(0)">Quick Edit</a> | 
                                                 </span>
                                                 <span class="delete">
                                                     <a href="#">Delete</a> | 
@@ -105,7 +105,7 @@
                                                     <a href="#">Edit</a> | 
                                                 </span>
                                                 <span class="quick-edit">
-                                                    <a data-name="Tên 2" data-slug="ten-2" data-weight="2" href="javascript:void(0)">Quick Edit</a> | 
+                                                    <a data-name="English" data-code="en" data-weight="2" href="javascript:void(0)">Quick Edit</a> | 
                                                 </span>
                                                 <span class="delete">
                                                     <a href="#">Delete</a> | 
@@ -117,7 +117,7 @@
                                         </td>
                                         <td class="column_descripton">en</td>
                                         <td class="column_quantity"><img src="<?php echo $this->basePath('language/en.png');?>"></td>
-                                         <td class="column_descripton">Default</td>
+                                        <td class="column_descripton"><a href="#">Default</a></td>
                                         <td class="column_status unstatus"><a title="Không hiển thị" class="fa fa-minus-circle"></a></td>
                                     </tr>
                                 </tbody>
@@ -129,3 +129,54 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+        $('.form-table .table>tbody>tr>td span.quick-edit a').on('click', function(){
+            $(".form-table .table>tbody>tr").removeAttr('style');
+            $(this).closest('tr').css('display', 'none');
+            $('.edit-row').remove();
+            var name = $(this).attr('data-name');
+            var slug = $(this).attr('data-code');
+            var weight = $(this).attr('data-weight');
+            var html = '';
+            html +='<tr id="edit-1" class="edit-row">';
+            html +='    <td colspan="7" class="">';
+            html +='        <div class="column-qiuck-edit">';
+            html +='            <div class="col-lg-12"><h2>Quick Edit</h2></div>';
+            html +='            <div class="col-lg-12">';
+            html +='                <div class="row">';
+            html +='                    <div class="col-lg-6">';
+            html +='                        <div class="form-group">';
+            html +='                            <label for="name">Name</label>';
+            html +='                            <input type="text" class="form-control" value="'+name+'" id="name">';
+            html +='                        </div>';
+            html +='                        <div class="form-group">';
+            html +='                            <label for="name">Code</label>';
+            html +='                            <input type="text" class="form-control" value="'+slug+'" id="slug">';
+            html +='                        </div>';
+            html +='                    </div>';
+            html +='                </div>';
+            html +='            </div>';
+            html +='            <div class="col-lg-12">';
+            html +='                <div class="row">';
+            html +='                    <div class="col-lg-6">';
+            html +='                        <div class="form-group">';
+            html +='                            <button type="button" class="btn btn-default btn-back">Back</button>';
+            html +='                            <button type="button" class="btn btn-default btn-custom pull-right">Update</button>';
+            html +='                        </div>';
+            html +='                    </div>';
+            html +='                </div>';
+            html +='            </div>';
+            html +='            <div class="col-lg-6"></div>';
+            html +='        </div>';
+            html +='    </td>';
+            html +='</tr>';
+            $(this).closest('tr').after(html);
+       });
+
+       $('.form-table').on('click', '.table>tbody>tr .btn-back', function(){
+            $(".form-table .table>tbody>tr").removeAttr('style');
+            $('.edit-row').remove();
+       });
+    });
+</script>
