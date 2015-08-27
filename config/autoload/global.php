@@ -12,6 +12,10 @@
  */
 
 return array(
+	'module_layouts' => array(
+		'Frontend' => 'layout/frontend',
+		'Backend' => 'layout/backend',
+	),
     'db' => array(
         'driver' => 'Pdo',
         'dsn' => 'mysql:dbname=cms;host=localhost;charset=utf8',
@@ -23,14 +27,14 @@ return array(
     ),
     'service_manager' => array(
         'factories' => array(
-            'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory',          
-//            'Zend\Db\Adapter\Adapter' => function ($serviceManager) {
-//            $adapterFactory = new Zend\Db\Adapter\AdapterServiceFactory();
-//               $adapter = $adapterFactory->createService($serviceManager);
-//               \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::setStaticAdapter($adapter);
-//               return $adapter;
-//         }
+//            'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory',          
+            'Zend\Db\Adapter\Adapter' => function ($serviceManager) {
+				$adapterFactory = new Zend\Db\Adapter\AdapterServiceFactory();
+				$adapter = $adapterFactory->createService($serviceManager);
+				\Zend\Db\TableGateway\Feature\GlobalAdapterFeature::setStaticAdapter($adapter);
+				return $adapter;
+         }
         ),
     ),
-    'static_salt' => 'Sfwf232DGWEGDGSA',
+    'static_salt' => 'qưertyuioZXCVMNBVGpasdfghjklzxcvbnm123456789ASDFGLKJHQWERPOIUT',
 );
