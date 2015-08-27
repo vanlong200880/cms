@@ -13,8 +13,10 @@ class Module
 		$eventManager			= $e->getApplication()->getEventManager();
 		$moduleRouteListener	= new ModuleRouteListener();
 		$moduleRouteListener->attach($eventManager);
-		$eventManager->attach(\Zend\Mvc\MvcEvent::EVENT_DISPATCH, array($this, 'preDispatch', 100));
+        
+		$eventManager->attach(\Zend\Mvc\MvcEvent::EVENT_DISPATCH, array($this, 'preDispatch'), 100);
 		$eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'onDispatchError'), 100);
+        
 		// start set layout
 		$e->getApplication()->getEventManager()->getSharedManager()->attach('Zend\Mvc\Controller\AbstractController', 'dispatch', function($e){
 			$controller = $e->getTarget();
@@ -26,13 +28,16 @@ class Module
 			}
 		}, 100);
 		
-		$translator = $e->getApplication()->getServiceManager()->get('translator');
-		$translator->AddTranslationFile('phpArray', 'vendor/Sky/Validate', 'default');
-		\Zend\Validator\AbstractValidator::setDefaultTranslator($translator);
-		$serviceManager = $e->getApplication()->getEventManager();
-		$dbAdapter = $serviceManager->get('Zend\Db\Adapter\Adapter');
-		Feature\GlobalAdapterFeature::setStaticAdapter($adapter);
-		$e->stopPropagation();
+        $translator = $e->getApplication()->getServiceManager()->get('translator');
+	    $translator->addTranslationFile('phpArray', 
+								        'vendor/Sky/Validate.php',
+								    	'default');
+	    \Zend\Validator\AbstractValidator::setDefaultTranslator($translator);
+	  	$serviceManager = $e->getApplication()->getServiceManager();
+    	$dbAdapter = $serviceManager->get('Zend\Db\Adapter\Adapter');
+    	Feature\GlobalAdapterFeature::setStaticAdapter($dbAdapter);
+    	$e->stopPropagation();
+        
     }
 	function onDispatchError(MvcEvent $e)
 	{

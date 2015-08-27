@@ -36,7 +36,7 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Frontend\Controller\Index'	=> 'Backend\Controller\IndexController',
+            'Frontend\Controller\Index'	=> 'Frontend\Controller\IndexController',
         ),
     ),
     'view_manager' => array(

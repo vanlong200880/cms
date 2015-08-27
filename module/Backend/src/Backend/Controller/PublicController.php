@@ -15,7 +15,7 @@ class PublicController extends AbstractActionController
 	 ---------------------------------------------------------------------------*/
 	public function indexAction()
 	{			
-		$this->redirect()->toRoute('admincp',array('controller' => 'index', 'action' => 'index'));
+		$this->redirect()->toRoute('backend',array('controller' => 'index', 'action' => 'index'));
 		return $this->getResponse();
 	}
 	
@@ -26,7 +26,7 @@ class PublicController extends AbstractActionController
 	{
 		$session = new Container(APPLICATION_KEY);
 		if(isset($session->auth->id) == true){
-			$this->redirect()->toRoute('admincp',array('controller' => 'index', 'action' => 'index'));
+			$this->redirect()->toRoute('backend',array('controller' => 'index', 'action' => 'index'));
 		}
 		$this->layout('layout/login');
 		$data = array();

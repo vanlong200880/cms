@@ -9,7 +9,7 @@ class Permission{
 		if($nameModule === 'backend'){
 			$session = new Container(APPLICATION_KEY);
 			if(isset($session->auth->id) == false){
-				return array('__NAMESPACE__' => 'Backen\Controller', 'controller' => 'Backend\Controller\Public', 'action' => 'login', '__CONTROLLER__' => 'public');
+				return array('__NAMESPACE__' => 'Backend\Controller', 'controller' => 'Backend\Controller\Public', 'action' => 'login', '__CONTROLLER__' => 'public');
 			}else{
 				$info = new \Sky\System\Info();
 				if($info->getGroupInfo('cpanel') == 1){
