@@ -7,6 +7,8 @@ use Zend\View\Model\ViewModel;
 use Backend\Form\ValidateLogin;
 use Backend\Model\UserHasGroup;
 use Zend\Session\Container;
+use Backend\Model\User;
+use Backend\Model\Role;
 
 class PublicController extends AbstractActionController
 {
@@ -25,7 +27,7 @@ class PublicController extends AbstractActionController
 	public function loginAction()
 	{
 		$session = new Container(APPLICATION_KEY);
-		if(isset($session->auth->id) == true){
+		if(isset($session->auth['userId']) == true){
 			$this->redirect()->toRoute('backend',array('controller' => 'index', 'action' => 'index'));
 		}
 		$this->layout('layout/login');
@@ -33,33 +35,64 @@ class PublicController extends AbstractActionController
 		// Lấy thông tin từ router
 		$arrayParam = $this->params()->fromRoute();
 		$request = $this->getRequest();
+        
 		if($request->isPost() == true){
 			//Lấy thông tin từ post
 			$arrayParam['post']	= $request->getPost()->toArray();
 			$validate = new ValidateLogin($arrayParam);
+            
 			// Kiểm tra lỗi
 			if($validate->isError() == true){
 				$arrayParam['error'] = $validate->getMessagesError();
+                
 			}else{
 				$arrayParam = $validate->getData();
-				$URI = SERVER_ID . '/api/user';
-				$options = array('location' => $URI, 'uri' => $URI);
-				$client = new \Zend\Soap\Client(null, $options);
-				$dataUser = $client->checkUser(KEY_API, $arrayParam['post']['username'], $arrayParam['post']['password']);
-				if($dataUser != false){
-					$dataUser = json_decode($dataUser);
-					$modelUserHasGroup = new UserHasGroup();
-					$dataGroup = $modelUserHasGroup->auth($dataUser);
-					if($dataGroup != false){
-						$dataUser->group_id = $dataGroup['group_id'];
-					}else{
-						$dataUser->group_id = IDMEMBER;
-					}
+//				$URI = SERVER_ID . '/backend/public/login';
+//				$options = array('location' => $URI, 'uri' => $URI);
+//				$client = new \Zend\Soap\Client(null, $options);
+//                var_dump($client);
+//				$dataUser = $client->checkUser(KEY_API, $arrayParam['post']['email'], $arrayParam['post']['password']);
+                // check Id user
+                $user = new User();
+                $userInfo = $user->userLogin($arrayParam['post']);
+				if(!empty($userInfo)){
+                    $arrayUserId = array('user_id' => $userInfo['id']);
+                    
+                    // list role
+                    $role = new Role();
+                    $listRole = $role->getRoleByUser($arrayUserId);
+                    if(!empty($listRole)){
+                        $listRoleId     = array();
+                        $listRoleName   = array();
+                        foreach ($listRole as $value){
+                            $listRoleId[]   = $value['id'];
+                            $listRoleName[] = $value['role_name'];
+                        }
+                    }
+//                         = '';
+//                    $userInfo = json_decode($userInfo);
+//                    var_dump($userInfo);
+//					$dataUser = json_decode($dataUser);
+//					$modelUserHasGroup = new UserHasGroup();
+//					$dataGroup = $modelUserHasGroup->auth($dataUser);
+                    $dataUser = array(
+                        'userId'        => $userInfo['id'],
+                        'userFullName'  => $userInfo['fullname'],
+                        'userEmail'     => $userInfo['email'],
+                        'userAvartar'   => $userInfo['avartar'],
+                        'userCreated'   => $userInfo['created'],
+                        'userRole'      => implode(',', $listRoleName),
+                        'role'          => $listRoleId,
+                    );
+//					if($dataGroup != false){
+//						$dataUser->group_id = $dataGroup['group_id'];
+//					}else{
+//						$dataUser->group_id = IDMEMBER;
+//					}
 					$session = new Container(APPLICATION_KEY);
 					$session->auth = $dataUser;
-					$info = new \Sky\System\Info();
-					
-					$this->redirect()->toRoute('admincp', array('controller' => 'index', 'action' => 'index'));
+					$info = new \Sky\System\Info();					
+					$this->redirect()->toRoute('backend', array('controller' => 'index', 'action' => 'index'));
 				}else{
 					$arrayParam['error'] = array('Username hoặc Password chưa chính xác.');
 				} 
@@ -78,7 +111,7 @@ class PublicController extends AbstractActionController
 	public function logoutAction(){
 		$info = new \Sky\System\Info();
 		$info->destroyInfo();
-		$this->redirect()->toRoute('admincp',array('controller' => 'index', 'action' => 'index'));
+		$this->redirect()->toRoute('backend',array('controller' => 'public', 'action' => 'login'));
 		return $this->getResponse();
 		
 	}

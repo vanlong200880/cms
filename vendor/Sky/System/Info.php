@@ -25,10 +25,10 @@ class Info{
 	
 	// thiet lap thong tin nhom cua nguoi dang nhap
 	public function setGroupInfo($infoAuth){
-		$id = $infoAuth->group_id;
-		$result = new \Backend\Model\Group();
-		$result = $result->auth(array('id' => $id));
-		$this->_session->group = $result;
+		$id['id'] = $infoAuth['role'];
+		$result = new \Backend\Model\Role();
+		$result = $result->auth($id);
+		$this->_session->role = $result;
 	}
 	
 	// lay thong tin ca nhan cua nguoi dang nhap
@@ -43,7 +43,8 @@ class Info{
 	
 	// lay thong tin nhom cua nguoi dang nhap
 	public function getGroupInfo($part = null){
-		$groupInfo = $this->_session->group;
+		$groupInfo = $this->_session->role;
+        
 		if(isset($groupInfo[$part]) == true){
 			$groupInfo = $groupInfo[$part];
 		}
@@ -58,20 +59,21 @@ class Info{
 	
 	// thiet lap thong tin phan quyen
 	public function setAcl($infoAuth){
-		$result = new \Backend\Model\Functions();
-		$id = $infoAuth->group_id;
-		$result = $result->acl(array('id' => $id));
-		if(count($result) > 0){
+//		$result = new \Backend\Model\Functions();
+        $result = new \Backend\Model\Permission();
+//		$id = $infoAuth['role'];
+//		$result = $result->acl(array('id' => $id));
+        $resultRole = $result->acl($infoAuth);
+		if(count($resultRole) > 0){
 			$arrayPrivilege = array();
-			foreach ($result as $val => $key){
-				$arrayPrivilege[] = $key['name_module'].'_'. $key['name_controller']. '_'. $key['name_action'];
+			foreach ($resultRole as $val){
+				$arrayPrivilege[] = $val['module'].'_'. $val['controller']. '_'. $val['name'];
 			}
 			$this->_session->privilege = $arrayPrivilege;
 		}
 	}
 	
 	// lay thong tin phan quyen
-	
 	public function getAcl($part = null){
 		$infoPrivilege = $this->_session->privilege;
 		if($part != null){

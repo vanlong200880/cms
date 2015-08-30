@@ -36,9 +36,20 @@ class Module
 	  	$serviceManager = $e->getApplication()->getServiceManager();
     	$dbAdapter = $serviceManager->get('Zend\Db\Adapter\Adapter');
     	Feature\GlobalAdapterFeature::setStaticAdapter($dbAdapter);
-    	$e->stopPropagation();
-        
+    	$e->stopPropagation(); 
     }
+    public function getViewHelperConfig()
+    {
+    	return array(
+            'factories' => array(
+//                'adminmenu'   =>  function(){
+//                    $helper = new \Backend\Block\adminheader();
+//                    return $helper;
+//                },
+            ),
+        );
+    }
+    
 	function onDispatchError(MvcEvent $e)
 	{
 		$vm = $e->getViewModel();

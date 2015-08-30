@@ -55,6 +55,11 @@ return array(
 			'Backend\Controller\Public'     => 'Backend\Controller\PublicController'
         ),
     ),
+    'view_helpers' => array(
+    		'invokables' => array(
+                'adminheader' => 'Backend\Block\adminheader',
+    		),
+    ),
     'view_manager' => array(
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
