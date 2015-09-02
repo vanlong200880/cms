@@ -52,7 +52,8 @@ return array(
             'Backend\Controller\Trademark'	=> 'Backend\Controller\TrademarkController',
             'Backend\Controller\Supplier'	=> 'Backend\Controller\SupplierController',
             'Backend\Controller\Category'	=> 'Backend\Controller\CategoryController',
-			'Backend\Controller\Public'     => 'Backend\Controller\PublicController'
+			'Backend\Controller\Public'     => 'Backend\Controller\PublicController',
+            'Backend\Controller\User'       => 'Backend\Controller\UserController'
         ),
     ),
     'view_helpers' => array(

@@ -39,6 +39,7 @@ class PublicController extends AbstractActionController
 		if($request->isPost() == true){
 			//Lấy thông tin từ post
 			$arrayParam['post']	= $request->getPost()->toArray();
+			var_dump($arrayParam['post']);
 			$validate = new ValidateLogin($arrayParam);
             
 			// Kiểm tra lỗi

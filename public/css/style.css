@@ -700,6 +700,8 @@ ul.item li a{
     background-color: #38b8e6;
     color: #FFF;
     font-size: 10px;
+    position: relative;
+    top: -2px;
 }
 .update_weight{
     width: 50px;
