@@ -5,7 +5,6 @@ namespace Backend\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Backend\Form\ValidateLogin;
-use Backend\Model\UserHasGroup;
 use Zend\Session\Container;
 use Backend\Model\User;
 use Backend\Model\Role;
@@ -39,7 +38,6 @@ class PublicController extends AbstractActionController
 		if($request->isPost() == true){
 			//Lấy thông tin từ post
 			$arrayParam['post']	= $request->getPost()->toArray();
-			var_dump($arrayParam['post']);
 			$validate = new ValidateLogin($arrayParam);
             
 			// Kiểm tra lỗi

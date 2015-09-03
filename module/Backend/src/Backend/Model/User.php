@@ -5,6 +5,7 @@ use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\Feature;
+use Zend\Db\Sql\Sql;
 class User extends AbstractTableGateway
 {
     protected $table = 'user';
@@ -37,8 +38,54 @@ class User extends AbstractTableGateway
             return false;
         }
     }
-    
-    // lay ra role cua user
+	
+	// create new use
+	public function addUser($arrayParam = null)
+	{
+		$data = array(
+		  'email'		=> $arrayParam['post']['email'], 
+		  'password'	=> $arrayParam['post']['password'], 
+		  'salt'		=> $arrayParam['post']['salt'],  
+		  'fullname'	=> $arrayParam['post']['fullname'], 
+		  'alias'		=> $arrayParam['post']['alias'], 
+		  'birthday'	=> $arrayParam['post']['birthday'],  
+		  'sex'			=> $arrayParam['post']['sex'], 
+		  'address'		=> $arrayParam['post']['address'], 
+		  'active'		=> $arrayParam['post']['active'],  
+		  'created'		=> $arrayParam['post']['create'],
+		  'changed'		=> $arrayParam['post']['changed'], 
+		  'avartar'		=> $arrayParam['post']['avartar'],  
+		  'token'		=> $arrayParam['post']['token'], 
+		  'status'		=> $arrayParam['post']['status'], 
+		  'social'		=> $arrayParam['post']['social'] 
+		);
+		if($arrayParam['id'] === true || $arrayParam['id'] !== ''){
+			// edit
+			unset($data['password']);
+			unset($data['created']);
+			unset($data['token']);
+			unset($data['social']);
+			$data['changed'] = time();
+			$this->update($data, 'id = '.$arrayParam['id']);
+		}
+		else{
+			// add
+			$data['created'] = time();
+			$data['changed'] = time();
+			$this->insert($data);
+			$id = $this->getLastInsertValue();
+			// add role
+			$role = new UserRole();
+			$userRole = array(
+				'role_rid'	=> $id,
+				'user_id'	=> $arrayParam['post']['role_id']
+			);
+			$role->addUserRole($userRole);
+		}
+	}
+
+
+	// lay ra role cua user
     
     public function getRoleByUser($arrayParam = null)
     {

@@ -14,8 +14,18 @@ class Role extends AbstractTableGateway
         $this->featureSet->addFeature(new Feature\GlobalAdapterFeature());
         $this->initialize();
     }
-    
-    // lay ra role cua user 
+    // lay ra tat ca cac role
+	public function getAllRole(){
+		$select = new Select();
+		$select->from($this->table);
+		$select->columns(array('id', 'role_name'));
+		$select->where('status = 1');
+		$select->order('weight ASC');
+		$resultSet = $this->selectWith($select);
+		return $resultSet->toArray();
+		
+	}
+	// lay ra role cua user 
     public function getRoleByUser($arrayParam = null)
     {
         $select = new Select();

@@ -1,0 +1,1 @@
+insert into `user` (`email`, `password`) VALUES('vanlong200880@gmail.com', 123456);

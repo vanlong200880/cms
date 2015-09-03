@@ -8,4 +8,5 @@ return array(
 	"A record with the supplied identity could not be found."								=> 'Username hoặc Password nhập sai.',
 	"Password is not equal confirm password"												=> 'Mật khẩu và xác nhận mật khẩu không giống nhau.',
 	"The input is not a valid email address. Use the basic format local-part@hostname"		=> 'Định dạng chưa chính xác.',
+	"No token was provided to match against"												=> 'Mật khẩu và xác nhận mật khẩu không giống nhau.'
 ); 
