@@ -19,7 +19,7 @@
 								<div class="col-lg-6 col-md-6 col-sm-12">
 									<div class="box">
 										<div class="box-language lang-vi">
-											<div class="box-header"><h2>Thông đăng nhập</h2></div>
+											<div class="box-header"><h2>Thông tin đăng nhập</h2></div>
 										</div>
 										<div class="box-body">
 											<div class="row">
@@ -63,10 +63,11 @@
 											<div class="row">
 												<div class="col-lg-6">
 													<div class="form-group">
-														<label for="icon">Ảnh đại diện <span class="help" data-toggle="tooltip" data-placement="right" title="This field is not empty.">?</span></label>
-														<p class="help-block">File format jpg, JPG, png, PNG. (max-width: 100px, max-height: 100px).</p>
+														<label for="icon">Ảnh đại diện <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
+														<p class="help-block">Định dạng file cho phép .jpg, .png (max-width: 400px, max-height: 400px).</p>
 														<input type="file" class="form-control" id="icon" name="avartar" placeholder="Icon">
 														<span id="error-image" class="error"></span>
+                                                        <p class="error"><?php echo isset($arrayParam['error']['avartar'])? $arrayParam['error']['avartar']:'' ?></p>
 													</div>
 													<div id="view-image" class="form-group"></div>
 												</div>
@@ -75,7 +76,8 @@
 													<div class="form-group">
 														<div class="box-language lang-vi">
 															<label for="fullname">Họ và tên <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường bắt buộc nhập.">?</span></label>
-															<input type="text" class="form-control" id="fullname" value="" name="fullname" placeholder="Họ và tên" data-name ="Email">
+															<input type="text" class="form-control" id="fullname" value="<?php echo isset($arrayParam['post']['fullname'])?$arrayParam['post']['fullname']:'' ?>" name="fullname" placeholder="Họ và tên">
+                                                            <p class="error"><?php echo isset($arrayParam['error']['fullname'])? $arrayParam['error']['fullname']:'' ?></p>
 														</div>
 													</div>
 												</div>
@@ -83,7 +85,7 @@
 												<div class="col-lg-12">
 													<div class="form-group">
 														<div class="box-language lang-vi">
-															<label for="fullname">Tên hiển thị <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc nhập.">?</span></label>
+															<label for="fullname">Tên hiển thị <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc nhập.">?</span></label>
 															<input type="text" class="form-control" id="fullname" value="" name="name-alias" placeholder="Tên hiển thị">
 														</div>
 													</div>
@@ -97,15 +99,17 @@
 																	<label for="sex">Giới tính <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường bắt buộc nhập.">?</span></label>
 																</div>
 																<div class="col-lg-12">
+                                                                    
 																	<label class="radio-inline">
-																		<input type="radio" name="sex" id="male" value="0"> Nam
+																		<input type="radio" name="sex" <?php echo ((isset($arrayParam['post']['sex']) && $arrayParam['post']['sex'] ===0))?'checked':'' ?> id="male" value="0"> Nam
 																	</label>
 																	<label class="radio-inline">
-																		<input type="radio" name="sex" id="female" value="1"> Nữ
+																		<input type="radio" name="sex" <?php echo ((isset($arrayParam['post']['sex']) && $arrayParam['post']['sex'] ===1))?'checked':'' ?> id="female" value="1"> Nữ
 																	</label>
 																	<label class="radio-inline">
-																		<input type="radio" name="sex" id="other" value="2"> Khác
+																		<input type="radio" name="sex" <?php echo ((isset($arrayParam['post']['sex']) && $arrayParam['post']['sex'] ===2))?'checked':'' ?> id="other" value="2"> Khác
 																	</label>
+                                                                    <p class="error"><?php echo isset($arrayParam['error']['sex'])? $arrayParam['error']['sex']:'' ?></p>
 																</div>
 															</div>
 														</div>
@@ -119,20 +123,27 @@
 																<div class="box-language lang-vi">
 																	<label for="day">Ngày tháng năm sinh</label>
 																</div>
+                                                                <p class="error"><?php echo isset($arrayParam['error']['date'])? $arrayParam['error']['date']:'' ?></p>
 															</div>
 															<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 																<div class="box-language lang-vi">
-																	<input type="number" placeholder="Ngày" class="form-control" name="day">
+                                                                    <select class="form-control" name="day">
+                                                                        <?php echo $day; ?>
+                                                                    </select>
 																</div>
 															</div>
-															<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 																<div class="box-language lang-vi">
-																	<input type="number" placeholder="Tháng" class="form-control" name="month">
+                                                                    <select class="form-control" name="month">
+                                                                        <?php echo $month; ?>
+                                                                    </select>
 																</div>
 															</div>
-															<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 																<div class="box-language lang-vi">
-																	<input type="number" placeholder="Năm" class="form-control" name="year">
+                                                                    <select class="form-control" name="year">
+                                                                        <?php echo $year; ?>
+                                                                    </select>
 																</div>
 															</div>
 														</div>
@@ -143,7 +154,7 @@
 												<div class="col-lg-12">
 													<div class="form-group">
 														<div class="box-language lang-vi">
-															<label for="fullname">Địa chỉ <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc nhập.">?</span></label>
+															<label for="fullname">Địa chỉ <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc nhập.">?</span></label>
 															<textarea name="address" class="form-control"></textarea>
 														</div>
 													</div>
@@ -163,12 +174,13 @@
 												<div class="col-lg-12">
 													<div class="form-group">
 														<div class="box-language lang-vi">
+                                                            <p class="error"><?php echo isset($arrayParam['error']['role'])? $arrayParam['error']['role']:'' ?></p>
 															<div class="checkbox">
 																
 																<?php foreach ($role as $key => $value): ?>
 																<div class="radio">
 																	<label>
-																	  <input type="radio" name="role" id="role-<?php echo $value['id']; ?>" value="<?php echo $value['id']; ?>">
+																	  <input type="radio" <?php echo ((isset($arrayParam['post']['role']) && $arrayParam['post']['role'] === $value['id']))?'checked':'' ?> name="role" id="role-<?php echo $value['id']; ?>" value="<?php echo $value['id']; ?>">
 																	  <?php echo $value['role_name']; ?>
 																	</label>
 																</div>
@@ -193,7 +205,11 @@
 														<div class="box-language lang-vi">
 															<div class="checkbox">
 																<label>
-																	<span><input checked value="1" type="checkbox" name="active"> Kích hoạt</span>
+																	<span>
+                                                                        <input type="hidden" name="active" value="0">
+                                                                        <input type="checkbox" name="active" id="status" value="1" <?php echo (!isset($arrayParam['post']['active']))?'checked':((isset($arrayParam['post']['active'])) && $arrayParam['post']['active'] == 1)?'checked':'' ?>>
+                                                                        Kích hoạt
+                                                                    </span>
 																</label>
 															</div>
 														</div>
@@ -215,3 +231,64 @@
 		</div>
 	</div>
 </form>
+
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+        // plugin validate image type
+        (function($) {
+            $.fn.checkFileType = function(options) {
+                var defaults = {
+                    allowedExtensions: [],
+                    success: function() {},
+                    error: function() {}
+                };
+                options = $.extend(defaults, options);
+
+                return this.each(function() {
+
+                    $(this).on('change keyup blue', function(e) {
+                        var value = $(this).val(),
+                            file = value.toLowerCase(),
+                            extension = file.substring(file.lastIndexOf('.') + 1);
+                            if ($.inArray(extension, options.allowedExtensions) == -1) {
+                                options.error(
+                                        {
+                                            err: 'Định dạng file không cho phép.'
+                                        }
+                                    );
+                                $(this).focus();
+                            } else {
+                                readURL(this);
+                                options.success();
+                            }
+                    });
+
+                });
+            };
+        })(jQuery);
+        // get image review before update
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $image = '<img id="blah" src="'+ e.target.result +'"/>';
+                   $("#view-image").empty().append($image);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $('#icon').checkFileType({
+            allowedExtensions: ['jpg', 'jpeg','png'],
+            success: function() {
+            // code here
+                $("#error-image").empty();
+                $("#icon").removeClass('input-error');
+            },
+            error: function(e) {
+                $("#icon").addClass('input-error');
+                $("#error-image").empty().append(e.err);
+                $("#view-image").empty();
+            }
+        });        
+    });
+</script>

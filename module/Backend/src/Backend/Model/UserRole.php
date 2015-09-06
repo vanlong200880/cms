@@ -18,11 +18,14 @@ class UserRole extends AbstractTableGateway
     // add user role
 	public function addUserRole($arrayParam = null){
 		$data = array(
-		  'role_rid'	=> $arrayParam['role_id'],
+		  'role_rid'	=> $arrayParam['role_rid'],
 		  'user_id'		=> $arrayParam['user_id']
 		);
 		if($data){
-			$this->insert($data);
+			if(!$this->insert($data)){
+                return false;
+            }
+            return true;
 		}
 	}
 }

@@ -47,19 +47,19 @@ class User extends AbstractTableGateway
 		  'password'	=> $arrayParam['post']['password'], 
 		  'salt'		=> $arrayParam['post']['salt'],  
 		  'fullname'	=> $arrayParam['post']['fullname'], 
-		  'alias'		=> $arrayParam['post']['alias'], 
+		  'alias'		=> $arrayParam['post']['name-alias'], 
 		  'birthday'	=> $arrayParam['post']['birthday'],  
 		  'sex'			=> $arrayParam['post']['sex'], 
 		  'address'		=> $arrayParam['post']['address'], 
 		  'active'		=> $arrayParam['post']['active'],  
-		  'created'		=> $arrayParam['post']['create'],
+		  'created'		=> $arrayParam['post']['created'],
 		  'changed'		=> $arrayParam['post']['changed'], 
 		  'avartar'		=> $arrayParam['post']['avartar'],  
 		  'token'		=> $arrayParam['post']['token'], 
 		  'status'		=> $arrayParam['post']['status'], 
 		  'social'		=> $arrayParam['post']['social'] 
 		);
-		if($arrayParam['id'] === true || $arrayParam['id'] !== ''){
+		if(isset($arrayParam['id']) || $arrayParam['post']['id'] !== ''){
 			// edit
 			unset($data['password']);
 			unset($data['created']);
@@ -72,15 +72,18 @@ class User extends AbstractTableGateway
 			// add
 			$data['created'] = time();
 			$data['changed'] = time();
-			$this->insert($data);
-			$id = $this->getLastInsertValue();
-			// add role
-			$role = new UserRole();
-			$userRole = array(
-				'role_rid'	=> $id,
-				'user_id'	=> $arrayParam['post']['role_id']
-			);
-			$role->addUserRole($userRole);
+			if(!$this->insert($data)){
+                return false;
+            }else{
+                $id = $this->getLastInsertValue();
+                // add role
+                $role = new UserRole();
+                $userRole = array(
+                    'role_rid'	=> $arrayParam['post']['role'],
+                    'user_id'	=> $id
+                );
+                $role->addUserRole($userRole);
+            }	
 		}
 	}
 
