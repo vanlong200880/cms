@@ -1,6 +1,9 @@
 <?php 
 namespace Sky\System;
 
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
 class EncriptPassword{
 
 	public function prepareData($data)
@@ -15,7 +18,7 @@ class EncriptPassword{
 		return $data;
 	}
 
-	public function generateDymamicSalt()
+	public function generateDynamicSalt()
 	{
 		$dynamicSalt = '';
 		for ($i=0; $i < 50; $i++) { 
@@ -27,13 +30,13 @@ class EncriptPassword{
 	public function getStaticSalt()
 	{
 		$getStaticSalt = '';
-		$config = $this->getServiceLocator()->get('Config');
+        $config = new \Zend\Config\Config( include ROOT_PATH . '/config/autoload/global.php' );
 		$getStaticSalt = $config['static_salt'];
-		return $static_salt;
+		return $getStaticSalt;
 	}
 
 	public function encriptPassword($staticSalt, $password, $dynamicSalt){
-		return md5($staticSalt . $password . $dynamicSalt);
+		return sha1(md5($staticSalt . $password . $dynamicSalt));
 	}
 
 	public function generatePassword($l = 8, $c = 0, $n = 0, $s = 0){

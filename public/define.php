@@ -1,4 +1,5 @@
 <?php
+define('ROOT_PATH', realpath(dirname(__DIR__)));
 define('PUBLIC_PATH', realpath(dirname(__DIR__) . '/public'));
 define('VENDOR_PATH', realpath(dirname(dirname(__DIR__)) . '/vendor'));
 define('TEMP_PATH', PUBLIC_PATH . '/tmp');

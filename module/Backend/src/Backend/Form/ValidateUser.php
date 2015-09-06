@@ -15,14 +15,26 @@ class ValidateUser{
 	public function __construct($arrayParam = array(), $options = null){
 		$this->_arrData	= $arrayParam;
 		
-		//Kiểm Tra Tên
+		// kiểm tra email đã tồn tại trong database chưa
+        if(isset($arrayParam['post']['email'])){
+            $options = array(
+                'table' => 'user',
+                'field' => 'email',
+                'adapter' => \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::getStaticAdapter(),
+            );
+        }
 		$validator = new \Zend\Validator\ValidatorChain();
 		$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
-                    ->addValidator(new \Zend\Validator\EmailAddress, true);
+                    ->addValidator(new \Zend\Validator\EmailAddress, true)
+                    ->addValidator(new \Zend\Validator\Db\NoRecordExists($options), true);
 		if(!$validator->isValid($arrayParam['post']['email'])){
 			$message = $validator->getMessages();
 			$this->_messagesError['email'] = 'Email: ' . current($message);
 		}
+        
+        
+        
+        
 		
 		//Kiểm Tra Password
 		$validator = new \Zend\Validator\ValidatorChain();
@@ -34,14 +46,159 @@ class ValidateUser{
 		}
 		
 		// kiểm tra nhập lại password
-		$validator = new \Zend\Validator\ValidatorChain();
-		$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
-				  ->addValidator(new \Zend\Validator\Identical(), true, array('token' => 'password'));
-		if(!$validator->isValid($arrayParam['post']['repassword'])){
+        if($arrayParam['post']['password'] !== ''){
+            $validator = new \Zend\Validator\ValidatorChain();
+            $validator->addValidator(new \Zend\Validator\NotEmpty(), true)
+                      ->addValidator(new \Zend\Validator\Identical(array('token' => $arrayParam['post']['password'])));
+            if(!$validator->isValid($arrayParam['post']['repassword'])){
+                $message = $validator->getMessages();
+                $this->_messagesError['repassword'] = current($message);
+            }
+        }
+		
+        
+        // kiểm tra vartar
+        if($arrayParam['post']['avartar']['name'] !== ''){
+            var_dump($arrayParam['post']['avartar']['tmp_name']);
+            $validator = new \Zend\Validator\ValidatorChain();
+            $validator->addValidator(new \Zend\Validator\File\MimeType('image/jpg, image/jpeg, image/png'));
+            $validator->addValidator(new \Zend\Validator\File\ImageSize(array(
+                'minWidth' => 100, 'minHeight' => 100,
+                'maxWidth' => 400, 'maxHeight' => 400,
+            )));
+            if(!$validator->isValid($arrayParam['post']['avartar']['tmp_name'])){
+                $message = $validator->getMessages();
+                $this->_messagesError['avartar'] = current($message);
+            }
+        }
+        
+        // kiểm tra tên
+        $validator = new \Zend\Validator\ValidatorChain();
+		$validator->addValidator(new \Zend\Validator\NotEmpty(), true);
+		if(!$validator->isValid($arrayParam['post']['fullname'])){
 			$message = $validator->getMessages();
-			$this->_messagesError['repassword'] = current($message);
+			$this->_messagesError['fullname'] = 'Họ và tên: ' . current($message);
 		}
+        
+        // kiểm tra giới tính
+        if(!isset($arrayParam['post']['sex'])){
+            $this->_messagesError['sex'] = 'Giới tính: ' . current($message);
+        }else{
+            $validator = new \Zend\Validator\ValidatorChain();
+            $validator->addValidator(new \Zend\Validator\NotEmpty(), true);
+            if(!$validator->isValid($arrayParam['post']['sex'])){
+                $message = $validator->getMessages();
+                $this->_messagesError['sex'] = 'Giới tính: ' . current($message);
+            }
+        }
+        // kiểm tra chọn role
+        if(!isset($arrayParam['post']['role'])){
+            $this->_messagesError['role'] = 'Bạn chưa chọn quyền truy cập.';
+        }else{
+            $validator = new \Zend\Validator\ValidatorChain();
+            $validator->addValidator(new \Zend\Validator\NotEmpty(), true);
+            if(!$validator->isValid($arrayParam['post']['role'])){
+                $message = $validator->getMessages();
+                $this->_messagesError['role'] = 'Role: ' . current($message);
+            }
+        }
+        
+        // kiem tra ngay thang nam
+        if(!empty($arrayParam['post']['day']) && !empty($arrayParam['post']['month']) && !empty($arrayParam['post']['year'])){
+            $day = (int)$arrayParam['post']['day'];
+            $month = (int)$arrayParam['post']['month'];
+            $year = (int)$arrayParam['post']['year'];
+            switch ($month){
+                case 1:
+                    if($day <= 0 || $day > 31){
+                        $this->_messagesError['date'] = 'Ngày tháng năm không hợp lệ.';
+                    }
+                    break;
+                case 2:
+                    if($day <= 0 || $day >= 31){
+                        $this->_messagesError['date'] = 'Ngày tháng năm không hợp lệ.';
+                    }else{
+                        if($this->LeapYear($year)){
+                            if($day  > 29){
+                                $this->_messagesError['date'] = 'Ngày không hợp lệ.';
+                            }
+                        }else{
+                            if($day  > 28){
+                                $this->_messagesError['date'] = 'Ngày không hợp lệ.';
+                            }
+                        }
+                    }
+                    break;
+                case 3:
+                    if($day <= 0 || $day > 31){
+                        $this->_messagesError['date'] = 'Ngày không hợp lệ.';
+                    }
+                    break;
+                case 4:
+                    if($day <= 0 || $day > 30){
+                        $this->_messagesError['date'] = 'Ngày không hợp lệ.';
+                    }
+                    break;
+                case 5:
+                    if($day <= 0 || $day > 31){
+                        $this->_messagesError['date'] = 'Ngày không hợp lệ.';
+                    }
+                    break;
+                case 6:
+                    if($day <= 0 || $day > 30){
+                        $this->_messagesError['date'] = 'Ngày không hợp lệ.';
+                    }
+                    break;
+                case 7:
+                    if($day <= 0 || $day > 31){
+                        $this->_messagesError['date'] = 'Ngày không hợp lệ.';
+                    }
+                    break;
+                case 8:
+                    if($day <= 0 || $day > 31){
+                        $this->_messagesError['date'] = 'Ngày không hợp lệ.';
+                    }
+                    break;
+                case 9:
+                    if($day <= 0 || $day > 30){
+                        $this->_messagesError['date'] = 'Ngày không hợp lệ.';
+                    }
+                    break;
+                case 10:
+                    if($day <= 0 || $day > 31){
+                        $this->_messagesError['date'] = 'Ngày không hợp lệ.';
+                    }
+                    break;
+                case 11:
+                    if($day <= 0 || $day > 30){
+                        $this->_messagesError['date'] = 'Ngày không hợp lệ.';
+                    }
+                    break;
+                case 12:
+                    if($day <= 0 || $day > 31){
+                        $this->_messagesError['date'] = 'Ngày không hợp lệ.';
+                    }
+                    break;
+                default:
+                    $this->_messagesError['date'] = 'Ngày tháng năm không hợp lệ.';
+                break;
+            }
+        }
+        
+        
+
 	}
+    
+    /*
+     * kiem tra nam nhuan
+     */
+    function LeapYear($year){
+        $flag = false;
+        if( ($year % 400 == 0) || ($year % 4 == 0 && $year % 100 != 0) ) 
+            $flag = true;
+        return $flag;
+    }
+
 	
 	//============================================
 	//Kiem Tra Va Tra Ve True Neu Co Loi
