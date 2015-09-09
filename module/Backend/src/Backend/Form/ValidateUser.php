@@ -23,6 +23,9 @@ class ValidateUser{
                 'adapter' => \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::getStaticAdapter(),
             );
         }
+        if($options == 'edit'){
+            
+        }
 		$validator = new \Zend\Validator\ValidatorChain();
 		$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
                     ->addValidator(new \Zend\Validator\EmailAddress, true)

@@ -23,7 +23,12 @@ class Thumbs extends Imaging
         parent::set_quality(80);
         for ($i = 1; $i <= $item; $i++){
             parent::set_size($arrayWidth[$i],$arrayHeight[$i]);
-            $this->thumbnail= $arrayPath[$i].pathinfo($image, PATHINFO_FILENAME).'-'. $text. '.' . pathinfo($image, PATHINFO_EXTENSION);
+            if(!empty($text)){
+                $this->thumbnail= $arrayPath[$i].pathinfo($image, PATHINFO_FILENAME).'-'. $text. '.' . pathinfo($image, PATHINFO_EXTENSION);
+            }else{
+                $this->thumbnail= $arrayPath[$i].pathinfo($image, PATHINFO_FILENAME).'.' . pathinfo($image, PATHINFO_EXTENSION);
+            }
+            
             $this->thumbname = pathinfo($image, PATHINFO_FILENAME).'-'. $text. '.' .pathinfo($image, PATHINFO_EXTENSION);
             parent::save_img($this->thumbnail);
             parent::clear_cache();

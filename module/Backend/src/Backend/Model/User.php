@@ -86,9 +86,22 @@ class User extends AbstractTableGateway
             }	
 		}
 	}
+    
+    
+    // get user by id
+    function getUserById($id){
+        $select = new Select();
+        
+        $select->from($this->table);
+        $select->columns(array('email', 'fullname', 'birthday', 'sex', 'address', 'active', 'avartar', 'status'));
+        $select->join('user_role', 'user_role.user_id = user.id', array('role_rid'), 'left');
+        $select->where('user.id = '.$id);
+        $resultSet = $this->selectWith($select);
+        $resultSet = $resultSet->toArray();
+        return $resultSet[0];
+    }
 
-
-	// lay ra role cua user
+    // lay ra role cua user
     
     public function getRoleByUser($arrayParam = null)
     {
