@@ -273,6 +273,6 @@ class UserController extends AbstractActionController
 	}
 
 	public function blockAction(){
-		
+		//sdfsdf
 	}
 }
