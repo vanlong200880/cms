@@ -28,5 +28,13 @@ class UserRole extends AbstractTableGateway
             return true;
 		}
 	}
+    
+    // cap nhat role by user id
+    public function updateRoleByUserId($userid, $roleid){
+        $data = array(
+            'role_rid' => $roleid,
+        );
+        return $this->update($data, 'user_id = '.$userid);
+    }
 }
 

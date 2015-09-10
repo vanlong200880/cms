@@ -71,11 +71,12 @@ class ValidateUser{
         
         // kiểm tra vartar
         if($arrayParam['post']['avartar']['name'] !== ''){
+            var_dump($arrayParam['post']);
             $validator = new \Zend\Validator\ValidatorChain();
             $validator->addValidator(new \Zend\Validator\File\MimeType('image/jpg, image/jpeg, image/png'));
             $validator->addValidator(new \Zend\Validator\File\ImageSize(array(
-                'minWidth' => 100, 'minHeight' => 100,
-                'maxWidth' => 400, 'maxHeight' => 400,
+                'minWidth' => USER_MIN_WIDTH, 'minHeight' => USER_MIN_HEIGHT,
+                'maxWidth' => USER_MAX_WIDTH, 'maxHeight' => USER_MAX_HRIGHT,
             )));
             if(!$validator->isValid($arrayParam['post']['avartar']['tmp_name'])){
                 $message = $validator->getMessages();

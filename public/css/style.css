@@ -723,6 +723,28 @@ ul.item li a{
 .input-error{
     border: 1px solid #FF0000;
 }
+#view-image{
+    position: relative;
+    display: inline-block;
+}
 #view-image img{
     max-width: 100%;
+}
+.delete-avartar{
+    width: 20px;
+    height: 20px;
+    background: #FFF url('../img/icon.png') no-repeat;
+ 	background-position: 2px -50px;
+    border: 1px solid #eeeeee;
+    position: absolute;
+    z-index: 99;
+    cursor: pointer;
+    display: none;
+    right: 0;
+}
+#view-image:hover .delete-avartar{
+    display: block;
+}
+.seccess{
+    color: red;
 }

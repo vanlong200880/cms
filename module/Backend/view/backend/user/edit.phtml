@@ -63,14 +63,14 @@
 											<div class="row">
 												<div class="col-lg-6">
 													<div class="form-group">
-														<label for="icon">Ảnh đại diện <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
-														<p class="help-block">Định dạng file cho phép .jpg, .png (max-width: 400px, max-height: 400px).</p>
+														<label for="icon">Ảnh đại diện <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc. Định dạng file cho phép .jpg, .png (max-width: 400px, max-height: 400px)">?</span></label>
 														<input type="file" class="form-control" id="icon" name="avartar" placeholder="Icon">
 														<span id="error-image" class="error"></span>
                                                         <p class="error"><?php echo isset($arrayParam['error']['avartar'])? $arrayParam['error']['avartar']:'' ?></p>
 													</div>
                                                     <div id="view-image" class="form-group">
-                                                        <?php if(!empty($arrayParam['post']['avartar']) && !is_array($arrayParam['post']['avartar'])): ?>
+                                                        <?php if((!empty($arrayParam['post']['avartar']) && !is_array($arrayParam['post']['avartar'])) || isset($arrayParam['error']['avartar']) ): ?>
+                                                        <a data-id="<?php echo $arrayParam['id']; ?>" class="delete-avartar"></a>
                                                         <img src="<?php echo $this->basePath('/files/users/80x80/'.$arrayParam['post']['avartar']); ?>" />
                                                         <?php endif; ?>
                                                     </div>
@@ -238,6 +238,28 @@
 
 <script type="text/javascript">
     jQuery(document).ready(function($){
+        // xóa avartar
+        $(".delete-avartar").on("click", function(){
+            var id = $(this).attr("data-id");
+            if(id != '')
+            {
+                var data_obj = { 'id' : id};
+                $.ajax({
+                    type:"POST",
+                    url: "<?php echo $this->url('backend', array('controller' => 'user', 'action' => 'deleteavartar')) ?>",
+                    data:data_obj,
+                    dataType: 'JSON',
+                    success: function(data){
+                        console.log('saad');
+                        console.log(data);
+                        $("#view-image").empty().append(data.message);
+                        setTimeout(function(){
+                            $(".seccess").remove();
+                        }, 2000);
+                    }    
+               });
+            }  
+        });
         // plugin validate image type
         (function($) {
             $.fn.checkFileType = function(options) {

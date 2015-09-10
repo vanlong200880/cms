@@ -4,6 +4,7 @@ namespace Backend\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 use Backend\Form\ValidateUser;
 use Backend\Model\Role;
 use Sky\System\EncriptPassword;
@@ -136,48 +137,48 @@ class UserController extends AbstractActionController
                 $arrayParam['post']['active'] = (int)($arrayParam['post']['active']);
             }
             
-            if(isset($arrayParam['post']['avartar']['name']) && empty($arrayParam['post']['avartar']['name'])){
-                $arrayParam['post']['avartar'] = $userInfo['avartar'];
-            }
-
-            
             if($userInfo['email'] !== $arrayParam['post']['email']){
-                    $validate = new ValidateUser($arrayParam, 'edit');
-                    if($validate->isError() === true){
-                        $arrayParam['error'] = $validate->getMessagesError();
-                    }else{
-						$data = $validate->getData();
-						
-						$data['post']['created']    = $data['post']['changed'] = time();
-						$data['post']['status']     = 1;
-						$data['post']['social']     = 0;
-						$data['post']['id']         = '';
-						if(isset($data['post']['day']) && isset($data['post']['month']) && isset($data['post']['year'])){
-							$birthday = $data['post']['day'].'-'.$data['post']['month'].'-'.$data['post']['year'];
-							$data['post']['birthday'] = strtotime($birthday);
-						}else{
-							$data['post']['birthday'] = '';
-						}
-						// upload image
-						if(!empty($data['post']['avartar']['name'])){
-							$uploadFile = new Upload();
-							$newName = $uploadFile->uploadImage($data['post']['avartar']['name'], USER_ICON);
-							$data['post']['avartar'] = $newName;
-							// create thumb
-							$thumb = new Thumbs();
-							$thumb->createThumb(USER_ICON ."/". $newName, array('1' => 80), array('1' => 80), array('1' => USER_ICON.'/80x80/'), 1, '');
-							$thumb->removeImage(USER_ICON ."/", array('1' => '80x80/', '2' => ''), $userInfo['avartar'], 2);
-						}else{
-							$data['post']['avartar'] = '';
-						}
-						$user = new User();
-						$user->addUser($data);
-						$this->flashMessenger()->addMessage(array('success' => 'Cập nhật thành công'));
-						return $this->redirect()->toRoute('backend', array('controller' => 'user','action' => 'index'));
-                    }
-            }else{
-                
+                $arrayParam['post']['password'] = '';
+                $arrayParam['post']['salt'] = '';
+                $arrayParam['post']['token'] = '';
                 $validate = new ValidateUser($arrayParam, 'edit');
+                if($validate->isError() === true){
+                    $arrayParam['error'] = $validate->getMessagesError();
+                }else{
+                    $data = $validate->getData();
+                    $data['post']['created']    = $data['post']['changed'] = time();
+                    $data['post']['status']     = 1;
+                    $data['post']['social']     = 0;
+                    $data['post']['id']         = '';
+                    if(isset($data['post']['day']) && isset($data['post']['month']) && isset($data['post']['year'])){
+                        $birthday = $data['post']['day'].'-'.$data['post']['month'].'-'.$data['post']['year'];
+                        $data['post']['birthday'] = strtotime($birthday);
+                    }else{
+                        $data['post']['birthday'] = '';
+                    }
+                    // upload image
+                    if(!empty($data['post']['avartar']['name'])){
+                        $uploadFile = new Upload();
+                        $newName = $uploadFile->uploadImage($data['post']['avartar']['name'], USER_ICON);
+                        $data['post']['avartar'] = $newName;
+                        // create thumb
+                        $thumb = new Thumbs();
+                        $thumb->createThumb(USER_ICON ."/". $newName, array('1' => 80), array('1' => 80), array('1' => USER_ICON.'/80x80/'), 1, '');
+                        $thumb->removeImage(USER_ICON ."/", array('1' => '80x80/', '2' => ''), $userInfo['avartar'], 2);
+                    }else{
+                        $data['post']['avartar'] = '';
+                    }
+                    $user = new User();
+                    $user->addUser($data);
+                    $this->flashMessenger()->addMessage(array('success' => 'Cập nhật thành công'));
+                    return $this->redirect()->toRoute('backend', array('controller' => 'user','action' => 'index'));
+                }
+            }else{
+                $arrayParam['post']['password'] = '';
+                $arrayParam['post']['salt'] = '';
+                $arrayParam['post']['token'] = '';
+                $validate = new ValidateUser($arrayParam, 'edit');
+                var_dump($arrayParam);
 				if($validate->isError() === true){
 					$arrayParam['error'] = $validate->getMessagesError();
 				}else{
@@ -237,7 +238,8 @@ class UserController extends AbstractActionController
         // get all role
 		$listRole = new Role();
 		$role = $listRole->getAllRole();
-        var_dump($arrayParam);
+//        var_dump($arrayParam);
+        $arrayParam['id'] = $id;
         $data['arrayParam'] = $arrayParam;
 		if($role){
 			$data['role'] = $role;
@@ -250,11 +252,23 @@ class UserController extends AbstractActionController
 		return new ViewModel();
 	}
 
-	public function changeIconAction(){
-		return new ViewModel();
-	}
-
-	public function deleteAction(){
+    public function deleteavartarAction(){
+        $request = $this->getRequest();
+        $arrayParam	= array();
+        if($request->isPost()){
+            $user       = new User();
+            $id         = $request->getPost('id');
+            $userInfo   = $user->getUserById($id);
+            if($userInfo){
+                $file = new \Sky\Uploads\Thumbs();
+                $file->removeImage(USER_ICON ."/", array('1' => '80x80/', '2' => ''), $userInfo['avartar'], 2);
+                $user->deleteAvartar($arrayParam);
+                $arrayParam['message'] = "<span class='seccess'>Xóa avartar thành công.</span>";
+            }
+        }
+        return new JsonModel($arrayParam);
+    }
+    public function deleteAction(){
 		return new ViewModel();
 	}
 

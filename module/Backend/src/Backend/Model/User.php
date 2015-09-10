@@ -64,13 +64,19 @@ class User extends AbstractTableGateway
 			if(isset($arrayParam['post']['email']) && $arrayParam['post']['email'] === ''){
 				unset($data['email']);
 			}
+            if(isset($arrayParam['post']['avartar']) && $arrayParam['post']['avartar'] == ''){
+                unset($data['avartar']);
+            }
 			unset($data['password']);
 			unset($data['salt']);
 			unset($data['created']);
 			unset($data['token']);
 			unset($data['social']);
 			$data['changed'] = time();
-			$this->update($data, 'id = '.$arrayParam['id']);
+            if($this->update($data, 'id = '.$arrayParam['id'])){
+                $role = new UserRole();
+                $role->updateRoleByUserId($arrayParam['id'], $arrayParam['post']['role']);
+            }
 		}
 		else{
 			// add
@@ -95,7 +101,7 @@ class User extends AbstractTableGateway
     function getUserById($id){
         $select = new Select();
         $select->from($this->table);
-        $select->columns(array('email', 'fullname', 'birthday', 'sex', 'address', 'active', 'avartar', 'status'));
+        $select->columns(array('id','email', 'fullname', 'birthday', 'sex', 'address', 'active', 'avartar', 'status'));
         $select->join('user_role', 'user_role.user_id = user.id', array('role_rid'), 'left');
         $select->where('user.id = '.$id);
         $resultSet = $this->selectWith($select);
@@ -110,11 +116,11 @@ class User extends AbstractTableGateway
     }
 	
 	// xóa avartar
-	public function deleteAvartar($id){
+	public function deleteAvartar($arrayParam = null){
 		$data = array(
 		  'avartar' => ''
 		);
-		if($this->update($data, 'id = '. $id)){
+		if($this->update($data, 'id = '. $arrayParam['id'])){
 			return true;
 		}
 		else{

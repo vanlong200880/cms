@@ -7,6 +7,11 @@ define('FILES_PATH', PUBLIC_PATH . '/files');
 define('USER_ICON', PUBLIC_PATH .'/files/users');
 define('SCRIPTS_PATH',PUBLIC_PATH . '/scripts');
 define('CAPTCHA_PATH',PUBLIC_PATH . '/captcha');
+// user default
+define('USER_MIN_WIDTH',100);
+define('USER_MIN_HEIGHT',100);
+define('USER_MAX_WIDTH',800);
+define('USER_MAX_HRIGHT',800);
 
 define("IDMEMBER", "2");
 define('APPLICATION_KEY', 'test');
