@@ -23,46 +23,54 @@ class ValidateUser{
                 'adapter' => \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::getStaticAdapter(),
             );
         }
-        if($options == 'edit'){
-            
-        }
-		$validator = new \Zend\Validator\ValidatorChain();
-		$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
-                    ->addValidator(new \Zend\Validator\EmailAddress, true)
-                    ->addValidator(new \Zend\Validator\Db\NoRecordExists($options), true);
-		if(!$validator->isValid($arrayParam['post']['email'])){
-			$message = $validator->getMessages();
-			$this->_messagesError['email'] = 'Email: ' . current($message);
-		}
-        
-        
-        
-        
-		
-		//Kiểm Tra Password
-		$validator = new \Zend\Validator\ValidatorChain();
-		$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
-					->addValidator(new \Zend\Validator\StringLength(6,32), true);
-		if(!$validator->isValid($arrayParam['post']['password'])){
-			$message = $validator->getMessages();
-			$this->_messagesError['password'] = 'Password: ' . current($message);
-		}
-		
-		// kiểm tra nhập lại password
-        if($arrayParam['post']['password'] !== ''){
+        if($options == 'add'){
+			
+			// kiểm tra email
             $validator = new \Zend\Validator\ValidatorChain();
-            $validator->addValidator(new \Zend\Validator\NotEmpty(), true)
-                      ->addValidator(new \Zend\Validator\Identical(array('token' => $arrayParam['post']['password'])));
-            if(!$validator->isValid($arrayParam['post']['repassword'])){
-                $message = $validator->getMessages();
-                $this->_messagesError['repassword'] = current($message);
-            }
+			$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
+						->addValidator(new \Zend\Validator\EmailAddress, true)
+						->addValidator(new \Zend\Validator\Db\NoRecordExists($options), true);
+			if(!$validator->isValid($arrayParam['post']['email'])){
+				$message = $validator->getMessages();
+				$this->_messagesError['email'] = 'Email: ' . current($message);
+			}
+			//Kiểm Tra Password
+			$validator = new \Zend\Validator\ValidatorChain();
+			$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
+						->addValidator(new \Zend\Validator\StringLength(6,32), true);
+			if(!$validator->isValid($arrayParam['post']['password'])){
+				$message = $validator->getMessages();
+				$this->_messagesError['password'] = 'Password: ' . current($message);
+			}
+
+			// kiểm tra nhập lại password
+			if($arrayParam['post']['password'] !== ''){
+				$validator = new \Zend\Validator\ValidatorChain();
+				$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
+						  ->addValidator(new \Zend\Validator\Identical(array('token' => $arrayParam['post']['password'])));
+				if(!$validator->isValid($arrayParam['post']['repassword'])){
+					$message = $validator->getMessages();
+					$this->_messagesError['repassword'] = current($message);
+				}
+			}
         }
 		
+		if($options == 'edit'){
+			if(!empty($arrayParam['post']['email'])){
+				// kiểm tra email
+				$validator = new \Zend\Validator\ValidatorChain();
+				$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
+							->addValidator(new \Zend\Validator\EmailAddress, true)
+							->addValidator(new \Zend\Validator\Db\NoRecordExists($options), true);
+				if(!$validator->isValid($arrayParam['post']['email'])){
+					$message = $validator->getMessages();
+					$this->_messagesError['email'] = 'Email: ' . current($message);
+				}
+			}
+		}
         
         // kiểm tra vartar
         if($arrayParam['post']['avartar']['name'] !== ''){
-            var_dump($arrayParam['post']['avartar']['tmp_name']);
             $validator = new \Zend\Validator\ValidatorChain();
             $validator->addValidator(new \Zend\Validator\File\MimeType('image/jpg, image/jpeg, image/png'));
             $validator->addValidator(new \Zend\Validator\File\ImageSize(array(
@@ -228,6 +236,13 @@ class ValidateUser{
 		$filter = new \Zend\Filter\StringTrim(array('charlist' => ' '));
 		$this->_arrData['post']['email'] = $filter->filter($this->_arrData['post']['email']);
 		$this->_arrData['post']['password'] = $filter->filter($this->_arrData['post']['password']);
+		$this->_arrData['post']['fullname'] = $filter->filter($this->_arrData['post']['fullname']);
+		$this->_arrData['post']['day'] = $filter->filter($this->_arrData['post']['day']);
+		$this->_arrData['post']['month'] = $filter->filter($this->_arrData['post']['month']);
+		$this->_arrData['post']['year'] = $filter->filter($this->_arrData['post']['year']);
+		$this->_arrData['post']['sex'] = $filter->filter($this->_arrData['post']['sex']);
+		$this->_arrData['post']['address'] = $filter->filter($this->_arrData['post']['address']);
+		$this->_arrData['post']['avartar'] = $filter->filter($this->_arrData['post']['avartar']);
 		return $this->_arrData;
 	}
 }

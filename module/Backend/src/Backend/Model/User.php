@@ -61,7 +61,11 @@ class User extends AbstractTableGateway
 		);
 		if(isset($arrayParam['id']) || $arrayParam['post']['id'] !== ''){
 			// edit
+			if(isset($arrayParam['post']['email']) && $arrayParam['post']['email'] === ''){
+				unset($data['email']);
+			}
 			unset($data['password']);
+			unset($data['salt']);
 			unset($data['created']);
 			unset($data['token']);
 			unset($data['social']);
@@ -86,12 +90,10 @@ class User extends AbstractTableGateway
             }	
 		}
 	}
-    
-    
+       
     // get user by id
     function getUserById($id){
         $select = new Select();
-        
         $select->from($this->table);
         $select->columns(array('email', 'fullname', 'birthday', 'sex', 'address', 'active', 'avartar', 'status'));
         $select->join('user_role', 'user_role.user_id = user.id', array('role_rid'), 'left');
@@ -102,10 +104,22 @@ class User extends AbstractTableGateway
     }
 
     // lay ra role cua user
-    
     public function getRoleByUser($arrayParam = null)
     {
         
     }
+	
+	// xóa avartar
+	public function deleteAvartar($id){
+		$data = array(
+		  'avartar' => ''
+		);
+		if($this->update($data, 'id = '. $id)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 }
 

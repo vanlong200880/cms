@@ -38,7 +38,11 @@ class Thumbs extends Imaging
     public function removeImage($link, $folder, $name , $item = 1 )
     {
         for ($i = 1; $i <= $item; $i++){
-            @unlink($link . $folder[$i] . $name);
+			if($folder[$i] === ''){
+				@unlink($link . $name);
+			}else{
+				@unlink($link . $folder[$i] . $name);
+			}
         }
     }
 

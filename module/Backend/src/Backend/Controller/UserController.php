@@ -42,7 +42,7 @@ class UserController extends AbstractActionController
             if(isset($arrayParam['post']['role'])){
                 $arrayParam['post']['role'] = (int)($arrayParam['post']['role']);
             }
-			$validate = new ValidateUser($arrayParam);
+			$validate = new ValidateUser($arrayParam, 'add');
 			if($validate->isError() === true){
 				$arrayParam['error'] = $validate->getMessagesError();
 			}else{
@@ -112,7 +112,6 @@ class UserController extends AbstractActionController
         $id = $this->params()->fromRoute('id');
         $user = new User();
         $userInfo = $user->getUserById($id);
-        var_dump($userInfo);
         if($request->isPost() === true && !empty($userInfo)){
             $arrayParam['post']	= array_merge_recursive(
                                     $request->getPost()->toArray(),
@@ -143,51 +142,74 @@ class UserController extends AbstractActionController
 
             
             if($userInfo['email'] !== $arrayParam['post']['email']){
-                // kiểm tra email đã được sử dụng chưa
-                $options = array(
-                    'table' => 'user',
-                    'field' => 'email',
-                    'adapter' => \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::getStaticAdapter(),
-                );
-                $validator = new \Zend\Validator\ValidatorChain();
-                $validator = new \Zend\Validator\ValidatorChain();
-                $validator->addValidator(new \Zend\Validator\NotEmpty(), true)
-                            ->addValidator(new \Zend\Validator\EmailAddress, true)
-                            ->addValidator(new \Zend\Validator\Db\NoRecordExists($options), true);
-                if(!$validator->isValid($arrayParam['post']['email'])){
-                    $message = $validator->getMessages();
-                    $this->_messagesError['email'] = 'Email: ' . current($message);
-                    
-                }
-                // kiểm tra mật khẩu
-                if(!empty($arrayParam['post']['password'])){
-                    if($arrayParam['post']['password'] !== ''){
-                        $validator = new \Zend\Validator\ValidatorChain();
-                        $validator->addValidator(new \Zend\Validator\NotEmpty(), true)
-                                  ->addValidator(new \Zend\Validator\Identical(array('token' => $arrayParam['post']['password'])));
-                        if(!$validator->isValid($arrayParam['post']['repassword'])){
-                            $message = $validator->getMessages();
-                            $this->_messagesError['repassword'] = current($message);
-                        }
-                        
-                        // gán lại mật khẩu mới
-                        $encriptPassword = new EncriptPassword();
-                        $data['post'] = $encriptPassword->prepareData($data['post']);
+                    $validate = new ValidateUser($arrayParam, 'edit');
+                    if($validate->isError() === true){
+                        $arrayParam['error'] = $validate->getMessagesError();
+                    }else{
+						$data = $validate->getData();
+						
+						$data['post']['created']    = $data['post']['changed'] = time();
+						$data['post']['status']     = 1;
+						$data['post']['social']     = 0;
+						$data['post']['id']         = '';
+						if(isset($data['post']['day']) && isset($data['post']['month']) && isset($data['post']['year'])){
+							$birthday = $data['post']['day'].'-'.$data['post']['month'].'-'.$data['post']['year'];
+							$data['post']['birthday'] = strtotime($birthday);
+						}else{
+							$data['post']['birthday'] = '';
+						}
+						// upload image
+						if(!empty($data['post']['avartar']['name'])){
+							$uploadFile = new Upload();
+							$newName = $uploadFile->uploadImage($data['post']['avartar']['name'], USER_ICON);
+							$data['post']['avartar'] = $newName;
+							// create thumb
+							$thumb = new Thumbs();
+							$thumb->createThumb(USER_ICON ."/". $newName, array('1' => 80), array('1' => 80), array('1' => USER_ICON.'/80x80/'), 1, '');
+							$thumb->removeImage(USER_ICON ."/", array('1' => '80x80/', '2' => ''), $userInfo['avartar'], 2);
+						}else{
+							$data['post']['avartar'] = '';
+						}
+						$user = new User();
+						$user->addUser($data);
+						$this->flashMessenger()->addMessage(array('success' => 'Cập nhật thành công'));
+						return $this->redirect()->toRoute('backend', array('controller' => 'user','action' => 'index'));
                     }
-                }
-                $arrayParam['error'] = $this->_messagesError;
-                
-//                if(!empty($arrayParam['post']['password'])){
-//                    $validate = new ValidateUser($arrayParam);
-//                    if($validate->isError() === true){
-//                        $arrayParam['error'] = $validate->getMessagesError();
-//                    }else{
-//
-//                    }
-//                }
             }else{
                 
-                
+                $validate = new ValidateUser($arrayParam, 'edit');
+				if($validate->isError() === true){
+					$arrayParam['error'] = $validate->getMessagesError();
+				}else{
+					$data = $validate->getData();
+
+					$data['post']['created']    = $data['post']['changed'] = time();
+					$data['post']['status']     = 1;
+					$data['post']['social']     = 0;
+					$data['post']['id']         = '';
+					if(isset($data['post']['day']) && isset($data['post']['month']) && isset($data['post']['year'])){
+						$birthday = $data['post']['day'].'-'.$data['post']['month'].'-'.$data['post']['year'];
+						$data['post']['birthday'] = strtotime($birthday);
+					}else{
+						$data['post']['birthday'] = '';
+					}
+					// upload image
+					if(!empty($data['post']['avartar']['name'])){
+						$uploadFile = new Upload();
+						$newName = $uploadFile->uploadImage($data['post']['avartar']['name'], USER_ICON);
+						$data['post']['avartar'] = $newName;
+						// create thumb
+						$thumb = new Thumbs();
+						$thumb->createThumb(USER_ICON ."/". $newName, array('1' => 80), array('1' => 80), array('1' => USER_ICON.'/80x80/'), 1, '');
+						$thumb->removeImage(USER_ICON ."/", array('1' => '80x80/', '2' => ''), $userInfo['avartar'], 2);
+					}else{
+						$data['post']['avartar'] = '';
+					}
+					$user = new User();
+					$user->addUser($data);
+					$this->flashMessenger()->addMessage(array('success' => 'Cập nhật thành công'));
+					return $this->redirect()->toRoute('backend', array('controller' => 'user','action' => 'index'));
+				}
                 
             }
 //            var_dump($arrayParam);
@@ -237,6 +259,6 @@ class UserController extends AbstractActionController
 	}
 
 	public function blockAction(){
-
+		
 	}
 }
