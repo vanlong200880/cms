@@ -1,0 +1,37 @@
+// set border radius
+@mixin border-radius($radius)
+{
+	border-radius: $radius;
+	-webkit-border-radius: $radius;
+	-moz-border-radius: $radius;
+	-o-border-radius: $radius;
+	-ms-border-radius: $radius;
+}
+
+// set boxshow
+@mixin box-shadow( $shadow){
+	box-shadow: $shadow;
+	-moz-box-shadow: $shadow;
+	-webkit-box-shadow: $shadow;
+	-ms-box-shadow: $shadow;
+	-o-box-shadow: $shadow;
+}
+
+// set text 
+@mixin text-shadow( $shadow){
+	text-shadow: $shadow;
+	-moz-text-shadow: $shadow;
+	-webkit-text-shadow: $shadow;
+	-ms-text-shadow: $shadow;
+	-o-text-shadow: $shadow;
+}
+
+// set transition
+@mixin transition($transition){
+	transition: $transition;
+	-moz-transition: $transition;
+	-webkit-transition: $transition;
+	-ms-transition: $transition;
+	-o-transition: $transition;
+}
+

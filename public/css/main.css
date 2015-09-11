@@ -1,13 +1,7 @@
 @charset "UTF-8";
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : Sep 11, 2015, 1:52:10 PM
-    Author     : Curtis
-*/
+/*@import "helpers/variables";
+@import "helpers/functions";
+@import "helpers/mixins";*/
 /*!
  * Bootstrap v3.3.5 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
@@ -7254,5 +7248,13 @@ button.close {
 @media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/vendors\/bootstrap\/stylesheets\/bootstrap\/mixins\/_responsive-visibility\.scss}line{font-family:\0000318}}
   .hidden-print {
     display: none !important; } }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/layout\/_header\.scss}line{font-family:\000031}}
+header {
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px; }
 
-/*# sourceMappingURL=bootstrap.css.map */
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/layout\/_header\.scss}line{font-family:\000035}}
+ul li {
+  background: #000; }
+
+/*# sourceMappingURL=main.css.map */
