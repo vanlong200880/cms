@@ -1,0 +1,46 @@
+<?php
+	$param = array('controller' => $this->arrayParam['__CONTROLLER__'],'action'=>$this->arrayParam['action']);
+	if(isset($this->arrayParam['id']) == true && $this->arrayParam['id'] > 0){
+		$param['id'] = $this->arrayParam['id'];
+	}
+	$url = $this->url('backend', $param);
+	if($this->first != $this->current && $this->first > 0){		
+		$strPageStart = '<li><a href="' . $url . '/page/1">First</a></li>';
+	}else{
+		$strPageStart = '';
+	}
+	
+	if(isset($this->previous)){
+		$linkPrevious 	='<li><a href="' . $url . '/page/' . $this->previous . '">Prev</a></li>';
+	}else{
+		$linkPrevious 	='';
+	}
+	
+	if(isset($this->next)){
+		$linkNext 		=' <li><a href="' . $url . '/page/' . $this->next . '">Next</a></li>';
+	}else{
+		$linkNext 		='';
+	}
+	
+	
+	if($this->last != $this->current && $this->last > 0){
+		$strPageEnd = '<li><a href="' . $url . '/page/' . $this->pageCount . '">Last</a></li>';
+	}else{
+		$strPageEnd = '';
+	}
+	
+	$strPage  = '';
+	foreach ($this->pagesInRange as $key){
+		if($this->current != $key){
+			$strPage .= '<li><a href="' . $url . '/page/' . $key . '">' . $key . '</a></li>';
+		}else{
+			$strPage .= '<li class="active"><a href="javascript:void(0)">' . $key . '</a></li>';
+		}
+	}
+	$page = $strPageStart . $linkPrevious . $strPage . $linkNext . $strPageEnd;
+?>
+<?php if($this->last > 1){?>
+<ul class="pagination">
+	<?php echo $page;?>                   
+</ul>
+<?php }?>             

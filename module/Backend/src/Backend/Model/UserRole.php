@@ -36,5 +36,14 @@ class UserRole extends AbstractTableGateway
         );
         return $this->update($data, 'user_id = '.$userid);
     }
+    
+    // delete role by user id
+    public function deleteRoleByUserId($id){
+        if($this->delete('user_id = '. $id)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 

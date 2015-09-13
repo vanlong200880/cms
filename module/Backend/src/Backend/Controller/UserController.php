@@ -6,19 +6,49 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Backend\Form\ValidateUser;
+use Backend\Form\ValidateUserChangePassword;
 use Backend\Model\Role;
 use Sky\System\EncriptPassword;
 use Backend\Model\User;
 use Sky\System\ListDateFormat;
 use Sky\Uploads\Upload;
 use Sky\Uploads\Thumbs;
+use Zend\Session\Container;
 
 class UserController extends AbstractActionController
 {
     protected $_messagesError = NULL;
 	public function indexAction()
 	{
-		return new ViewModel();
+        $data = array();
+        $arrayParam = $this->params()->fromRoute();
+        $session = new Container($arrayParam['controller']);
+        $arrayParam['limit'] = PAGING_LIMIT;
+        // lay so trang
+        $arrayParam['page'] = (int) $this->params()->fromRoute('page', 0);
+        if($arrayParam['page'] != 0){
+            $arrayParam['offset'] = ($arrayParam['page'] - 1) * $arrayParam['limit'];
+        }else{
+            $arrayParam['offset'] = 0;
+        }
+        $user = new User();
+        $userData = $user->listUser($arrayParam);
+        // dem tong so user
+        $countUser = $user->countUser($arrayParam);
+        
+        // khoi tao phan trang
+//        $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\Null($countUser[0]['count']));
+//        var_dump($arrayParam['page']);
+//         die;
+//        $paginator->setCurrentPageNumber($arrayParam['page']);
+//        $paginator->setItemCountPerPage($arrayParam['limit']);
+//        $paginator->setPageRange(5);
+        $data['arrayParam']     = $arrayParam;
+        $data['list']           = $userData;
+        $data['title']          = "Danh sách user";
+//        $data['paginator']      = $paginator;
+//        var_dump($data);
+		return new ViewModel($data);
 	}
 
 	public function addAction(){
@@ -53,7 +83,6 @@ class UserController extends AbstractActionController
                 if(!empty($data['post']['avartar']['name'])){
                     $uploadFile = new Upload();
                     $newName = $uploadFile->uploadImage($data['post']['avartar']['name'], USER_ICON);
-//                    var_dump($newName); die;
                     $data['post']['avartar'] = $newName;
                     // create thumb
                     $thumb = new Thumbs();
@@ -138,9 +167,9 @@ class UserController extends AbstractActionController
             }
             
             if($userInfo['email'] !== $arrayParam['post']['email']){
-                $arrayParam['post']['password'] = '';
-                $arrayParam['post']['salt'] = '';
-                $arrayParam['post']['token'] = '';
+                $arrayParam['post']['password']     = '';
+                $arrayParam['post']['salt']         = '';
+                $arrayParam['post']['token']        = '';
                 $validate = new ValidateUser($arrayParam, 'edit');
                 if($validate->isError() === true){
                     $arrayParam['error'] = $validate->getMessagesError();
@@ -174,11 +203,10 @@ class UserController extends AbstractActionController
                     return $this->redirect()->toRoute('backend', array('controller' => 'user','action' => 'index'));
                 }
             }else{
-                $arrayParam['post']['password'] = '';
-                $arrayParam['post']['salt'] = '';
-                $arrayParam['post']['token'] = '';
+                $arrayParam['post']['password']     = '';
+                $arrayParam['post']['salt']         = '';
+                $arrayParam['post']['token']        = '';
                 $validate = new ValidateUser($arrayParam, 'edit');
-                var_dump($arrayParam);
 				if($validate->isError() === true){
 					$arrayParam['error'] = $validate->getMessagesError();
 				}else{
@@ -213,7 +241,6 @@ class UserController extends AbstractActionController
 				}
                 
             }
-//            var_dump($arrayParam);
         }else
         {
             if(!empty($userInfo['birthday'])){
@@ -238,7 +265,6 @@ class UserController extends AbstractActionController
         // get all role
 		$listRole = new Role();
 		$role = $listRole->getAllRole();
-//        var_dump($arrayParam);
         $arrayParam['id'] = $id;
         $data['arrayParam'] = $arrayParam;
 		if($role){
@@ -248,8 +274,25 @@ class UserController extends AbstractActionController
 		return new ViewModel($data);
 	}
 
-	public function changeStatusAction(){
-		return new ViewModel();
+	public function changestatusAction(){
+		$request = $this->getRequest();
+        $arrayParam	= array();
+        if($request->isPost()){
+            $user       = new User();
+            $id         = $request->getPost('id');
+            $status     = $request->getPost('status');
+            $arrayParam['id'] = $id;
+            $arrayParam['status'] = $status;
+            if(is_numeric($id) && is_numeric($status)){
+                $userInfo   = $user->getUserById($id);
+                if($userInfo){
+                    $user->updateStatus($arrayParam);
+                    $arrayParam['message'] = "<span class='seccess'>Cập nhật thành công.</span>";
+                }
+            }
+
+        }
+        return new JsonModel($arrayParam);
 	}
 
     public function deleteavartarAction(){
@@ -269,10 +312,62 @@ class UserController extends AbstractActionController
         return new JsonModel($arrayParam);
     }
     public function deleteAction(){
-		return new ViewModel();
+        $request = $this->getRequest();
+        $arrayParam	= array();
+        if($request->isPost()){
+            $user       = new User();
+            $id         = $request->getPost('id');
+            $arrayParam['id'] = $id;
+            $userInfo   = $user->getUserById($id);
+            if($userInfo){
+                $file = new \Sky\Uploads\Thumbs();
+                $file->removeImage(USER_ICON ."/", array('1' => '80x80/', '2' => ''), $userInfo['avartar'], 2);
+                $user->deleteUser($arrayParam);
+                $arrayParam['message'] = "<span class='seccess'>Xóa user thành công.</span>";
+            }
+        }
+        return new JsonModel($arrayParam);
 	}
 
-	public function blockAction(){
+    public function changepasswordAction()
+    {
+        $session = new Container();
+        $data = array();
+        $arrayParam = $this->params()->fromRoute();
+        $request = $this->getRequest();
+        if($request->isPost() === true){
+            $user       = new User();
+            $userInfo   = $user->getUserChangePassword($arrayParam['id']);
+            if($userInfo){
+                $arrayParam['post']             = $request->getPost()->toArray();
+                $encriptPassword                = new EncriptPassword();
+                $data['post']                   = $arrayParam['post'];
+                $data['post']['passwordold']    = $encriptPassword->encriptChangePassword($arrayParam['post']['passwordold'], $userInfo['salt']);
+                $validate                       = new ValidateUserChangePassword($data, 'changepassword');
+                if($validate->isError() === true){
+                    $arrayParam['error'] = $validate->getMessagesError();
+                }else{
+                    $user = new User();
+                    $data['post']['token']      = '';
+                    $data['post']['salt']       = '';
+                    $encriptPassword            = new EncriptPassword();
+                    $data['post']               = $encriptPassword->prepareData($data['post']);
+                    $data['post']['id']         = $arrayParam['id'];
+                    if($user->changepassword($data)){
+                        $this->flashMessenger()->addMessage(array('success' => 'Đổi mật khẩu thành công.'));
+                        return $this->redirect()->refresh();
+                    }else{
+                        $this->flashMessenger()->addMessage(array('success' => 'Đổi mật khẩu thất bại. Vui lòng thử lại.'));
+                    }
+                }
+            }
+			
+        }
+        $data['arrayParam'] = $arrayParam;
+        return new ViewModel($data);
+        
+    }
+    public function blockAction(){
 		//sdfsdf
 	}
 }

@@ -381,7 +381,7 @@ i.icon.iconprofile{
 }
 
 .form-table .table th{
-    background: #a0e3fb;
+    background: #38b8e6;
     vertical-align: top;
 }
 .form-table .table th.all{
@@ -398,6 +398,40 @@ i.icon.iconprofile{
 }
 .column_status{
     text-align: center;
+    position: relative;
+}
+.column_status a{
+    position: relative;
+    z-index: 0;
+}
+
+.column_status ul{
+    position: absolute;
+    background: #DDD;
+    border: 1px solid #860303;
+    padding: 5px;
+    box-sizing: border-box;
+    z-index: 9;
+    top: 25px;
+    right: 0;
+    display: none;
+    width: 100px;
+}
+.column_status ul li{
+    height: 30px;
+    line-height: 30px;
+    text-align: left;
+    border-bottom: 1px solid #FFF;
+    cursor: pointer;
+}
+.column_status ul li:last-child{
+    border-bottom: none;
+}
+.column_status ul li:hover{
+    color: #38b8e6;
+}
+.column_status:hover ul{
+    display: block;
 }
 .column_status a.checked{
     color: #57c222;
@@ -410,9 +444,19 @@ i.icon.iconprofile{
 }
 .row-action span a{
     color: #0590d4;
+    cursor: pointer;
+}
+i.active{
+    color: #38b8e6 !important;
+}
+i.unactive{
+    color: #b80000 !important;
+}
+i.lock{
+    color: #000000 !important;
 }
 .row-action span a:hover{
-    color: #38b8e6;
+    color: #A00000;
 }
 .form-table .table tr:hover .row-action{
    visibility: visible;
@@ -706,12 +750,16 @@ ul.item li a{
 .update_weight{
     width: 50px;
 }
-.status a{
+ a.active.fa{
     color: #38b8e6;
     cursor: pointer;
 }
-.unstatus a{
+ a.unactive.fa{
     color: #b80000;
+    cursor: pointer;
+}
+a.block.fa{
+    color: #000;
     cursor: pointer;
 }
 .language .nav{

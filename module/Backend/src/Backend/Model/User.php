@@ -6,6 +6,7 @@ use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\Feature;
 use Zend\Db\Sql\Sql;
+use Backend\Model\UserRole;
 class User extends AbstractTableGateway
 {
     protected $table = 'user';
@@ -127,5 +128,114 @@ class User extends AbstractTableGateway
 			return false;
 		}
 	}
+    
+    // update status
+	public function updateStatus($arrayParam = null){
+		$data = array(
+		  'status' => $arrayParam['status']
+		);
+		if($this->update($data, 'id = '. $arrayParam['id'])){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+    
+    // delete user
+    public function deleteUser($arrayParam = null){
+        $userRole = new UserRole();
+        if($userRole->deleteRoleByUserId($arrayParam['id'])){
+            if($this->delete('id = ' . $arrayParam['id'])){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+	}
+    
+    // lay danh sach user
+    public function listUser($arrayParam = null){
+        $select = new Select();
+        $where = new Where();
+        $select->from($this->table);
+        $select->columns(array('id','email', 'fullname', 'birthday', 'sex', 'address', 'active', 'created', 'avartar', 'status'));
+        $select->join('user_role', 'user_role.user_id = user.id', array('role_rid'), 'left');
+        $select->join('role', 'user_role.role_rid = role.id', array('role_name'), 'left');
+        // phan trang
+        if(isset($arrayParam['limit']) && $arrayParam['limit'] !== ''){
+            $select->limit($arrayParam['limit'])->offset($arrayParam['offset']);
+        }
+        
+        // trang thai
+        if(isset($arrayParam['status'])){
+            $select->where('status', $arrayParam['status']);
+        }
+        
+        $resultSet = $this->selectWith($select);
+        $resultSet = $resultSet->toArray();
+        return $resultSet;
+    }
+    
+    // dem tong so user
+    public function countUser($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->columns(array('count' => new \Zend\Db\Sql\Expression('COUNT('.$this->table.'.id)')));
+        if(isset($arrayParam['txtSearch']) === true && $arrayParam['txtSearch'] != ''){
+            $where = new Where();
+            $where->like('fullname', '%'. $arrayParam['textSearct']. '%');
+            $select->where($where);
+        }
+        // trang thai
+        if(isset($arrayParam['status'])){
+            $select->where('status', $arrayParam['status']);
+        }
+        $resultSet = $this->selectWith($select);
+        return $resultSet->toArray();
+    }
+    
+    // kiem tra mat khau nhap dung hay khong
+    public function validatePassword($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->where('password = '. $arrayParam['post']['password']);
+        $resultSet = $this->selectWith($select);
+        $resultSet = $resultSet->toArray();
+        if(!empty($resultSet)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    // kiem tra user doi password
+    function getUserChangePassword($id){
+        $select = new Select();
+        $select->from($this->table);
+        $select->columns(array('id', 'salt',  'status'));
+        $select->join('user_role', 'user_role.user_id = user.id', array('role_rid'), 'left');
+        $select->where('user.id = '.$id);
+        $resultSet = $this->selectWith($select);
+        $resultSet = $resultSet->toArray();
+        return $resultSet[0];
+    }
+    
+    // doi mat khau
+    public function changepassword($arrayParam = null){
+        $data = array(
+            'password'  => $arrayParam['post']['password'],
+            'salt'      => $arrayParam['post']['salt']
+		);
+		if($this->update($data, 'id = '. $arrayParam['post']['id'])){
+			return true;
+		}
+		else{
+			return false;
+		}
+    }
 }
 

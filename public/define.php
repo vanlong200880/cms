@@ -12,6 +12,7 @@ define('USER_MIN_WIDTH',100);
 define('USER_MIN_HEIGHT',100);
 define('USER_MAX_WIDTH',800);
 define('USER_MAX_HRIGHT',800);
+define('PAGING_LIMIT',20);
 
 define("IDMEMBER", "2");
 define('APPLICATION_KEY', 'test');

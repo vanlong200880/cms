@@ -1,1 +1,269 @@
-<?php 
+<form action="<?php echo $this->url('backend', array('controller' => 'user',  'action' => 'index')) ?>" method="post" enctype="multipart/form-data">
+    <div class="container-fluid">
+        <div class="row function-title">
+            <div class="col-lg-12">
+                <h1>Danh sách user</h1>
+            </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <select class="form-control selected-custom">
+                            <option value="0">----</option>
+                            <option value="1">1. Xóa</option>
+                            <option value="2">2. Khóa tài khoản</option>
+                            <option value="3">3. Kích hoạt</option>
+                            <option value="4">4. Không kích hoạt</option>
+                        </select>
+                        <button type="button" class="btn btn-default btn-custom apply">Thực hiện</button>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><a href="<?php echo $this->url('backend', array('controller' => 'user', 'action' => 'add')); ?>" class="btn btn-default btn-custom pull-right">Thêm mới</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="filter"> 
+                                <!--<form class="form-horizontal">-->
+                                    <fieldset>
+                                        <legend>Tìm kiếm</legend>
+                                        <div class="col-lg-5 col-md-5">
+                                            <div class="form-group">
+                                                <label for="keyword" class="col-lg-3 col-md-4 control-label">Từ khóa</label>
+                                                <div class="col-lg-9 col-md-8 col-sm-12">
+                                                    <input type="email" class="form-control" id="keyword">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5 col-md-5">
+                                            <div class="form-group">
+                                                <label for="keyword" class="col-lg-3 col-md-4 control-label">Danh mục</label>
+                                                <div class="col-lg-9 col-md-8">
+                                                    <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
+                                                        <option>cow</option>
+                                                        <option>bull</option>
+                                                        <option class="get-class" disabled>ox</option>
+                                                        <optgroup label="test" data-subtext="another test">
+                                                            <option>ASD</option>
+                                                            <option selected>Bla</option>
+                                                            <option>Ble</option>
+                                                        </optgroup>
+                                                      </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <button type="button" class="btn btn-default btn-custom">Tìm</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                <!--</form>-->
+                            </div>
+                        </div> <!-- end search -->
+
+                        <div class="col-lg-12">
+                            <div class="form-table">
+                                <table id="table-data" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th id="all" class="all"><input type="checkbox" class="form-all"></th>
+                                            <th id="key" class="name column_name no-sort">
+                                                <a href="#">Mã <i class="fa fa-sort-asc"></i></a>
+                                            </th>
+                                            <th id="name">
+                                                <a class="desc" href="#">Họ và tên <i class="fa fa-sort-desc"></i></a>
+                                            </th>
+                                            <th id="name">
+                                                <a href="#">Email <i class="fa fa-sort-desc"></i></a>
+                                            </th>
+                                            <th class="price column_price">Nhóm</th>
+                                            <th class="weight column_weight">Ngày sinh</th>
+                                            <th class="quantity column_quantity">Ngày tạo</th>
+                                            <th class="status column_status">Trang thái</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($list as $value):?>
+                                        <tr id="id-user-<?php echo $value['id'] ?>">
+                                            <td><input type="checkbox" class="form-checkbox check-all"></td>
+                                            <td><?php echo $value['id']; ?></td>
+                                            <td class="column-title column_name">
+                                                <strong class="key-title"><?php echo $value['fullname']; ?></strong>
+                                                <div class="row-action">
+                                                    <span class="edit">
+                                                        <a href="<?php echo $this->url('backend', array('controller' => 'user', 'action' => 'edit', 'id' => $value['id'])); ?>">Sửa</a> | 
+                                                    </span>
+                                                    <span class="quick-edit">
+                                                        <a href="<?php echo $this->url('backend', array('controller' => 'user', 'action' => 'changepassword', 'id' => $value['id'])); ?>">Đổi mật khẩu</a> | 
+                                                    </span>
+                                                    <span class="delete">
+                                                        <?php $data = array(
+                                                            'id' => $value['id'],
+                                                            'fullname' => $value['fullname'],
+                                                            'email' => $value['email'],
+                                                            ); ?>
+                                                        <a data-toggle="modal" data-target=".modal-delete-user" class="delete-user" data-all='<?php echo json_encode($data); ?>'>Xóa</a> | 
+                                                    </span>
+                                                    <span class="view">
+                                                        <a href="<?php echo $this->url('backend', array('controller' => 'user', 'action' => 'view', 'id' => $value['id'])); ?>">Xem</a>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td class="column_category"><?php echo $value['email']; ?></td>
+                                            <td class="column_price"><?php echo $value['role_name']; ?></td>
+                                            <td class="column_weight"><?php echo (empty($value['birthday']) || $value['birthday'] == 0)?'': date('d/m/Y', $value['birthday']); ?></td>
+                                            <td class="column_quantity"><?php echo date('d/m/Y', $value['created']); ?></td>
+                                            <td class="column_status">
+                                                <?php if($value['status'] == 0 || $value['status'] == ''): ?>
+                                                <a href="<?php ?>" class="unactive fa fa-minus-circle">
+                                                </a>
+                                                <?php endif; ?>
+                                                <?php if($value['status'] == 1): ?>
+                                                <a href="#" class="active fa fa-check-circle"></a>
+                                                <?php endif; ?>
+                                                <?php if($value['status'] == 2): ?>
+                                                <a href="#" class="block fa fa-lock"></a>
+                                                <?php endif; ?>
+                                                
+                                                    <?php if($value['status']==0):?>
+                                                    <ul>
+                                                        <?php $data = array(
+                                                            'id' => $value['id'],
+                                                            'status' => $value['status']
+                                                            ); ?>
+                                                        <li data-status='<?php echo json_encode(array('id' => $value['id'], 'status' => 1)); ?>'><i class="active fa fa-check-circle"></i> Active</li>
+                                                        <li data-status='<?php echo json_encode(array('id' => $value['id'], 'status' => 2)); ?>'><i class="lock fa fa-lock"></i> Lock</li>
+                                                    </ul>
+                                                    <?php endif; ?>
+                                                    <?php if($value['status']==1):?>
+                                                    <ul>
+                                                        <li data-status='<?php echo json_encode(array('id' => $value['id'], 'status' => 0)); ?>'><i class="unactive fa fa-minus-circle"></i> Unactive</li>
+                                                        <li data-status='<?php echo json_encode(array('id' => $value['id'], 'status' => 2)); ?>'><i class="lock fa fa-lock"></i> Lock</li>
+                                                    </ul>
+                                                    <?php endif; ?>
+                                                
+                                                    <?php if($value['status']==2):?>
+                                                    <ul>
+                                                        <li data-status='<?php echo json_encode(array('id' => $value['id'], 'status' => 1)); ?>'><i class="active fa fa-check-circle"></i> Active</li>
+                                                        <li data-status='<?php echo json_encode(array('id' => $value['id'], 'status' => 0)); ?>'><i class="unactive fa fa-minus-circle"></i> Unactive</li>
+                                                    </ul>
+                                                    <?php endif; ?>
+                                                
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="pager">
+                <ul class="pagination">
+                    <li><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
+                    <li><a href="#" title="Lùi lại"><i class="fa fa-angle-left"></i></a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li class="active"><a>3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#" title="Tiếp theo"><i class="fa fa-angle-right"></i></a></li>
+                    <li><a href="#" title="Trang Cuối"><i class="fa fa-angle-double-right"></i></a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-delete-user" tabindex="-1" role="dialog" aria-labelledby="modal-delete-user">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="gridSystemModalLabel">Bạn có muốn xóa không?</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-12"><p class="error" id="message-user"></p></div>
+                <div class="col-lg-12">
+                    <input type="hidden" value="" name="id" id="modal-id" />
+                    <strong>Họ và tên: </strong><span id="delete-name"></span></div>
+                <div class="col-lg-12"><strong>Email: </strong><span id="delete-email"></span></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Không</button>
+            <button type="button" class="btn btn-primary" id="modal-delete">Xóa</button>
+        </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+        $('.form-table .table>tbody>tr>td span.delete a.delete-user').on('click', function(){
+            var data = $(this).attr('data-all');
+            var loadData = jQuery.parseJSON(data);
+                $("#modal-id").val(loadData.id);
+                $("#delete-name").empty().append(loadData.fullname);
+                $("#delete-email").empty().append(loadData.email);
+        });
+        $("#modal-delete").on('click', function(){
+            var id = $("#modal-id").val();
+            if(id != '')
+            {
+                var obj = { 'id' : id};
+                $.ajax({
+                    type:"POST",
+                    url: "<?php echo $this->url('backend', array('controller' => 'user', 'action' => 'delete')) ?>",
+                    data: obj,
+                    dataType: 'JSON',
+                    success: function(data){
+                        console.log(data);
+                        $("#message-user").empty().append(data.message);
+                        setTimeout(function(){
+                            $('.modal-delete-user').modal('hide');
+                            $("#id-user-"+id).remove();
+                            $("#message-user").empty();
+                        }, 500);
+                        location.reload();
+                    }    
+               });
+            } 
+        });
+        
+        // change status
+        $(".form-table .table>tbody>tr>td.column_status ul li").on('click', function(){
+            var data = $(this).attr('data-status');
+            var loadData = jQuery.parseJSON(data);
+            var obj = { 'id' : loadData.id, 'status': loadData.status };
+            if (confirm('Bạn có muốn thay đổi trạng thái không?')) {
+                $.ajax({
+                    type:"POST",
+                    url: "<?php echo $this->url('backend', array('controller' => 'user', 'action' => 'changestatus')) ?>",
+                    data: obj,
+                    dataType: 'JSON',
+                    beforeSend: function(){
+                    },
+                    success: function(data){
+                        location.reload();
+                    }    
+               });
+            }
+                
+        });
+    });
+</script>
