@@ -20,9 +20,37 @@ class UserController extends AbstractActionController
     protected $_messagesError = NULL;
 	public function indexAction()
 	{
+        $request = $this->getRequest();
+        if($request->isPost() == true){
+            $this->redirect()->toRoute('backend', array('controller' => 'user', 'action' => 'index'), 'aaa');
+        }
+        
         $data = array();
         $arrayParam = $this->params()->fromRoute();
-        $session = new Container($arrayParam['controller']);
+        $order      = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order'):'desc';
+        $status     = $this->params()->fromRoute('status') ? $this->params()->fromRoute('status'): null;
+        $sort       = $this->params()->fromRoute('sort') ? $this->params()->fromRoute('sort'):'id';
+        $type       = $this->params()->fromRoute('type') ? $this->params()->fromRoute('type'): null;
+        $search     = $this->params()->fromRoute('txtSearch') ? $this->params()->fromRoute('txtSearch'): null;
+        $page       = $this->params()->fromRoute('page') ? (int) $this->params()->fromRoute('page') : null;
+        $arrParam = array(
+            'page'          => $page,
+            'type'          => $type,
+            'sort'          => $sort,
+            'order'         => $order,
+            'status'        => $status,
+            'txtSearch'     => $search
+        );
+        
+        $param      = '';
+        if(!empty($page)){ $param .='page/'.$page; }
+        if(!empty($type)){ $param .= '/type/'. $type; }
+        if(!empty($sort)){ $param .= '/sort/'. $sort; }
+        if(!empty($order)){ $param .= '/order/'. $order; }
+        if(!empty($status)){ $param .= '/status/'. $status; }
+        if(!empty($search)){ $param .= '/textSearch/'. $search; }
+//        var_dump($param);
+        
         $arrayParam['limit'] = PAGING_LIMIT;
         // lay so trang
         $arrayParam['page'] = (int) $this->params()->fromRoute('page', 0);
@@ -46,6 +74,7 @@ class UserController extends AbstractActionController
         $data['arrayParam']     = $arrayParam;
         $data['list']           = $userData;
         $data['title']          = "Danh sách user";
+        $data['param']          = $arrParam;
 //        $data['paginator']      = $paginator;
 //        var_dump($data);
 		return new ViewModel($data);

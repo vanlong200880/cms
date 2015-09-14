@@ -5,20 +5,25 @@ return array(
             'backend' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/backend[/:controller][/:action][/:id][/page/:page][/order-by/:order-by][/:order][/filter/:filter]',
+                    'route' => '/backend[/:controller][/:action][/:id][/page/:page][/type/:type][/sort/:sort][/order/:order][/status/:status][/textSearch/:textSearch]',
                     'constraints' => array (
-                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'id' => '[0-9]+',
-                        'page' => '[0-9]+',
-                        'order-by' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'order' => 'asc|desc',
-                        'fiter' => '[0-9]+'
+                        'controller'    => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'action'        => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'page'          => '[0-9]+',
+                        'id'            => '[0-9]+',
+                        
+                        'type'          => '[0-9]+',
+                        'sort'          => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'order'         => 'asc|desc',
+                        'status'        => '[0-9]+',
+                        'textSearch'    => '.+', 
+                        
                     ),
                     'defaults' => array(
                         '__NAMESPACE__' => 'Backend\Controller',
                         'controller'    => 'Index',
                         'action'        => 'index',
+                        'page'          => 1
                     ),
                 ),
             ),
