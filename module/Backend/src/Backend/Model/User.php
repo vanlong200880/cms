@@ -165,14 +165,35 @@ class User extends AbstractTableGateway
         $select->columns(array('id','email', 'fullname', 'birthday', 'sex', 'address', 'active', 'created', 'avartar', 'status'));
         $select->join('user_role', 'user_role.user_id = user.id', array('role_rid'), 'left');
         $select->join('role', 'user_role.role_rid = role.id', array('role_name'), 'left');
+        // text search
+        if(isset($arrayParam['textSearch']) == true && $arrayParam['textSearch'] != ''){
+	   		$where->like('user.fullname', '%' . $arrayParam['textSearch'] . '%');
+	   		$select->where($where);
+	   	}
+        // search role
+        if(isset($arrayParam['type']) == true && $arrayParam['type'] != ''){
+            $select->where('role.id = '. $arrayParam['type']);
+	   	}
         // phan trang
         if(isset($arrayParam['limit']) && $arrayParam['limit'] !== ''){
             $select->limit($arrayParam['limit'])->offset($arrayParam['offset']);
         }
         
         // trang thai
-        if(isset($arrayParam['status'])){
-            $select->where('status', $arrayParam['status']);
+        if(isset($arrayParam['status']) && $arrayParam['status'] != ''){
+            $select->where('status = ', $arrayParam['status']);
+        }
+        
+        // filter
+        $sort = array('fullname', 'id', 'email', 'role', 'status', 'birthday', 'created');
+        if(isset($arrayParam['sort']) && $arrayParam['sort'] !== ''){
+            if(isset($arrayParam['order']) == true && $arrayParam['order'] != ''){
+                $select->order($arrayParam['sort'] .' ' . $arrayParam['order']);
+            }else{
+                $select->order($arrayParam['sort'] .' desc');
+            }
+        }else{
+            $select->order('id DESC');
         }
         
         $resultSet = $this->selectWith($select);

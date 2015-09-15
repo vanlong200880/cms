@@ -1,4 +1,3 @@
-<form action="<?php echo $this->url('backend', array('controller' => 'user',  'action' => 'index')) ?>" method="post" enctype="multipart/form-data">
     <div class="container-fluid">
         <div class="row function-title">
             <div class="col-lg-12">
@@ -28,14 +27,14 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="filter"> 
-                                <!--<form class="form-horizontal">-->
+                                <form action="<?php echo $this->url('backend', array('controller' => 'user',  'action' => 'index', 'page' => $param['page'], 'type' => $param['page'], 'sort' => $param['sort'], 'order' => $param['order'], 'status' => $param['status'], 'txtSearch' => $param['txtSearch'])) ?>" method="post" enctype="multipart/form-data">
                                     <fieldset>
                                         <legend>Tìm kiếm</legend>
                                         <div class="col-lg-5 col-md-5">
                                             <div class="form-group">
                                                 <label for="keyword" class="col-lg-3 col-md-4 control-label">Từ khóa</label>
                                                 <div class="col-lg-9 col-md-8 col-sm-12">
-                                                    <input type="email" class="form-control" id="keyword">
+                                                    <input type="text" class="form-control" name="textSearch" id="keyword">
                                                 </div>
                                             </div>
                                         </div>
@@ -43,7 +42,7 @@
                                             <div class="form-group">
                                                 <label for="keyword" class="col-lg-3 col-md-4 control-label">Danh mục</label>
                                                 <div class="col-lg-9 col-md-8">
-                                                    <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
+                                                    <select id="basic" name="role" class="selectpicker show-tick form-control" data-live-search="true">
                                                         <option>cow</option>
                                                         <option>bull</option>
                                                         <option class="get-class" disabled>ox</option>
@@ -59,12 +58,12 @@
                                         <div class="col-lg-2 col-md-2">
                                             <div class="col-lg-12">
                                                 <div class="form-group">
-                                                    <button type="button" class="btn btn-default btn-custom">Tìm</button>
+                                                    <button type="submit" id="btn-search" class="btn btn-default btn-custom">Tìm</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </fieldset>
-                                <!--</form>-->
+                                </form>
                             </div>
                         </div> <!-- end search -->
 
@@ -168,7 +167,6 @@
             </div>
         </div>
     </div>
-</form>
 
 <div class="container-fluid">
     <div class="row">
@@ -264,6 +262,21 @@
                });
             }
                 
+        });
+        
+        $("#btn-search").on('click', function(){
+            var obj = 1;
+            $.ajax({
+                type:"POST",
+                url: "<?php echo $this->url('backend', array('controller' => 'user', 'action' => 'index')) ?>",
+                data: obj,
+                dataType: 'JSON',
+                beforeSend: function(){
+                },
+                success: function(data){
+//                    location.reload();
+                }    
+           });
         });
     });
 </script>
