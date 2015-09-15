@@ -2,15 +2,12 @@
 @import "helpers/functions";
 @import "helpers/mixins";*/
 /*@import "vendors/bootstrap/stylesheets/bootstrap";*/
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/layout\/_header\.scss}line{font-family:\000031}}
-header {
-  /*@include border-left-radius(10px);*/ }
+/*@import "layout/header";*/
+@media all and (max-width: 320px) {
+  a {
+    color: red; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/layout\/_header\.scss}line{font-family:\000035}}
-ul li {
-  background: #000; }
-
-@media (max-width: 320px) {
-  background: #000; }
+  body {
+    background-color: red; } }
 
 /*# sourceMappingURL=main.css.map */

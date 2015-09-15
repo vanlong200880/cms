@@ -11,6 +11,6 @@ $tablet-medium: 767px;
 $desktop: 1020px;
 $desktop-full: 1080px;
 
-@media(max-width: $phone-small){
-	background: #000;
+@media all and(max-width: $phone-small){
+	@import "abc/reponsive320";
 }
