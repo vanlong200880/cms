@@ -1,16 +1,16 @@
 // set breakpoint
 $breakpoint-to-ems: true;
 $print-media: 'print';
-$hidpi: min-resolution 143dppx;
 
 // for user width max-width only
-$phone-small: 320px;
-$phone-medium: 480px;
+$media-phone-small: 320px;
+$media-phone-medium: 480px;
 $tablet-small: 640px;
 $tablet-medium: 767px;
-$desktop: 1020px;
-$desktop-full: 1080px;
+$tablet-large: 991px;
+/*$desktop: 1020px;
+$desktop-full: 1080px;*/
 
-@media all and(max-width: $phone-small){
+@media all and(max-width: $media-small-max){
 	@import "abc/reponsive320";
 }

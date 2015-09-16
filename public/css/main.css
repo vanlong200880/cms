@@ -3,11 +3,13 @@
 @import "helpers/mixins";*/
 /*@import "vendors/bootstrap/stylesheets/bootstrap";*/
 /*@import "layout/header";*/
+/*$desktop: 1020px;
+$desktop-full: 1080px;*/
 @media all and (max-width: 320px) {
   a {
     color: red; }
 
   body {
-    background-color: red; } }
+    background-color: #000 !important; } }
 
 /*# sourceMappingURL=main.css.map */
