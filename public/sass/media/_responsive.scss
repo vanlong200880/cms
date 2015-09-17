@@ -1,16 +1,67 @@
-// set breakpoint
+/*
+ + set breakpoint
+ + det device width max-width only
+*/
 $breakpoint-to-ems: true;
 $print-media: 'print';
-
-// for user width max-width only
-$media-phone-small: 320px;
-$media-phone-medium: 480px;
-$tablet-small: 640px;
+$tablet-large: 990px;
+$tablet-large-960: 960px;
 $tablet-medium: 767px;
-$tablet-large: 991px;
-/*$desktop: 1020px;
-$desktop-full: 1080px;*/
+$media-phone-medium: 480px;
+$media-phone-small: 320px;
 
-@media all and(max-width: $media-small-max){
-	@import "abc/reponsive320";
+/*
+ + set max width for tablet 990
+*/
+@media all and(max-width: $tablet-large){
+	@import "responsive/tablet990";
+}
+
+/*
+ + set max width for tablet 960
+*/
+@media all and(max-width: $tablet-large){
+	@import "responsive/tablet960";
+}
+
+/*
+ + set for tablet, min width 767 + 1px max width 990
+*/
+@media all and(min-width: $tablet-medium + 1px) and (max-width: $tablet-large){
+	@import "responsive/tablet_max_990_min_767";
+}
+
+/*
+ + set for tablet, min width 767 + 1px max width 960
+*/
+@media all and(min-width: $tablet-medium + 1px) and (max-width: $tablet-large-960){
+	@import "responsive/tablet_max_960_min_767";
+}
+
+/*
+ + set for tablet max width 767
+*/
+@media all and(max-width: $tablet-medium){
+	@import "responsive/tablet767";
+}
+
+/*
+ + set for tablet small max width 767 and min width 480 + 1px
+*/
+@media all and(min-width: $media-phone-medium + 1px) and (max-width: $tablet-medium){
+	@import "responsive/tablet_max_767_min_480";
+}
+
+/*
+ + set for mobile max width 480
+*/
+@media all and(max-width: $media-phone-medium){
+	@import "responsive/mobile480";
+}
+
+/*
+ + set for mobile max width 320
+*/
+@media all and(max-width: $media-phone-small){
+	@import "responsive/mobile320";
 }

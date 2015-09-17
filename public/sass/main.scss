@@ -1,16 +1,17 @@
+// call sass lib bootstrap custom
+/*@import "vendors/bootstrap/stylesheets/bootstrap_custom";*/
+
 // Sass utilities
-/*@import "helpers/variables";
+@import "helpers/variables";
 @import "helpers/functions";
-@import "helpers/mixins";*/
+@import "helpers/mixins";
 
 // Base stuff
-@import "helpers/mixins";
-// @import "base/reset";
-// @import "base/topo";
-// @import "base/typography";
-/*@import "vendors/bootstrap/stylesheets/bootstrap";*/
-/*@import "layout/header";*/
-@import "layout/responsive";
+@import "base/reset";
+@import "base/type";
+@import "base/typography";
 
+@import "layout/header";
+@import "media/responsive";
 
 

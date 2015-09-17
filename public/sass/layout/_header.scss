@@ -5,3 +5,9 @@ header{
 ul li{
 	background: #000;
 }
+h1{
+	@include transition(all 0.3s linear);
+}
+h1:hover{
+	opacity: 0;
+}

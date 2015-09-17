@@ -1,6 +1,20 @@
+// set font family
+$font-family-default: 'Roboto', sans-serif !default;
+
+// set font size
+$font-size-base: 14px !default;
+$font-size-small: 12px !default;
+$font-size-large: 18px !default;
+$font-size-h1:	36px;
+$font-size-h2:	30px;
+$font-size-h3:	24px;
+$font-size-h4:	18px;
+$font-size-h5:	$font-size-base;
+$font-size-h6:	12px;
+
 // color
-$color: #000;
-$color-hover: #59d1f5;
-$color-border: #DDDDDD;
-$border: 1px solod $color-border;
+$color-base: #000 !default;
+$color-hover: #59d1f5 !default;
+$color-border: #DDDDDD !default;
+$border: 1px solod $color-border !default;
 

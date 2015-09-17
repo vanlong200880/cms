@@ -1,7 +1,7 @@
 // setting font for web page
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic,500italic,700italic,900,900italic&subset=latin,vietnamese);
 html, body{
-	font-family: 'Roboto', sans-serif;
+	font-family: $font-family-default;
 	font-size: 14px;
 	line-height: 1;
 	zoom: 1;
