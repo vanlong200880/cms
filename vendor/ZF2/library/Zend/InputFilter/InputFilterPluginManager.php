@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -51,12 +51,12 @@ class InputFilterPluginManager extends AbstractPluginManager
     /**
      * Inject this and populate the factory with filter chain and validator chain
      *
-     * @param $inputFilter
+     * @param $inputfilter
      */
-    public function populateFactory($inputFilter)
+    public function populateFactory($inputfilter)
     {
-        if ($inputFilter instanceof InputFilter) {
-            $factory = $inputFilter->getFactory();
+        if ($inputfilter instanceof InputFilter) {
+            $factory = $inputfilter->getFactory();
 
             $factory->setInputFilterManager($this);
 
@@ -73,7 +73,7 @@ class InputFilterPluginManager extends AbstractPluginManager
     public function validatePlugin($plugin)
     {
         if ($plugin instanceof InputFilterInterface || $plugin instanceof InputInterface) {
-            // Hook to perform various initialization, when the inputFilter is not created through the factory
+            // Hook to perform various initialization, when the inputfilter is not created through the factory
             if ($plugin instanceof InitializableInterface) {
                 $plugin->init();
             }

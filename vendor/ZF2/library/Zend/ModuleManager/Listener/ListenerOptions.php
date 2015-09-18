@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -88,14 +88,10 @@ class ListenerOptions extends AbstractOptions
     {
         if (!is_array($modulePaths) && !$modulePaths instanceof Traversable) {
             throw new Exception\InvalidArgumentException(
-                sprintf(
-                    'Argument passed to %s::%s() must be an array, '
-                    . 'implement the Traversable interface, or be an '
-                    . 'instance of Zend\Config\Config. %s given.',
-                    __CLASS__,
-                    __METHOD__,
-                    gettype($modulePaths)
-                )
+                sprintf('Argument passed to %s::%s() must be an array, '
+                . 'implement the Traversable interface, or be an '
+                . 'instance of Zend\Config\Config. %s given.',
+                __CLASS__, __METHOD__, gettype($modulePaths))
             );
         }
 
@@ -134,14 +130,10 @@ class ListenerOptions extends AbstractOptions
     {
         if (!is_array($configGlobPaths) && !$configGlobPaths instanceof Traversable) {
             throw new Exception\InvalidArgumentException(
-                sprintf(
-                    'Argument passed to %s::%s() must be an array, '
-                    . 'implement the Traversable interface, or be an '
-                    . 'instance of Zend\Config\Config. %s given.',
-                    __CLASS__,
-                    __METHOD__,
-                    gettype($configGlobPaths)
-                )
+                sprintf('Argument passed to %s::%s() must be an array, '
+                . 'implement the Traversable interface, or be an '
+                . 'instance of Zend\Config\Config. %s given.',
+                __CLASS__, __METHOD__, gettype($configGlobPaths))
             );
         }
 
@@ -160,14 +152,10 @@ class ListenerOptions extends AbstractOptions
     {
         if (!is_array($configStaticPaths) && !$configStaticPaths instanceof Traversable) {
             throw new Exception\InvalidArgumentException(
-                sprintf(
-                    'Argument passed to %s::%s() must be an array, '
-                    . 'implement the Traversable interface, or be an '
-                    . 'instance of Zend\Config\Config. %s given.',
-                    __CLASS__,
-                    __METHOD__,
-                    gettype($configStaticPaths)
-                )
+                sprintf('Argument passed to %s::%s() must be an array, '
+                . 'implement the Traversable interface, or be an '
+                . 'instance of Zend\Config\Config. %s given.',
+                __CLASS__, __METHOD__, gettype($configStaticPaths))
             );
         }
 
@@ -197,14 +185,10 @@ class ListenerOptions extends AbstractOptions
     {
         if (!is_array($extraConfig) && !$extraConfig instanceof Traversable) {
             throw new Exception\InvalidArgumentException(
-                sprintf(
-                    'Argument passed to %s::%s() must be an array, '
-                    . 'implement the Traversable interface, or be an '
-                    . 'instance of Zend\Config\Config. %s given.',
-                    __CLASS__,
-                    __METHOD__,
-                    gettype($extraConfig)
-                )
+                sprintf('Argument passed to %s::%s() must be an array, '
+                . 'implement the Traversable interface, or be an '
+                . 'instance of Zend\Config\Config. %s given.',
+                __CLASS__, __METHOD__, gettype($extraConfig))
             );
         }
 
@@ -266,11 +250,7 @@ class ListenerOptions extends AbstractOptions
      */
     public function getConfigCacheFile()
     {
-        if ($this->getConfigCacheKey()) {
-            return $this->getCacheDir() . '/module-config-cache.' . $this->getConfigCacheKey().'.php';
-        }
-
-        return $this->getCacheDir() . '/module-config-cache.php';
+        return $this->getCacheDir() . '/module-config-cache.' . $this->getConfigCacheKey().'.php';
     }
 
     /**
@@ -350,11 +330,7 @@ class ListenerOptions extends AbstractOptions
      */
     public function getModuleMapCacheFile()
     {
-        if ($this->getModuleMapCacheKey()) {
-            return $this->getCacheDir() . '/module-classmap-cache.' . $this->getModuleMapCacheKey() . '.php';
-        }
-
-        return $this->getCacheDir() . '/module-classmap-cache.php';
+        return $this->getCacheDir() . '/module-classmap-cache.'.$this->getModuleMapCacheKey().'.php';
     }
 
     /**

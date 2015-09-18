@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -16,6 +16,7 @@ use Zend\Feed\Uri;
 */
 class Entry
 {
+
     /**
      * Internal array containing all data associated with this entry or item.
      *
@@ -365,7 +366,7 @@ class Entry
     public function getAuthors()
     {
         if (!array_key_exists('authors', $this->data)) {
-            return;
+            return null;
         }
         return $this->data['authors'];
     }
@@ -378,7 +379,7 @@ class Entry
     public function getContent()
     {
         if (!array_key_exists('content', $this->data)) {
-            return;
+            return null;
         }
         return $this->data['content'];
     }
@@ -391,7 +392,7 @@ class Entry
     public function getCopyright()
     {
         if (!array_key_exists('copyright', $this->data)) {
-            return;
+            return null;
         }
         return $this->data['copyright'];
     }
@@ -404,7 +405,7 @@ class Entry
     public function getDateCreated()
     {
         if (!array_key_exists('dateCreated', $this->data)) {
-            return;
+            return null;
         }
         return $this->data['dateCreated'];
     }
@@ -417,7 +418,7 @@ class Entry
     public function getDateModified()
     {
         if (!array_key_exists('dateModified', $this->data)) {
-            return;
+            return null;
         }
         return $this->data['dateModified'];
     }
@@ -430,7 +431,7 @@ class Entry
     public function getDescription()
     {
         if (!array_key_exists('description', $this->data)) {
-            return;
+            return null;
         }
         return $this->data['description'];
     }
@@ -443,7 +444,7 @@ class Entry
     public function getId()
     {
         if (!array_key_exists('id', $this->data)) {
-            return;
+            return null;
         }
         return $this->data['id'];
     }
@@ -456,7 +457,7 @@ class Entry
     public function getLink()
     {
         if (!array_key_exists('link', $this->data)) {
-            return;
+            return null;
         }
         return $this->data['link'];
     }
@@ -470,7 +471,7 @@ class Entry
     public function getLinks()
     {
         if (!array_key_exists('links', $this->data)) {
-            return;
+            return null;
         }
         return $this->data['links'];
     }
@@ -483,7 +484,7 @@ class Entry
     public function getTitle()
     {
         if (!array_key_exists('title', $this->data)) {
-            return;
+            return null;
         }
         return $this->data['title'];
     }
@@ -496,7 +497,7 @@ class Entry
     public function getCommentCount()
     {
         if (!array_key_exists('commentCount', $this->data)) {
-            return;
+            return null;
         }
         return $this->data['commentCount'];
     }
@@ -509,7 +510,7 @@ class Entry
     public function getCommentLink()
     {
         if (!array_key_exists('commentLink', $this->data)) {
-            return;
+            return null;
         }
         return $this->data['commentLink'];
     }
@@ -523,7 +524,7 @@ class Entry
     public function getCommentFeedLinks()
     {
         if (!array_key_exists('commentFeedLinks', $this->data)) {
-            return;
+            return null;
         }
         return $this->data['commentFeedLinks'];
     }
@@ -582,7 +583,7 @@ class Entry
     public function getCategories()
     {
         if (!array_key_exists('categories', $this->data)) {
-            return;
+            return null;
         }
         return $this->data['categories'];
     }
@@ -618,7 +619,7 @@ class Entry
     public function getEnclosure()
     {
         if (!array_key_exists('enclosure', $this->data)) {
-            return;
+            return null;
         }
         return $this->data['enclosure'];
     }
@@ -659,7 +660,7 @@ class Entry
         if (array_key_exists($name . '\\Entry', $this->extensions)) {
             return $this->extensions[$name . '\\Entry'];
         }
-        return;
+        return null;
     }
 
     /**
@@ -744,7 +745,7 @@ class Entry
         if (isset($this->data['source'])) {
             return $this->data['source'];
         }
-        return;
+        return null;
     }
 
     /**

@@ -3,17 +3,22 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Mvc;
 
-use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\ListenerAggregateInterface;
 
-class RouteListener extends AbstractListenerAggregate
+class RouteListener implements ListenerAggregateInterface
 {
+    /**
+     * @var \Zend\Stdlib\CallbackHandler[]
+     */
+    protected $listeners = array();
+
     /**
      * Attach to an event manager
      *
@@ -23,6 +28,21 @@ class RouteListener extends AbstractListenerAggregate
     public function attach(EventManagerInterface $events)
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_ROUTE, array($this, 'onRoute'));
+    }
+
+    /**
+     * Detach all our listeners from the event manager
+     *
+     * @param  EventManagerInterface $events
+     * @return void
+     */
+    public function detach(EventManagerInterface $events)
+    {
+        foreach ($this->listeners as $index => $listener) {
+            if ($events->detach($listener)) {
+                unset($this->listeners[$index]);
+            }
+        }
     }
 
     /**
@@ -48,10 +68,11 @@ class RouteListener extends AbstractListenerAggregate
 
             $results = $target->getEventManager()->trigger(MvcEvent::EVENT_DISPATCH_ERROR, $e);
             if (count($results)) {
-                return $results->last();
+                $return  = $results->last();
+            } else {
+                $return = $e->getParams();
             }
-
-            return $e->getParams();
+            return $return;
         }
 
         $e->setRouteMatch($routeMatch);

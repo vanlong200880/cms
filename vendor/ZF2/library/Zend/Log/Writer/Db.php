@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -125,6 +125,7 @@ class Db extends AbstractWriter
 
         $statement = $this->db->query($this->prepareInsert($this->db, $this->tableName, $dataToInsert));
         $statement->execute($dataToInsert);
+
     }
 
     /**
@@ -139,8 +140,8 @@ class Db extends AbstractWriter
     {
         $keys = array_keys($fields);
         $sql = 'INSERT INTO ' . $db->platform->quoteIdentifier($tableName) . ' (' .
-            implode(",", array_map(array($db->platform, 'quoteIdentifier'), $keys)) . ') VALUES (' .
-            implode(",", array_map(array($db->driver, 'formatParameterName'), $keys)) . ')';
+            implode(",",array_map(array($db->platform, 'quoteIdentifier'), $keys)) . ') VALUES (' .
+            implode(",",array_map(array($db->driver, 'formatParameterName'), $keys)) . ')';
 
         return $sql;
     }
@@ -163,12 +164,7 @@ class Db extends AbstractWriter
             if (is_array($value)) {
                 foreach ($value as $key => $subvalue) {
                     if (isset($columnMap[$name][$key])) {
-                        if (is_scalar($subvalue)) {
-                            $data[$columnMap[$name][$key]] = $subvalue;
-                            continue;
-                        }
-
-                        $data[$columnMap[$name][$key]] = var_export($subvalue, true);
+                        $data[$columnMap[$name][$key]] = $subvalue;
                     }
                 }
             } elseif (isset($columnMap[$name])) {
@@ -194,12 +190,7 @@ class Db extends AbstractWriter
         foreach ($event as $name => $value) {
             if (is_array($value)) {
                 foreach ($value as $key => $subvalue) {
-                    if (is_scalar($subvalue)) {
-                        $data[$name . $this->separator . $key] = $subvalue;
-                        continue;
-                    }
-
-                    $data[$name . $this->separator . $key] = var_export($subvalue, true);
+                    $data[$name . $this->separator . $key] = $subvalue;
                 }
             } else {
                 $data[$name] = $value;

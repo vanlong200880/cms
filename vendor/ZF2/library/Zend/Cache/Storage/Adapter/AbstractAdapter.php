@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -217,10 +217,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
     {
         $postEvent = new PostEvent($eventName . '.post', $this, $args, $result);
         $eventRs   = $this->getEventManager()->trigger($postEvent);
+        if ($eventRs->stopped()) {
+            return $eventRs->last();
+        }
 
-        return $eventRs->stopped()
-            ? $eventRs->last()
-            : $postEvent->getResult();
+        return $postEvent->getResult();
     }
 
     /**
@@ -245,9 +246,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
             throw $exceptionEvent->getException();
         }
 
-        return $eventRs->stopped()
-            ? $eventRs->last()
-            : $exceptionEvent->getResult();
+        if ($eventRs->stopped()) {
+            return $eventRs->last();
+        }
+
+        return $exceptionEvent->getResult();
     }
 
     /**
@@ -335,7 +338,7 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
     {
         if (!$this->getOptions()->getReadable()) {
             $success = false;
-            return;
+            return null;
         }
 
         $this->normalizeKey($key);
@@ -354,21 +357,20 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
-
             if ($eventRs->stopped()) {
-                $result = $eventRs->last();
-            } elseif ($args->offsetExists('success') && $args->offsetExists('casToken')) {
+                return $eventRs->last();
+            }
+
+            if ($args->offsetExists('success') && $args->offsetExists('casToken')) {
                 $result = $this->internalGetItem($args['key'], $args['success'], $args['casToken']);
             } elseif ($args->offsetExists('success')) {
                 $result = $this->internalGetItem($args['key'], $args['success']);
             } else {
                 $result = $this->internalGetItem($args['key']);
             }
-
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
-            $result = null;
-            $success = false;
+            $result = false;
             return $this->triggerException(__FUNCTION__, $args, $result, $e);
         }
     }
@@ -408,11 +410,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalGetItems($args['keys']);
-
+            $result = $this->internalGetItems($args['keys']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = array();
@@ -465,11 +467,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalHasItem($args['key']);
-
+            $result = $this->internalHasItem($args['key']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = false;
@@ -515,11 +517,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalHasItems($args['keys']);
-
+            $result = $this->internalHasItems($args['keys']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = array();
@@ -569,11 +571,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalGetMetadata($args['key']);
-
+            $result = $this->internalGetMetadata($args['key']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = false;
@@ -621,11 +623,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalGetMetadatas($args['keys']);
-
+            $result = $this->internalGetMetadatas($args['keys']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = array();
@@ -680,11 +682,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalSetItem($args['key'], $args['value']);
-
+            $result = $this->internalSetItem($args['key'], $args['value']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = false;
@@ -726,11 +728,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalSetItems($args['keyValuePairs']);
-
+            $result = $this->internalSetItems($args['keyValuePairs']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = array_keys($keyValuePairs);
@@ -782,11 +784,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalAddItem($args['key'], $args['value']);
-
+            $result = $this->internalAddItem($args['key'], $args['value']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = false;
@@ -834,11 +836,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalAddItems($args['keyValuePairs']);
-
+            $result = $this->internalAddItems($args['keyValuePairs']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = array_keys($keyValuePairs);
@@ -890,11 +892,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalReplaceItem($args['key'], $args['value']);
-
+            $result = $this->internalReplaceItem($args['key'], $args['value']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = false;
@@ -943,11 +945,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalReplaceItems($args['keyValuePairs']);
-
+            $result = $this->internalReplaceItems($args['keyValuePairs']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = array_keys($keyValuePairs);
@@ -1002,11 +1004,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalCheckAndSetItem($args['token'], $args['key'], $args['value']);
-
+            $result = $this->internalCheckAndSetItem($args['token'], $args['key'], $args['value']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = false;
@@ -1059,11 +1061,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalTouchItem($args['key']);
-
+            $result = $this->internalTouchItem($args['key']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = false;
@@ -1113,11 +1115,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalTouchItems($args['keys']);
-
+            $result = $this->internalTouchItems($args['keys']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             return $this->triggerException(__FUNCTION__, $args, $keys, $e);
@@ -1166,11 +1168,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalRemoveItem($args['key']);
-
+            $result = $this->internalRemoveItem($args['key']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = false;
@@ -1211,11 +1213,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalRemoveItems($args['keys']);
-
+            $result = $this->internalRemoveItems($args['keys']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             return $this->triggerException(__FUNCTION__, $args, $keys, $e);
@@ -1266,11 +1268,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalIncrementItem($args['key'], $args['value']);
-
+            $result = $this->internalIncrementItem($args['key'], $args['value']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = false;
@@ -1326,11 +1328,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalIncrementItems($args['keyValuePairs']);
-
+            $result = $this->internalIncrementItems($args['keyValuePairs']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = array();
@@ -1383,11 +1385,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalDecrementItem($args['key'], $args['value']);
-
+            $result = $this->internalDecrementItem($args['key'], $args['value']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = false;
@@ -1443,11 +1445,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalDecrementItems($args['keyValuePairs']);
-
+            $result = $this->internalDecrementItems($args['keyValuePairs']);
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = array();
@@ -1490,11 +1492,11 @@ abstract class AbstractAdapter implements StorageInterface, EventsCapableInterfa
 
         try {
             $eventRs = $this->triggerPre(__FUNCTION__, $args);
+            if ($eventRs->stopped()) {
+                return $eventRs->last();
+            }
 
-            $result = $eventRs->stopped()
-                ? $eventRs->last()
-                : $this->internalGetCapabilities();
-
+            $result = $this->internalGetCapabilities();
             return $this->triggerPost(__FUNCTION__, $args, $result);
         } catch (\Exception $e) {
             $result = false;

@@ -3,14 +3,13 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\InputFilter;
 
 use Traversable;
-use Zend\Filter\Exception;
 use Zend\Filter\FilterChain;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Validator\ValidatorInterface;
@@ -39,12 +38,12 @@ class Factory
      */
     public function __construct(InputFilterPluginManager $inputFilterManager = null)
     {
-        $this->defaultFilterChain    = new FilterChain();
-        $this->defaultValidatorChain = new ValidatorChain();
-
         if ($inputFilterManager) {
             $this->setInputFilterManager($inputFilterManager);
         }
+
+        $this->defaultFilterChain    = new FilterChain();
+        $this->defaultValidatorChain = new ValidatorChain();
     }
 
     /**
@@ -145,17 +144,13 @@ class Factory
     /**
      * Factory for input objects
      *
-     * @param  array|Traversable|InputProviderInterface $inputSpecification
+     * @param  array|Traversable $inputSpecification
      * @throws Exception\InvalidArgumentException
      * @throws Exception\RuntimeException
      * @return InputInterface|InputFilterInterface
      */
     public function createInput($inputSpecification)
     {
-        if ($inputSpecification instanceof InputProviderInterface) {
-            $inputSpecification = $inputSpecification->getInputSpecification();
-        }
-
         if (!is_array($inputSpecification) && !$inputSpecification instanceof Traversable) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects an array or Traversable; received "%s"',
@@ -273,17 +268,13 @@ class Factory
     /**
      * Factory for input filters
      *
-     * @param  array|Traversable|InputFilterProviderInterface $inputFilterSpecification
+     * @param  array|Traversable $inputFilterSpecification
      * @throws Exception\InvalidArgumentException
      * @throws Exception\RuntimeException
      * @return InputFilterInterface
      */
     public function createInputFilter($inputFilterSpecification)
     {
-        if ($inputFilterSpecification instanceof InputFilterProviderInterface) {
-            $inputFilterSpecification = $inputFilterSpecification->getInputFilterSpecification();
-        }
-
         if (!is_array($inputFilterSpecification) && !$inputFilterSpecification instanceof Traversable) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects an array or Traversable; received "%s"',
@@ -340,7 +331,6 @@ class Factory
     /**
      * @param  FilterChain       $chain
      * @param  array|Traversable $filters
-     * @throws Exception\RuntimeException
      * @return void
      */
     protected function populateFilters(FilterChain $chain, $filters)
@@ -376,7 +366,6 @@ class Factory
     /**
      * @param  ValidatorChain    $chain
      * @param  array|Traversable $validators
-     * @throws Exception\RuntimeException
      * @return void
      */
     protected function populateValidators(ValidatorChain $chain, $validators)

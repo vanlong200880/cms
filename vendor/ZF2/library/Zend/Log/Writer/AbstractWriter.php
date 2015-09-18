@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -78,11 +78,11 @@ abstract class AbstractWriter implements WriterInterface
         if (is_array($options)) {
             if (isset($options['filters'])) {
                 $filters = $options['filters'];
-                if (is_int($filters) || is_string($filters) || $filters instanceof Filter\FilterInterface) {
+                if (is_string($filters) || $filters instanceof Filter\FilterInterface) {
                     $this->addFilter($filters);
                 } elseif (is_array($filters)) {
                     foreach ($filters as $filter) {
-                        if (is_int($filter) || is_string($filter) || $filter instanceof Filter\FilterInterface) {
+                        if (is_string($filter) || $filter instanceof Filter\FilterInterface) {
                             $this->addFilter($filter);
                         } elseif (is_array($filter)) {
                             if (!isset($filter['name'])) {
@@ -215,18 +215,17 @@ abstract class AbstractWriter implements WriterInterface
             $plugins = new $plugins;
         }
         if (!$plugins instanceof FormatterPluginManager) {
-            throw new Exception\InvalidArgumentException(
-                sprintf(
+            throw new Exception\InvalidArgumentException(sprintf(
                     'Writer plugin manager must extend %s\FormatterPluginManager; received %s',
                     __NAMESPACE__,
                     is_object($plugins) ? get_class($plugins) : gettype($plugins)
-                )
-            );
+            ));
         }
 
         $this->formatterPlugins = $plugins;
         return $this;
     }
+
 
     /**
      * Get formatter instance
@@ -266,12 +265,14 @@ abstract class AbstractWriter implements WriterInterface
         } catch (\Exception $e) {
             if ($errorHandlerStarted) {
                 ErrorHandler::stop();
+                $errorHandlerStarted = false;
             }
             throw $e;
         }
 
         if ($errorHandlerStarted) {
             $error = ErrorHandler::stop();
+            $errorHandlerStarted = false;
             if ($error) {
                 throw new Exception\RuntimeException("Unable to write", 0, $error);
             }
@@ -294,9 +295,9 @@ abstract class AbstractWriter implements WriterInterface
 
         if (!$formatter instanceof Formatter\FormatterInterface) {
             throw new Exception\InvalidArgumentException(sprintf(
-                'Formatter must implement %s\Formatter\FormatterInterface; received "%s"',
-                __NAMESPACE__,
-                is_object($formatter) ? get_class($formatter) : gettype($formatter)
+                    'Formatter must implement %s\Formatter\FormatterInterface; received "%s"',
+                    __NAMESPACE__,
+                    is_object($formatter) ? get_class($formatter) : gettype($formatter)
             ));
         }
 
@@ -340,8 +341,7 @@ abstract class AbstractWriter implements WriterInterface
      * @return void
      */
     public function shutdown()
-    {
-    }
+    {}
 
     /**
      * Write a message to the log

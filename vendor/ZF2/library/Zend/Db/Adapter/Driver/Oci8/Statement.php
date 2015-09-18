@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -16,6 +16,7 @@ use Zend\Db\Adapter\Profiler;
 
 class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 {
+
     /**
      * @var resource
      */
@@ -213,7 +214,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Execute
      *
-     * @param null|array|ParameterContainer $parameters
+     * @param  ParameterContainer $parameters
      * @return mixed
      */
     public function execute($parameters = null)
@@ -290,12 +291,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
                     case ParameterContainer::TYPE_BINARY:
                         $type = SQLT_BIN;
                         break;
-                    case ParameterContainer::TYPE_LOB:
-                        $type = OCI_B_CLOB;
-                        $clob = oci_new_descriptor($this->driver->getConnection()->getResource(), OCI_DTYPE_LOB);
-                        $clob->writetemporary($value, OCI_TEMP_CLOB);
-                        $value = $clob;
-                        break;
                     case ParameterContainer::TYPE_STRING:
                     default:
                         $type = SQLT_CHR;
@@ -305,12 +300,8 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
                 $type = SQLT_CHR;
             }
 
-            $maxLength = -1;
-            if ($this->parameterContainer->offsetHasMaxLength($name)) {
-                $maxLength = $this->parameterContainer->offsetGetMaxLength($name);
-            }
-
-            oci_bind_by_name($this->resource, $name, $value, $maxLength, $type);
+            oci_bind_by_name($this->resource, $name, $value, -1, $type);
         }
     }
+
 }

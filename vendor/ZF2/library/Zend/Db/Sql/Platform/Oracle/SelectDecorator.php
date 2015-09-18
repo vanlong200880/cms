@@ -3,31 +3,35 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Db\Sql\Platform\Oracle;
 
+use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\Adapter\Driver\DriverInterface;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Platform\PlatformInterface;
+use Zend\Db\Adapter\StatementContainerInterface;
+use Zend\Db\Sql\ExpressionInterface;
 use Zend\Db\Sql\Platform\PlatformDecoratorInterface;
 use Zend\Db\Sql\Select;
 
 class SelectDecorator extends Select implements PlatformDecoratorInterface
 {
+
     /**
      * @var Select
      */
-    protected $subject = null;
+    protected $select = null;
 
     /**
      * @param Select $select
      */
     public function setSubject($select)
     {
-        $this->subject = $select;
+        $this->select = $select;
     }
 
     /**
@@ -35,16 +39,44 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
      */
     protected function renderTable($table, $alias = null)
     {
-        return $table . ($alias ? ' ' . $alias : '');
+        return $table . ' ' . $alias;
     }
 
-    protected function localizeVariables()
+    /**
+     * @param AdapterInterface $adapter
+     * @param StatementContainerInterface $statementContainer
+     */
+    public function prepareStatement(AdapterInterface $adapter, StatementContainerInterface $statementContainer)
     {
-        parent::localizeVariables();
+        // localize variables
+        foreach (get_object_vars($this->select) as $name => $value) {
+            $this->{$name} = $value;
+        }
+        // set specifications
         unset($this->specifications[self::LIMIT]);
         unset($this->specifications[self::OFFSET]);
 
         $this->specifications['LIMITOFFSET'] = null;
+        parent::prepareStatement($adapter, $statementContainer);
+    }
+
+    /**
+     * @param PlatformInterface $platform
+     * @return string
+     */
+    public function getSqlString(PlatformInterface $platform = null)
+    {
+        // localize variables
+        foreach (get_object_vars($this->select) as $name => $value) {
+            $this->{$name} = $value;
+        }
+
+        // set specifications
+        unset($this->specifications[self::LIMIT]);
+        unset($this->specifications[self::OFFSET]);
+
+        $this->specifications['LIMITOFFSET'] = null;
+        return parent::getSqlString($platform);
     }
 
     /**
@@ -58,7 +90,7 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
     protected function processLimitOffset(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null, &$sqls, &$parameters)
     {
         if ($this->limit === null && $this->offset === null) {
-            return;
+            return null;
         }
 
         $selectParameters = $parameters[self::SELECT];
@@ -114,4 +146,37 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
             $this->specifications[self::SELECT], $parameters[self::SELECT]
         );
     }
+
+
+    protected function processJoins(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null)
+    {
+        if (!$this->joins) {
+            return null;
+        }
+
+        // process joins
+        $joinSpecArgArray = array();
+        foreach ($this->joins as $j => $join) {
+            $joinSpecArgArray[$j] = array();
+            // type
+            $joinSpecArgArray[$j][] = strtoupper($join['type']);
+            // table name
+            $joinSpecArgArray[$j][] = (is_array($join['name']))
+                ? $platform->quoteIdentifier(current($join['name'])) . ' ' . $platform->quoteIdentifier(key($join['name']))
+                : $platform->quoteIdentifier($join['name']);
+            // on expression
+            $joinSpecArgArray[$j][] = ($join['on'] instanceof ExpressionInterface)
+                ? $this->processExpression($join['on'], $platform, $driver, $this->processInfo['paramPrefix'] . 'join')
+                : $platform->quoteIdentifierInFragment($join['on'], array('=', 'AND', 'OR', '(', ')', 'BETWEEN')); // on
+            if ($joinSpecArgArray[$j][2] instanceof StatementContainerInterface) {
+                if ($parameterContainer) {
+                    $parameterContainer->merge($joinSpecArgArray[$j][2]->getParameterContainer());
+                }
+                $joinSpecArgArray[$j][2] = $joinSpecArgArray[$j][2]->getSql();
+            }
+        }
+
+        return array($joinSpecArgArray);
+    }
+
 }

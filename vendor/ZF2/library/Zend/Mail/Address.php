@@ -3,14 +3,11 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Mail;
-
-use Zend\Validator\EmailAddress as EmailAddressValidator;
-use Zend\Validator\Hostname;
 
 class Address implements Address\AddressInterface
 {
@@ -27,33 +24,15 @@ class Address implements Address\AddressInterface
      */
     public function __construct($email, $name = null)
     {
-        $emailAddressValidator = new EmailAddressValidator(Hostname::ALLOW_LOCAL);
-        if (! is_string($email) || empty($email)) {
-            throw new Exception\InvalidArgumentException('Email must be a valid email address');
+        if (!is_string($email)) {
+            throw new Exception\InvalidArgumentException('Email must be a string');
         }
-
-        if (preg_match("/[\r\n]/", $email)) {
-            throw new Exception\InvalidArgumentException('CRLF injection detected');
-        }
-
-        if (! $emailAddressValidator->isValid($email)) {
-            $invalidMessages = $emailAddressValidator->getMessages();
-            throw new Exception\InvalidArgumentException(array_shift($invalidMessages));
-        }
-
-        if (null !== $name) {
-            if (! is_string($name)) {
-                throw new Exception\InvalidArgumentException('Name must be a string');
-            }
-
-            if (preg_match("/[\r\n]/", $name)) {
-                throw new Exception\InvalidArgumentException('CRLF injection detected');
-            }
-
-            $this->name = $name;
+        if (null !== $name && !is_string($name)) {
+            throw new Exception\InvalidArgumentException('Name must be a string');
         }
 
         $this->email = $email;
+        $this->name  = $name;
     }
 
     /**
@@ -89,6 +68,7 @@ class Address implements Address\AddressInterface
             return $string;
         }
 
-        return $name . ' ' . $string;
+        $string = $name . ' ' . $string;
+        return $string;
     }
 }

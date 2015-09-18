@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -121,10 +121,7 @@ class Csrf extends AbstractValidator
         $tokenId = $this->getTokenIdFromHash($value);
         $hash = $this->getValidationToken($tokenId);
 
-        $tokenFromValue = $this->getTokenFromHash($value);
-        $tokenFromHash = $this->getTokenFromHash($hash);
-
-        if (!$tokenFromValue || !$tokenFromHash || ($tokenFromValue !== $tokenFromHash)) {
+        if ($this->getTokenFromHash($value) !== $this->getTokenFromHash($hash)) {
             $this->error(self::NOT_SAME);
             return false;
         }
@@ -334,7 +331,7 @@ class Csrf extends AbstractValidator
             return $this->formatHash($session->tokenList[$tokenId], $tokenId);
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -366,7 +363,7 @@ class Csrf extends AbstractValidator
         $data = explode('-', $hash);
 
         if (! isset($data[1])) {
-            return;
+            return null;
         }
 
         return $data[1];

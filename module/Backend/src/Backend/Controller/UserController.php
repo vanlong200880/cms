@@ -33,23 +33,6 @@ class UserController extends AbstractActionController
         $type       = $this->params()->fromRoute('type') ? $this->params()->fromRoute('type'): null;
         $search     = $this->params()->fromRoute('txtSearch') ? $this->params()->fromRoute('txtSearch'): null;
         $page       = $this->params()->fromRoute('page') ? (int) $this->params()->fromRoute('page') : null;
-        $arrParam = array(
-            'page'          => $page,
-            'type'          => $type,
-            'sort'          => $sort,
-            'order'         => $order,
-            'status'        => $status,
-            'txtSearch'     => $search
-        );
-        
-        $param      = '';
-        if(!empty($page)){ $param .='page/'.$page; }
-        if(!empty($type)){ $param .= '/type/'. $type; }
-        if(!empty($sort)){ $param .= '/sort/'. $sort; }
-        if(!empty($order)){ $param .= '/order/'. $order; }
-        if(!empty($status)){ $param .= '/status/'. $status; }
-        if(!empty($search)){ $param .= '/textSearch/'. $search; }
-//        var_dump($param);
         
         $arrayParam['limit'] = PAGING_LIMIT;
         // lay so trang
@@ -65,18 +48,45 @@ class UserController extends AbstractActionController
         $countUser = $user->countUser($arrayParam);
         
         // khoi tao phan trang
-//        $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\Null($countUser[0]['count']));
-//        var_dump($arrayParam['page']);
-//         die;
-//        $paginator->setCurrentPageNumber($arrayParam['page']);
-//        $paginator->setItemCountPerPage($arrayParam['limit']);
-//        $paginator->setPageRange(5);
+        $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\Null($countUser[0]['count']));        
+//		var_dump($paginator->count());
+        $paginator->setCurrentPageNumber($arrayParam['page']);
+        $paginator->setItemCountPerPage($arrayParam['limit']);
+		$url = $this->redirect()->toRoute('backend', array('controller' => 'user', 'action' => 'index'));
+		var_dump($url);
+		if(!is_numeric($page) && $page > $paginator->count())
+		{
+			
+			//return $this->redirect()->toRoute('');
+		}
+        $paginator->setPageRange(PAGE_RAND);
+		
+		$arrParam = array(
+			'controller'	=> $arrayParam['__CONTROLLER__'],
+			'action'		=> $arrayParam['action'],
+            'page'          => (!empty($page))? '/page/'.$page: '',
+            'type'          => (!empty($type))? '/type/'.$type: '',
+            'sort'          => (!empty($sort))? '/sort/'.$sort: '',
+            'order'         => (!empty($order))? '/order/'.$order: '',
+            'status'        => (!empty($status))? '/status/'.$status: '',
+            'txtSearch'     => (!empty($search))? '/txtSearch/'.$search: '',
+        );
+        $param      = '';
+        if(!empty($type)){ $param .= '/type/'. $type; }
+        if(!empty($sort)){ $param .= '/sort/'. $sort; }
+        if(!empty($order)){ $param .= '/order/'. $order; }
+        if(!empty($status)){ $param .= '/status/'. $status; }
+        if(!empty($search)){ $param .= '/textSearch/'. $search; }
+		
         $data['arrayParam']     = $arrayParam;
         $data['list']           = $userData;
         $data['title']          = "Danh sách user";
         $data['param']          = $arrParam;
-//        $data['paginator']      = $paginator;
-//        var_dump($data);
+        $data['paginator']      = $paginator;
+		$data['page']			= $page;
+		$data['routeParam']		= $param;
+		$data['controller']		= $arrayParam['__CONTROLLER__'];
+		$data['action']			= $arrayParam['action'];
 		return new ViewModel($data);
 	}
 

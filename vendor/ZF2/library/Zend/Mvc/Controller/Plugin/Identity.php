@@ -3,13 +3,13 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Mvc\Controller\Plugin;
 
-use Zend\Authentication\AuthenticationServiceInterface;
+use Zend\Authentication\AuthenticationService;
 use Zend\Mvc\Exception;
 
 /**
@@ -18,12 +18,12 @@ use Zend\Mvc\Exception;
 class Identity extends AbstractPlugin
 {
     /**
-     * @var AuthenticationServiceInterface
+     * @var AuthenticationService
      */
     protected $authenticationService;
 
     /**
-     * @return AuthenticationServiceInterface
+     * @return AuthenticationService
      */
     public function getAuthenticationService()
     {
@@ -31,9 +31,9 @@ class Identity extends AbstractPlugin
     }
 
     /**
-     * @param AuthenticationServiceInterface $authenticationService
+     * @param AuthenticationService $authenticationService
      */
-    public function setAuthenticationService(AuthenticationServiceInterface $authenticationService)
+    public function setAuthenticationService(AuthenticationService $authenticationService)
     {
         $this->authenticationService = $authenticationService;
     }
@@ -48,11 +48,11 @@ class Identity extends AbstractPlugin
      */
     public function __invoke()
     {
-        if (!$this->authenticationService instanceof AuthenticationServiceInterface) {
-            throw new Exception\RuntimeException('No AuthenticationServiceInterface instance provided');
+        if (!$this->authenticationService instanceof AuthenticationService) {
+            throw new Exception\RuntimeException('No AuthenticationService instance provided');
         }
         if (!$this->authenticationService->hasIdentity()) {
-            return;
+            return null;
         }
         return $this->authenticationService->getIdentity();
     }

@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -44,10 +44,7 @@ class ContentType implements HeaderInterface
 
         // check to ensure proper header type for this factory
         if (strtolower($name) !== 'content-type') {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Invalid header line for Content-Type string: "%s"',
-                $name
-            ));
+            throw new Exception\InvalidArgumentException('Invalid header line for Content-Type string: "' . $name . '"');
         }
 
         $parts             = explode(';', $value);
@@ -58,7 +55,7 @@ class ContentType implements HeaderInterface
             $parameters = array();
             foreach ($parts as $parameter) {
                 $parameter = trim($parameter);
-                if (!preg_match('/^(?P<key>[^\s\=]+)\="?(?P<value>[^\s\"]*)"?$/', $parameter, $matches)) {
+                if (!preg_match('/^(?P<key>[^\s\=]+)\=(?P<value>[^\s\=]*)$/', $parameter, $matches)) {
                     continue;
                 }
                 $parameters[$matches['key']] = $matches['value'];
@@ -71,10 +68,7 @@ class ContentType implements HeaderInterface
 
     public function __construct($value = null, $mediaType = null)
     {
-        if ($value) {
-            HeaderValue::assertValid($value);
-            $this->value = $value;
-        }
+        $this->value = $value;
         $this->mediaType = $mediaType;
     }
 
@@ -161,7 +155,6 @@ class ContentType implements HeaderInterface
      */
     public function setMediaType($mediaType)
     {
-        HeaderValue::assertValid($mediaType);
         $this->mediaType = strtolower($mediaType);
         $this->value     = null;
         return $this;
@@ -185,10 +178,6 @@ class ContentType implements HeaderInterface
      */
     public function setParameters(array $parameters)
     {
-        foreach ($parameters as $key => $value) {
-            HeaderValue::assertValid($key);
-            HeaderValue::assertValid($value);
-        }
         $this->parameters = array_merge($this->parameters, $parameters);
         $this->value      = null;
         return $this;
@@ -212,7 +201,6 @@ class ContentType implements HeaderInterface
      */
     public function setCharset($charset)
     {
-        HeaderValue::assertValid($charset);
         $this->parameters['charset'] = $charset;
         $this->value = null;
         return $this;
@@ -228,7 +216,7 @@ class ContentType implements HeaderInterface
         if (isset($this->parameters['charset'])) {
             return $this->parameters['charset'];
         }
-        return;
+        return null;
     }
 
     /**

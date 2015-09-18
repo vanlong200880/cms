@@ -3,16 +3,15 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Db\Sql\Predicate;
 
-use Zend\Db\Sql\AbstractExpression;
-
-class Like extends AbstractExpression implements PredicateInterface
+class Like implements PredicateInterface
 {
+
     /**
      * @var string
      */
@@ -101,14 +100,8 @@ class Like extends AbstractExpression implements PredicateInterface
      */
     public function getExpressionData()
     {
-        list($values[], $types[]) = $this->normalizeArgument($this->identifier, self::TYPE_IDENTIFIER);
-        list($values[], $types[]) = $this->normalizeArgument($this->like, self::TYPE_VALUE);
         return array(
-            array(
-                $this->specification,
-                $values,
-                $types,
-            )
+            array($this->specification, array($this->identifier, $this->like), array(self::TYPE_IDENTIFIER, self::TYPE_VALUE))
         );
     }
 }

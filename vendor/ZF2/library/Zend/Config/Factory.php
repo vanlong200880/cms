@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -34,11 +34,10 @@ class Factory
      * @var array
      */
     protected static $extensions = array(
-        'ini'         => 'ini',
-        'json'        => 'json',
-        'xml'         => 'xml',
-        'yaml'        => 'yaml',
-        'properties'  => 'javaproperties',
+        'ini'  => 'ini',
+        'json' => 'json',
+        'xml'  => 'xml',
+        'yaml' => 'yaml',
     );
 
     /**
@@ -157,7 +156,7 @@ class Factory
     public static function toFile($filename, $config)
     {
         if (
-            (is_object($config) && !($config instanceof Config)) ||
+            (is_object($config) && !($config instanceOf Config)) ||
             (!is_object($config) && !is_array($config))
         ) {
             throw new Exception\InvalidArgumentException(
@@ -187,7 +186,7 @@ class Factory
         }
 
         $writer = static::$writerExtensions[$extension];
-        if (($writer instanceof Writer\AbstractWriter) === false) {
+        if (($writer instanceOf Writer\AbstractWriter) === false) {
             $writer = self::getWriterPluginManager()->get($writer);
             static::$writerExtensions[$extension] = $writer;
         }

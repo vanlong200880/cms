@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -59,13 +59,9 @@ class Request extends HttpRequest
     /**
      * Construct
      * Instantiates request.
-     *
-     * @param bool $allowCustomMethods
      */
-    public function __construct($allowCustomMethods = true)
+    public function __construct()
     {
-        $this->setAllowCustomMethods($allowCustomMethods);
-
         $this->setEnv(new Parameters($_ENV));
 
         if ($_GET) {
@@ -220,19 +216,21 @@ class Request extends HttpRequest
         $headers = array();
 
         foreach ($server as $key => $value) {
-            if ($value || (!is_array($value) && strlen($value))) {
-                if (strpos($key, 'HTTP_') === 0) {
-                    if (strpos($key, 'HTTP_COOKIE') === 0) {
-                        // Cookies are handled using the $_COOKIE superglobal
-                        continue;
-                    }
-
-                    $headers[strtr(ucwords(strtolower(strtr(substr($key, 5), '_', ' '))), ' ', '-')] = $value;
-                } elseif (strpos($key, 'CONTENT_') === 0) {
-                    $name = substr($key, 8); // Remove "Content-"
-                    $headers['Content-' . (($name == 'MD5') ? $name : ucfirst(strtolower($name)))] = $value;
+            if ($value && strpos($key, 'HTTP_') === 0) {
+                if (strpos($key, 'HTTP_COOKIE') === 0) {
+                    // Cookies are handled using the $_COOKIE superglobal
+                    continue;
                 }
+                $name = strtr(substr($key, 5), '_', ' ');
+                $name = strtr(ucwords(strtolower($name)), ' ', '-');
+            } elseif ($value && strpos($key, 'CONTENT_') === 0) {
+                $name = substr($key, 8); // Content-
+                $name = 'Content-' . (($name == 'MD5') ? $name : ucfirst(strtolower($name)));
+            } else {
+                continue;
             }
+
+            $headers[$name] = $value;
         }
 
         $this->getHeaders()->addHeaders($headers);
@@ -253,9 +251,8 @@ class Request extends HttpRequest
         $uri = new HttpUri();
 
         // URI scheme
-        if ((!empty($this->serverParams['HTTPS']) && strtolower($this->serverParams['HTTPS']) !== 'off')
-            || (!empty($this->serverParams['HTTP_X_FORWARDED_PROTO'])
-                 && $this->serverParams['HTTP_X_FORWARDED_PROTO'] == 'https')
+        if ((!empty($this->serverParams['HTTPS']) && $this->serverParams['HTTPS'] !== 'off')
+            || (!empty($this->serverParams['HTTP_X_FORWARDED_PROTO']) && $this->serverParams['HTTP_X_FORWARDED_PROTO'] == 'https')
         ) {
             $scheme = 'https';
         } else {
@@ -365,7 +362,7 @@ class Request extends HttpRequest
      * Return the parameter container responsible for env parameters or a single parameter value.
      *
      * @param string|null           $name            Parameter name to retrieve, or null to get the whole container.
-     * @param mixed|null            $default         Default value to use when the parameter is missing.
+     * @param mixed|null            $default         Default value to use when the parameter is missing.     * @return \Zend\Stdlib\ParametersInterface
      * @return \Zend\Stdlib\ParametersInterface|mixed
      */
     public function getEnv($name = null, $default = null)
@@ -510,8 +507,7 @@ class Request extends HttpRequest
             $basename = basename($filename);
             if ($basename) {
                 $path     = ($phpSelf ? trim($phpSelf, '/') : '');
-                $basePos  = strpos($path, $basename) ?: 0;
-                $baseUrl .= substr($path, 0, $basePos) . $basename;
+                $baseUrl .= substr($path, 0, strpos($path, $basename)) . $basename;
             }
         }
 

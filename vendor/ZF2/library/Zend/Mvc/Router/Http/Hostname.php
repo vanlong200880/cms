@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -115,9 +115,7 @@ class Hostname implements RouteInterface
         $level      = 0;
 
         while ($currentPos < $length) {
-            if (!preg_match('(\G(?P<literal>[a-z0-9-.]*)(?P<token>[:{\[\]]|$))', $def, $matches, 0, $currentPos)) {
-                throw new Exception\RuntimeException('Matched hostname literal contains a disallowed character');
-            }
+            preg_match('(\G(?P<literal>[a-z0-9-.]*)(?P<token>[:{\[\]]|$))', $def, $matches, 0, $currentPos);
 
             $currentPos += strlen($matches[0]);
 
@@ -268,7 +266,7 @@ class Hostname implements RouteInterface
     public function match(Request $request)
     {
         if (!method_exists($request, 'getUri')) {
-            return;
+            return null;
         }
 
         $uri  = $request->getUri();
@@ -277,7 +275,7 @@ class Hostname implements RouteInterface
         $result = preg_match('(^' . $this->regex . '$)', $host, $matches);
 
         if (!$result) {
-            return;
+            return null;
         }
 
         $params = array();

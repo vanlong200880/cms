@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -369,18 +369,14 @@ abstract class AbstractAdapter implements TranslatorAwareInterface
                                 break;
                             case (1 <= $argc):
                                 $validator  = array_shift($validatorInfo);
-                                // fall-through
                             case (2 <= $argc):
                                 $breakChainOnFailure = array_shift($validatorInfo);
-                                // fall-through
                             case (3 <= $argc):
                                 $options = array_shift($validatorInfo);
-                                // fall-through
                             case (4 <= $argc):
                                 if (!empty($validatorInfo)) {
                                     $file = array_shift($validatorInfo);
                                 }
-                                // fall-through
                             default:
                                 $this->addValidator($validator, $breakChainOnFailure, $options, $file);
                                 break;
@@ -428,7 +424,7 @@ abstract class AbstractAdapter implements TranslatorAwareInterface
     public function getValidator($name)
     {
         if (false === ($identifier = $this->getValidatorIdentifier($name))) {
-            return;
+            return null;
         }
         return $this->validators[$identifier];
     }
@@ -441,7 +437,7 @@ abstract class AbstractAdapter implements TranslatorAwareInterface
      */
     public function getValidators($files = null)
     {
-        if ($files === null) {
+        if ($files == null) {
             return $this->validators;
         }
 
@@ -527,13 +523,13 @@ abstract class AbstractAdapter implements TranslatorAwareInterface
             foreach ($options as $name => $value) {
                 foreach ($file as $key => $content) {
                     switch ($name) {
-                        case 'magicFile':
+                        case 'magicFile' :
                             $this->files[$key]['options'][$name] = (string) $value;
                             break;
 
-                        case 'ignoreNoFile':
-                        case 'useByteString':
-                        case 'detectInfos':
+                        case 'ignoreNoFile' :
+                        case 'useByteString' :
+                        case 'detectInfos' :
                             $this->files[$key]['options'][$name] = (bool) $value;
                             break;
 
@@ -600,7 +596,7 @@ abstract class AbstractAdapter implements TranslatorAwareInterface
                 }
 
                 $checkit .= DIRECTORY_SEPARATOR . $content['name'];
-                $validator->addFile($checkit);
+                    $validator->addFile($checkit);
             }
         }
 
@@ -804,7 +800,7 @@ abstract class AbstractAdapter implements TranslatorAwareInterface
     public function getFilter($name)
     {
         if (false === ($identifier = $this->getFilterIdentifier($name))) {
-            return;
+            return null;
         }
 
         return $this->filters[$identifier];
@@ -1031,7 +1027,7 @@ abstract class AbstractAdapter implements TranslatorAwareInterface
     public function getTranslator()
     {
         if ($this->isTranslatorEnabled()) {
-            return;
+            return null;
         }
 
         return $this->translator;
@@ -1169,7 +1165,7 @@ abstract class AbstractAdapter implements TranslatorAwareInterface
         } elseif (file_exists($value['tmp_name'])) {
             $filename = $value['tmp_name'];
         } else {
-            return;
+            return null;
         }
 
         ErrorHandler::start();
@@ -1224,7 +1220,7 @@ abstract class AbstractAdapter implements TranslatorAwareInterface
         } elseif (file_exists($value['tmp_name'])) {
             $file = $value['tmp_name'];
         } else {
-            return;
+            return null;
         }
 
         if (class_exists('finfo', false)) {

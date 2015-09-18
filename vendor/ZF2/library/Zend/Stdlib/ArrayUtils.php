@@ -3,15 +3,13 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Stdlib;
 
 use Traversable;
-use Zend\Stdlib\ArrayUtils\MergeRemoveKey;
-use Zend\Stdlib\ArrayUtils\MergeReplaceKeyInterface;
 
 /**
  * Utility class for testing and manipulation of PHP arrays.
@@ -20,16 +18,6 @@ use Zend\Stdlib\ArrayUtils\MergeReplaceKeyInterface;
  */
 abstract class ArrayUtils
 {
-    /**
-     * Compatibility Flag for ArrayUtils::filter
-     */
-    const ARRAY_FILTER_USE_BOTH = 1;
-
-    /**
-     * Compatibility Flag for ArrayUtils::filter
-     */
-    const ARRAY_FILTER_USE_KEY  = 2;
-
     /**
      * Test whether an array contains one or more string keys
      *
@@ -269,12 +257,8 @@ abstract class ArrayUtils
     public static function merge(array $a, array $b, $preserveNumericKeys = false)
     {
         foreach ($b as $key => $value) {
-            if ($value instanceof MergeReplaceKeyInterface) {
-                $a[$key] = $value->getData();
-            } elseif (isset($a[$key]) || array_key_exists($key, $a)) {
-                if ($value instanceof MergeRemoveKey) {
-                    unset($a[$key]);
-                } elseif (!$preserveNumericKeys && is_int($key)) {
+            if (array_key_exists($key, $a)) {
+                if (is_int($key) && !$preserveNumericKeys) {
                     $a[] = $value;
                 } elseif (is_array($value) && is_array($a[$key])) {
                     $a[$key] = static::merge($a[$key], $value, $preserveNumericKeys);
@@ -282,54 +266,10 @@ abstract class ArrayUtils
                     $a[$key] = $value;
                 }
             } else {
-                if (!$value instanceof MergeRemoveKey) {
-                    $a[$key] = $value;
-                }
+                $a[$key] = $value;
             }
         }
 
         return $a;
-    }
-
-    /**
-     * Compatibility Method for array_filter on <5.6 systems
-     *
-     * @param array $data
-     * @param callable $callback
-     * @param null|int $flag
-     * @return array
-     */
-    public static function filter(array $data, $callback, $flag = null)
-    {
-        if (! is_callable($callback)) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Second parameter of %s must be callable',
-                __METHOD__
-            ));
-        }
-
-        if (version_compare(PHP_VERSION, '5.6.0') >= 0) {
-            return array_filter($data, $callback, $flag);
-        }
-
-        $output = array();
-        foreach ($data as $key => $value) {
-            $params = array($value);
-
-            if ($flag === static::ARRAY_FILTER_USE_BOTH) {
-                $params[] = $key;
-            }
-
-            if ($flag === static::ARRAY_FILTER_USE_KEY) {
-                $params = array($key);
-            }
-
-            $response = call_user_func_array($callback, $params);
-            if ($response) {
-                $output[$key] = $value;
-            }
-        }
-
-        return $output;
     }
 }

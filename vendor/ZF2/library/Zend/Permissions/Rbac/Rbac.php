@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -141,18 +141,24 @@ class Rbac extends AbstractIterator
     {
         if ($assert) {
             if ($assert instanceof AssertionInterface) {
-                return (bool) $assert->assert($this);
+                if (!$assert->assert($this)) {
+                    return false;
+                }
+            } elseif (is_callable($assert)) {
+                if (!$assert($this)) {
+                    return false;
+                }
+            } else {
+                throw new Exception\InvalidArgumentException(
+                    'Assertions must be a Callable or an instance of Zend\Permissions\Rbac\AssertionInterface'
+                );
             }
-
-            if (is_callable($assert)) {
-                return (bool) $assert($this);
-            }
-
-            throw new Exception\InvalidArgumentException(
-                'Assertions must be a Callable or an instance of Zend\Permissions\Rbac\AssertionInterface'
-            );
         }
 
-        return $this->getRole($role)->hasPermission($permission);
+        if ($this->getRole($role)->hasPermission($permission)) {
+            return true;
+        }
+
+        return false;
     }
 }

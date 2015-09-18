@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -20,7 +20,7 @@ use Zend\EventManager\EventManagerInterface;
  * - Attributes
  * - Flags
  * - Hydrator
- * - Object and Instance (the latter is preferred starting in 2.4)
+ * - Object
  * - InputFilter
  * - Type
  * - ValidationGroup
@@ -129,7 +129,7 @@ class FormAnnotationsListener extends AbstractAnnotationsListener
     }
 
     /**
-     * Handle the Object and Instance annotations
+     * Handle the Object annotation
      *
      * Sets the object to bind to the form or fieldset
      *
@@ -139,9 +139,7 @@ class FormAnnotationsListener extends AbstractAnnotationsListener
     public function handleObjectAnnotation($e)
     {
         $annotation = $e->getParam('annotation');
-
-        // Only need to typehint on Instance, as Object extends it
-        if (! $annotation instanceof Instance) {
+        if (!$annotation instanceof Object) {
             return;
         }
 

@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -44,13 +44,6 @@ class Mbox extends AbstractStorage
     protected $messageClass = '\Zend\Mail\Storage\Message\File';
 
     /**
-     * end of Line for messages
-     *
-     * @var string|null
-     */
-    protected $messageEOL;
-
-    /**
      * Count messages all messages in current box
      *
      * @return int number of messages
@@ -60,6 +53,7 @@ class Mbox extends AbstractStorage
     {
         return count($this->positions);
     }
+
 
     /**
      * Get a list of messages with number and size
@@ -82,6 +76,7 @@ class Mbox extends AbstractStorage
         return $result;
     }
 
+
     /**
      * Get positions for mail message or throw exception if id is invalid
      *
@@ -98,6 +93,7 @@ class Mbox extends AbstractStorage
         return $this->positions[$id - 1];
     }
 
+
     /**
      * Fetch a message
      *
@@ -112,18 +108,8 @@ class Mbox extends AbstractStorage
             || is_subclass_of($this->messageClass, '\Zend\Mail\Storage\Message\File')) {
             // TODO top/body lines
             $messagePos = $this->getPos($id);
-
-            $messageClassParams = array(
-                'file' => $this->fh,
-                'startPos' => $messagePos['start'],
-                'endPos' => $messagePos['end']
-            );
-
-            if (isset($this->messageEOL)) {
-                $messageClassParams['EOL'] = $this->messageEOL;
-            }
-
-            return new $this->messageClass($messageClassParams);
+            return new $this->messageClass(array('file' => $this->fh, 'startPos' => $messagePos['start'],
+                                                  'endPos' => $messagePos['end']));
         }
 
         $bodyLines = 0; // TODO: need a way to change that
@@ -198,10 +184,6 @@ class Mbox extends AbstractStorage
             throw new Exception\InvalidArgumentException('no valid filename given in params');
         }
 
-        if (isset($params->messageEOL)) {
-            $this->messageEOL = (string) $params->messageEOL;
-        }
-
         $this->openMboxFile($params->filename);
         $this->has['top']      = true;
         $this->has['uniqueid'] = false;
@@ -231,7 +213,7 @@ class Mbox extends AbstractStorage
 
         $result = false;
 
-        $line = fgets($file) ?: '';
+        $line = fgets($file);
         if (strpos($line, 'From ') === 0) {
             $result = true;
         }

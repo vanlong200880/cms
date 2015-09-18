@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -204,11 +204,6 @@ class Image extends AbstractRenderer
                 $height = $this->userHeight;
             }
 
-            // Cast width and height to ensure they are correct type for image
-            // operations
-            $width  = (int) $width;
-            $height = (int) $height;
-
             $this->resource = imagecreatetruecolor($width, $height);
 
             $white = imagecolorallocate($this->resource, 255, 255, 255);
@@ -233,7 +228,7 @@ class Image extends AbstractRenderer
 
         // JPEG does not support transparency, if transparentBackground is true and
         // image type is JPEG, ignore transparency
-        if ($this->getImageType() != "jpeg" && $this->transparentBackground) {
+        if($this->getImageType() != "jpeg" && $this->transparentBackground) {
             imagecolortransparent($this->resource, $this->imageBackgroundColor);
         }
 
@@ -243,8 +238,8 @@ class Image extends AbstractRenderer
             $this->resource,
             $this->leftOffset,
             $this->topOffset,
-            (int) ($this->leftOffset + $barcodeWidth - 1),
-            (int) ($this->topOffset + $barcodeHeight - 1),
+            $this->leftOffset + $barcodeWidth - 1,
+            $this->topOffset + $barcodeHeight - 1,
             $this->imageBackgroundColor
         );
     }
@@ -340,12 +335,10 @@ class Image extends AbstractRenderer
             $points[3][0] + $this->leftOffset,
             $points[3][1] + $this->topOffset,   );
 
-        $allocatedColor = imagecolorallocate(
-            $this->resource,
+        $allocatedColor = imagecolorallocate($this->resource,
             ($color & 0xFF0000) >> 16,
             ($color & 0x00FF00) >> 8,
-            $color & 0x0000FF
-        );
+            $color & 0x0000FF         );
 
         if ($filled) {
             imagefilledpolygon($this->resource, $newPoints, 4, $allocatedColor);
@@ -363,19 +356,17 @@ class Image extends AbstractRenderer
      * @param string $font
      * @param int $color
      * @param string $alignment
-     * @param float|int $orientation
+     * @param float $orientation
      * @throws Exception\RuntimeException
      */
     protected function drawText($text, $size, $position, $font, $color, $alignment = 'center', $orientation = 0)
     {
-        $allocatedColor = imagecolorallocate(
-            $this->resource,
+        $allocatedColor = imagecolorallocate($this->resource,
             ($color & 0xFF0000) >> 16,
             ($color & 0x00FF00) >> 8,
-            $color & 0x0000FF
-        );
+            $color & 0x0000FF         );
 
-        if ($font === null) {
+        if ($font == null) {
             $font = 3;
         }
         $position[0] += $this->leftOffset;
@@ -387,7 +378,7 @@ class Image extends AbstractRenderer
                  * imagestring() doesn't allow orientation, if orientation
                  * needed: a TTF font is required.
                  * Throwing an exception here, allow to use automaticRenderError
-                 * to inform user of the problem instead of simply not drawing
+                 * to informe user of the problem instead of simply not drawing
                  * the text
                  */
                 throw new Exception\RuntimeException(
@@ -409,10 +400,10 @@ class Image extends AbstractRenderer
             }
             imagestring($this->resource, $font, $positionX, $positionY, $text, $color);
         } else {
+
             if (!function_exists('imagettfbbox')) {
                 throw new Exception\RuntimeException(
-                    'A font was provided, but this instance of PHP does not have TTF (FreeType) support'
-                );
+                    'A font was provided, but this instance of PHP does not have TTF (FreeType) support');
             }
 
             $box = imagettfbbox($size, 0, $font, $text);
@@ -427,16 +418,14 @@ class Image extends AbstractRenderer
                     $width = ($box[2] - $box[0]);
                     break;
             }
-            imagettftext(
-                $this->resource,
+            imagettftext($this->resource,
                 $size,
                 $orientation,
                 $position[0] - ($width * cos(pi() * $orientation / 180)),
                 $position[1] + ($width * sin(pi() * $orientation / 180)),
                 $allocatedColor,
                 $font,
-                $text
-            );
+                $text);
         }
     }
 }

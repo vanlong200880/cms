@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -12,6 +12,7 @@ namespace Zend\Http;
 use ArrayIterator;
 use Zend\Http\Header\SetCookie;
 use Zend\Uri;
+
 
 /**
  * A Zend\Http\Cookies object is designed to contain and maintain HTTP cookies, and should
@@ -59,7 +60,7 @@ class Cookies extends Headers
     const COOKIE_STRING_CONCAT_STRICT = 3;
 
     /**
-     * @var array
+     * @var \Zend\Http\Cookies
      */
     protected $cookies = array();
 
@@ -160,12 +161,9 @@ class Cookies extends Headers
      * @throws Exception\InvalidArgumentException if invalid URI specified
      * @return array|string
      */
-    public function getMatchingCookies(
-        $uri,
-        $matchSessionCookies = true,
-        $retAs = self::COOKIE_OBJECT,
-        $now = null
-    ) {
+    public function getMatchingCookies($uri, $matchSessionCookies = true,
+        $retAs = self::COOKIE_OBJECT, $now = null)
+    {
         if (is_string($uri)) {
             $uri = Uri\UriFactory::factory($uri, 'http');
         } elseif (!$uri instanceof Uri\Uri) {
@@ -219,8 +217,7 @@ class Cookies extends Headers
 
         // Get correct cookie path
         $path = $uri->getPath();
-        $lastSlashPos = strrpos($path, '/') ?: 0;
-        $path = substr($path, 0, $lastSlashPos);
+        $path = substr($path, 0, strrpos($path, '/'));
         if (! $path) {
             $path = '/';
         }
@@ -231,13 +228,16 @@ class Cookies extends Headers
             switch ($retAs) {
                 case self::COOKIE_OBJECT:
                     return $cookie;
+                    break;
 
                 case self::COOKIE_STRING_ARRAY:
                 case self::COOKIE_STRING_CONCAT:
                     return $cookie->__toString();
+                    break;
 
                 default:
                     throw new Exception\InvalidArgumentException("Invalid value passed for \$retAs: {$retAs}");
+                    break;
             }
         }
 
@@ -268,17 +268,20 @@ class Cookies extends Headers
             switch ($retAs) {
                 case self::COOKIE_STRING_ARRAY:
                     return array($ptr->__toString());
+                    break;
 
                 case self::COOKIE_STRING_CONCAT:
                     return $ptr->__toString();
+                    break;
 
                 case self::COOKIE_OBJECT:
                 default:
                     return array($ptr);
+                    break;
             }
         }
 
-        return;
+        return null;
     }
 
     /**

@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -172,7 +172,7 @@ class Collection extends Fieldset
         }
 
         $this->object = $object;
-        $this->count  = count($object) > $this->count ? count($object) : $this->count;
+        $this->count  = count($object);
 
         return $this;
     }
@@ -209,8 +209,7 @@ class Collection extends Fieldset
         }
 
         // Check to see if elements have been replaced or removed
-        $toRemove = array();
-        foreach ($this as $name => $elementOrFieldset) {
+        foreach ($this->byName as $name => $elementOrFieldset) {
             if (isset($data[$name])) {
                 continue;
             }
@@ -222,10 +221,6 @@ class Collection extends Fieldset
                 ));
             }
 
-            $toRemove[] = $name;
-        }
-
-        foreach ($toRemove as $name) {
             $this->remove($name);
         }
 
@@ -387,8 +382,7 @@ class Collection extends Fieldset
     }
 
     /**
-     * If set to true, a template prototype is automatically added to the form
-     * to ease the creation of dynamic elements through JavaScript
+     * If set to true, a template prototype is automatically added to the form to ease the creation of dynamic elements through JavaScript
      *
      * @param bool $shouldCreateTemplate
      * @return Collection
@@ -491,8 +485,7 @@ class Collection extends Fieldset
 
         parent::prepareElement($form);
 
-        // The template element has been prepared, but we don't want it to be
-        // rendered nor validated, so remove it from the list.
+        // The template element has been prepared, but we don't want it to be rendered nor validated, so remove it from the list
         if ($this->shouldCreateTemplate) {
             $this->remove($this->templatePlaceholder);
         }
@@ -507,6 +500,7 @@ class Collection extends Fieldset
      */
     public function extract()
     {
+
         if ($this->object instanceof Traversable) {
             $this->object = ArrayUtils::iteratorToArray($this->object, false);
         }
@@ -518,37 +512,21 @@ class Collection extends Fieldset
         $values = array();
 
         foreach ($this->object as $key => $value) {
-            // If a hydrator is provided, our work here is done
             if ($this->hydrator) {
                 $values[$key] = $this->hydrator->extract($value);
-                continue;
-            }
-
-            // If the target element is a fieldset that can accept the provided value
-            // we should clone it, inject the value and extract the data
-            if ($this->targetElement instanceof FieldsetInterface) {
-                if (! $this->targetElement->allowObjectBinding($value)) {
-                    continue;
-                }
+            } elseif ($value instanceof $this->targetElement->object) {
+                // @see https://github.com/zendframework/zf2/pull/2848
                 $targetElement = clone $this->targetElement;
-                $targetElement->setObject($value);
+                $targetElement->object = $value;
                 $values[$key] = $targetElement->extract();
                 if (!$this->createNewObjects() && $this->has($key)) {
-                    $this->get($key)->setObject($value);
+                    $fieldset = $this->get($key);
+                    if ($fieldset instanceof Fieldset && $fieldset->allowObjectBinding($value)) {
+                        $fieldset->setObject($value);
+                    }
                 }
-                continue;
-            }
-
-            // If the target element is a non-fieldset element, just use the value
-            if ($this->targetElement instanceof ElementInterface) {
-                $values[$key] = $value;
-                if (!$this->createNewObjects() && $this->has($key)) {
-                    $this->get($key)->setValue($value);
-                }
-                continue;
             }
         }
-
         return $values;
     }
 
@@ -565,7 +543,6 @@ class Collection extends Fieldset
     /**
      * Add a new instance of the target element
      *
-     * @param string $name
      * @return ElementInterface
      * @throws Exception\DomainException
      */
@@ -597,7 +574,7 @@ class Collection extends Fieldset
     protected function createTemplateElement()
     {
         if (!$this->shouldCreateTemplate) {
-            return;
+            return null;
         }
 
         if ($this->templateElement) {

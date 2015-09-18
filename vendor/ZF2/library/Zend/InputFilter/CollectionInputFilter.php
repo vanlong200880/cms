@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -47,7 +47,6 @@ class CollectionInputFilter extends InputFilter
      * Set the input filter to use when looping the data
      *
      * @param BaseInputFilter|array|Traversable $inputFilter
-     * @throws Exception\RuntimeException
      * @return CollectionInputFilter
      */
     public function setInputFilter($inputFilter)
@@ -128,7 +127,7 @@ class CollectionInputFilter extends InputFilter
     public function getCount()
     {
         if (null === $this->count) {
-            return count($this->data);
+            $this->count = count($this->data);
         }
 
         return $this->count;
@@ -156,13 +155,11 @@ class CollectionInputFilter extends InputFilter
             }
         }
 
-        if (is_scalar($this->data)
-            || count($this->data) < $this->getCount()
-        ) {
+        if (count($this->data) < $this->getCount()) {
             $valid = false;
         }
 
-        if (empty($this->data) || is_scalar($this->data)) {
+        if (empty($this->data)) {
             $this->clearValues();
             $this->clearRawValues();
 
@@ -200,8 +197,11 @@ class CollectionInputFilter extends InputFilter
     public function setValidationGroup($name)
     {
         if ($name === self::VALIDATE_ALL) {
-            $name = null;
+            $this->validationGroup = null;
+
+            return $this;
         }
+
         $this->validationGroup = $name;
 
         return $this;

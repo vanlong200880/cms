@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -79,23 +79,12 @@ class ServerUrl extends AbstractHelper
 
         if (isset($_SERVER['HTTP_HOST']) && !empty($_SERVER['HTTP_HOST'])) {
             // Detect if the port is set in SERVER_PORT and included in HTTP_HOST
-            if (isset($_SERVER['SERVER_PORT'])
-                && preg_match('/^(?P<host>.*?):(?P<port>\d+)$/', $_SERVER['HTTP_HOST'], $matches)
-            ) {
-                // If they are the same, set the host to just the hostname
-                // portion of the Host header.
-                if ((int) $matches['port'] === (int) $_SERVER['SERVER_PORT']) {
-                    $this->setHost($matches['host']);
+            if (isset($_SERVER['SERVER_PORT'])) {
+                $portStr = ':' . $_SERVER['SERVER_PORT'];
+                if (substr($_SERVER['HTTP_HOST'], 0-strlen($portStr), strlen($portStr)) == $portStr) {
+                    $this->setHost(substr($_SERVER['HTTP_HOST'], 0, 0-strlen($portStr)));
                     return;
                 }
-
-                // At this point, we have a SERVER_PORT that differs from the
-                // Host header, indicating we likely have a port-forwarding
-                // situation. As such, we'll set the host and port from the
-                // matched values.
-                $this->setPort((int) $matches['port']);
-                $this->setHost($matches['host']);
-                return;
             }
 
             $this->setHost($_SERVER['HTTP_HOST']);
@@ -123,10 +112,6 @@ class ServerUrl extends AbstractHelper
         }
 
         if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT']) {
-            if ($this->isReversedProxy()) {
-                $this->setPort(443);
-                return;
-            }
             $this->setPort($_SERVER['SERVER_PORT']);
             return;
         }
@@ -147,7 +132,6 @@ class ServerUrl extends AbstractHelper
             case (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true)):
             case (isset($_SERVER['HTTP_SCHEME']) && ($_SERVER['HTTP_SCHEME'] == 'https')):
             case (443 === $this->getPort()):
-            case $this->isReversedProxy():
                 $scheme = 'https';
                 break;
             default:
@@ -156,11 +140,6 @@ class ServerUrl extends AbstractHelper
         }
 
         $this->setScheme($scheme);
-    }
-
-    protected function isReversedProxy()
-    {
-        return isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https';
     }
 
     /**

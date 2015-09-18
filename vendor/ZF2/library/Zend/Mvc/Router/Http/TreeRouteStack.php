@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -235,7 +235,7 @@ class TreeRouteStack extends SimpleRouteStack
             return $this->prototypes[$name];
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -250,7 +250,7 @@ class TreeRouteStack extends SimpleRouteStack
     public function match(Request $request, $pathOffset = null, array $options = array())
     {
         if (!method_exists($request, 'getUri')) {
-            return;
+            return null;
         }
 
         if ($this->baseUrl === null && method_exists($request, 'getBaseUrl')) {
@@ -291,7 +291,7 @@ class TreeRouteStack extends SimpleRouteStack
             }
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -371,21 +371,9 @@ class TreeRouteStack extends SimpleRouteStack
                 $uri->setScheme($this->requestUri->getScheme());
             }
 
-            $uri->setPath($path);
-
-            if (!isset($options['normalize_path']) || $options['normalize_path']) {
-                $uri->normalize();
-            }
-
-            return $uri->toString();
+            return $uri->setPath($path)->normalize()->toString();
         } elseif (!$uri->isAbsolute() && $uri->isValidRelative()) {
-            $uri->setPath($path);
-
-            if (!isset($options['normalize_path']) || $options['normalize_path']) {
-                $uri->normalize();
-            }
-
-            return $uri->toString();
+            return $uri->setPath($path)->normalize()->toString();
         }
 
         return $path;

@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -53,37 +53,34 @@ class FirePhpBridge implements FirePhpInterface
     /**
      * Log an error message
      *
-     * @param  string      $line
-     * @param  string|null $label
+     * @param  string $line
      * @return void
      */
-    public function error($line, $label = null)
+    public function error($line)
     {
-        return $this->firephp->error($line, $label);
+        return $this->firephp->error($line);
     }
 
     /**
      * Log a warning
      *
-     * @param  string      $line
-     * @param  string|null $label
+     * @param  string $line
      * @return void
      */
-    public function warn($line, $label = null)
+    public function warn($line)
     {
-        return $this->firephp->warn($line, $label);
+        return $this->firephp->warn($line);
     }
 
     /**
      * Log informational message
      *
-     * @param  string      $line
-     * @param  string|null $label
+     * @param  string $line
      * @return void
      */
-    public function info($line, $label = null)
+    public function info($line)
     {
-        return $this->firephp->info($line, $label);
+        return $this->firephp->info($line);
     }
 
     /**
@@ -100,12 +97,11 @@ class FirePhpBridge implements FirePhpInterface
     /**
      * Log a message
      *
-     * @param  string      $line
-     * @param  string|null $label
+     * @param  string $line
      * @return void
      */
-    public function log($line, $label = null)
+    public function log($line)
     {
-        return $this->firephp->trace($line, $label);
+        return $this->firephp->trace($line);
     }
 }

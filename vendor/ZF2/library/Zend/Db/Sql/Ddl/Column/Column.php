@@ -3,20 +3,18 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Db\Sql\Ddl\Column;
-
-use Zend\Db\Sql\Ddl\Constraint\ConstraintInterface;
 
 class Column implements ColumnInterface
 {
     /**
      * @var null|string|int
      */
-    protected $default;
+    protected $default = null;
 
     /**
      * @var bool
@@ -26,17 +24,12 @@ class Column implements ColumnInterface
     /**
      * @var string
      */
-    protected $name = '';
+    protected $name = null;
 
     /**
      * @var array
      */
     protected $options = array();
-
-    /**
-     * @var ConstraintInterface[]
-     */
-    protected $constraints = array();
 
     /**
      * @var string
@@ -50,16 +43,10 @@ class Column implements ColumnInterface
 
     /**
      * @param null|string $name
-     * @param bool        $nullable
-     * @param mixed|null  $default
-     * @param mixed[]     $options
      */
-    public function __construct($name = null, $nullable = false, $default = null, array $options = array())
+    public function __construct($name = null)
     {
-        $this->setName($name);
-        $this->setNullable($nullable);
-        $this->setDefault($default);
-        $this->setOptions($options);
+        (!$name) ?: $this->setName($name);
     }
 
     /**
@@ -68,7 +55,7 @@ class Column implements ColumnInterface
      */
     public function setName($name)
     {
-        $this->name = (string) $name;
+        $this->name = $name;
         return $this;
     }
 
@@ -146,18 +133,6 @@ class Column implements ColumnInterface
     }
 
     /**
-     * @param ConstraintInterface $constraint
-     *
-     * @return self
-     */
-    public function addConstraint(ConstraintInterface $constraint)
-    {
-        $this->constraints[] = $constraint;
-
-        return $this;
-    }
-
-    /**
      * @return array
      */
     public function getExpressionData()
@@ -171,7 +146,7 @@ class Column implements ColumnInterface
         $types = array(self::TYPE_IDENTIFIER, self::TYPE_LITERAL);
 
         if (!$this->isNullable) {
-            $spec .= ' NOT NULL';
+            $params[1] .= ' NOT NULL';
         }
 
         if ($this->default !== null) {
@@ -180,17 +155,10 @@ class Column implements ColumnInterface
             $types[]  = self::TYPE_VALUE;
         }
 
-        $data = array(array(
+        return array(array(
             $spec,
             $params,
             $types,
         ));
-
-        foreach ($this->constraints as $constraint) {
-            $data[] = ' ';
-            $data = array_merge($data, $constraint->getExpressionData());
-        }
-
-        return $data;
     }
 }

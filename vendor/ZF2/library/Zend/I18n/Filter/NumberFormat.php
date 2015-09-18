@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -13,6 +13,7 @@ use Zend\Stdlib\ErrorHandler;
 
 class NumberFormat extends NumberParse
 {
+
     /**
      * Defined by Zend\Filter\FilterInterface
      *
@@ -26,18 +27,23 @@ class NumberFormat extends NumberParse
             return $value;
         }
 
-        if (!is_int($value) && !is_float($value)) {
+        if (!is_int($value)
+            && !is_float($value)
+        ) {
             $result = parent::filter($value);
         } else {
             ErrorHandler::start();
 
-            $result = $this->getFormatter()->format($value, $this->getType());
+            $result = $this->getFormatter()->format(
+                $value,
+                $this->getType()
+            );
 
             ErrorHandler::stop();
         }
 
         if (false !== $result) {
-            return $result;
+            return str_replace("\xC2\xA0", ' ', $result);
         }
 
         return $value;

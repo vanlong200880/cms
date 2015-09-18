@@ -27,7 +27,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="filter"> 
-                                <form action="<?php echo $this->url('backend', array('controller' => 'user',  'action' => 'index', 'page' => $param['page'], 'type' => $param['page'], 'sort' => $param['sort'], 'order' => $param['order'], 'status' => $param['status'], 'txtSearch' => $param['txtSearch'])) ?>" method="post" enctype="multipart/form-data">
+                                <form action="<?php echo $this->url('backend', array('controller' => $controller,  'action' => $action, 'page' => $param['page'], 'type' => $param['page'], 'sort' => $param['sort'], 'order' => $param['order'], 'status' => $param['status'], 'txtSearch' => $param['txtSearch'])) ?>" method="post" enctype="multipart/form-data">
                                     <fieldset>
                                         <legend>Tìm kiếm</legend>
                                         <div class="col-lg-5 col-md-5">
@@ -171,6 +171,9 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
+			<?php
+				echo $this->paginationControl($paginator, 'Elastic', 'partial/pagination.phtml',array('name' => 'backend','controller' => 'user','action' => 'index', 'routeParam' => $routeParam));
+			?>
             <div class="pager">
                 <ul class="pagination">
                     <li><a href="#"><i class="fa fa-angle-double-left"></i></a></li>

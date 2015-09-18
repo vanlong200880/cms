@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -31,13 +31,6 @@ class InjectTemplateListener extends AbstractListenerAggregate
      * @var array
      */
     protected $controllerMap = array();
-
-    /**
-     * Flag to force the use of the route match controller param
-     *
-     * @var boolean
-     */
-    protected $preferRouteMatchController = false;
 
     /**
      * {@inheritDoc}
@@ -73,10 +66,8 @@ class InjectTemplateListener extends AbstractListenerAggregate
         if (is_object($controller)) {
             $controller = get_class($controller);
         }
-
-        $routeMatchController = $routeMatch->getParam('controller', '');
-        if (!$controller || ($this->preferRouteMatchController && $routeMatchController)) {
-            $controller = $routeMatchController;
+        if (!$controller) {
+            $controller = $routeMatch->getParam('controller', '');
         }
 
         $template = $this->mapController($controller);
@@ -131,10 +122,6 @@ class InjectTemplateListener extends AbstractListenerAggregate
      */
     public function mapController($controller)
     {
-        if (! is_string($controller)) {
-            return false;
-        }
-
         foreach ($this->controllerMap as $namespace => $replacement) {
             if (
                 // Allow disabling rule by setting value to false since config
@@ -150,7 +137,7 @@ class InjectTemplateListener extends AbstractListenerAggregate
             // Map namespace to $replacement if its value is string
             if (is_string($replacement)) {
                 $map = rtrim($replacement, '/') . '/';
-                $controller = substr($controller, strlen($namespace) + 1) ?: '';
+                $controller = substr($controller, strlen($namespace) + 1);
             }
 
             //strip Controller namespace(s) (but not classname)
@@ -239,24 +226,5 @@ class InjectTemplateListener extends AbstractListenerAggregate
         }
 
         return $controller;
-    }
-
-    /**
-     * Sets the flag to instruct the listener to prefer the route match controller param
-     * over the class name
-     *
-     * @param boolean $preferRouteMatchController
-     */
-    public function setPreferRouteMatchController($preferRouteMatchController)
-    {
-        $this->preferRouteMatchController = (bool) $preferRouteMatchController;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isPreferRouteMatchController()
-    {
-        return $this->preferRouteMatchController;
     }
 }

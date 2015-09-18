@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -11,7 +11,6 @@ namespace Zend\Form\View\Helper;
 
 use Zend\Form\FieldsetInterface;
 use Zend\Form\FormInterface;
-use Zend\View\Helper\Doctype;
 
 /**
  * View helper for rendering Form objects
@@ -38,7 +37,7 @@ class Form extends AbstractHelper
      * Invoke as function
      *
      * @param  null|FormInterface $form
-     * @return Form|string
+     * @return Form
      */
     public function __invoke(FormInterface $form = null)
     {
@@ -82,15 +81,10 @@ class Form extends AbstractHelper
      */
     public function openTag(FormInterface $form = null)
     {
-        $doctype    = $this->getDoctype();
-        $attributes = array();
-
-        if (! (Doctype::HTML5 === $doctype || Doctype::XHTML5 === $doctype)) {
-            $attributes = array(
-                'action' => '',
-                'method' => 'get',
-            );
-        }
+        $attributes = array(
+            'action' => '',
+            'method' => 'get',
+        );
 
         if ($form instanceof FormInterface) {
             $formAttributes = $form->getAttributes();
@@ -100,11 +94,9 @@ class Form extends AbstractHelper
             $attributes = array_merge($attributes, $formAttributes);
         }
 
-        if ($attributes) {
-            return sprintf('<form %s>', $this->createAttributesString($attributes));
-        }
+        $tag = sprintf('<form %s>', $this->createAttributesString($attributes));
 
-        return '<form>';
+        return $tag;
     }
 
     /**

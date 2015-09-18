@@ -3,21 +3,35 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Db\Adapter\Driver\Mysqli;
 
-use Zend\Db\Adapter\Driver\AbstractConnection;
+use Zend\Db\Adapter\Driver\ConnectionInterface;
 use Zend\Db\Adapter\Exception;
+use Zend\Db\Adapter\Profiler;
 
-class Connection extends AbstractConnection
+class Connection implements ConnectionInterface, Profiler\ProfilerAwareInterface
 {
+
     /**
      * @var Mysqli
      */
     protected $driver = null;
+
+    /**
+     * @var Profiler\ProfilerInterface
+     */
+    protected $profiler = null;
+
+    /**
+     * Connection parameters
+     *
+     * @var array
+     */
+    protected $connectionParameters = array();
 
     /**
      * @var \mysqli
@@ -25,9 +39,16 @@ class Connection extends AbstractConnection
     protected $resource = null;
 
     /**
+     * In transaction
+     *
+     * @var bool
+     */
+    protected $inTransaction = false;
+
+    /**
      * Constructor
      *
-     * @param  array|mysqli|null                                   $connectionInfo
+     * @param array|mysqli|null $connectionInfo
      * @throws \Zend\Db\Adapter\Exception\InvalidArgumentException
      */
     public function __construct($connectionInfo = null)
@@ -42,18 +63,59 @@ class Connection extends AbstractConnection
     }
 
     /**
-     * @param  Mysqli $driver
-     * @return self
+     * @param Mysqli $driver
+     * @return Connection
      */
     public function setDriver(Mysqli $driver)
     {
         $this->driver = $driver;
-
         return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * @param Profiler\ProfilerInterface $profiler
+     * @return Connection
+     */
+    public function setProfiler(Profiler\ProfilerInterface $profiler)
+    {
+        $this->profiler = $profiler;
+        return $this;
+    }
+
+    /**
+     * @return null|Profiler\ProfilerInterface
+     */
+    public function getProfiler()
+    {
+        return $this->profiler;
+    }
+
+    /**
+     * Set connection parameters
+     *
+     * @param  array $connectionParameters
+     * @return Connection
+     */
+    public function setConnectionParameters(array $connectionParameters)
+    {
+        $this->connectionParameters = $connectionParameters;
+        return $this;
+    }
+
+    /**
+     * Get connection parameters
+     *
+     * @return array
+     */
+    public function getConnectionParameters()
+    {
+        return $this->connectionParameters;
+    }
+
+    /**
+     * Get current schema
+     *
+     * @return string
      */
     public function getCurrentSchema()
     {
@@ -64,7 +126,6 @@ class Connection extends AbstractConnection
         /** @var $result \mysqli_result */
         $result = $this->resource->query('SELECT DATABASE()');
         $r = $result->fetch_row();
-
         return $r[0];
     }
 
@@ -72,17 +133,30 @@ class Connection extends AbstractConnection
      * Set resource
      *
      * @param  \mysqli $resource
-     * @return self
+     * @return Connection
      */
     public function setResource(\mysqli $resource)
     {
         $this->resource = $resource;
-
         return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * Get resource
+     *
+     * @return \mysqli
+     */
+    public function getResource()
+    {
+        $this->connect();
+        return $this->resource;
+    }
+
+    /**
+     * Connect
+     *
+     * @throws Exception\RuntimeException
+     * @return Connection
      */
     public function connect()
     {
@@ -100,7 +174,6 @@ class Connection extends AbstractConnection
                     return $p[$name];
                 }
             }
-
             return;
         };
 
@@ -145,7 +218,9 @@ class Connection extends AbstractConnection
     }
 
     /**
-     * {@inheritDoc}
+     * Is connected
+     *
+     * @return bool
      */
     public function isConnected()
     {
@@ -153,7 +228,9 @@ class Connection extends AbstractConnection
     }
 
     /**
-     * {@inheritDoc}
+     * Disconnect
+     *
+     * @return void
      */
     public function disconnect()
     {
@@ -164,7 +241,9 @@ class Connection extends AbstractConnection
     }
 
     /**
-     * {@inheritDoc}
+     * Begin transaction
+     *
+     * @return void
      */
     public function beginTransaction()
     {
@@ -174,32 +253,43 @@ class Connection extends AbstractConnection
 
         $this->resource->autocommit(false);
         $this->inTransaction = true;
-
-        return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * In transaction
+     *
+     * @return bool
+     */
+    public function inTransaction()
+    {
+        return $this->inTransaction;
+    }
+
+    /**
+     * Commit
+     *
+     * @return void
      */
     public function commit()
     {
-        if (!$this->isConnected()) {
+        if (!$this->resource) {
             $this->connect();
         }
 
         $this->resource->commit();
         $this->inTransaction = false;
         $this->resource->autocommit(true);
-
-        return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * Rollback
+     *
+     * @throws Exception\RuntimeException
+     * @return Connection
      */
     public function rollback()
     {
-        if (!$this->isConnected()) {
+        if (!$this->resource) {
             throw new Exception\RuntimeException('Must be connected before you can rollback.');
         }
 
@@ -209,15 +299,15 @@ class Connection extends AbstractConnection
 
         $this->resource->rollback();
         $this->resource->autocommit(true);
-        $this->inTransaction = false;
-
         return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * Execute
      *
+     * @param  string $sql
      * @throws Exception\InvalidQueryException
+     * @return Result
      */
     public function execute($sql)
     {
@@ -241,12 +331,14 @@ class Connection extends AbstractConnection
         }
 
         $resultPrototype = $this->driver->createResult(($resultResource === true) ? $this->resource : $resultResource);
-
         return $resultPrototype;
     }
 
     /**
-     * {@inheritDoc}
+     * Get last generated id
+     *
+     * @param  null $name Ignored
+     * @return int
      */
     public function getLastGeneratedValue($name = null)
     {

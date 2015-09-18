@@ -3,19 +3,17 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Form\Element;
 
 use DateTime as PhpDateTime;
-use Traversable;
 use Zend\Form\Element;
 use Zend\Form\ElementPrepareAwareInterface;
 use Zend\Form\FormInterface;
 use Zend\InputFilter\InputProviderInterface;
-use Zend\Stdlib\ArrayUtils;
 use Zend\Validator\Regex as RegexValidator;
 use Zend\Validator\ValidatorInterface;
 
@@ -70,6 +68,7 @@ class MonthSelect extends Element implements InputProviderInterface, ElementPrep
      */
     protected $validator;
 
+
     /**
      * Constructor. Add two selects elements
      *
@@ -88,25 +87,18 @@ class MonthSelect extends Element implements InputProviderInterface, ElementPrep
     }
 
     /**
-     * Set element options.
-     *
-     * Accepted options for MonthSelect:
-     *
+     * Accepted options for DateSelect:
      * - month_attributes: HTML attributes to be rendered with the month element
      * - year_attributes: HTML attributes to be rendered with the month element
      * - min_year: min year to use in the year select
      * - max_year: max year to use in the year select
      *
-     * @param array|Traversable $options
-     * @return self
+     * @param array|\Traversable $options
+     * @return MonthSelect
      */
     public function setOptions($options)
     {
         parent::setOptions($options);
-
-        if ($options instanceof Traversable) {
-            $options = ArrayUtils::iteratorToArray($options);
-        }
 
         if (isset($options['month_attributes'])) {
             $this->setMonthAttributes($options['month_attributes']);
@@ -152,20 +144,10 @@ class MonthSelect extends Element implements InputProviderInterface, ElementPrep
     }
 
     /**
-     * Get both the year and month elements
-     *
-     * @return array
-     */
-    public function getElements()
-    {
-        return array($this->monthElement, $this->yearElement);
-    }
-
-    /**
      * Set the month attributes
      *
      * @param  array $monthAttributes
-     * @return self
+     * @return MonthSelect
      */
     public function setMonthAttributes(array $monthAttributes)
     {
@@ -187,7 +169,7 @@ class MonthSelect extends Element implements InputProviderInterface, ElementPrep
      * Set the year attributes
      *
      * @param  array $yearAttributes
-     * @return self
+     * @return MonthSelect
      */
     public function setYearAttributes(array $yearAttributes)
     {
@@ -207,7 +189,7 @@ class MonthSelect extends Element implements InputProviderInterface, ElementPrep
 
     /**
      * @param  int $minYear
-     * @return self
+     * @return MonthSelect
      */
     public function setMinYear($minYear)
     {
@@ -225,7 +207,7 @@ class MonthSelect extends Element implements InputProviderInterface, ElementPrep
 
     /**
      * @param  int $maxYear
-     * @return self
+     * @return MonthSelect
      */
     public function setMaxYear($maxYear)
     {
@@ -243,7 +225,7 @@ class MonthSelect extends Element implements InputProviderInterface, ElementPrep
 
     /**
      * @param  bool $createEmptyOption
-     * @return self
+     * @return MonthSelect
      */
     public function setShouldCreateEmptyOption($createEmptyOption)
     {
@@ -261,7 +243,7 @@ class MonthSelect extends Element implements InputProviderInterface, ElementPrep
 
     /**
      * @param  bool $renderDelimiters
-     * @return self
+     * @return MonthSelect
      */
     public function setShouldRenderDelimiters($renderDelimiters)
     {
@@ -279,7 +261,7 @@ class MonthSelect extends Element implements InputProviderInterface, ElementPrep
 
     /**
      * @param mixed $value
-     * @return self
+     * @return void|\Zend\Form\Element
      */
     public function setValue($value)
     {
@@ -292,16 +274,14 @@ class MonthSelect extends Element implements InputProviderInterface, ElementPrep
 
         $this->yearElement->setValue($value['year']);
         $this->monthElement->setValue($value['month']);
-        return $this;
     }
 
     /**
-     * @return string
+     * @return String
      */
     public function getValue()
     {
-        return sprintf(
-            '%s-%s',
+        return sprintf('%s-%s',
             $this->getYearElement()->getValue(),
             $this->getMonthElement()->getValue()
         );
@@ -311,7 +291,7 @@ class MonthSelect extends Element implements InputProviderInterface, ElementPrep
      * Prepare the form element (mostly used for rendering purposes)
      *
      * @param  FormInterface $form
-     * @return void
+     * @return mixed
      */
     public function prepareElement(FormInterface $form)
     {
@@ -342,11 +322,23 @@ class MonthSelect extends Element implements InputProviderInterface, ElementPrep
             'name' => $this->getName(),
             'required' => false,
             'filters' => array(
-                array('name' => 'MonthSelect'),
+                array(
+                    'name'    => 'Callback',
+                    'options' => array(
+                        'callback' => function ($date) {
+                            // Convert the date to a specific format
+                            if (is_array($date)) {
+                                $date = $date['year'] . '-' . $date['month'];
+                            }
+
+                            return $date;
+                        }
+                    )
+                )
             ),
             'validators' => array(
                 $this->getValidator(),
-            ),
+            )
         );
     }
 

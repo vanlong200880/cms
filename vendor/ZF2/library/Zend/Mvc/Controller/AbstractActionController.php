@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -12,6 +12,7 @@ namespace Zend\Mvc\Controller;
 use Zend\Http\Response as HttpResponse;
 use Zend\Mvc\Exception;
 use Zend\Mvc\MvcEvent;
+use Zend\View\Model\ConsoleModel;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -20,7 +21,7 @@ use Zend\View\Model\ViewModel;
 abstract class AbstractActionController extends AbstractController
 {
     /**
-     * {@inheritDoc}
+     * @var string
      */
     protected $eventIdentifier = __CLASS__;
 
@@ -87,24 +88,30 @@ abstract class AbstractActionController extends AbstractController
     }
 
     /**
-     * @deprecated please use the {@see \Zend\Mvc\Controller\Plugin\CreateHttpNotFoundModel} plugin instead: this
-     *             method will be removed in release 2.5 or later.
+     * Create an HTTP view model representing a "not found" page
      *
-     * {@inheritDoc}
+     * @param  HttpResponse $response
+     * @return ViewModel
      */
     protected function createHttpNotFoundModel(HttpResponse $response)
     {
-        return $this->__call('createHttpNotFoundModel', array($response));
+        $response->setStatusCode(404);
+        return new ViewModel(array(
+            'content' => 'Page not found',
+        ));
     }
 
     /**
-     * @deprecated please use the {@see \Zend\Mvc\Controller\Plugin\CreateConsoleNotFoundModel} plugin instead: this
-     *             method will be removed in release 2.5 or later.
+     * Create a console view model representing a "not found" action
      *
-     * {@inheritDoc}
+     * @param  \Zend\Stdlib\ResponseInterface $response
+     * @return ConsoleModel
      */
     protected function createConsoleNotFoundModel($response)
     {
-        return $this->__call('createConsoleNotFoundModel', array($response));
+        $viewModel = new ConsoleModel();
+        $viewModel->setErrorLevel(1);
+        $viewModel->setResult('Page not found');
+        return $viewModel;
     }
 }

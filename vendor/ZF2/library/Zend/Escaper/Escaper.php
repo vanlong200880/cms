@@ -3,11 +3,12 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Escaper;
+
 
 /**
  * Context specific methods for use in secure output escaping
@@ -145,7 +146,8 @@ class Escaper
      */
     public function escapeHtml($string)
     {
-        return htmlspecialchars($string, $this->htmlSpecialCharsFlags, $this->encoding);
+        $result = htmlspecialchars($string, $this->htmlSpecialCharsFlags, $this->encoding);
+        return $result;
     }
 
     /**
@@ -320,9 +322,9 @@ class Escaper
         }
 
         if (!$this->isUtf8($result)) {
-            throw new Exception\RuntimeException(
-                sprintf('String to be escaped was not valid UTF-8 or could not be converted: %s', $result)
-            );
+            throw new Exception\RuntimeException(sprintf(
+                'String to be escaped was not valid UTF-8 or could not be converted: %s', $result
+            ));
         }
 
         return $result;

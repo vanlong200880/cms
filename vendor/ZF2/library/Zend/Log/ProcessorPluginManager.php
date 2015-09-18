@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -14,18 +14,17 @@ use Zend\ServiceManager\AbstractPluginManager;
 class ProcessorPluginManager extends AbstractPluginManager
 {
     /**
-     * Default set of processors
+     * Default set of writers
      *
      * @var array
      */
     protected $invokableClasses = array(
         'backtrace' => 'Zend\Log\Processor\Backtrace',
-        'referenceid' => 'Zend\Log\Processor\ReferenceId',
         'requestid' => 'Zend\Log\Processor\RequestId',
     );
 
     /**
-     * Allow many processors of the same type
+     * Allow many writers of the same type
      *
      * @var bool
      */

@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -81,7 +81,7 @@ class Dba extends AbstractAdapter implements
      * Set options.
      *
      * @param  array|Traversable|DbaOptions $options
-     * @return self
+     * @return Apc
      * @see    getOptions()
      */
     public function setOptions($options)
@@ -153,7 +153,7 @@ class Dba extends AbstractAdapter implements
     /**
      * Get available space in bytes
      *
-     * @return float
+     * @return int|float
      */
     public function getAvailableSpace()
     {
@@ -189,6 +189,7 @@ class Dba extends AbstractAdapter implements
         }
 
         if (file_exists($pathname)) {
+
             // close the dba file before delete
             // and reopen (create) on next use
             $this->_close();
@@ -225,8 +226,7 @@ class Dba extends AbstractAdapter implements
 
         $this->_open();
 
-        do {
-            // Workaround for PHP-Bug #62491 & #62492
+        do { // Workaround for PHP-Bug #62491 & #62492
             $recheck     = false;
             $internalKey = dba_firstkey($this->handle);
             while ($internalKey !== false && $internalKey !== null) {
@@ -264,8 +264,7 @@ class Dba extends AbstractAdapter implements
 
         $this->_open();
 
-        // Workaround for PHP-Bug #62491 & #62492
-        do {
+        do { // Workaround for PHP-Bug #62491 & #62492
             $recheck     = false;
             $internalKey = dba_firstkey($this->handle);
             while ($internalKey !== false && $internalKey !== null) {
@@ -286,7 +285,7 @@ class Dba extends AbstractAdapter implements
     /**
      * Get the storage iterator
      *
-     * @return DbaIterator
+     * @return ApcIterator
      */
     public function getIterator()
     {
@@ -336,7 +335,7 @@ class Dba extends AbstractAdapter implements
 
         if ($value === false) {
             $success = false;
-            return;
+            return null;
         }
 
         $success = true;
@@ -378,10 +377,8 @@ class Dba extends AbstractAdapter implements
         $prefix      = ($namespace === '') ? '' : $namespace . $options->getNamespaceSeparator();
         $internalKey = $prefix . $normalizedKey;
 
-        $cacheableValue = (string) $value; // dba_replace requires a string
-
         $this->_open();
-        if (!dba_replace($internalKey, $cacheableValue, $this->handle)) {
+        if (!dba_replace($internalKey, $value, $this->handle)) {
             throw new Exception\RuntimeException("dba_replace('{$internalKey}', ...) failed");
         }
 
@@ -519,9 +516,7 @@ class Dba extends AbstractAdapter implements
             $err = ErrorHandler::stop();
             if (!$dba) {
                 throw new Exception\RuntimeException(
-                    "dba_open('{$pathname}', '{$mode}', '{$handler}') failed",
-                    0,
-                    $err
+                    "dba_open('{$pathname}', '{$mode}', '{$handler}') failed", 0, $err
                 );
             }
             $this->handle = $dba;

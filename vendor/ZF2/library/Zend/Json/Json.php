@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -114,27 +114,14 @@ class Json
             $valueToEncode = static::_recursiveJsonExprFinder($valueToEncode, $javascriptExpressions);
         }
 
-        $prettyPrint = (isset($options['prettyPrint']) && ($options['prettyPrint'] == true));
-
         // Encoding
         if (function_exists('json_encode') && static::$useBuiltinEncoderDecoder !== true) {
-            $encodeOptions = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP;
-
-            if ($prettyPrint && defined('JSON_PRETTY_PRINT')) {
-                $encodeOptions |= JSON_PRETTY_PRINT;
-                $prettyPrint = false;
-            }
-
             $encodedResult = json_encode(
                 $valueToEncode,
-                $encodeOptions
+                JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
             );
         } else {
             $encodedResult = Encoder::encode($valueToEncode, $cycleCheck, $options);
-        }
-
-        if ($prettyPrint) {
-            $encodedResult = self::prettyPrint($encodedResult, array("intent" => "    "));
         }
 
         //only do post-processing to revert back the Zend\Json\Expr if any.
@@ -173,11 +160,9 @@ class Json
      * @return mixed
      */
     protected static function _recursiveJsonExprFinder(
-        &$value,
-        array &$javascriptExpressions,
-        $currentKey = null
+        &$value, array &$javascriptExpressions, $currentKey = null
     ) {
-        if ($value instanceof Expr) {
+         if ($value instanceof Expr) {
             // TODO: Optimize with ascii keys, if performance is bad
             $magicKey = "____" . $currentKey . "_" . (count($javascriptExpressions));
             $javascriptExpressions[] = array(
@@ -300,7 +285,6 @@ class Json
     }
 
     /**
-     * @deprecated by https://github.com/zendframework/zf2/pull/6778
      * fromXml - Converts XML to JSON
      *
      * Converts a XML formatted string into a JSON formatted string.
@@ -333,7 +317,9 @@ class Json
         // If it is not a valid XML content, throw an exception.
         if (!$simpleXmlElementObject) {
             throw new RuntimeException('Function fromXml was called with an invalid XML formatted string.');
-        } // End of if ($simpleXmlElementObject === null)
+        } // End of if ($simpleXmlElementObject == null)
+
+        $resultArray = null;
 
         // Call the recursive function to convert the XML into a PHP array.
         $resultArray = static::_processXml($simpleXmlElementObject, $ignoreXmlAttributes);
@@ -359,21 +345,14 @@ class Json
         $result = "";
         $indent = 0;
 
-        $ind = "    ";
+        $ind = "\t";
         if (isset($options['indent'])) {
             $ind = $options['indent'];
         }
 
         $inLiteral = false;
         foreach ($tokens as $token) {
-            $token = trim($token);
-            if ($token == "") {
-                continue;
-            }
-
-            if (preg_match('/^("(?:.*)"):[ ]?(.*)$/', $token, $matches)) {
-                $token = $matches[1] . ': ' . $matches[2];
-            }
+            if ($token == "") continue;
 
             $prefix = str_repeat($ind, $indent);
             if (!$inLiteral && ($token == "{" || $token == "[")) {
@@ -402,5 +381,5 @@ class Json
             }
         }
         return $result;
-    }
+   }
 }

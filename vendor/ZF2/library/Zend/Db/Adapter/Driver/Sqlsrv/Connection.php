@@ -3,17 +3,18 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Db\Adapter\Driver\Sqlsrv;
 
-use Zend\Db\Adapter\Driver\AbstractConnection;
+use Zend\Db\Adapter\Driver\ConnectionInterface;
 use Zend\Db\Adapter\Driver\Sqlsrv\Exception\ErrorException;
 use Zend\Db\Adapter\Exception;
+use Zend\Db\Adapter\Profiler;
 
-class Connection extends AbstractConnection
+class Connection implements ConnectionInterface, Profiler\ProfilerAwareInterface
 {
     /**
      * @var Sqlsrv
@@ -21,9 +22,29 @@ class Connection extends AbstractConnection
     protected $driver = null;
 
     /**
+     * @var Profiler\ProfilerInterface
+     */
+    protected $profiler = null;
+
+    /**
+     * @var array
+     */
+    protected $connectionParameters = array();
+
+    /**
+     * @var resource
+     */
+    protected $resource = null;
+
+    /**
+     * @var bool
+     */
+    protected $inTransaction = false;
+
+    /**
      * Constructor
      *
-     * @param  array|resource                                      $connectionInfo
+     * @param array|resource $connectionInfo
      * @throws \Zend\Db\Adapter\Exception\InvalidArgumentException
      */
     public function __construct($connectionInfo)
@@ -41,17 +62,58 @@ class Connection extends AbstractConnection
      * Set driver
      *
      * @param  Sqlsrv $driver
-     * @return self
+     * @return Connection
      */
     public function setDriver(Sqlsrv $driver)
     {
         $this->driver = $driver;
-
         return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * @param Profiler\ProfilerInterface $profiler
+     * @return Connection
+     */
+    public function setProfiler(Profiler\ProfilerInterface $profiler)
+    {
+        $this->profiler = $profiler;
+        return $this;
+    }
+
+    /**
+     * @return null|Profiler\ProfilerInterface
+     */
+    public function getProfiler()
+    {
+        return $this->profiler;
+    }
+
+    /**
+     * Set connection parameters
+     *
+     * @param  array $connectionParameters
+     * @return Connection
+     */
+    public function setConnectionParameters(array $connectionParameters)
+    {
+        $this->connectionParameters = $connectionParameters;
+        return $this;
+    }
+
+    /**
+     * Get connection parameters
+     *
+     * @return array
+     */
+    public function getConnectionParameters()
+    {
+        return $this->connectionParameters;
+    }
+
+    /**
+     * Get current schema
+     *
+     * @return string
      */
     public function getCurrentSchema()
     {
@@ -61,16 +123,15 @@ class Connection extends AbstractConnection
 
         $result = sqlsrv_query($this->resource, 'SELECT SCHEMA_NAME()');
         $r = sqlsrv_fetch_array($result);
-
         return $r[0];
     }
 
     /**
      * Set resource
      *
-     * @param  resource                           $resource
+     * @param  resource $resource
      * @throws Exception\InvalidArgumentException
-     * @return self
+     * @return Connection
      */
     public function setResource($resource)
     {
@@ -78,14 +139,25 @@ class Connection extends AbstractConnection
             throw new Exception\InvalidArgumentException('Resource provided was not of type SQL Server Connection');
         }
         $this->resource = $resource;
-
         return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * @return resource
+     */
+    public function getResource()
+    {
+        if (!$this->isConnected()) {
+            $this->connect();
+        }
+        return $this->resource;
+    }
+
+    /**
+     * Connect
      *
      * @throws Exception\RuntimeException
+     * @return Connection
      */
     public function connect()
     {
@@ -115,9 +187,6 @@ class Connection extends AbstractConnection
                 case 'dbname':
                     $params['Database'] = (string) $value;
                     break;
-                case 'charset':
-                    $params['CharacterSet'] = (string) $value;
-                    break;
                 case 'driver_options':
                 case 'options':
                     $params = array_merge($params, (array) $value);
@@ -140,7 +209,8 @@ class Connection extends AbstractConnection
     }
 
     /**
-     * {@inheritDoc}
+     * Is connected
+     * @return bool
      */
     public function isConnected()
     {
@@ -148,7 +218,7 @@ class Connection extends AbstractConnection
     }
 
     /**
-     * {@inheritDoc}
+     * Disconnect
      */
     public function disconnect()
     {
@@ -157,64 +227,70 @@ class Connection extends AbstractConnection
     }
 
     /**
-     * {@inheritDoc}
+     * Begin transaction
      */
     public function beginTransaction()
     {
-        if (!$this->isConnected()) {
-            $this->connect();
-        }
-
-        if (sqlsrv_begin_transaction($this->resource) === false) {
-            throw new Exception\RuntimeException(
-                new ErrorException(sqlsrv_errors())
-            );
-        }
-
+        // http://msdn.microsoft.com/en-us/library/cc296151.aspx
+        /*
+        $this->resource->autocommit(false);
         $this->inTransaction = true;
-
-        return $this;
+        */
     }
 
     /**
-     * {@inheritDoc}
+     * In transaction
+     *
+     * @return bool
+     */
+    public function inTransaction()
+    {
+        return $this->inTransaction;
+    }
+
+    /**
+     * Commit
      */
     public function commit()
     {
         // http://msdn.microsoft.com/en-us/library/cc296194.aspx
-
-        if (!$this->isConnected()) {
+        /*
+        if (!$this->resource) {
             $this->connect();
         }
 
-        sqlsrv_commit($this->resource);
+        $this->resource->commit();
 
         $this->inTransaction = false;
-
-        return $this;
+        */
     }
 
     /**
-     * {@inheritDoc}
+     * Rollback
      */
     public function rollback()
     {
         // http://msdn.microsoft.com/en-us/library/cc296176.aspx
-
-        if (!$this->isConnected()) {
-            throw new Exception\RuntimeException('Must be connected before you can rollback.');
+        /*
+        if (!$this->resource) {
+            throw new \Exception('Must be connected before you can rollback.');
         }
 
-        sqlsrv_rollback($this->resource);
-        $this->inTransaction = false;
+        if (!$this->_inCommit) {
+            throw new \Exception('Must call commit() before you can rollback.');
+        }
 
+        $this->resource->rollback();
         return $this;
+        */
     }
 
     /**
-     * {@inheritDoc}
+     * Execute
      *
+     * @param  string $sql
      * @throws Exception\RuntimeException
+     * @return mixed
      */
     public function execute($sql)
     {
@@ -250,7 +326,6 @@ class Connection extends AbstractConnection
         }
 
         $result = $this->driver->createResult($returnValue);
-
         return $result;
     }
 
@@ -267,13 +342,13 @@ class Connection extends AbstractConnection
         }
 
         $statement = $this->driver->createStatement($sql);
-
         return $statement;
     }
 
     /**
-     * {@inheritDoc}
+     * Get last generated id
      *
+     * @param string $name
      * @return mixed
      */
     public function getLastGeneratedValue($name = null)
@@ -284,7 +359,6 @@ class Connection extends AbstractConnection
         $sql = 'SELECT @@IDENTITY as Current_Identity';
         $result = sqlsrv_query($this->resource, $sql);
         $row = sqlsrv_fetch_array($result);
-
         return $row['Current_Identity'];
     }
 }

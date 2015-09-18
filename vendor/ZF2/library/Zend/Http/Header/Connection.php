@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -47,6 +47,7 @@ class Connection implements HeaderInterface
         return $header;
     }
 
+
     /**
      * Set Connection header to define persistent connection
      *
@@ -55,9 +56,11 @@ class Connection implements HeaderInterface
      */
     public function setPersistent($flag)
     {
-        $this->value = (bool) $flag
-            ? self::CONNECTION_KEEP_ALIVE
-            : self::CONNECTION_CLOSE;
+        if ((bool) $flag === true) {
+            $this->value = self::CONNECTION_KEEP_ALIVE;
+        } else {
+            $this->value = self::CONNECTION_CLOSE;
+        }
         return $this;
     }
 
@@ -80,10 +83,10 @@ class Connection implements HeaderInterface
      */
     public function setValue($value)
     {
-        HeaderValue::assertValid($value);
         $this->value = strtolower($value);
         return $this;
     }
+
 
     /**
      * Connection header name

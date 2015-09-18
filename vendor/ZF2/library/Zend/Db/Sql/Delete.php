@@ -3,21 +3,23 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Db\Sql;
 
+use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Platform\PlatformInterface;
-use Zend\Db\Adapter\Driver\DriverInterface;
+use Zend\Db\Adapter\Platform\Sql92;
+use Zend\Db\Adapter\StatementContainerInterface;
 
 /**
  *
  * @property Where $where
  */
-class Delete extends AbstractPreparableSql
+class Delete extends AbstractSql implements SqlInterface, PreparableSqlInterface
 {
     /**@#+
      * @const
@@ -27,7 +29,7 @@ class Delete extends AbstractPreparableSql
     /**@#-*/
 
     /**
-     * {@inheritDoc}
+     * @var array Specifications
      */
     protected $specifications = array(
         self::SPECIFICATION_DELETE => 'DELETE FROM %1$s',
@@ -79,11 +81,6 @@ class Delete extends AbstractPreparableSql
         return $this;
     }
 
-    /**
-     * @param null $key
-     *
-     * @return mixed
-     */
     public function getRawState($key = null)
     {
         $rawState = array(
@@ -100,7 +97,6 @@ class Delete extends AbstractPreparableSql
      *
      * @param  Where|\Closure|string|array $predicate
      * @param  string $combination One of the OP_* constants from Predicate\PredicateSet
-     *
      * @return Delete
      */
     public function where($predicate, $combination = Predicate\PredicateSet::OP_AND)
@@ -114,37 +110,81 @@ class Delete extends AbstractPreparableSql
     }
 
     /**
-     * @param PlatformInterface       $platform
-     * @param DriverInterface|null    $driver
-     * @param ParameterContainer|null $parameterContainer
+     * Prepare the delete statement
      *
-     * @return string
+     * @param  AdapterInterface $adapter
+     * @param  StatementContainerInterface $statementContainer
+     * @return void
      */
-    protected function processDelete(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null)
+    public function prepareStatement(AdapterInterface $adapter, StatementContainerInterface $statementContainer)
     {
-        return sprintf(
-            $this->specifications[static::SPECIFICATION_DELETE],
-            $this->resolveTable($this->table, $platform, $driver, $parameterContainer)
-        );
+        $driver = $adapter->getDriver();
+        $platform = $adapter->getPlatform();
+        $parameterContainer = $statementContainer->getParameterContainer();
+
+        if (!$parameterContainer instanceof ParameterContainer) {
+            $parameterContainer = new ParameterContainer();
+            $statementContainer->setParameterContainer($parameterContainer);
+        }
+
+        $table = $this->table;
+        $schema = null;
+
+        // create quoted table name to use in delete processing
+        if ($table instanceof TableIdentifier) {
+            list($table, $schema) = $table->getTableAndSchema();
+        }
+
+        $table = $platform->quoteIdentifier($table);
+
+        if ($schema) {
+            $table = $platform->quoteIdentifier($schema) . $platform->getIdentifierSeparator() . $table;
+        }
+
+        $sql = sprintf($this->specifications[static::SPECIFICATION_DELETE], $table);
+
+        // process where
+        if ($this->where->count() > 0) {
+            $whereParts = $this->processExpression($this->where, $platform, $driver, 'where');
+            $parameterContainer->merge($whereParts->getParameterContainer());
+            $sql .= ' ' . sprintf($this->specifications[static::SPECIFICATION_WHERE], $whereParts->getSql());
+        }
+        $statementContainer->setSql($sql);
     }
 
     /**
-     * @param PlatformInterface       $platform
-     * @param DriverInterface|null    $driver
-     * @param ParameterContainer|null $parameterContainer
+     * Get the SQL string, based on the platform
      *
-     * @return null|string
+     * Platform defaults to Sql92 if none provided
+     *
+     * @param  null|PlatformInterface $adapterPlatform
+     * @return string
      */
-    protected function processWhere(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null)
+    public function getSqlString(PlatformInterface $adapterPlatform = null)
     {
-        if ($this->where->count() == 0) {
-            return;
+        $adapterPlatform = ($adapterPlatform) ?: new Sql92;
+        $table = $this->table;
+        $schema = null;
+
+        // create quoted table name to use in delete processing
+        if ($table instanceof TableIdentifier) {
+            list($table, $schema) = $table->getTableAndSchema();
         }
 
-        return sprintf(
-            $this->specifications[static::SPECIFICATION_WHERE],
-            $this->processExpression($this->where, $platform, $driver, $parameterContainer, 'where')
-        );
+        $table = $adapterPlatform->quoteIdentifier($table);
+
+        if ($schema) {
+            $table = $adapterPlatform->quoteIdentifier($schema) . $adapterPlatform->getIdentifierSeparator() . $table;
+        }
+
+        $sql = sprintf($this->specifications[static::SPECIFICATION_DELETE], $table);
+
+        if ($this->where->count() > 0) {
+            $whereParts = $this->processExpression($this->where, $adapterPlatform, null, 'where');
+            $sql .= ' ' . sprintf($this->specifications[static::SPECIFICATION_WHERE], $whereParts->getSql());
+        }
+
+        return $sql;
     }
 
     /**
@@ -153,8 +193,7 @@ class Delete extends AbstractPreparableSql
      * Overloads "where" only.
      *
      * @param  string $name
-     *
-     * @return Where|null
+     * @return mixed
      */
     public function __get($name)
     {

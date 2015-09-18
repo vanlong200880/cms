@@ -3,22 +3,23 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Db\Sql;
 
+use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Platform\PlatformInterface;
-use Zend\Db\Adapter\Driver\DriverInterface;
-use Zend\Stdlib\PriorityList;
+use Zend\Db\Adapter\Platform\Sql92;
+use Zend\Db\Adapter\StatementContainerInterface;
 
 /**
  *
  * @property Where $where
  */
-class Update extends AbstractPreparableSql
+class Update extends AbstractSql implements SqlInterface, PreparableSqlInterface
 {
     /**@#++
      * @const
@@ -46,9 +47,9 @@ class Update extends AbstractPreparableSql
     protected $emptyWhereProtection = true;
 
     /**
-     * @var PriorityList
+     * @var array
      */
-    protected $set;
+    protected $set = array();
 
     /**
      * @var string|Where
@@ -66,8 +67,6 @@ class Update extends AbstractPreparableSql
             $this->table($table);
         }
         $this->where = new Where();
-        $this->set = new PriorityList();
-        $this->set->isLIFO(false);
     }
 
     /**
@@ -92,20 +91,21 @@ class Update extends AbstractPreparableSql
      */
     public function set(array $values, $flag = self::VALUES_SET)
     {
-        if ($values === null) {
+        if ($values == null) {
             throw new Exception\InvalidArgumentException('set() expects an array of values');
         }
 
         if ($flag == self::VALUES_SET) {
-            $this->set->clear();
+            $this->set = array();
         }
-        $priority = is_numeric($flag) ? $flag : 0;
+
         foreach ($values as $k => $v) {
             if (!is_string($k)) {
                 throw new Exception\InvalidArgumentException('set() expects a string for the value key');
             }
-            $this->set->insert($k, $v, $priority);
+            $this->set[$k] = $v;
         }
+
         return $this;
     }
 
@@ -115,7 +115,7 @@ class Update extends AbstractPreparableSql
      * @param  Where|\Closure|string|array $predicate
      * @param  string $combination One of the OP_* constants from Predicate\PredicateSet
      * @throws Exception\InvalidArgumentException
-     * @return Update
+     * @return Select
      */
     public function where($predicate, $combination = Predicate\PredicateSet::OP_AND)
     {
@@ -132,46 +132,116 @@ class Update extends AbstractPreparableSql
         $rawState = array(
             'emptyWhereProtection' => $this->emptyWhereProtection,
             'table' => $this->table,
-            'set' => $this->set->toArray(),
+            'set' => $this->set,
             'where' => $this->where
         );
         return (isset($key) && array_key_exists($key, $rawState)) ? $rawState[$key] : $rawState;
     }
 
-    protected function processUpdate(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null)
+    /**
+     * Prepare statement
+     *
+     * @param AdapterInterface $adapter
+     * @param StatementContainerInterface $statementContainer
+     * @return void
+     */
+    public function prepareStatement(AdapterInterface $adapter, StatementContainerInterface $statementContainer)
     {
-        $setSql = array();
-        foreach ($this->set as $column => $value) {
-            $prefix = $platform->quoteIdentifier($column) . ' = ';
-            if (is_scalar($value) && $parameterContainer) {
-                $setSql[] = $prefix . $driver->formatParameterName($column);
-                $parameterContainer->offsetSet($column, $value);
-            } else {
-                $setSql[] = $prefix . $this->resolveColumnValue(
-                    $value,
-                    $platform,
-                    $driver,
-                    $parameterContainer
-                );
-            }
+        $driver   = $adapter->getDriver();
+        $platform = $adapter->getPlatform();
+        $parameterContainer = $statementContainer->getParameterContainer();
+
+        if (!$parameterContainer instanceof ParameterContainer) {
+            $parameterContainer = new ParameterContainer();
+            $statementContainer->setParameterContainer($parameterContainer);
         }
 
-        return sprintf(
-            $this->specifications[static::SPECIFICATION_UPDATE],
-            $this->resolveTable($this->table, $platform, $driver, $parameterContainer),
-            implode(', ', $setSql)
-        );
+        $table = $this->table;
+        $schema = null;
+
+        // create quoted table name to use in update processing
+        if ($table instanceof TableIdentifier) {
+            list($table, $schema) = $table->getTableAndSchema();
+        }
+
+        $table = $platform->quoteIdentifier($table);
+
+        if ($schema) {
+            $table = $platform->quoteIdentifier($schema) . $platform->getIdentifierSeparator() . $table;
+        }
+
+        $set = $this->set;
+        if (is_array($set)) {
+            $setSql = array();
+            foreach ($set as $column => $value) {
+                if ($value instanceof Expression) {
+                    $exprData = $this->processExpression($value, $platform, $driver);
+                    $setSql[] = $platform->quoteIdentifier($column) . ' = ' . $exprData->getSql();
+                    $parameterContainer->merge($exprData->getParameterContainer());
+                } else {
+                    $setSql[] = $platform->quoteIdentifier($column) . ' = ' . $driver->formatParameterName($column);
+                    $parameterContainer->offsetSet($column, $value);
+                }
+            }
+            $set = implode(', ', $setSql);
+        }
+
+        $sql = sprintf($this->specifications[static::SPECIFICATION_UPDATE], $table, $set);
+
+        // process where
+        if ($this->where->count() > 0) {
+            $whereParts = $this->processExpression($this->where, $platform, $driver, 'where');
+            $parameterContainer->merge($whereParts->getParameterContainer());
+            $sql .= ' ' . sprintf($this->specifications[static::SPECIFICATION_WHERE], $whereParts->getSql());
+        }
+        $statementContainer->setSql($sql);
     }
 
-    protected function processWhere(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null)
+    /**
+     * Get SQL string for statement
+     *
+     * @param  null|PlatformInterface $adapterPlatform If null, defaults to Sql92
+     * @return string
+     */
+    public function getSqlString(PlatformInterface $adapterPlatform = null)
     {
-        if ($this->where->count() == 0) {
-            return;
+        $adapterPlatform = ($adapterPlatform) ?: new Sql92;
+        $table = $this->table;
+        $schema = null;
+
+        // create quoted table name to use in update processing
+        if ($table instanceof TableIdentifier) {
+            list($table, $schema) = $table->getTableAndSchema();
         }
-        return sprintf(
-            $this->specifications[static::SPECIFICATION_WHERE],
-            $this->processExpression($this->where, $platform, $driver, $parameterContainer, 'where')
-        );
+
+        $table = $adapterPlatform->quoteIdentifier($table);
+
+        if ($schema) {
+            $table = $adapterPlatform->quoteIdentifier($schema) . $adapterPlatform->getIdentifierSeparator() . $table;
+        }
+
+        $set = $this->set;
+        if (is_array($set)) {
+            $setSql = array();
+            foreach ($set as $column => $value) {
+                if ($value instanceof Expression) {
+                    $exprData = $this->processExpression($value, $adapterPlatform);
+                    $setSql[] = $adapterPlatform->quoteIdentifier($column) . ' = ' . $exprData->getSql();
+                } elseif ($value === null) {
+                    $setSql[] = $adapterPlatform->quoteIdentifier($column) . ' = NULL';
+                } else {
+                    $setSql[] = $adapterPlatform->quoteIdentifier($column) . ' = ' . $adapterPlatform->quoteValue($value);
+                }
+            }
+            $set = implode(', ', $setSql);
+        }
+
+        $sql = sprintf($this->specifications[static::SPECIFICATION_UPDATE], $table, $set);
+        if ($this->where->count() > 0) {
+            $whereParts = $this->processExpression($this->where, $adapterPlatform, null, 'where');
+            $sql .= ' ' . sprintf($this->specifications[static::SPECIFICATION_WHERE], $whereParts->getSql());
+        }
+        return $sql;
     }
 
     /**
@@ -184,8 +254,9 @@ class Update extends AbstractPreparableSql
      */
     public function __get($name)
     {
-        if (strtolower($name) == 'where') {
-            return $this->where;
+        switch (strtolower($name)) {
+            case 'where':
+                return $this->where;
         }
     }
 
@@ -199,6 +270,5 @@ class Update extends AbstractPreparableSql
     public function __clone()
     {
         $this->where = clone $this->where;
-        $this->set = clone $this->set;
     }
 }

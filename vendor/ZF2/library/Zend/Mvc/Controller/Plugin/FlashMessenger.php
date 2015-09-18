@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -151,25 +151,20 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      * Add a message
      *
      * @param  string         $message
-     * @param  null|string    $namespace
-     * @param  null|int       $hops
      * @return FlashMessenger Provides a fluent interface
      */
-    public function addMessage($message, $namespace = null, $hops = 1)
+    public function addMessage($message)
     {
         $container = $this->getContainer();
+        $namespace = $this->getNamespace();
 
-        if (null === $namespace) {
-            $namespace = $this->getNamespace();
-        }
-
-        if (! $this->messageAdded) {
+        if (!$this->messageAdded) {
             $this->getMessagesFromContainer();
-            $container->setExpirationHops($hops, null);
+            $container->setExpirationHops(1, null);
         }
 
-        if (! isset($container->{$namespace})
-            || ! $container->{$namespace} instanceof SplQueue
+        if (!isset($container->{$namespace})
+            || !($container->{$namespace} instanceof SplQueue)
         ) {
             $container->{$namespace} = new SplQueue();
         }
@@ -189,9 +184,13 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function addInfoMessage($message)
     {
-        $this->addMessage($message, self::NAMESPACE_INFO);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_INFO);
+        $this->addMessage($message);
+        $this->setNamespace($namespace);
 
         return $this;
+
     }
 
     /**
@@ -202,7 +201,10 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function addSuccessMessage($message)
     {
-        $this->addMessage($message, self::NAMESPACE_SUCCESS);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_SUCCESS);
+        $this->addMessage($message);
+        $this->setNamespace($namespace);
 
         return $this;
     }
@@ -215,7 +217,10 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function addWarningMessage($message)
     {
-        $this->addMessage($message, self::NAMESPACE_WARNING);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_WARNING);
+        $this->addMessage($message);
+        $this->setNamespace($namespace);
 
         return $this;
     }
@@ -228,7 +233,10 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function addErrorMessage($message)
     {
-        $this->addMessage($message, self::NAMESPACE_ERROR);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_ERROR);
+        $this->addMessage($message);
+        $this->setNamespace($namespace);
 
         return $this;
     }
@@ -236,18 +244,13 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
     /**
      * Whether a specific namespace has messages
      *
-     * @param  string         $namespace
      * @return bool
      */
-    public function hasMessages($namespace = null)
+    public function hasMessages()
     {
-        if (null === $namespace) {
-            $namespace = $this->getNamespace();
-        }
-
         $this->getMessagesFromContainer();
 
-        return isset($this->messages[$namespace]);
+        return isset($this->messages[$this->getNamespace()]);
     }
 
     /**
@@ -257,7 +260,12 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function hasInfoMessages()
     {
-        return $this->hasMessages(self::NAMESPACE_INFO);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_INFO);
+        $hasMessages = $this->hasMessages();
+        $this->setNamespace($namespace);
+
+        return $hasMessages;
     }
 
     /**
@@ -267,7 +275,12 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function hasSuccessMessages()
     {
-        return $this->hasMessages(self::NAMESPACE_SUCCESS);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_SUCCESS);
+        $hasMessages = $this->hasMessages();
+        $this->setNamespace($namespace);
+
+        return $hasMessages;
     }
 
     /**
@@ -277,7 +290,12 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function hasWarningMessages()
     {
-        return $this->hasMessages(self::NAMESPACE_WARNING);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_WARNING);
+        $hasMessages = $this->hasMessages();
+        $this->setNamespace($namespace);
+
+        return $hasMessages;
     }
 
     /**
@@ -287,23 +305,23 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function hasErrorMessages()
     {
-        return $this->hasMessages(self::NAMESPACE_ERROR);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_ERROR);
+        $hasMessages = $this->hasMessages();
+        $this->setNamespace($namespace);
+
+        return $hasMessages;
     }
 
     /**
      * Get messages from a specific namespace
      *
-     * @param  string         $namespace
      * @return array
      */
-    public function getMessages($namespace = null)
+    public function getMessages()
     {
-        if (null === $namespace) {
-            $namespace = $this->getNamespace();
-        }
-
-        if ($this->hasMessages($namespace)) {
-            return $this->messages[$namespace]->toArray();
+        if ($this->hasMessages()) {
+            return $this->messages[$this->getNamespace()]->toArray();
         }
 
         return array();
@@ -316,7 +334,12 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function getInfoMessages()
     {
-        return $this->getMessages(self::NAMESPACE_INFO);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_INFO);
+        $messages = $this->getMessages();
+        $this->setNamespace($namespace);
+
+        return $messages;
     }
 
     /**
@@ -326,7 +349,12 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function getSuccessMessages()
     {
-        return $this->getMessages(self::NAMESPACE_SUCCESS);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_SUCCESS);
+        $messages = $this->getMessages();
+        $this->setNamespace($namespace);
+
+        return $messages;
     }
 
     /**
@@ -336,7 +364,12 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function getWarningMessages()
     {
-        return $this->getMessages(self::NAMESPACE_WARNING);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_WARNING);
+        $messages = $this->getMessages();
+        $this->setNamespace($namespace);
+
+        return $messages;
     }
 
     /**
@@ -346,23 +379,23 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function getErrorMessages()
     {
-        return $this->getMessages(self::NAMESPACE_ERROR);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_ERROR);
+        $messages = $this->getMessages();
+        $this->setNamespace($namespace);
+
+        return $messages;
     }
 
     /**
      * Clear all messages from the previous request & current namespace
      *
-     * @param  string $namespace
      * @return bool True if messages were cleared, false if none existed
      */
-    public function clearMessages($namespace = null)
+    public function clearMessages()
     {
-        if (null === $namespace) {
-            $namespace = $this->getNamespace();
-        }
-
-        if ($this->hasMessages($namespace)) {
-            unset($this->messages[$namespace]);
+        if ($this->hasMessages()) {
+            unset($this->messages[$this->getNamespace()]);
 
             return true;
         }
@@ -378,7 +411,12 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function clearMessagesFromNamespace($namespaceToClear)
     {
-        return $this->clearMessages($namespaceToClear);
+        $namespace = $this->getNamespace();
+        $this->setNamespace($namespaceToClear);
+        $cleared = $this->clearMessages();
+        $this->setNamespace($namespace);
+
+        return $cleared;
     }
 
     /**
@@ -402,15 +440,12 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      * Check to see if messages have been added to the current
      * namespace within this request
      *
-     * @param  string $namespace
      * @return bool
      */
-    public function hasCurrentMessages($namespace = null)
+    public function hasCurrentMessages()
     {
         $container = $this->getContainer();
-        if (null === $namespace) {
-            $namespace = $this->getNamespace();
-        }
+        $namespace = $this->getNamespace();
 
         return isset($container->{$namespace});
     }
@@ -423,7 +458,12 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function hasCurrentInfoMessages()
     {
-        return $this->hasCurrentMessages(self::NAMESPACE_INFO);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_INFO);
+        $hasMessages = $this->hasCurrentMessages();
+        $this->setNamespace($namespace);
+
+        return $hasMessages;
     }
 
     /**
@@ -434,7 +474,12 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function hasCurrentSuccessMessages()
     {
-        return $this->hasCurrentMessages(self::NAMESPACE_SUCCESS);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_SUCCESS);
+        $hasMessages = $this->hasCurrentMessages();
+        $this->setNamespace($namespace);
+
+        return $hasMessages;
     }
 
     /**
@@ -445,7 +490,12 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function hasCurrentWarningMessages()
     {
-        return $this->hasCurrentMessages(self::NAMESPACE_WARNING);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_WARNING);
+        $hasMessages = $this->hasCurrentMessages();
+        $this->setNamespace($namespace);
+
+        return $hasMessages;
     }
 
     /**
@@ -456,24 +506,25 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function hasCurrentErrorMessages()
     {
-        return $this->hasCurrentMessages(self::NAMESPACE_ERROR);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_ERROR);
+        $hasMessages = $this->hasCurrentMessages();
+        $this->setNamespace($namespace);
+
+        return $hasMessages;
     }
 
     /**
      * Get messages that have been added to the current
      * namespace within this request
      *
-     * @param  string $namespace
      * @return array
      */
-    public function getCurrentMessages($namespace = null)
+    public function getCurrentMessages()
     {
-        if (null === $namespace) {
-            $namespace = $this->getNamespace();
-        }
-
-        if ($this->hasCurrentMessages($namespace)) {
+        if ($this->hasCurrentMessages()) {
             $container = $this->getContainer();
+            $namespace = $this->getNamespace();
 
             return $container->{$namespace}->toArray();
         }
@@ -489,7 +540,12 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function getCurrentInfoMessages()
     {
-        return $this->getCurrentMessages(self::NAMESPACE_INFO);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_INFO);
+        $messages = $this->getCurrentMessages();
+        $this->setNamespace($namespace);
+
+        return $messages;
     }
 
     /**
@@ -500,7 +556,12 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function getCurrentSuccessMessages()
     {
-        return $this->getCurrentMessages(self::NAMESPACE_SUCCESS);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_SUCCESS);
+        $messages = $this->getCurrentMessages();
+        $this->setNamespace($namespace);
+
+        return $messages;
     }
 
     /**
@@ -511,7 +572,12 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function getCurrentWarningMessages()
     {
-        return $this->getCurrentMessages(self::NAMESPACE_WARNING);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_WARNING);
+        $messages = $this->getCurrentMessages();
+        $this->setNamespace($namespace);
+
+        return $messages;
     }
 
     /**
@@ -522,7 +588,12 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function getCurrentErrorMessages()
     {
-        return $this->getCurrentMessages(self::NAMESPACE_ERROR);
+        $namespace = $this->getNamespace();
+        $this->setNamespace(self::NAMESPACE_ERROR);
+        $messages = $this->getCurrentMessages();
+        $this->setNamespace($namespace);
+
+        return $messages;
     }
 
     /**
@@ -534,23 +605,24 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function getCurrentMessagesFromNamespace($namespaceToGet)
     {
-        return $this->getCurrentMessages($namespaceToGet);
+        $namespace = $this->getNamespace();
+        $this->setNamespace($namespaceToGet);
+        $messages = $this->getCurrentMessages();
+        $this->setNamespace($namespace);
+
+        return $messages;
     }
 
     /**
      * Clear messages from the current request and current namespace
      *
-     * @param  string $namespace
      * @return bool True if current messages were cleared, false if none existed.
      */
-    public function clearCurrentMessages($namespace = null)
+    public function clearCurrentMessages()
     {
-        if (null === $namespace) {
-            $namespace = $this->getNamespace();
-        }
-
-        if ($this->hasCurrentMessages($namespace)) {
+        if ($this->hasCurrentMessages()) {
             $container = $this->getContainer();
+            $namespace = $this->getNamespace();
             unset($container->{$namespace});
 
             return true;
@@ -567,7 +639,12 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function clearCurrentMessagesFromNamespace($namespaceToClear)
     {
-        return $this->clearCurrentMessages($namespaceToClear);
+        $namespace = $this->getNamespace();
+        $this->setNamespace($namespaceToClear);
+        $cleared = $this->clearCurrentMessages();
+        $this->setNamespace($namespace);
+
+        return $cleared;
     }
 
     /**
@@ -631,7 +708,12 @@ class FlashMessenger extends AbstractPlugin implements IteratorAggregate, Counta
      */
     public function getMessagesFromNamespace($namespaceToGet)
     {
-        return $this->getMessages($namespaceToGet);
+        $namespace = $this->getNamespace();
+        $this->setNamespace($namespaceToGet);
+        $messages = $this->getMessages();
+        $this->setNamespace($namespace);
+
+        return $messages;
     }
 
     /**

@@ -4,7 +4,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -38,7 +38,7 @@ class MongoDBOptions extends AbstractOptions
      * @see http://php.net/manual/en/mongocollection.save.php
      * @var string
      */
-    protected $saveOptions = array('w' => 1);
+    protected $saveOptions = array('safe' => true);
 
     /**
      * Name field
@@ -67,40 +67,6 @@ class MongoDBOptions extends AbstractOptions
      * @var string
      */
     protected $modifiedField = 'modified';
-
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct($options = null)
-    {
-        parent::__construct($options);
-
-        $mongoVersion = phpversion('mongo') ?: '0.0.0';
-        if ($this->saveOptions === array('w' => 1) && version_compare($mongoVersion, '1.3.0', '<')) {
-            $this->saveOptions = array('safe' => true);
-        }
-    }
-
-    /**
-     * Override AbstractOptions::__set
-     *
-     * Validates value if save options are being set.
-     *
-     * @param string $key
-     * @param mixed $value
-     */
-    public function __set($key, $value)
-    {
-        if (strtolower($key) !== 'saveoptions') {
-            return parent::__set($key, $value);
-        }
-
-        if (! is_array($value)) {
-            throw new InvalidArgumentException('Expected array for save options');
-        }
-        $this->setSaveOptions($value);
-    }
 
     /**
      * Set database name

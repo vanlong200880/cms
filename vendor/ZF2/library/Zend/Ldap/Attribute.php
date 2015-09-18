@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -81,15 +81,15 @@ class Attribute
             return $retArray;
         } elseif (is_int($index)) {
             if (!isset($data[$attribName])) {
-                return;
+                return null;
             } elseif ($index >= 0 && $index < count($data[$attribName])) {
                 return self::valueFromLdap($data[$attribName][$index]);
             } else {
-                return;
+                return null;
             }
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -197,7 +197,7 @@ class Attribute
             } else {
                 return $return;
             }
-        } catch (Converter\Exception\InvalidArgumentException $e) {
+        } catch (Exception\InvalidArgumentException $e) {
             return $value;
         }
     }
@@ -213,7 +213,8 @@ class Attribute
     public static function setPassword(
         array &$data, $password, $hashType = self::PASSWORD_HASH_MD5,
         $attribName = null
-    ) {
+    )
+    {
         if ($attribName === null) {
             if ($hashType === self::PASSWORD_UNICODEPWD) {
                 $attribName = 'unicodePwd';
@@ -289,7 +290,8 @@ class Attribute
     public static function setDateTimeAttribute(
         array &$data, $attribName, $value, $utc = false,
         $append = false
-    ) {
+    )
+    {
         $convertedValues = array();
         if (is_array($value) || ($value instanceof \Traversable)) {
             foreach ($value as $v) {
@@ -318,7 +320,7 @@ class Attribute
             return Converter\Converter::toLdapDateTime($value, $utc);
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -361,10 +363,10 @@ class Attribute
             try {
                 return Converter\Converter::fromLdapDateTime($value, false)->format('U');
             } catch (Converter\Exception\InvalidArgumentException $e) {
-                return;
+                return null;
             }
         }
 
-        return;
+        return null;
     }
 }

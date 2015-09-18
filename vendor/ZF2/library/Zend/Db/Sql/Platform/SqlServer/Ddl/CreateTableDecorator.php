@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -18,7 +18,7 @@ class CreateTableDecorator extends CreateTable implements PlatformDecoratorInter
     /**
      * @var CreateTable
      */
-    protected $subject;
+    protected $createTable;
 
     /**
      * @param CreateTable $subject
@@ -26,8 +26,21 @@ class CreateTableDecorator extends CreateTable implements PlatformDecoratorInter
      */
     public function setSubject($subject)
     {
-        $this->subject = $subject;
+        $this->createTable = $subject;
         return $this;
+    }
+
+    /**
+     * @param  null|PlatformInterface $platform
+     * @return string
+     */
+    public function getSqlString(PlatformInterface $platform = null)
+    {
+        // localize variables
+        foreach (get_object_vars($this->createTable) as $name => $value) {
+            $this->{$name} = $value;
+        }
+        return parent::getSqlString($platform);
     }
 
     /**
@@ -36,10 +49,13 @@ class CreateTableDecorator extends CreateTable implements PlatformDecoratorInter
      */
     protected function processTable(PlatformInterface $adapterPlatform = null)
     {
-        $table = ($this->isTemporary ? '#' : '') . ltrim($this->table, '#');
-        return array(
-            '',
-            $adapterPlatform->quoteIdentifier($table),
-        );
+        $ret = array('');
+        if ($this->isTemporary) {
+            $table = '#';
+        } else {
+            $table = '';
+        }
+        $ret[] = $adapterPlatform->quoteIdentifier($table . ltrim($this->table, '#'));
+        return $ret;
     }
 }

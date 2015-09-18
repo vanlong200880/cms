@@ -3,40 +3,40 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Db\Adapter\Driver\IbmDb2;
 
-use Zend\Db\Adapter\Driver\AbstractConnection;
+use Zend\Db\Adapter\Driver\ConnectionInterface;
 use Zend\Db\Adapter\Exception;
+use Zend\Db\Adapter\Profiler;
 
-class Connection extends AbstractConnection
+class Connection implements ConnectionInterface, Profiler\ProfilerAwareInterface
 {
-    /**
-     * @var IbmDb2
-     */
+    /** @var IbmDb2 */
     protected $driver = null;
 
     /**
-     * i5 OS
-     *
-     * @var bool
+     * @var array
      */
-    protected $i5;
+    protected $connectionParameters = null;
 
     /**
-     * Previous autocommit set
-     *
-     * @var mixed
+     * @var resource
      */
-    protected $prevAutocommit;
+    protected $resource = null;
+
+    /**
+     * @var Profiler\ProfilerInterface
+     */
+    protected $profiler = null;
 
     /**
      * Constructor
      *
-     * @param  array|resource|null                $connectionParameters (ibm_db2 connection resource)
+     * @param array|resource|null $connectionParameters (ibm_db2 connection resource)
      * @throws Exception\InvalidArgumentException
      */
     public function __construct($connectionParameters = null)
@@ -55,19 +55,54 @@ class Connection extends AbstractConnection
     /**
      * Set driver
      *
-     * @param  IbmDb2 $driver
-     * @return self
+     * @param IbmDb2 $driver
+     * @return Connection
      */
     public function setDriver(IbmDb2 $driver)
     {
         $this->driver = $driver;
-
         return $this;
     }
 
     /**
+     * @param Profiler\ProfilerInterface $profiler
+     * @return Connection
+     */
+    public function setProfiler(Profiler\ProfilerInterface $profiler)
+    {
+        $this->profiler = $profiler;
+        return $this;
+    }
+
+    /**
+     * @return null|Profiler\ProfilerInterface
+     */
+    public function getProfiler()
+    {
+        return $this->profiler;
+    }
+
+    /**
+     * @param array $connectionParameters
+     * @return Connection
+     */
+    public function setConnectionParameters(array $connectionParameters)
+    {
+        $this->connectionParameters = $connectionParameters;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConnectionParameters()
+    {
+        return $this->connectionParameters;
+    }
+
+    /**
      * @param  resource $resource DB2 resource
-     * @return self
+     * @return Connection
      */
     public function setResource($resource)
     {
@@ -75,12 +110,13 @@ class Connection extends AbstractConnection
             throw new Exception\InvalidArgumentException('The resource provided must be of type "DB2 Connection"');
         }
         $this->resource = $resource;
-
         return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * Get current schema
+     *
+     * @return string
      */
     public function getCurrentSchema()
     {
@@ -89,12 +125,23 @@ class Connection extends AbstractConnection
         }
 
         $info = db2_server_info($this->resource);
-
         return (isset($info->DB_NAME) ? $info->DB_NAME : '');
     }
 
     /**
-     * {@inheritDoc}
+     * Get resource
+     *
+     * @return mixed
+     */
+    public function getResource()
+    {
+        return $this->resource;
+    }
+
+    /**
+     * Connect
+     *
+     * @return ConnectionInterface
      */
     public function connect()
     {
@@ -112,8 +159,7 @@ class Connection extends AbstractConnection
                     return $p[$name];
                 }
             }
-
-            return;
+            return null;
         };
 
         $database     = $findParameterValue(array('database', 'db'));
@@ -121,9 +167,12 @@ class Connection extends AbstractConnection
         $password     = $findParameterValue(array('password', 'pwd', 'PWD'));
         $isPersistent = $findParameterValue(array('persistent', 'PERSISTENT', 'Persistent'));
         $options      = (isset($p['driver_options']) ? $p['driver_options'] : array());
-        $connect      = ((bool) $isPersistent) ? 'db2_pconnect' : 'db2_connect';
 
-        $this->resource = $connect($database, $username, $password, $options);
+        if ($isPersistent) {
+            $this->resource = db2_pconnect($database, $username, $password, $options);
+        } else {
+            $this->resource = db2_connect($database, $username, $password, $options);
+        }
 
         if ($this->resource === false) {
             throw new Exception\RuntimeException(sprintf(
@@ -131,12 +180,13 @@ class Connection extends AbstractConnection
                 __METHOD__
             ));
         }
-
         return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * Is connected
+     *
+     * @return bool
      */
     public function isConnected()
     {
@@ -144,7 +194,9 @@ class Connection extends AbstractConnection
     }
 
     /**
-     * {@inheritDoc}
+     * Disconnect
+     *
+     * @return ConnectionInterface
      */
     public function disconnect()
     {
@@ -152,84 +204,44 @@ class Connection extends AbstractConnection
             db2_close($this->resource);
             $this->resource = null;
         }
-
         return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * Begin transaction
+     *
+     * @return ConnectionInterface
      */
     public function beginTransaction()
     {
-        if ($this->isI5() && !ini_get('ibm_db2.i5_allow_commit')) {
-            throw new Exception\RuntimeException(
-                'DB2 transactions are not enabled, you need to set the ibm_db2.i5_allow_commit=1 in your php.ini'
-            );
-        }
-
-        if (!$this->isConnected()) {
-            $this->connect();
-        }
-
-        $this->prevAutocommit = db2_autocommit($this->resource);
-        db2_autocommit($this->resource, DB2_AUTOCOMMIT_OFF);
-        $this->inTransaction = true;
-
-        return $this;
+        // TODO: Implement beginTransaction() method.
     }
 
     /**
-     * {@inheritDoc}
+     * Commit
+     *
+     * @return ConnectionInterface
      */
     public function commit()
     {
-        if (!$this->isConnected()) {
-            $this->connect();
-        }
-
-        if (!db2_commit($this->resource)) {
-            throw new Exception\RuntimeException("The commit has not been successful");
-        }
-
-        if ($this->prevAutocommit) {
-            db2_autocommit($this->resource, $this->prevAutocommit);
-        }
-
-        $this->inTransaction = false;
-
-        return $this;
+        // TODO: Implement commit() method.
     }
 
     /**
      * Rollback
      *
-     * @return Connection
+     * @return ConnectionInterface
      */
     public function rollback()
     {
-        if (!$this->isConnected()) {
-            throw new Exception\RuntimeException('Must be connected before you can rollback.');
-        }
-
-        if (!$this->inTransaction()) {
-            throw new Exception\RuntimeException('Must call beginTransaction() before you can rollback.');
-        }
-
-        if (!db2_rollback($this->resource)) {
-            throw new Exception\RuntimeException('The rollback has not been successful');
-        }
-
-        if ($this->prevAutocommit) {
-            db2_autocommit($this->resource, $this->prevAutocommit);
-        }
-
-        $this->inTransaction = false;
-
-        return $this;
+        // TODO: Implement rollback() method.
     }
 
     /**
-     * {@inheritDoc}
+     * Execute
+     *
+     * @param  string $sql
+     * @return Result
      */
     public function execute($sql)
     {
@@ -254,30 +266,18 @@ class Connection extends AbstractConnection
             throw new Exception\InvalidQueryException(db2_stmt_errormsg());
         }
 
-        return $this->driver->createResult(($resultResource === true) ? $this->resource : $resultResource);
+        $resultPrototype = $this->driver->createResult(($resultResource === true) ? $this->resource : $resultResource);
+        return $resultPrototype;
     }
 
     /**
-     * {@inheritDoc}
+     * Get last generated id
+     *
+     * @param  null $name Ignored
+     * @return int
      */
     public function getLastGeneratedValue($name = null)
     {
         return db2_last_insert_id($this->resource);
-    }
-
-    /**
-     * Determine if the OS is OS400 (AS400, IBM i)
-     *
-     * @return bool
-     */
-    protected function isI5()
-    {
-        if (isset($this->i5)) {
-            return $this->i5;
-        }
-
-        $this->i5 = (php_uname('s') == 'OS400');
-
-        return $this->i5;
     }
 }

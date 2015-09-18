@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -135,9 +135,7 @@ class DiffieHellman
             );
             if ($this->hasPrivateKey()) {
                 $details['priv_key'] = $this->convert(
-                    $this->privateKey,
-                    self::FORMAT_NUMBER,
-                    self::FORMAT_BINARY
+                    $this->privateKey, self::FORMAT_NUMBER, self::FORMAT_BINARY
                 );
                 $opensslKeyResource = openssl_pkey_new(array('dh' => $details));
             } else {
@@ -224,11 +222,9 @@ class DiffieHellman
      * @throws \Zend\Crypt\Exception\InvalidArgumentException
      * @throws \Zend\Crypt\Exception\RuntimeException
      */
-    public function computeSecretKey(
-        $publicKey,
-        $publicKeyFormat = self::FORMAT_NUMBER,
-        $secretKeyFormat = self::FORMAT_NUMBER
-    ) {
+    public function computeSecretKey($publicKey, $publicKeyFormat = self::FORMAT_NUMBER,
+                                                 $secretKeyFormat = self::FORMAT_NUMBER)
+    {
         if (function_exists('openssl_dh_compute_key') && static::$useOpenssl !== false) {
             $publicKey = $this->convert($publicKey, $publicKeyFormat, self::FORMAT_BINARY);
             $secretKey = openssl_dh_compute_key($publicKey, $this->opensslKeyResource);
@@ -304,6 +300,7 @@ class DiffieHellman
 
         return $this->convert($this->prime, self::FORMAT_NUMBER, $format);
     }
+
 
     /**
      * Setter for the value of the generator number
@@ -392,7 +389,8 @@ class DiffieHellman
      * @param string $outputFormat
      * @return string
      */
-    protected function convert($number, $inputFormat = self::FORMAT_NUMBER, $outputFormat = self::FORMAT_BINARY)
+    protected function convert($number, $inputFormat = self::FORMAT_NUMBER,
+                                        $outputFormat = self::FORMAT_BINARY)
     {
         if ($inputFormat == $outputFormat) {
             return $number;
@@ -414,11 +412,14 @@ class DiffieHellman
         switch ($outputFormat) {
             case self::FORMAT_BINARY:
                 return $this->math->intToBin($number);
+                break;
             case self::FORMAT_BTWOC:
                 return $this->math->intToBin($number, true);
+                break;
             case self::FORMAT_NUMBER:
             default:
                 return $number;
+                break;
         }
     }
 

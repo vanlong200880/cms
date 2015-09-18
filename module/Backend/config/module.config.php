@@ -2,31 +2,65 @@
 return array(
     'router' => array(
         'routes' => array(
-            'backend' => array(
-                'type' => 'segment',
-                'options' => array(
-                    'route' => '/backend[/:controller][/:action][/:id][/page/:page][/type/:type][/sort/:sort][/order/:order][/status/:status][/textSearch/:textSearch]',
-                    'constraints' => array (
-                        'controller'    => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'action'        => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'page'          => '[0-9]+',
-                        'id'            => '[0-9]+',
-                        
-                        'type'          => '[0-9]+',
-                        'sort'          => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'order'         => 'asc|desc',
-                        'status'        => '[0-9]+',
-                        'textSearch'    => '.+', 
-                        
-                    ),
+			'backend' => array(
+				'type' => 'Literal',
+				'options' => array(
+					'route'    => '/backend',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Backend\Controller',
                         'controller'    => 'Index',
                         'action'        => 'index',
-                        'page'          => 1
+                    ),
+				),
+				'may_terminate' => true,
+				'child_routes' => array(
+                    'default' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+							'route' => '[/:controller][/:action][/:id][/page/:page][/type/:type][/sort/:sort][/order/:order][/status/:status][/textSearch/:textSearch]',
+							'constraints' => array (
+								'controller'    => '[a-zA-Z][a-zA-Z0-9_-]*',
+								'action'        => '[a-zA-Z][a-zA-Z0-9_-]*',
+								'page'          => '[0-9]+',
+								'id'            => '[0-9]+',
+
+								'type'          => '[0-9]+',
+								'sort'          => '[a-zA-Z][a-zA-Z0-9_-]*',
+								'order'         => 'asc|desc',
+								'status'        => '[0-9]+',
+								'textSearch'    => '.+', 
+							),
+                            'defaults' => array(
+                            ),
+                        ),
                     ),
                 ),
-            ),
+			),
+//            'backend' => array(
+//                'type' => 'segment',
+//                'options' => array(
+//                    'route' => '/backend[/:controller][/:action][/:id][/page/:page][/type/:type][/sort/:sort][/order/:order][/status/:status][/textSearch/:textSearch]',
+//                    'constraints' => array (
+//                        'controller'    => '[a-zA-Z][a-zA-Z0-9_-]*',
+//                        'action'        => '[a-zA-Z][a-zA-Z0-9_-]*',
+//                        'page'          => '[0-9]+',
+//                        'id'            => '[0-9]+',
+//                        
+//                        'type'          => '[0-9]+',
+//                        'sort'          => '[a-zA-Z][a-zA-Z0-9_-]*',
+//                        'order'         => 'asc|desc',
+//                        'status'        => '[0-9]+',
+//                        'textSearch'    => '.+', 
+//                        
+//                    ),
+//                    'defaults' => array(
+//                        '__NAMESPACE__' => 'Backend\Controller',
+//                        'controller'    => 'Index',
+//                        'action'        => 'index',
+//                        'page'          => 1
+//                    ),
+//                ),
+//            ),
         ),
     ),
     
@@ -93,4 +127,6 @@ return array(
             ),
         ),
     ),
+	'service_manager' => array(
+	),
 );
