@@ -5,26 +5,26 @@
 	}
 	$url = $this->url($this->route, array('controller' => $controller,'action' => $action));
 	if($this->first != $this->current && $this->first > 0){		
-		$strPageStart = '<li><a href="' . $url . '/page/1'.$routeParam.'">Trang đầu</a></li>';
+		$strPageStart = '<li><a href="' . $url . '/page/1'.$routeParam.'" title="Trang đầu"><i class="fa fa-angle-double-left"></i></a></li>';
 	}else{
 		$strPageStart = '';
 	}
 	
 	if(isset($this->previous)){
-		$linkPrevious 	='<li><a href="' . $url . '/page/' . $this->previous . ''.$routeParam.'">Lui về</a></li>';
+		$linkPrevious 	='<li><a href="' . $url . '/page/' . $this->previous . ''.$routeParam.'" title="Lùi lại"><i class="fa fa-angle-left"></i></a></li>';
 	}else{
 		$linkPrevious 	='';
 	}
 	
 	if(isset($this->next)){
-		$linkNext 		=' <li><a href="' . $url . '/page/' . $this->next . ''.$routeParam.'">Trang kế</a></li>';
+		$linkNext 		=' <li><a href="' . $url . '/page/' . $this->next . ''.$routeParam.'" title="Trang kế"><i class="fa fa-angle-right"></i></a></li>';
 	}else{
 		$linkNext 		='';
 	}
 	
 	
 	if($this->last != $this->current && $this->last > 0){
-		$strPageEnd = '<li><a href="' . $url . '/page/' . $this->pageCount . ''.$routeParam.'">Trang cuối</a></li>';
+		$strPageEnd = '<li><a href="' . $url . '/page/' . $this->pageCount . ''.$routeParam.'" title="Trang cuối"><i class="fa fa-angle-double-right"></i></a></li>';
 	}else{
 		$strPageEnd = '';
 	}

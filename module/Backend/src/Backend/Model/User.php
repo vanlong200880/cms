@@ -181,7 +181,7 @@ class User extends AbstractTableGateway
         
         // trang thai
         if(isset($arrayParam['status']) && $arrayParam['status'] != ''){
-            $select->where('status = ', $arrayParam['status']);
+            $select->where('user.status = '. $arrayParam['status']);
         }
         
         // filter
@@ -213,7 +213,7 @@ class User extends AbstractTableGateway
         }
         // trang thai
         if(isset($arrayParam['status'])){
-            $select->where('status', $arrayParam['status']);
+            $select->where('status = '. $arrayParam['status']);
         }
         $resultSet = $this->selectWith($select);
         return $resultSet->toArray();
