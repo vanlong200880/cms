@@ -131,16 +131,41 @@ class User extends AbstractTableGateway
     
     // update status
 	public function updateStatus($arrayParam = null){
-		$data = array(
+        $where= new Where();
+        $data = array(
 		  'status' => $arrayParam['status']
 		);
-		if($this->update($data, 'id = '. $arrayParam['id'])){
-			return true;
-		}
-		else{
-			return false;
-		}
+        if($data['status'] == 1){
+            
+        }
+        if($arrayParam['post']['check-all']){
+            foreach ($arrayParam['post']['check-all'] as $value){
+                if($this->checkUser($value)){
+                    $this->update($data, 'id = '. $value);
+                }
+            }
+            return true;
+        }else{
+            if($this->update($data, 'id = '. $arrayParam['id'])){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
 	}
+    
+    // check user
+    function checkUser($id){
+        $select = new Select();
+        $select->from($this->table);
+        $select->columns(array('id','email', 'fullname', 'birthday', 'sex', 'address', 'active', 'avartar', 'status'));
+        $select->where('user.id = '.$id);
+        $resultSet = $this->selectWith($select);
+        $resultSet = $resultSet->toArray();
+        return $resultSet[0];
+    }
+    
     
     // delete user
     public function deleteUser($arrayParam = null){

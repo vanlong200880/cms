@@ -22,7 +22,34 @@ class UserController extends AbstractActionController
 	{
         $request = $this->getRequest();
         if($request->isPost() == true){
-            $this->redirect()->toRoute('backend', array('controller' => 'user', 'action' => 'index'));
+            $data = $this->getRequest();
+            $arrayParam['post']	= $request->getPost()->toArray();
+            $arrayParam['status'] = $arrayParam['post']['function'];
+            if(isset($arrayParam['post']['function']) && (int)$arrayParam['post']['function'] > 0){
+                $user = new User();
+                switch ($arrayParam['post']['function']){
+                    case 1:
+                        // delete
+                        break;
+                    case 2:
+                        // block
+                        var_dump($arrayParam);
+                        if($user->updateStatus($arrayParam)){
+                            return $this->redirect()->refresh();
+                        }
+                        break;
+                    case 3:
+                        //active
+                        break;
+                    case 4:
+                        //deactive
+                        break;
+                    default :
+                        break;
+                }
+                var_dump($arrayParam);
+            }
+            //$this->redirect()->toRoute('backend', array('controller' => 'user', 'action' => 'index'));
         }
         $data = array();
         $arrayParam = $this->params()->fromRoute();
