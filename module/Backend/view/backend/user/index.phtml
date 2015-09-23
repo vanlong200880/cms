@@ -1,5 +1,4 @@
-<?php var_dump($param); ?>
-<form action="<?php echo $this->url('backend', array('controller' => $controller,  'action' => $action)) ?>" method="post" enctype="multipart/form-data">
+<form action="<?php echo $current_link; ?>" method="post" enctype="multipart/form-data">
     <div class="container-fluid">
         <div class="row function-title">
             <div class="col-lg-12">
@@ -17,7 +16,10 @@
                         </select>
                         <button type="submit" class="btn btn-default btn-custom apply">Thực hiện</button>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><a href="<?php echo $this->url('backend', array('controller' => 'user', 'action' => 'add')); ?>" class="btn btn-default btn-custom pull-right">Thêm mới</a></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <a href="<?php echo $this->url('backend', array('controller' => 'user', 'action' => 'add')); ?>" class="btn btn-default btn-custom pull-right">Thêm mới</a>
+                        <a href="<?php echo $this->url('backend', array('controller' => 'user', 'action' => 'index')); ?>" class="btn btn-default btn-custom pull-right apply">Reset</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,11 +43,11 @@
                                             </div>
                                         </div>
                                         <?php if($role): ?>
-                                        <div class="col-lg-5 col-md-5">
+                                        <div class="col-lg-4 col-md-5">
                                             <div class="form-group">
-                                                <label for="keyword" class="col-lg-3 col-md-4 control-label">Nhóm</label>
-                                                <div class="col-lg-9 col-md-8">
-                                                    <select id="basic" name="role" class="selectpicker show-tick form-control" data-live-search="true">
+                                                <label for="keyword" class="col-lg-2 col-md-3 control-label">Nhóm</label>
+                                                <div class="col-lg-10 col-md-9">
+                                                    <select id="role" name="role" class="selectpicker show-tick form-control" data-live-search="true">
                                                         <option value="">-- Chọn --</option>
                                                         <?php foreach ($role as $value): ?>
                                                         <option value="<?php echo $value['id']; ?>"><?php echo $value['role_name']; ?></option>
@@ -55,11 +57,9 @@
                                             </div>
                                         </div>
                                         <?php endif; ?>
-                                        <div class="col-lg-2 col-md-2">
-                                            <div class="col-lg-12">
-                                                <div class="form-group">
-                                                    <button type="submit" id="btn-search" class="btn btn-default btn-custom">Tìm</button>
-                                                </div>
+                                        <div class="col-lg-3 col-md-2">
+                                            <div class="form-group">
+                                                <button type="button" id="btn-search" class="btn btn-default btn-custom">Tìm</button>
                                             </div>
                                         </div>
                                     </fieldset>
@@ -68,6 +68,7 @@
 
                         <div class="col-lg-12">
                             <div class="form-table">
+                                <?php if($list): ?>
                                 <table id="table-data" class="table table-striped">
                                     <thead>
                                         <tr>
@@ -242,6 +243,9 @@
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>
+                                <?php else: ?>
+                                <div class="alert alert-info" role="alert">Không tồn tại user nào. </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -284,6 +288,26 @@
 </div>
 <script type="text/javascript">
     jQuery(document).ready(function($){
+        // search
+        var param = '<?php echo json_encode($paramSort); ?>';
+        $("#btn-search").on('click', function(){
+            var txtSearch = $("#keyword").val();
+            var type = $("#role").val();
+            if(txtSearch.length === 0){
+                alert('Bạn chưa nhập từ khóa cần tìm.');
+                return false;
+            }
+            var data = jQuery.parseJSON(param);
+            var uri = '';
+            uri += '<?php echo $this->url('backend', array('controller' => 'user', 'action' => 'index')); ?>';
+            uri += data.page ? data.page: '';
+            uri += (type.length !== 0 && $.isNumeric(type))?'/type/'+ type :'';
+            uri += data.sort ? data.sort: '';
+            uri += data.order ? data.order: '';
+            uri += (txtSearch.length !== 0 )?'/textSearch/'+ txtSearch :'';
+            window.location.href = uri;
+        });
+        
         $('.form-table .table>tbody>tr>td span.delete a.delete-user').on('click', function(){
             var data = $(this).attr('data-all');
             var loadData = jQuery.parseJSON(data);
@@ -302,7 +326,6 @@
                     data: obj,
                     dataType: 'JSON',
                     success: function(data){
-                        console.log(data);
                         $("#message-user").empty().append(data.message);
                         setTimeout(function(){
                             $('.modal-delete-user').modal('hide');

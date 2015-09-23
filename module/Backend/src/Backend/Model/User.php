@@ -135,19 +135,33 @@ class User extends AbstractTableGateway
         $data = array(
 		  'status' => $arrayParam['status']
 		);
-        if($data['status'] == 1){
-            
+        if(isset($arrayParam['post']['function'])){
+            if((int) $arrayParam['post']['function'] == 2){
+                $data['status'] = 2;
+            }else{
+                 if((int) $arrayParam['post']['function'] == 3){
+                     $data['status'] = 1;
+                 }else{
+                     if((int) $arrayParam['post']['function'] == 4){
+                         $data['status'] = 0;
+                     }
+                 }
+            }
         }
-        if($arrayParam['post']['check-all']){
-            foreach ($arrayParam['post']['check-all'] as $value){
-                if($this->checkUser($value)){
-                    $this->update($data, 'id = '. $value);
+        if(isset($arrayParam['post']['check-all'])){
+            if(!empty($arrayParam['post']['check-all'])){
+                foreach ($arrayParam['post']['check-all'] as $value){
+                    if($this->checkUser($value)){
+                        $this->update($data, 'id = '. $value);
+                    }
                 }
             }
             return true;
         }else{
-            if($this->update($data, 'id = '. $arrayParam['id'])){
-                return true;
+            if(isset($arrayParam['id'])){
+                if($this->update($data, 'id = '. $arrayParam['id'])){
+                    return true;
+                }
             }
             else{
                 return false;

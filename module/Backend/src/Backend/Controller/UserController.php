@@ -20,36 +20,43 @@ class UserController extends AbstractActionController
     protected $_messagesError = NULL;
 	public function indexAction()
 	{
-        $request = $this->getRequest();
+        $request    = $this->getRequest();
+        $url        = $this->getRequest()->getRequestUri();
         if($request->isPost() == true){
-            $data = $this->getRequest();
-            $arrayParam['post']	= $request->getPost()->toArray();
-            $arrayParam['status'] = $arrayParam['post']['function'];
+            $data                   = $this->getRequest();
+            $arrayParam['post']     = $request->getPost()->toArray();
+            $arrayParam['status']   = $arrayParam['post']['function'];
             if(isset($arrayParam['post']['function']) && (int)$arrayParam['post']['function'] > 0){
                 $user = new User();
                 switch ($arrayParam['post']['function']){
                     case 1:
                         // delete
+                        if(isset($arrayParam['post']['check-all']) && !empty($arrayParam['post']['check-all'])){
+                            foreach ($arrayParam['post']['check-all'] as $value){
+                                $arrayParam['id']   = $value;
+                                $userInfo           = $user->getUserById($value);
+                                if($userInfo){
+                                    $file           = new \Sky\Uploads\Thumbs();
+                                    $file->removeImage(USER_ICON ."/", array('1' => '80x80/', '2' => ''), $userInfo['avartar'], 2);
+                                    $user->deleteUser($arrayParam);
+                                }
+                            }
+                            $arrayParam['message'] = "<span class='seccess'>Xóa user thành công.</span>";
+                        }
+                        return $this->redirect()->toUrl($url);
                         break;
-                    case 2:
-                        // block
-                        var_dump($arrayParam);
+                    case 2: // block
+                    case 3: // active
+                    case 4: // deactive
                         if($user->updateStatus($arrayParam)){
-                            return $this->redirect()->refresh();
+                            return $this->redirect()->toUrl($url);
                         }
                         break;
-                    case 3:
-                        //active
-                        break;
-                    case 4:
-                        //deactive
-                        break;
                     default :
+                        return $this->redirect()->toUrl($url);
                         break;
                 }
-                var_dump($arrayParam);
             }
-            //$this->redirect()->toRoute('backend', array('controller' => 'user', 'action' => 'index'));
         }
         $data = array();
         $arrayParam = $this->params()->fromRoute();
@@ -91,7 +98,7 @@ class UserController extends AbstractActionController
 		if(is_numeric($page) && $page > $paginator->count())
 		{
             // redirect 404
-			return $this->redirect()->toRoute(array('controller' => 'user', 'action' => 'index'));
+			return $this->redirect()->toRoute('backend',array('controller' => 'user', 'action' => 'index'));
 		}
         $paginator->setPageRange(PAGE_RAND);
 		
@@ -108,11 +115,10 @@ class UserController extends AbstractActionController
         $this->params()->fromRoute('type') ? $paramSort['type'] ='/type/'. $this->params()->fromRoute('type'): '';
         $this->params()->fromRoute('sort') ? $paramSort['sort'] ='/sort/'. $this->params()->fromRoute('sort'):'';
         ($this->params()->fromRoute('order') === 'asc') ? $paramSort['order'] = '/order/desc': $paramSort['order'] = '/order/asc';
-        $this->params()->fromRoute('txtSearch') ? $paramSort['txtSearch'] = '/txtSearch/'. $this->params()->fromRoute('txtSearch'): null;
+        $this->params()->fromRoute('textSearch') ? $paramSort['textSearch'] = '/textSearch/'. $this->params()->fromRoute('textSearch'): '';
         // lay danh sach role
         $role = new Role();
         $listRole = $role->getAllRole();
-        
         $data['arrayParam']     = $arrayParam;
         $data['list']           = $userData;
         $data['title']          = "Danh sách user";
@@ -124,6 +130,7 @@ class UserController extends AbstractActionController
 		$data['action']			= $arrayParam['action'];
         $data['paramSort']               = $paramSort;
         $data['role'] = $listRole;
+        $data['current_link'] = $url;
 		return new ViewModel($data);
 	}
 

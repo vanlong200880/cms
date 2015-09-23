@@ -17,19 +17,18 @@ class ValidateUser{
 		
 		// kiểm tra email đã tồn tại trong database chưa
         if(isset($arrayParam['post']['email'])){
-            $options = array(
+            $option = array(
                 'table' => 'user',
                 'field' => 'email',
                 'adapter' => \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::getStaticAdapter(),
             );
         }
         if($options == 'add'){
-			
 			// kiểm tra email
             $validator = new \Zend\Validator\ValidatorChain();
 			$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
 						->addValidator(new \Zend\Validator\EmailAddress, true)
-						->addValidator(new \Zend\Validator\Db\NoRecordExists($options), true);
+						->addValidator(new \Zend\Validator\Db\NoRecordExists($option), true);
 			if(!$validator->isValid($arrayParam['post']['email'])){
 				$message = $validator->getMessages();
 				$this->_messagesError['email'] = 'Email: ' . current($message);
@@ -61,7 +60,7 @@ class ValidateUser{
 				$validator = new \Zend\Validator\ValidatorChain();
 				$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
 							->addValidator(new \Zend\Validator\EmailAddress, true)
-							->addValidator(new \Zend\Validator\Db\NoRecordExists($options), true);
+							->addValidator(new \Zend\Validator\Db\NoRecordExists($option), true);
 				if(!$validator->isValid($arrayParam['post']['email'])){
 					$message = $validator->getMessages();
 					$this->_messagesError['email'] = 'Email: ' . current($message);
