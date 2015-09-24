@@ -4,7 +4,7 @@
             <h1>Thêm thành viên</h1>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <a href="<?php echo $this->url('backend', array('controller' => 'category','action' => 'index')); ?>" class="btn btn-default btn-custom pull-right">Trở lại</a>
+            <a href="<?php echo $this->url('backend', array('controller' => 'user','action' => 'index')); ?>" class="btn btn-default btn-custom pull-right">Trở lại</a>
         </div>
     </div>
 </div>
@@ -169,7 +169,7 @@
 									<?php if(isset($role)): ?>
 									<div class="box">
 										<div class="box-language lang-vi">
-											<div class="box-header"><h2>Quyền truy cập</h2></div>
+											<div class="box-header"><h2>Quyền truy cập <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường bắt buộc nhập.">?</span></h2></div>
 										</div>
 										<div class="box-body">
 											<div class="row">

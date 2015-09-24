@@ -450,7 +450,16 @@ class UserController extends AbstractActionController
         return new ViewModel($data);
         
     }
-    public function blockAction(){
-		//sdfsdf
+    public function viewAction(){
+        $id = $this->params()->fromRoute('id');
+        $user = new User();
+        $data['userInfo'] = $user->getUserById($id);
+        $data['id'] = $id;
+        if(empty($data['userInfo'])){
+            return $this->redirect()->toRoute('backend', array('controller' => 'user', 'action' => 'index'));
+        }else{
+            return new ViewModel($data);
+        }
+		
 	}
 }

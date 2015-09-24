@@ -102,8 +102,9 @@ class User extends AbstractTableGateway
     function getUserById($id){
         $select = new Select();
         $select->from($this->table);
-        $select->columns(array('id','email', 'fullname', 'birthday', 'sex', 'address', 'active', 'avartar', 'status'));
+        $select->columns(array('id','email', 'fullname','alias', 'birthday', 'sex', 'address', 'active', 'avartar', 'status'));
         $select->join('user_role', 'user_role.user_id = user.id', array('role_rid'), 'left');
+        $select->join('role', 'user_role.role_rid = role.id', array('role_name'), 'left');
         $select->where('user.id = '.$id);
         $resultSet = $this->selectWith($select);
         $resultSet = $resultSet->toArray();
