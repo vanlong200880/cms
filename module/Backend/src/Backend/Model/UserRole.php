@@ -45,5 +45,14 @@ class UserRole extends AbstractTableGateway
             return false;
         }
     }
+    
+    // delete user role by role id
+    public function deleteUserRoleByRoleId($id){
+        if($this->delete('role_rid = '. $id)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 

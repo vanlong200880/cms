@@ -5,6 +5,9 @@ use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\Feature;
+use Zend\Db\Sql\Sql;
+use Backend\Model\UserRole;
+use Backend\Model\RolePermission;
 class Role extends AbstractTableGateway
 {
     protected $table = 'role';
@@ -18,14 +21,58 @@ class Role extends AbstractTableGateway
 	public function getAllRole(){
 		$select = new Select();
 		$select->from($this->table);
-		$select->columns(array('id', 'role_name'));
-		$select->where('status = 1');
-		$select->order('weight ASC');
+		$select->columns(array('id', 'role_name', 'description', 'status', 'weight'));
+        $select->order('weight DESC');
 		$resultSet = $this->selectWith($select);
 		return $resultSet->toArray();
 		
 	}
-	// lay ra role cua user 
+    // change status
+    public function changeStatus($arrayParam = null){
+        $data = array('status' => $arrayParam['status']);
+        if($this->update($data, 'id = '. $arrayParam['id'])){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    // delete role
+    public function deleteRole($arrayParam = null){
+        $userRole = new UserRole();
+        $rolePermision = new RolePermission();
+        if($userRole->deleteUserRoleByRoleId($arrayParam['id']) && $rolePermision->deletePermisionByRole($arrayParam)){
+            if($this->delete('id = ' . $arrayParam['id'])){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+    // get role by id
+    public function getRoleById($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->where(array(
+            'role.id = ' .$arrayParam['id']
+        ));
+        $resultSet = $this->selectWith($select);
+        $resultSet = $resultSet->toArray();
+        return $resultSet[0];
+    }
+    
+    // get role by role_name
+    public function getRoleByName($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->where('role_name',$arrayParam['post']['role_name']);
+        $resultSet = $this->selectWith($select);
+        return $resultSet->toArray();
+    }
+    
+    // lay ra role cua user 
     public function getRoleByUser($arrayParam = null)
     {
         $select = new Select();
@@ -55,6 +102,37 @@ class Role extends AbstractTableGateway
            return false;
         }
     }
+    
+    public function addRole($arrayParam = null)
+	{
+		$data = array(
+		  'role_name'		=> $arrayParam['post']['role_name'], 
+		  'description'	=> $arrayParam['post']['description'], 
+		  'status'		=> $arrayParam['post']['status'],
+		  'weight'		=> $arrayParam['post']['weight']
+		);
+		if(isset($arrayParam['id'])){
+            // update
+            if($this->getRoleByName($arrayParam)){
+                 var_dump($data);
+                unset($data['role_name']);
+            }
+           
+            if($this->update($data, 'id = '.$arrayParam['id'])){
+                return true;
+            }else{
+                return false;
+            }
+		}
+		else{
+			// add
+			if($this->insert($data)){
+                return true;
+            }else{
+                return false;
+            }
+		}
+	}
 
 }
 

@@ -1,0 +1,81 @@
+<div class="container-fluid">
+    <div class="row function-title">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <h1>Thêm danh mục</h1>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <a href="<?php echo $this->url('backend',array('controller' => 'role', 'action' => 'index')); ?>" class="btn btn-default btn-custom pull-right">Trở lại</a>
+        </div>
+    </div>
+</div>
+<form action="<?php echo $this->url('backend', array('controller' => 'role', 'action' => 'add')) ?>" id="form-add-role" method="post" enctype="multipart/form-data">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="box">
+                                        <div class="box-header"><h2>Thông tin chung</h2></div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label for="name">Tên nhóm</label>
+                                                        <input type="text" name="role_name" value="<?php echo isset($arrayParam['post']['role_name'])?$arrayParam['post']['role_name']:'' ?>" class="form-control" id="name" placeholder="Tên">
+                                                        <p class="error"><?php echo isset($arrayParam['error']['role_name'])? $arrayParam['error']['role_name']:'' ?></p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label for="slug">Mô tả</label>
+                                                        <textarea name="description" class="form-control"><?php echo isset($arrayParam['post']['description'])?$arrayParam['post']['description']:'' ?></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label for="weight">Vị trí</label>
+                                                                <input min="0" type="number" class="form-control" value="<?php echo isset($arrayParam['post']['weight'])?$arrayParam['post']['weight']:'' ?>" name="weight" id="weight" placeholder="Vị trí">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <div class="checkbox">
+                                                                    <label>
+                                                                        <input type="hidden" name="status" value="0">
+                                                                        <input type="checkbox" name="status" id="status" value="1" <?php echo (!isset($arrayParam['post']['active']))?'checked':((isset($arrayParam['post']['active'])) && $arrayParam['post']['active'] == 1)?'checked':'' ?>> Trạng thái
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="box-footer">
+                                            <button type="reset" class="btn btn-default btn-back add">Nhập lại</button>
+                                            <button type="submit" name="save" value="save" class="btn btn-default btn-custom add">Lưu</button>
+                                            <button type="submit" name="save-news" value="save-add" class="btn btn-default btn-custom add">Lưu & Thêm mới</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
