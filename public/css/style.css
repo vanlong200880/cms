@@ -371,11 +371,14 @@ i.icon.iconprofile{
     background: #860303;
     border-color: #860303;
 }
-
-/* table */
-.form-table{
-    margin-top: 30px;
+.main h1 span{
+    font-size: 14px;
+    font-weight: normal;
 }
+/* table */
+/*.form-table{
+    margin-top: 30px;
+}*/
 .form-table .table{
     border: 1px solid #DDD;
 }
@@ -795,4 +798,15 @@ a.block.fa{
 }
 .seccess{
     color: red;
+}
+.db-function{
+    text-align: right;
+}
+.btn.btn-default.btn-custom.back{
+    background: #ADADAD;
+    border: 1px solid #ADADAD;
+}
+.btn.btn-default.btn-custom.update{
+    background: #860303;
+    border: 1px solid #860303;
 }

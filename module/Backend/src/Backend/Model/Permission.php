@@ -100,8 +100,7 @@ class Permission extends AbstractTableGateway{
 	public function deleteItem($arrayparam = null){
 		$this->delete('id = '. $arrayparam['id']);
 	}
-	
-	// lay thong tin acl
+    // lay thong tin acl
 	public function acl($arrayparam = null){
 		$sql = new Sql(\Zend\Db\TableGateway\Feature\GlobalAdapterFeature::getStaticAdapter());
 		$select = $sql->select();

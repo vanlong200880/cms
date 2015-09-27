@@ -92,7 +92,8 @@ return array(
             'Backend\Controller\Supplier'	=> 'Backend\Controller\SupplierController',
             'Backend\Controller\Category'	=> 'Backend\Controller\CategoryController',
 			'Backend\Controller\Public'     => 'Backend\Controller\PublicController',
-            'Backend\Controller\User'       => 'Backend\Controller\UserController'
+            'Backend\Controller\User'       => 'Backend\Controller\UserController',
+            'Backend\Controller\Role'       => 'Backend\Controller\RoleController'
         ),
     ),
     'view_helpers' => array(
