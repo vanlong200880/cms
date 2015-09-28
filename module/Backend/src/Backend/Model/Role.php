@@ -21,7 +21,6 @@ class Role extends AbstractTableGateway
 	public function getAllRole(){
 		$select = new Select();
 		$select->from($this->table);
-		$select->where('status = 1');
 		$select->columns(array('id', 'role_name', 'description', 'status', 'weight'));
         $select->order('weight ASC');
 		$resultSet = $this->selectWith($select);
