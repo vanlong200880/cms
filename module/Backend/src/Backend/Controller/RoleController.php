@@ -6,6 +6,8 @@ use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Backend\Model\Role;
 use Backend\Form\ValidateRole;
+use Backend\Model\Resource;
+use Backend\Model\Permission;
 
 class RoleController extends AbstractActionController
 {
@@ -181,6 +183,55 @@ class RoleController extends AbstractActionController
         return new ViewModel($data);
     }
     public function rolepermissionAction(){
-        return new ViewModel();
+        $arrayParam = array();
+        $arrayParam['id'] = $this->params()->fromRoute('id');
+        // get role name
+        $role = new Role();
+        $roleInfo = $role->getRoleById($arrayParam);
+        if(!empty($roleInfo)){
+            $arrayParam['rolename'] = $roleInfo;
+        }
+        
+        $arrayParam['role-id'] = $this->params()->fromRoute('id');
+        
+        if(isset($arrayParam['id'])){
+            if($role->getRoleById($arrayParam)){
+                // lay danh sach module
+                $resource = new Resource();
+                $module = $resource->getListResource();
+                $permission = new Permission();
+                $dataList = array();
+                if($module){
+                    foreach ($module as $value){
+                        $arrayParam['id'] = $value['id'];
+                        // kiem tra co quyen chua
+                        $actionList = $permission->getListPermissionAction($arrayParam);
+                       
+                        if(!empty($actionList)){
+                            $rolePermission = new \Backend\Model\RolePermission();
+                            foreach ($actionList as $key => $v){
+                                if($rolePermission->getRoleByPermissionId($v['id'])){
+                                    $actionList[$key]['flag'] = true;
+                                }else
+                                {
+                                    $actionList[$key]['flag'] = false;
+                                }
+                                
+                            }
+                        }
+                        $dataList[$value['controller']] =  array(
+                            'module'        => $value['module'],
+                            'controller'    => $value['controller'],
+                            'action'        => $actionList
+                        );
+                        
+                        
+                    }
+                }
+                $arrayParam['list'] = $dataList;
+            }
+        }
+        $data['arrayParam'] = $arrayParam;        
+        return new ViewModel($data);
     }
 }

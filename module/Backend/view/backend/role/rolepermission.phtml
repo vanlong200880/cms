@@ -25,120 +25,47 @@
                             <table id="table-data" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th style="text-align: right" colspan="3" class="description column_descripton">Nhóm</th>
+                                        <th><strong>Chức năng</strong></th>
+                                        <th style="text-align: right" class="description column_descripton">Nhóm: <?php echo $arrayParam['rolename']['role_name']; ?></th>
                                     </tr>
                                     <tr>
-                                        <td class="description column_descripton">Chức năng</td>
-                                        <td class="description column_descripton">Mô tả</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
+                                        <td colspan="2" class="check-role">Tất cả <input type="checkbox" class="form-checkbox form-all"></td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr><tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr><tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr><tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="description column_descripton">index</td>
-                                        <td class="description column_descripton">Role/index</td>
-                                        <td class="description column_descripton"><input type="checkbox" name="role[]" value="" ></td>
-                                    </tr>
-                                    
-                                    
+                                    <?php if($arrayParam['list']): ?>
+                                        <?php foreach ($arrayParam['list'] as $key => $val): ?>
+                                            <?php if(!empty(count($val['action']))):?>
+                                                <tr>
+                                                    <td colspan="2"><strong><?php echo $val['controller']; ?></strong></td>
+                                                </tr>
+                                                <?php foreach ($val['action'] as $key => $value): ?>
+                                                <tr>
+                                                    <td class="resource"><?php echo $value['name']; ?> <span>(<?php echo $value['description']? $value['description']: $val['module'] .'-'. $val['controller'].'-'.$value['name']; ?>)</span></td>
+                                                    <td class="check-role" ><input <?php echo $value['flag']?'checked':''; ?> class="form-checkbox form-all" type="checkbox" name="role[<?php echo $arrayParam['role-id'] ?>]" value="<?php echo $value['id']; ?>" ></td>
+                                                </tr>
+
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
                                     
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="action-footer">
+                            <div class="db-function">
+                                <button type="submit" class="btn btn-default btn-custom update">Lưu</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>

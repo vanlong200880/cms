@@ -7,9 +7,9 @@ use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\Feature;
 use Zend\Db\Sql\Sql;
 
-class RolePermission extends AbstractTableGateway{
+class Resource extends AbstractTableGateway{
 	// ten bang
-	protected $table = 'role_permission';
+	protected $table = 'resource';
 	
 	//goi apdater
 	public function __construct() {
@@ -20,20 +20,10 @@ class RolePermission extends AbstractTableGateway{
 	public function __call($method, $arguments) {
 		parent::__call($method, $arguments);
 	}
-	// delete permission by role id
-    public function deletePermisionByRole($arrayParam = null){
-        if($this->delete('role_id = '. $arrayParam['id'])){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    
-    // check role by permission 
-    public function getRoleByPermissionId($id){
+    // lay ra danh sach module
+    public function getListResource($arrayParam = null){
         $select = new Select();
         $select->from($this->table);
-        $select->where('permission_id = '. $id);
         $resultSet	= $this->selectWith($select);
 		$resultSet = $resultSet->toArray();
         return $resultSet;

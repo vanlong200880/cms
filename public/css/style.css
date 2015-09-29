@@ -810,3 +810,15 @@ a.block.fa{
     background: #860303;
     border: 1px solid #860303;
 }
+.table>tbody>tr>td.resource{
+    padding-left: 30px;
+}
+.table>tbody>tr>td.resource span{
+    font-size: 12px;
+}
+.check-role{
+    text-align: right;
+}
+.action-footer{
+    padding: 15px 0;
+}

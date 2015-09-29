@@ -133,4 +133,13 @@ class Permission extends AbstractTableGateway{
 		}
 		return $dataReturn;
 	}
+    // lay ra danh sach action
+    public function getListPermissionAction($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->where('resource_id = '. $arrayParam['id']);
+        $resultSet	= $this->selectWith($select);
+		$resultSet = $resultSet->toArray();
+        return $resultSet;
+    }
 }
