@@ -8,6 +8,7 @@ use Backend\Model\Role;
 use Backend\Form\ValidateRole;
 use Backend\Model\Resource;
 use Backend\Model\Permission;
+use Backend\Model\RolePermission;
 
 class RoleController extends AbstractActionController
 {
@@ -191,7 +192,17 @@ class RoleController extends AbstractActionController
         if(!empty($roleInfo)){
             $arrayParam['rolename'] = $roleInfo;
         }
-        
+        // save role permission
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $arrayParam['permission'] = $this->params()->fromPost('permission');
+            if(isset($arrayParam['permission'])){
+                $rolePermission = new RolePermission();
+                $rolePermission->addRolePermission($arrayParam);
+                $arrayParam['message'] = 'Lưu thành công.';
+                return $this->redirect()->toRoute('backend', array('controller' => 'role', 'action' => 'rolepermission', 'id' => $arrayParam['id']));
+            }
+        } 
         $arrayParam['role-id'] = $this->params()->fromRoute('id');
         
         if(isset($arrayParam['id'])){
@@ -210,7 +221,7 @@ class RoleController extends AbstractActionController
                         if(!empty($actionList)){
                             $rolePermission = new \Backend\Model\RolePermission();
                             foreach ($actionList as $key => $v){
-                                if($rolePermission->getRoleByPermissionId($v['id'])){
+                                if($rolePermission->getRoleByPermissionId($v['id'], $arrayParam['role-id'])){
                                     $actionList[$key]['flag'] = true;
                                 }else
                                 {
