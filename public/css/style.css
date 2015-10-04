@@ -822,3 +822,17 @@ a.block.fa{
 .action-footer{
     padding: 15px 0;
 }
+.function{
+    width: 100px;
+}
+
+.controller-permission .form-table .table tr .row-action{
+   visibility: visible;
+}
+.action-permission{
+    text-align: center;
+}
+.th-permission{
+    width: 100px;
+    text-align: center;
+}

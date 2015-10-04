@@ -93,7 +93,9 @@ return array(
             'Backend\Controller\Category'	=> 'Backend\Controller\CategoryController',
 			'Backend\Controller\Public'     => 'Backend\Controller\PublicController',
             'Backend\Controller\User'       => 'Backend\Controller\UserController',
-            'Backend\Controller\Role'       => 'Backend\Controller\RoleController'
+            'Backend\Controller\Role'       => 'Backend\Controller\RoleController',
+            'Backend\Controller\Resource'   => 'Backend\Controller\ResourceController',
+            'Backend\Controller\Permission' => 'Backend\Controller\PermissionController'
         ),
     ),
     'view_helpers' => array(

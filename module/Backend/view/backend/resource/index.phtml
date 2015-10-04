@@ -1,0 +1,124 @@
+<div class="container-fluid">
+    <div class="row function-title">
+        <div class="col-lg-12">
+            <h1>Resource</h1>
+        </div>
+    </div>
+</div>
+<form action="<?php echo $this->url('backend', array('controller' => 'resource', 'action' => 'index')); ?>" method="post" enctype="multipart/form-data">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <select name="function" class="form-control selected-custom">
+                                <option value="0">-- Chọn chức năng --</option>
+                                <option value="1">1. Xóa</option>
+                            </select>
+                            <button type="submit" class="btn btn-default btn-custom apply">Thực hiện</button>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="db-function">
+                            <a href="<?php echo $this->url('backend', array('controller' => 'resource', 'action' => 'add')); ?>" class="btn btn-default btn-custom add-news">Thêm mới</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-table">
+                                <?php if($list): ?>
+                                <table id="table-data" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th id="all" class="all"><input type="checkbox" class="form-all"></th>
+                                            <th id="key" class="name column_name no-sort">
+                                                Mã
+                                            </th>
+                                            <th id="name">
+                                                Module
+                                            </th>
+                                            <th class="description column_descripton">Controller</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($list as $value): ?>
+                                        <tr id="id-resource-<?php echo $value['id']; ?>">
+                                            <td><input type="checkbox" value="<?php echo $value['id'];?>" name="check-all[]" class="form-checkbox check-all"></td>
+                                            <td><?php echo $value['id']; ?></td>
+                                            <td class="column-title column_name">
+                                                <strong class="key-title"><?php echo $value['module']; ?></strong>
+                                                <div class="row-action">
+                                                    <span class="edit">
+                                                        <a data-id="<?php echo $value['id']; ?>" href="<?php echo $this->url('backend', array('controller' => 'resource', 'action' => 'edit', 'id' => $value['id'])); ?>">Sửa</a> | 
+                                                    </span>
+                                                    <span class="delete">
+                                                        <a data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target=".modal-delete-resource">Xóa</a>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td class="column_descripton"><?php echo $value['controller']; ?></td>
+                                            
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="modal fade modal-delete-resource" tabindex="-1" role="dialog" aria-labelledby="modal-delete-resource">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="gridSystemModalLabel">Bạn có muốn xóa không?</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-12"><p class="error" id="message-user"></p></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <input type="hidden" value="" name="id" id="modal-id-resource" />
+            <button type="button" class="btn btn-default" data-dismiss="modal">Không</button>
+            <button type="button" class="btn btn-primary" id="modal-delete-resource">Xóa</button>
+        </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+        // delete
+        $('.form-table .table>tbody>tr>td span.delete a').on('click', function(){
+            var id = $(this).attr('data-id');
+                $("#modal-id-resource").val(id);
+        });
+        $("#modal-delete-resource").on('click', function(){
+            var id = $("#modal-id-resource").val();
+            if(id !== '')
+            {
+                var obj = { 'id' : id};
+                $.ajax({
+                    type:"POST",
+                    url: "<?php echo $this->url($this->route, array('controller' => 'resource', 'action' => 'delete')) ?>",
+                    data: obj,
+                    dataType: 'JSON',
+                    success: function(data){
+                        $("#message-user").empty().append(data.message);
+                        setTimeout(function(){
+                            $('.modal-delete-resource').modal('hide');
+                            $("#id-resource-"+id).remove();
+                            $("#message-user").empty();
+                        }, 500);
+                        location.reload();
+                    }    
+               });
+            } 
+        });        
+    });
+</script>

@@ -133,6 +133,14 @@ class Permission extends AbstractTableGateway{
 		}
 		return $dataReturn;
 	}
+    // get list all permission
+    public function getAllPermission($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+        $resultSet	= $this->selectWith($select);
+		$resultSet = $resultSet->toArray();
+        return $resultSet;
+    }
     // lay ra danh sach action
     public function getListPermissionAction($arrayParam = null){
         $select = new Select();
@@ -142,4 +150,79 @@ class Permission extends AbstractTableGateway{
 		$resultSet = $resultSet->toArray();
         return $resultSet;
     }
+    
+    // get list permission by resource id
+    public function getListPermissionByResourceId($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->where('resource_id = '. $arrayParam['id']);
+        $resultSet	= $this->selectWith($select);
+		$resultSet = $resultSet->toArray();
+        return $resultSet;
+    }
+    
+    // get permission by id
+    public function getPermissionById($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->where('id = '. $arrayParam['id']);
+        $resultSet	= $this->selectWith($select);
+		$resultSet = $resultSet->toArray();
+        return $resultSet[0];
+    }
+    // delete permission by resource id
+    public function deletePermissionByReourceId($arrayParam = null){
+        if($this->delete('resource_id = ' . $arrayParam['id'])){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    // delete permission by id
+    public function deletePermissionById($arrayParam = null){
+        if($this->delete('id = ' . $arrayParam['id'])){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    // validate permission name and resource id
+    public function validatePermissionNameResourceId($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->where(array('name' => $arrayParam['post']['name'], 'resource_id' => $arrayParam['post']['resource_id']));
+        $resultSet	= $this->selectWith($select);
+		$resultSet = $resultSet->toArray();
+        return $resultSet;
+    }
+    
+    // add permission
+    public function addPermission($arrayParam = null)
+	{
+		$data = array(
+            'name'		=> $arrayParam['post']['name'], 
+            'resource_id'		=> $arrayParam['post']['resource_id'], 
+            'description'	=> $arrayParam['post']['description']
+		);
+		if(isset($arrayParam['id'])){
+            // update
+            if($this->update($data, 'id = '.$arrayParam['id'])){
+                return true;
+            }else{
+                return false;
+            }
+		}
+		else{
+			// add
+			if($this->insert($data)){
+                return true;
+            }else{
+                return false;
+            }
+		}
+	}
 }

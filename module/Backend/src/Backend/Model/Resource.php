@@ -28,4 +28,57 @@ class Resource extends AbstractTableGateway{
 		$resultSet = $resultSet->toArray();
         return $resultSet;
     }
+    // validate module and controller exits
+    public function validateModuleController($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->where(array('controller' => $arrayParam['post']['controller'], 'module' => $arrayParam['post']['module']));
+        $resultSet	= $this->selectWith($select);
+		$resultSet = $resultSet->toArray();
+        return $resultSet;
+    }
+    
+    
+    // get resource by id
+    public function getResourceById($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->where(array('id' => $arrayParam['id']));
+        $resultSet = $this->selectWith($select);
+        $resultSet = $resultSet->toArray();
+        return $resultSet[0];
+    }
+    // add resource
+    public function addResource($arrayParam = null)
+	{
+		$data = array(
+		  'module'		=> $arrayParam['post']['module'], 
+		  'controller'	=> $arrayParam['post']['controller']
+		);
+		if(isset($arrayParam['id'])){
+            // update
+            if($this->update($data, 'id = '.$arrayParam['id'])){
+                return true;
+            }else{
+                return false;
+            }
+		}
+		else{
+			// add
+			if($this->insert($data)){
+                return true;
+            }else{
+                return false;
+            }
+		}
+	}
+    // delete resource
+    public function deleteResource($arrayParam = null){
+        if($this->delete('id = ' . $arrayParam['id'])){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

@@ -1,0 +1,59 @@
+<div class="container-fluid">
+    <div class="row function-title">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <h1>Phân quyền</h1>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <a href="<?php echo $this->url('backend',array('controller' => 'permission', 'action' => 'index')); ?>" class="btn btn-default btn-custom pull-right">Trở lại</a>
+        </div>
+    </div>
+</div>
+<form action="<?php echo $this->url('backend', array('controller' => 'permission', 'action' => 'permission')) ?>" id="form-add-role" method="post" enctype="multipart/form-data">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-table">
+                                <?php //if($list): ?>
+                                <table id="table-data" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th id="key" class="name column_name no-sort">  
+                                            </th>
+                                            <?php if($role): ?>
+                                                <?php foreach ($role as $val): ?>
+                                                 <th class="th-permission"><?php echo $val['role_name']; ?></th>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($permission as $value): ?>
+                                            <?php if(count($value['permission'])): ?>
+                                            <tr>
+                                                <td colspan="<?php echo count($role) + 1; ?>"><strong><?php echo $value['module'].'/'. $value['controller'] ;?></strong></td>
+                                            </tr>
+                                                <?php foreach ($value['permission'] as $v): ?>
+                                                    <tr>
+                                                        <td class="resource"><?php echo $v['name']; ?></td>
+                                                        <?php foreach($v['role'] as $vrole): ?>
+                                                        <td class="action-permission"><input <?php echo $vrole['flag']? 'checked': ''; ?> value="<?php echo $vrole['role_id'] ?>-<?php echo $v['id'] ?>" name="role[]" class="form-checkbox" type="checkbox"></td>
+                                                        <?php endforeach; ?>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                                <?php //endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

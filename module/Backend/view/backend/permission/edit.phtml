@@ -1,0 +1,71 @@
+<div class="container-fluid">
+    <div class="row function-title">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <h1>Sửa Permission</h1>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <a href="<?php echo $this->url('backend',array('controller' => 'permission', 'action' => 'index')); ?>" class="btn btn-default btn-custom pull-right">Trở lại</a>
+        </div>
+    </div>
+</div>
+<form action="<?php echo $this->url('backend', array('controller' => 'permission', 'action' => 'edit', 'id' => $arrayParam['id'])) ?>" id="form-add-role" method="post" enctype="multipart/form-data">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="box">
+                                        <div class="box-header"><h2>Thông tin chung</h2></div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                
+                                                <div class="col-lg-12">
+                                                    <p class="error"><?php echo isset($arrayParam['error']['dbexits'])? $arrayParam['error']['dbexits']:'' ?></p>
+                                                    <div class="form-group">
+                                                        <label for="name">Tên</label>
+                                                        <input type="text" name="name" value="<?php echo isset($arrayParam['post']['name'])?$arrayParam['post']['name']:'' ?>" class="form-control" id="module">
+                                                        <p class="error"><?php echo isset($arrayParam['error']['name'])? $arrayParam['error']['name']:'' ?></p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label for="resource_id">Resource</label>
+                                                        <select name="resource_id" class="form-control">
+                                                           
+                                                            <option value="">-- Chọn --</option>
+                                                            <?php if(isset($option)): ?>
+                                                            <?php foreach ($option as $val): ?>
+                                                            <option <?php echo (isset($postResource) && $postResource == $val['id'])?'selected':''; ?> value="<?php echo $val['id'] ?>"> <?php echo $val['module']. '/'.  $val['controller']; ?></option>
+                                                            <?php endforeach; ?>
+                                                            <?php endif; ?>
+                                                        </select>
+                                                        <p class="error"><?php echo isset($arrayParam['error']['resource_id'])? $arrayParam['error']['resource_id']:'' ?></p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label for="description">Mô tả</label>
+                                                        <textarea name="description" class="form-control"><?php echo isset($arrayParam['post']['description'])?$arrayParam['post']['description']:'' ?></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="box-footer">
+                                            <a href="<?php echo $this->url('backend',array('controller' => 'permission', 'action' => 'index')); ?>" class="btn btn-default btn-back back">Trở lại</a>
+                                            <button type="submit" name="save" value="save" class="btn btn-default btn-custom add">Lưu</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
