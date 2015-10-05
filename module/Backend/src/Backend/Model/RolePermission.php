@@ -70,4 +70,30 @@ class RolePermission extends AbstractTableGateway{
     public function deleteRolePermissionByPermissionId($id){
         $this->delete('permission_id = ' . $id);
     }
+    
+    // delete all record in table
+    public function deleteAllRecord(){
+        if($this->delete('1=1')){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    // insert record in table
+    public function addAllRecord($arrayParam = null){
+        
+        $data = array(
+            'permission_id' => $arrayParam['permission_id'],
+            'role_id'       => $arrayParam['role_id']
+        );
+//        $data = array(
+//            'permission_id' => 1,
+//            'role_id'       => 4
+//        );
+        
+//        var_dump($data); die;
+        $this->insert($data);
+//        die;
+    }
 }

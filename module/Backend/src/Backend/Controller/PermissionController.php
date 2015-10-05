@@ -144,9 +144,23 @@ class PermissionController extends AbstractActionController
         $data = array();
         $role = new Role();
         $dataRole = $role->getAllRole();
+        $request = $this->getRequest();
+        if($request->isPost() == true){
+            $data = $request->getPost();
+            $arrayParam = array();
+            if(isset($data['role']) && !empty($data['role'])){
+                $rolePermisson = new RolePermission();
+                $rolePermisson->deleteAllRecord();
+                foreach ($data['role'] as $value){
+                    $arrayParam['permission_id'] = (int)explode('-', $value)[0];
+                    $arrayParam['role_id'] = (int)explode('-', $value)[1];
+                    $rolePermisson->addAllRecord($arrayParam);
+                }
+                return $this->redirect()->refresh();
+            }
+        }
         // get resource
         $resource = new Resource();
-//        $dataResource = $resource->getListResource();
         // lay danh sach module
         $module = $resource->getListResource();
         $permission = new Permission();

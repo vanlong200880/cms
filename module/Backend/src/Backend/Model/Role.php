@@ -120,7 +120,6 @@ class Role extends AbstractTableGateway
 		if(isset($arrayParam['id'])){
             // update
             if($this->getRoleByName($arrayParam)){
-                 var_dump($data);
                 unset($data['role_name']);
             }
            
