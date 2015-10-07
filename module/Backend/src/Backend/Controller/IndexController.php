@@ -11,9 +11,14 @@ namespace Backend\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+//global $permission;
 
 class IndexController extends AbstractActionController
 {
+    public function __construct() {
+        var_dump('sdfsd');
+    }
+
     public function indexAction()
     {
         return new ViewModel();

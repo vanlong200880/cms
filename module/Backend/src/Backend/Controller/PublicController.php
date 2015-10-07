@@ -8,6 +8,8 @@ use Backend\Form\ValidateLogin;
 use Zend\Session\Container;
 use Backend\Model\User;
 use Backend\Model\Role;
+use Backend\Model\Permission;
+use Backend\Model\RolePermission;
 
 class PublicController extends AbstractActionController
 {
@@ -67,6 +69,9 @@ class PublicController extends AbstractActionController
                             $listRoleId[]   = $value['id'];
                             $listRoleName[] = $value['role_name'];
                         }
+                    }else{
+                        $listRoleId[]   = IDMEMBER;
+                        $listRoleName[] = 'MEMBER';
                     }
 //                         = '';
 //                    $userInfo = json_decode($userInfo);
@@ -83,11 +88,6 @@ class PublicController extends AbstractActionController
                         'userRole'      => implode(',', $listRoleName),
                         'role'          => $listRoleId,
                     );
-//					if($dataGroup != false){
-//						$dataUser->group_id = $dataGroup['group_id'];
-//					}else{
-//						$dataUser->group_id = IDMEMBER;
-//					}
 					$session = new Container(APPLICATION_KEY);
 					$session->auth = $dataUser;
 					$info = new \Sky\System\Info();					
