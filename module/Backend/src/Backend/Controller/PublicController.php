@@ -66,13 +66,13 @@ class PublicController extends AbstractActionController
                         $listRoleId     = array();
                         $listRoleName   = array();
                         foreach ($listRole as $value){
-                            $listRoleId[]   = $value['id'];
-                            $listRoleName[] = $value['role_name'];
+                            $roleId   = $value['id'];
+                            $roleName = $value['role_name'];
                         }
                     }else{
-                        $listRoleId[]   = IDMEMBER;
-                        $listRoleName[] = 'MEMBER';
-                    }
+                        $roleId   = IDMEMBER;
+                        $roleName = 'MEMBER';
+                    }                
 //                         = '';
 //                    $userInfo = json_decode($userInfo);
 //                    var_dump($userInfo);
@@ -85,12 +85,22 @@ class PublicController extends AbstractActionController
                         'userEmail'     => $userInfo['email'],
                         'userAvartar'   => $userInfo['avartar'],
                         'userCreated'   => $userInfo['created'],
-                        'userRole'      => implode(',', $listRoleName),
-                        'role'          => $listRoleId,
+                        'roleName'      => $roleName,
+                        'role'          => $roleId,
                     );
+                     // lay thong tin permission by role
+                    $permission = new RolePermission();
+                    $dataPermission = $permission->getRolePermissionByRoleId($roleId);
+                    $data = array();
+                    foreach ($dataPermission as $value){
+                        $data[] = strtolower($value['module']) . '/' . strtolower($value['controller']) .'/' . strtolower($value['action']); 
+                    }
+                    $dataUser['permission'] = json_encode($data);
+                    
 					$session = new Container(APPLICATION_KEY);
 					$session->auth = $dataUser;
-					$info = new \Sky\System\Info();					
+					$info = new \Sky\System\Info();		
+                    
 					$this->redirect()->toRoute('backend', array('controller' => 'index', 'action' => 'index'));
 				}else{
 					$arrayParam['error'] = array('Username hoặc Password chưa chính xác.');

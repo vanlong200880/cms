@@ -97,7 +97,7 @@ class Role extends AbstractTableGateway
     {
         $select = new Select();
         $select->from($this->table);
-        $select->where->or->nest()->in('id', $arrayParam['id'])
+        $select->where->or->nest()->in('id', array($arrayParam['id']))
                 ->unnest()
                     ->equalTo('status',1);
         $resultSet = $this->selectWith($select);

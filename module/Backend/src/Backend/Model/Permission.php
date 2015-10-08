@@ -113,7 +113,7 @@ class Permission extends AbstractTableGateway{
         $select->join('role_permission', 'permission.id = role_permission.permission_id', array('permission_id', 'role_id'), 'left');
         $select->join('role', 'role.id = role_permission.role_id', array(), 'left');
         $select->join('resource', 'resource.id = permission.resource_id', array('module', 'controller'));
-        $select->where->or->nest()->in('role.id', $arrayparam['role'])
+        $select->where->or->nest()->in('role.id', array($arrayparam['role']))
                 ->unnest()
                     ->equalTo('role.status',1);
 		$statement = $sql->prepareStatementForSqlObject($select);

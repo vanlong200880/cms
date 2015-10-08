@@ -40,6 +40,19 @@ class RolePermission extends AbstractTableGateway{
         return $resultSet;
     }
     
+    public function getRolePermissionByRoleId($roleId){
+        $select = new Select();
+        $select->from($this->table);
+        $select->columns(array());
+        $select->join('permission', 'role_permission.permission_id = permission.id', array('action' => 'name'), 'left');
+        $select->join('resource', 'permission.resource_id = resource.id', array('module','controller'), 'left');
+        $select->where('role_permission.role_id = '. $roleId);
+        $resultSet	= $this->selectWith($select);
+		$result = $resultSet->toArray();
+        return $result;
+    }
+
+
     // add role permission
     public function addRolePermission($arrayParam = null)
 	{

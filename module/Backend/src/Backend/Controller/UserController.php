@@ -20,6 +20,9 @@ class UserController extends AbstractActionController
     protected $_messagesError = NULL;
 	public function indexAction()
 	{
+        $session = new Container(APPLICATION_KEY);
+        $arrRole = $session->auth;
+        var_dump(json_decode($arrRole['permission']));
         $request    = $this->getRequest();
         $url        = $this->getRequest()->getRequestUri();
         if($request->isPost() == true){

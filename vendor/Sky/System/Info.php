@@ -6,7 +6,7 @@ class Info{
 	
 	// function contruct
 	public function __construct() {
-		$this->_session = new Container(APPLICATION_KEY);
+		$this->_session = new Container(APPLICATION_KEY);        
 		$this->setMemberInfo($this->_session->auth);
 		$this->setGroupInfo($this->_session->auth);
 		$this->setAcl($this->_session->auth);
@@ -24,7 +24,7 @@ class Info{
 	}
 	
 	// thiet lap thong tin nhom cua nguoi dang nhap
-	public function setGroupInfo($infoAuth){
+	public function setGroupInfo($infoAuth){  
 		$id['id'] = $infoAuth['role'];
 		$result = new \Backend\Model\Role();
 		$result = $result->auth($id);
