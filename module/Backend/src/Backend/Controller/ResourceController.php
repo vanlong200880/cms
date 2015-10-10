@@ -36,7 +36,7 @@ class ResourceController extends AbstractActionController
                                 $resource = new Resource();
                                 $resource->deleteResource($arrayParam);
                             }
-                            $arrayParam['message'] = "<span class='seccess'>Xóa thành công.</span>";
+                            $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa thành công.</div>');
                         }
                         break;
                     default :
@@ -73,7 +73,7 @@ class ResourceController extends AbstractActionController
             $resource = new Resource();
             if($resource->deleteResource($arrayParam))
             {
-                $arrayParam['message'] = "<span class='seccess'>Xóa thành công.</span>";
+                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa thành công.</div>');
             }
         }
         return new JsonModel($arrayParam);
@@ -95,7 +95,7 @@ class ResourceController extends AbstractActionController
                     $arrayParam['error']['dbexits'] = 'Module và Controller này đã tồn tại.';
                 }else{
                     $resource->addResource($arrayParam);
-                    $arrayParam['message'] = 'Thêm Resource thành công.';
+                    $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Lưu thành công.</div>');
                     if(isset($arrayParam['post']['save'])){
                         return $this->redirect()->toRoute('backend', array('controller' => 'resource', 'action' => 'index'));
                     }else{
@@ -126,7 +126,7 @@ class ResourceController extends AbstractActionController
                     $arrayParam['error'] = $validate->getMessagesError();
                 }else{
                     $resource->addResource($arrayParam);
-                    $arrayParam['message'] = 'Sửa nhóm thành công.';
+                    $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Lưu thành công.</div>');
                     return $this->redirect()->toRoute('backend', array('controller' => 'resource', 'action' => 'index'));
                 }
             }

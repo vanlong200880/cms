@@ -1,0 +1,143 @@
+<div class="container-fluid">
+    <div class="row function-title">
+        <div class="col-lg-12">
+            <h1>Taxonomy</h1>
+        </div>
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <select class="form-control selected-custom">
+                        <option value="">-- Choose --</option>
+                        <option value="delete">Delete</option>
+                        <option value="delete_flag">Delete forever</option>
+                        <option value="published">Published</option>
+                        <option value="unpublished">Unpublished</option>
+                    </select>
+                    <button type="button" class="btn btn-default btn-custom apply">Apply</button>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><a href="<?php echo $this->url('backend', array('controller' => 'taxonomy','action' => 'add')) ?>" class="btn btn-default btn-custom pull-right">Add Taxonomy</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="content">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-table">
+                            <table id="table-data" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th id="all" class="all"><input type="checkbox" class="form-all"></th>
+                                        <th id="key" class="name column_name no-sort">
+                                            Id
+                                        </th>
+                                        <th id="name">
+                                            name
+                                        </th>
+                                        <th id="name">
+                                            Slug
+                                        </th>
+                                        <th class="status column_status">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if($list): ?>
+                                    <?php foreach ($list as $value): ?>
+                                    <tr id="id-taxonomy-<?php echo $value['id']; ?>">
+                                        <td><input type="checkbox" class="form-checkbox check-all"></td>
+                                        <td><?php echo $value['id']; ?></td>
+                                        <td class="column-title column_name">
+                                            <strong class="key-title"><?php echo $value['name']; ?></strong>
+                                            <div class="row-action">
+                                                <span class="edit">
+                                                    <a class="icon-edit" href="<?php echo $this->url('backend', array('controller' => 'taxonomy', 'action' => 'edit', 'id' => $value['id'])); ?>" title="Edit"><i class="fa fa-pencil-square-o"></i></a> 
+                                                </span>
+                                                <span class="delete">
+                                                    <a class="icon-delete" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target=".modal-delete-taxonomy" title="Delete"><i class="fa fa-times"></i></a> 
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td><?php echo $value['slug']; ?></td>
+                                        <td class="column_status status">
+                                            <?php echo ($value['status'] == 1)? '<a data-status='.json_encode(array('id' => $value['id'], 'status' => 1)).' href="javascript:void(0)" title="Hiển thị" class="active fa fa-check-circle"></a>': '<a data-status='.json_encode(array('id' => $value['id'], 'status' => 0)).' title="Không hiển thị" class="unactive fa fa-minus-circle"></a>'; ?>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-delete-taxonomy" tabindex="-1" role="dialog" aria-labelledby="modal-delete-taxonomy">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="gridSystemModalLabel">Bạn có muốn xóa không?</h4>
+        </div>
+        <div class="modal-footer">
+            <input type="hidden" value="" name="id" id="modal-id-taxonomy" />
+            <button type="button" class="btn btn-default" data-dismiss="modal">Không</button>
+            <button type="button" class="btn btn-primary" id="modal-delete-taxonomy">Xóa</button>
+        </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+        // delete
+        $('.form-table .table>tbody>tr>td span.delete a').on('click', function(){
+            var id = $(this).attr('data-id');
+                $("#modal-id-taxonomy").val(id);
+        });
+        $("#modal-delete-taxonomy").on('click', function(){
+            var id = $("#modal-id-taxonomy").val();
+            if(id != '')
+            {
+                var obj = { 'id' : id};
+                $.ajax({
+                    type:"POST",
+                    url: "<?php echo $this->url($this->route, array('controller' => 'taxonomy', 'action' => 'delete')) ?>",
+                    data: obj,
+                    dataType: 'JSON',
+                    success: function(data){
+                        $("#message-user").empty().append(data.message);
+                        setTimeout(function(){
+                            $('.modal-delete-taxonomy').modal('hide');
+                            $("#id-taxonomy-"+id).remove();
+                            $("#message-user").empty();
+                        }, 500);
+                        location.reload();
+                    }    
+               });
+            } 
+        });
+        
+        // change status
+        $(".form-table .table>tbody>tr>td.column_status a").on('click', function(){
+            var data = $(this).attr('data-status');
+            var loadData = jQuery.parseJSON(data);
+            var obj = { 'id' : loadData.id, 'status': loadData.status };
+            if (confirm('Bạn có muốn thay đổi trạng thái không?')) {
+                $.ajax({
+                    type:"POST",
+                    url: "<?php echo $this->url($this->route, array('controller' => 'taxonomy', 'action' => 'changestatus')) ?>",
+                    data: obj,
+                    dataType: 'JSON',
+                    beforeSend: function(){
+                    },
+                    success: function(){
+                        location.reload();
+                    }    
+               });
+            }   
+        });
+    });
+</script>

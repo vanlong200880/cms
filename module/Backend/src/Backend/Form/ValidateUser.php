@@ -70,7 +70,6 @@ class ValidateUser{
         
         // kiểm tra vartar
         if($arrayParam['post']['avartar']['name'] !== ''){
-            var_dump($arrayParam['post']);
             $validator = new \Zend\Validator\ValidatorChain();
             $validator->addValidator(new \Zend\Validator\File\MimeType('image/jpg, image/jpeg, image/png'));
             $validator->addValidator(new \Zend\Validator\File\ImageSize(array(

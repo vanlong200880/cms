@@ -18,11 +18,14 @@ use Zend\Session\Container;
 class UserController extends AbstractActionController
 {
     protected $_messagesError = NULL;
-	public function indexAction()
-	{
+    protected $permission;
+    public function __construct() {
         $session = new Container(APPLICATION_KEY);
         $arrRole = $session->auth;
-        var_dump(json_decode($arrRole['permission']));
+        $this->permission = json_decode($arrRole['permission']);
+    }
+    public function indexAction()
+	{
         $request    = $this->getRequest();
         $url        = $this->getRequest()->getRequestUri();
         if($request->isPost() == true){
@@ -44,7 +47,7 @@ class UserController extends AbstractActionController
                                     $user->deleteUser($arrayParam);
                                 }
                             }
-                            $arrayParam['message'] = "<span class='seccess'>Xóa user thành công.</span>";
+                            $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa thành công.</div>');
                         }
                         return $this->redirect()->toUrl($url);
                         break;
@@ -52,6 +55,7 @@ class UserController extends AbstractActionController
                     case 3: // active
                     case 4: // deactive
                         if($user->updateStatus($arrayParam)){
+                            $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật trang thái thành công.</div>');
                             return $this->redirect()->toUrl($url);
                         }
                         break;
@@ -122,6 +126,8 @@ class UserController extends AbstractActionController
         // lay danh sach role
         $role = new Role();
         $listRole = $role->getAllRole();
+        $module                 = explode('\\', $arrayParam['controller']);
+        $data['module']         = $module[0];
         $data['arrayParam']     = $arrayParam;
         $data['list']           = $userData;
         $data['title']          = "Danh sách user";
@@ -134,6 +140,7 @@ class UserController extends AbstractActionController
         $data['paramSort']               = $paramSort;
         $data['role'] = $listRole;
         $data['current_link'] = $url;
+        $data['permission'] = $this->permission;
 		return new ViewModel($data);
 	}
 
@@ -193,7 +200,7 @@ class UserController extends AbstractActionController
                 }
                 $user = new User();
                 $user->addUser($data);
-                $this->flashMessenger()->addMessage(array('success' => 'Tạo thành viên thành công.'));
+                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Tạo thành viên thành công.</div>');
                 return $this->redirect()->toRoute('backend', array('controller' => 'user','action' => 'index'));
 			}
 		}
@@ -285,7 +292,7 @@ class UserController extends AbstractActionController
                     }
                     $user = new User();
                     $user->addUser($data);
-                    $this->flashMessenger()->addMessage(array('success' => 'Cập nhật thành công'));
+                    $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật thành công.</div>');
                     return $this->redirect()->toRoute('backend', array('controller' => 'user','action' => 'index'));
                 }
             }else{
@@ -322,7 +329,7 @@ class UserController extends AbstractActionController
 					}
 					$user = new User();
 					$user->addUser($data);
-					$this->flashMessenger()->addMessage(array('success' => 'Cập nhật thành công'));
+					$this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật thành công.</div>');
 					return $this->redirect()->toRoute('backend', array('controller' => 'user','action' => 'index'));
 				}
                 
@@ -373,7 +380,7 @@ class UserController extends AbstractActionController
                 $userInfo   = $user->getUserById($id);
                 if($userInfo){
                     $user->updateStatus($arrayParam);
-                    $arrayParam['message'] = "<span class='seccess'>Cập nhật thành công.</span>";
+                    $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật trạng thái thành công.</div>');
                 }
             }
 
@@ -392,7 +399,7 @@ class UserController extends AbstractActionController
                 $file = new \Sky\Uploads\Thumbs();
                 $file->removeImage(USER_ICON ."/", array('1' => '80x80/', '2' => ''), $userInfo['avartar'], 2);
                 $user->deleteAvartar($arrayParam);
-                $arrayParam['message'] = "<span class='seccess'>Xóa avartar thành công.</span>";
+                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xoá ảnh đại diện thành công.</div>');
             }
         }
         return new JsonModel($arrayParam);
@@ -409,7 +416,7 @@ class UserController extends AbstractActionController
                 $file = new \Sky\Uploads\Thumbs();
                 $file->removeImage(USER_ICON ."/", array('1' => '80x80/', '2' => ''), $userInfo['avartar'], 2);
                 $user->deleteUser($arrayParam);
-                $arrayParam['message'] = "<span class='seccess'>Xóa user thành công.</span>";
+                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa thành viên thành công.</div>');
             }
         }
         return new JsonModel($arrayParam);
@@ -440,10 +447,10 @@ class UserController extends AbstractActionController
                     $data['post']               = $encriptPassword->prepareData($data['post']);
                     $data['post']['id']         = $arrayParam['id'];
                     if($user->changepassword($data)){
-                        $this->flashMessenger()->addMessage(array('success' => 'Đổi mật khẩu thành công.'));
+                        $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Đổi mật khẩu thành công.</div>');
                         return $this->redirect()->refresh();
                     }else{
-                        $this->flashMessenger()->addMessage(array('success' => 'Đổi mật khẩu thất bại. Vui lòng thử lại.'));
+                        $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Đổi mật khẩu thất bại. Vui lòng kiểm tra lại.</div>');
                     }
                 }
             }

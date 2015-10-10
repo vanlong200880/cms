@@ -30,7 +30,7 @@ class RoleController extends AbstractActionController
                                 $arrayParam['id']   = $value;
                                 $role->deleteRole($arrayParam);
                             }
-                            $arrayParam['message'] = "<span class='seccess'>Xóa nhóm thành công.</span>";
+                            $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa nhóm thành công.</div>');
                         }else{
                             if(isset($arrayParam['post']['check-all'])){
                                  $arrayParam['listId'] = $arrayParam['post']['check-all'];
@@ -48,23 +48,23 @@ class RoleController extends AbstractActionController
                                     $arrayParam['id']   = $value;
                                     $role->changeStatus($arrayParam);
                                 }
-                                $arrayParam['message'] = "<span class='seccess'>Lưu thành công.</span>";
+                                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Lưu thành công.</div>');
                                 return $this->redirect()->toRoute('backend', array('controller' => 'role', 'action' => 'index'));
                             }else{
-                                $arrayParam['message'] = "<span class='seccess'>Lưu không thành công.</span>";
+                                $this->flashMessenger()->addMessage('<div class="alert alert-danger" role="alert">Lưu thất bại.</div>');
                                 if(isset($arrayParam['post']['check-all'])){
                                     $arrayParam['listId'] = $arrayParam['post']['check-all'];
                                }
                             }
                         }else{
-                            $arrayParam['message'] = "<span class='seccess'>Lưu không thành công.</span>";
+                            $this->flashMessenger()->addMessage('<div class="alert alert-danger" role="alert">Lưu thất bại.</div>');
                             if(isset($arrayParam['post']['check-all'])){
                                  $arrayParam['listId'] = $arrayParam['post']['check-all'];
                             }
                         }
                         break;
                     default :
-                        $arrayParam['message'] = "<span class='seccess'>Lưu không thành công.</span>";
+                        $this->flashMessenger()->addMessage('<div class="alert alert-danger" role="alert">Lưu thất bại.</div>');
                         if(isset($arrayParam['post']['check-all'])){
                             $arrayParam['listId'] = $arrayParam['post']['check-all'];
                         }
@@ -94,7 +94,7 @@ class RoleController extends AbstractActionController
                     $RoleInfo   = $role->getRoleById($arrayParam);
                     if($RoleInfo){
                         $role->changeStatus($arrayParam);
-                        $arrayParam['message'] = "<span class='seccess'>Cập nhật thành công.</span>";
+                        $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Lưu thành công.</div>');
                     }
                 }
             }
@@ -105,13 +105,12 @@ class RoleController extends AbstractActionController
     public function deleteAction(){
         $arrayParam = array();
         $request = $this->getRequest();
-        $arrayParam	= array();
         if($request->isPost()){
             $arrayParam['id']         = $request->getPost('id');
             $role = new Role();
             if($role->getRoleById($arrayParam)){                
                 if($role->deleteRole($arrayParam)){
-                    $arrayParam['message'] = "<span class='seccess'>Xóa thành công.</span>";
+                    $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa thành công.</div>');
                 }
             }
         }
@@ -129,7 +128,7 @@ class RoleController extends AbstractActionController
                     $arrayParam['id'] = $key;
                     $arrayParam['weight'] = $value;
                     $role->updateWeight($arrayParam);
-                    $arrayParam['message'] = "<span class='seccess'>Lưu thành công.</span>";
+                    $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Lưu thành công.</div>');
                 }
             }
         }
@@ -148,7 +147,7 @@ class RoleController extends AbstractActionController
             }else{
                 $role = new Role();
                 $role->addRole($arrayParam);
-                $arrayParam['message'] = 'Thêm nhóm thành công.';
+                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Lưu thành công.</div>');
                 if(isset($arrayParam['post']['save'])){
                     return $this->redirect()->toRoute('backend', array('controller' => 'role', 'action' => 'index'));
                 }else{
@@ -174,7 +173,7 @@ class RoleController extends AbstractActionController
 				$arrayParam['error'] = $validate->getMessagesError();
             }else{
                 $role->addRole($arrayParam);
-                $arrayParam['message'] = 'Sửa nhóm thành công.';
+                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật thành công.</div>');
                 return $this->redirect()->toRoute('backend', array('controller' => 'role', 'action' => 'index'));
             }
         }else{
@@ -199,7 +198,7 @@ class RoleController extends AbstractActionController
             if(isset($arrayParam['permission'])){
                 $rolePermission = new RolePermission();
                 $rolePermission->addRolePermission($arrayParam);
-                $arrayParam['message'] = 'Lưu thành công.';
+                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Lưu thành công.</div>');
                 return $this->redirect()->toRoute('backend', array('controller' => 'role', 'action' => 'rolepermission', 'id' => $arrayParam['id']));
             }
         } 

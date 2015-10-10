@@ -29,7 +29,7 @@ class PermissionController extends AbstractActionController
                                 $rolePermission->deleteRolePermissionByPermissionId($arrayParam['id']);
                                 $permission->deletePermissionById($arrayParam);
                             }
-                            $arrayParam['message'] = "<span class='seccess'>Xóa thành công.</span>";
+                            $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa thành công.</div>');
                         }
                         break;
                     default :
@@ -38,9 +38,9 @@ class PermissionController extends AbstractActionController
                 
             }
         }
-        $permission =  new Permission();
-        $dataPermission = $permission->getAllPermission();
-        $data['list'] = $dataPermission;
+        $permission             =  new Permission();
+        $dataPermission         = $permission->getAllPermission();
+        $data['list']           = $dataPermission;
         return new ViewModel($data);
     }
     // delete
@@ -57,7 +57,7 @@ class PermissionController extends AbstractActionController
             $rolePermission = new RolePermission();
             $rolePermission->deleteRolePermissionByPermissionId($arrayParam['id']);
             if($permission->deletePermissionById($arrayParam)){
-                $arrayParam['message'] = "<span class='seccess'>Xóa thành công.</span>";
+                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa thành công.</div>');
             }
         }
         return new JsonModel($arrayParam);
@@ -87,7 +87,7 @@ class PermissionController extends AbstractActionController
                     
                 }else{
                     $permission->addPermission($arrayParam);
-                    $arrayParam['message'] = 'Thêm Resource thành công.';
+                    $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Thêm Resource thành công.</div>');
                     if(isset($arrayParam['post']['save'])){
                         return $this->redirect()->toRoute('backend', array('controller' => 'permission', 'action' => 'index'));
                     }else{
@@ -127,7 +127,7 @@ class PermissionController extends AbstractActionController
                     
                 }else{
                     $permission->addPermission($arrayParam);
-                    $arrayParam['message'] = 'Thêm Resource thành công.';
+                    $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật Resource thành công.</div>');
                     return $this->redirect()->toRoute('backend', array('controller' => 'permission', 'action' => 'index'));
                 }
             }
@@ -152,10 +152,13 @@ class PermissionController extends AbstractActionController
                 $rolePermisson = new RolePermission();
                 $rolePermisson->deleteAllRecord();
                 foreach ($data['role'] as $value){
-                    $arrayParam['permission_id'] = (int)explode('-', $value)[0];
-                    $arrayParam['role_id'] = (int)explode('-', $value)[1];
+                    $p_id = explode('-', $value);
+                    $arrayParam['permission_id'] = (int)$p_id[0];
+                    $r_id = explode('-', $value);
+                    $arrayParam['role_id'] = (int)$r_id[1];
                     $rolePermisson->addAllRecord($arrayParam);
                 }
+                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Lưu thành công.</div>');
                 return $this->redirect()->refresh();
             }
         }

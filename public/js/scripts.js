@@ -1,4 +1,22 @@
 jQuery(document).ready(function($){
+    /* show message */
+    function isEmpty( el ){
+      return !$.trim(el.html())
+    }
+    if (!isEmpty($('#messages'))) {
+        $("#messages").addClass("show");
+    }
+    setTimeout(function() {
+        $("#messages").removeClass("show");
+        setTimeout(function(){
+            $("#messages").empty();
+        }, 500);
+      }, 4000);
+    /* end show message */
+    
+    
+    
+    
 //   $('.form-table .table>tbody>tr>td span.quick-edit a').on('click', function(){
 //        $(".form-table .table>tbody>tr").removeAttr('style');
 //        $(this).closest('tr').css('display', 'none');

@@ -1,0 +1,268 @@
+<div class="container-fluid">
+    <div class="row function-title">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <h1>Add Taxonomy</h1>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <a href="<?php echo $this->url('backend', array('controller' => 'taxonomy','action' => 'index')); ?>" class="btn btn-default btn-custom pull-right">Back</a>
+        </div>
+    </div>
+</div>
+<form id="language-form" action="<?php echo $this->url('backend', array('controller' => 'taxonomy', 'action' => 'add')) ?>" method="post" enctype="multipart/form-data">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="box">
+                                        <div class="box-header"><h2>Taxonomy information</h2></div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <div class="box-language lang-vi">
+                                                            <label for="name">Name <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="This field is not empty.">?</span></label>
+                                                            <input type="text" id="name" class="form-control" value="<?php echo isset($arrayParam['post']['name'])?$arrayParam['post']['name']:'' ?>" name="name" placeholder="Name">
+                                                            <p class="error"><?php echo isset($arrayParam['error']['name'])? $arrayParam['error']['name']:'' ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <div class="box-language lang-vi">
+                                                            <label for="slug">Slug <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="This field is not empty.">?</span></label>
+                                                            <input type="text" id="slug" value="<?php echo isset($arrayParam['post']['slug'])?$arrayParam['post']['slug']:'' ?>" class="form-control" placeholder="Slug" name="slug">
+                                                            <p class="error"><?php echo isset($arrayParam['error']['slug'])? $arrayParam['error']['slug']:'' ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+
+                                                <div class="col-lg-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <div class="checkbox">
+                                                                    <label>
+                                                                        <span>
+                                                                            <input type="hidden" name="status" value="0">
+                                                                            <input type="checkbox" name="status" id="status" value="1" <?php echo (!isset($arrayParam['post']['status']))?'checked':((isset($arrayParam['post']['status'])) && $arrayParam['post']['status'] == 1)?'checked':'' ?>>
+                                                                            Published
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="box-footer">
+                                            <button type="reset" class="btn btn-default btn-back add">Reset</button>
+                                            <button id="save" type="submit" name="save" value="save" class="btn btn-default btn-custom add">Save</button>
+                                            <button type="submit" name="save-news" value="save-news"class="btn btn-default btn-custom add">Save & Add News</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+        // plugin validate image type
+//        (function($) {
+//            $.fn.checkFileType = function(options) {
+//                var defaults = {
+//                    allowedExtensions: [],
+//                    success: function() {},
+//                    error: function() {}
+//                };
+//                options = $.extend(defaults, options);
+//
+//                return this.each(function() {
+//
+//                    $(this).on('change keyup blue', function(e) {
+//                        var value = $(this).val(),
+//                            file = value.toLowerCase(),
+//                            extension = file.substring(file.lastIndexOf('.') + 1);
+//                        if(value === '' || value === null)
+//                        {
+//                             options.error(
+//                                    {
+//                                        err: 'The field is not empty.'
+//                                    }
+//                                );
+//                        }else{
+//                            if ($.inArray(extension, options.allowedExtensions) == -1) {
+//                                options.error(
+//                                        {
+//                                            err: 'File format not allowed.'
+//                                        }
+//                                    );
+//                                $(this).focus();
+//                            } else {
+//                                readURL(this);
+//                                options.success();
+//                            }
+//                        }
+//                    });
+//
+//                });
+//            };
+//        })(jQuery);
+//        // get image review before update
+//        function readURL(input) {
+//            if (input.files && input.files[0]) {
+//                var reader = new FileReader();
+//                reader.onload = function (e) {
+//                    $image = '<img id="blah" src="'+ e.target.result +'"/>';
+//                   $("#view-image").empty().append($image);
+//                };
+//                reader.readAsDataURL(input.files[0]);
+//            }
+//        }
+//        $('#icon').checkFileType({
+//            allowedExtensions: ['jpg', 'jpeg'],
+//            success: function() {
+//            // code here
+//                $("#error-image").empty();
+//                $("#icon").removeClass('input-error');
+//            },
+//            error: function(e) {
+//                $("#icon").addClass('input-error');
+//                $("#error-image").empty().append(e.err);
+//                $("#view-image").empty();
+//            }
+//        });
+//        //add scroll to top
+//        function sCrollToTop(html)
+//        {
+//            $('html, body').animate({
+//                scrollTop: (html.offset().top-100)
+//            }, 0);
+//        }
+//        
+//        // function validate language name
+//        function validateName()
+//        {
+//            var name = $("input[name=name]");
+//            var error = $("#error-name");
+//            var characterReg = /^\s*[a-zA-Z0-9._%+\-\,\s]+\s*$/;
+//            if(name.val() === '' || name.val() === null || name.val().length <= 0){
+//                error.empty().append('The field is not empty.');
+//                name.addClass('input-error');
+//                sCrollToTop(name);
+//                return false;
+//            }else{
+//                if(!characterReg.test(name.val())){
+//                    error.empty().append('No special characters allowed.');
+//                    name.addClass('input-error');
+//                    sCrollToTop(name);
+//                    return false;
+//                }
+//                else{
+//                    name.removeClass('input-error');
+//                    error.empty();
+//                    return true;
+//                }
+//            }
+//        }
+//        // function validate language code
+//        function validateCode()
+//        {
+//            var code = $("input[name=code]");
+//            var error = $("#error-code");
+//            var codeReg = /^\s*[a-zA-Z]+\s*$/;
+//            if(code.val() === '' || code.val() === null){
+//                error.empty().append('The field is not empty.');
+//                code.addClass('input-error');
+//                sCrollToTop(code);
+//                return false;
+//            }else{
+//                if(code.val().length < 2)
+//                {
+//                    error.empty().append('minimum 2 characters.');
+//                    code.addClass('input-error');
+//                    sCrollToTop(code);
+//                    return false;
+//                }else{
+//                    if(code.val().length > 2){
+//                        error.empty().append('Maximum 2 characters.');
+//                        code.addClass('input-error');
+//                        sCrollToTop(code);
+//                        return false;
+//                    }else{
+//                        if(!codeReg.test(code.val())){
+//                            error.empty().append('No special characters allowed.');
+//                            code.addClass('input-error');
+//                            sCrollToTop(code);
+//                            return false;
+//                        }
+//                        else{
+//                            code.removeClass('input-error');
+//                            error.empty();
+//                            return true;
+//                        }
+//                    }
+//                }
+//                
+//            }
+//        }
+//        // function validate language icon
+//        function validateIamge()
+//        {
+//            var image = $("input[name=icon]");
+//            var error = $("#error-image");
+//            if(image.val() === '' || image.val() === null){
+//                error.empty().append('The field is not empty.');
+//                image.addClass('input-error');
+//                sCrollToTop(image);
+//                return false;
+//            }else{
+//                image.removeClass('input-error');
+//                error.empty();
+//                return true;
+//            }
+//        }
+//        
+//        function validateLanguage()
+//        {
+//            if(validateName() && validateCode() && validateIamge()){
+//                return true;
+//            }else{
+//                return false;
+//            }
+//        }
+//        $("input[name=name]").bind('change keyup blur', function(){
+//            validateName();
+//        });
+//        $("input[name=code]").bind('change keyup blur', function(){
+//            validateCode();
+//        });
+//        $("#save").on('click', function(){
+//            validateLanguage();
+//            $('#icon').checkFileType({
+//                allowedExtensions: ['jpg', 'jpeg'],
+//                success: function() {
+//                // code here
+//                    $("#error-image").empty();
+//                },
+//                error: function() {
+//                    $("#error-image").empty().append('File format not allowed.');
+//                    $("#view-image").empty();
+//                }
+//            });
+//        });
+//        
+    });
+</script>

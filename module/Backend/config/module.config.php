@@ -95,7 +95,8 @@ return array(
             'Backend\Controller\User'       => 'Backend\Controller\UserController',
             'Backend\Controller\Role'       => 'Backend\Controller\RoleController',
             'Backend\Controller\Resource'   => 'Backend\Controller\ResourceController',
-            'Backend\Controller\Permission' => 'Backend\Controller\PermissionController'
+            'Backend\Controller\Permission' => 'Backend\Controller\PermissionController',
+            'Backend\Controller\Taxonomy'   => 'Backend\Controller\TaxonomyController'
         ),
     ),
     'view_helpers' => array(

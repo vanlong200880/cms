@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                     <select class="form-control selected-custom">
-                        <option value="">Choose</option>
+                        <option value="">-- Choose --</option>
                         <option value="delete">Delete</option>
                         <option value="delete_flag">Delete forever</option>
                         <option value="published">Published</option>
@@ -26,41 +26,16 @@
             <div class="content">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="filter"> 
-                            <form class="form-horizontal">
-                                <fieldset>
-                                    <legend>Search</legend>
-                                    <div class="col-lg-5 col-md-5">
-                                        <div class="form-group">
-                                            <label for="keyword" class="col-lg-3 col-md-4 control-label">Keyword</label>
-                                            <div class="col-lg-9 col-md-8 col-sm-12">
-                                                <input type="email" class="form-control" id="keyword">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-md-2">
-                                        <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <button type="button" class="btn btn-default btn-custom">Submit</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </form>
-                        </div>
-                    </div> <!-- end search -->
-
-                    <div class="col-lg-12">
                         <div class="form-table">
                             <table id="table-data" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th id="all" class="all"><input type="checkbox" class="form-all"></th>
                                         <th id="key" class="name column_name no-sort">
-                                            <a href="#">Id <i class="fa fa-sort-asc"></i></a>
+                                            Id
                                         </th>
                                         <th id="name">
-                                            <a class="desc" href="#">Name <i class="fa fa-sort-desc"></i></a>
+                                            name
                                         </th>
                                         <th class="description column_descripton">Code</th>
                                         <th class="description column_descripton">Icon</th>
@@ -69,57 +44,33 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <?php if($list): ?>
+                                    <?php foreach ($list as $value): ?>
+                                    <tr id="id-language-<?php echo $value['id']; ?>">
                                         <td><input type="checkbox" class="form-checkbox check-all"></td>
-                                        <td>1</td>
+                                        <td><?php echo $value['id']; ?></td>
                                         <td class="column-title column_name">
-                                            <strong class="key-title">Tiếng Việt</strong>
+                                            <strong class="key-title"><?php echo $value['name']; ?></strong>
                                             <div class="row-action">
                                                 <span class="edit">
-                                                    <a href="#">Edit</a> | 
-                                                </span>
-                                                <span class="quick-edit">
-                                                    <a data-name="Tiếng Việt" data-code="vi" data-weight="1" href="javascript:void(0)">Quick Edit</a> | 
+                                                    <a class="icon-edit" href="<?php echo $this->url('backend', array('controller' => 'language', 'action' => 'edit', 'id' => $value['id'])); ?>" title="Edit"><i class="fa fa-pencil-square-o"></i></a> 
                                                 </span>
                                                 <span class="delete">
-                                                    <a href="#">Delete</a> | 
-                                                </span>
-                                                <span class="view">
-                                                    <a href="#">View</a>
+                                                    <a class="icon-delete" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target=".modal-delete-language" title="Delete"><i class="fa fa-times"></i></a> 
                                                 </span>
                                             </div>
                                         </td>
-                                        <td class="column_descripton">vi</td>
-                                        <td class="column_quantity"> <img src="<?php echo $this->basePath('language/vi.png');?>"></td>
-                                        <td class="column_descripton"></td>
-                                        <td class="column_status status"><a title="Hiển thị" class="fa fa-check-circle"></a></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td><input type="checkbox" class="form-checkbox check-all"></td>
-                                        <td>2</td>
-                                        <td class="column-title column_name">
-                                            <strong>English</strong>
-                                            <div class="row-action">
-                                                <span class="edit">
-                                                    <a href="#">Edit</a> | 
-                                                </span>
-                                                <span class="quick-edit">
-                                                    <a data-name="English" data-code="en" data-weight="2" href="javascript:void(0)">Quick Edit</a> | 
-                                                </span>
-                                                <span class="delete">
-                                                    <a href="#">Delete</a> | 
-                                                </span>
-                                                <span class="view">
-                                                    <a href="#">View</a>
-                                                </span>
-                                            </div>
+                                        <td class="column_descripton"><?php echo $value['code']; ?></td>
+                                        <td class="language-icon"> 
+                                            <?php echo $value['icon']? '<img src="'.$this->basePath('files/languages/40x20/'.$value['icon']).'">':''; ?>
                                         </td>
-                                        <td class="column_descripton">en</td>
-                                        <td class="column_quantity"><img src="<?php echo $this->basePath('language/en.png');?>"></td>
-                                        <td class="column_descripton"><a href="#">Default</a></td>
-                                        <td class="column_status unstatus"><a title="Không hiển thị" class="fa fa-minus-circle"></a></td>
+                                        <td class="column_descripton"><?php echo $value['default'] == 1? 'Default': ''; ?></td>
+                                        <td class="column_status status">
+                                            <?php echo ($value['status'] == 1)? '<a data-status='.json_encode(array('id' => $value['id'], 'status' => 1)).' href="javascript:void(0)" title="Hiển thị" class="active fa fa-check-circle"></a>': '<a data-status='.json_encode(array('id' => $value['id'], 'status' => 0)).' title="Không hiển thị" class="unactive fa fa-minus-circle"></a>'; ?>
+                                        </td>
                                     </tr>
+                                    <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -129,54 +80,107 @@
         </div>
     </div>
 </div>
+<div class="modal fade modal-delete-language" tabindex="-1" role="dialog" aria-labelledby="modal-delete-language">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="gridSystemModalLabel">Bạn có muốn xóa không?</h4>
+        </div>
+        <div class="modal-footer">
+            <input type="hidden" value="" name="id" id="modal-id-language" />
+            <button type="button" class="btn btn-default" data-dismiss="modal">Không</button>
+            <button type="button" class="btn btn-primary" id="modal-delete-language">Xóa</button>
+        </div>
+    </div>
+  </div>
+</div>
 <script type="text/javascript">
     jQuery(document).ready(function($){
-        $('.form-table .table>tbody>tr>td span.quick-edit a').on('click', function(){
-            $(".form-table .table>tbody>tr").removeAttr('style');
-            $(this).closest('tr').css('display', 'none');
-            $('.edit-row').remove();
-            var name = $(this).attr('data-name');
-            var slug = $(this).attr('data-code');
-            var weight = $(this).attr('data-weight');
-            var html = '';
-            html +='<tr id="edit-1" class="edit-row">';
-            html +='    <td colspan="7" class="">';
-            html +='        <div class="column-qiuck-edit">';
-            html +='            <div class="col-lg-12"><h2>Quick Edit</h2></div>';
-            html +='            <div class="col-lg-12">';
-            html +='                <div class="row">';
-            html +='                    <div class="col-lg-6">';
-            html +='                        <div class="form-group">';
-            html +='                            <label for="name">Name</label>';
-            html +='                            <input type="text" class="form-control" value="'+name+'" id="name">';
-            html +='                        </div>';
-            html +='                        <div class="form-group">';
-            html +='                            <label for="name">Code</label>';
-            html +='                            <input type="text" class="form-control" value="'+slug+'" id="slug">';
-            html +='                        </div>';
-            html +='                    </div>';
-            html +='                </div>';
-            html +='            </div>';
-            html +='            <div class="col-lg-12">';
-            html +='                <div class="row">';
-            html +='                    <div class="col-lg-6">';
-            html +='                        <div class="form-group">';
-            html +='                            <button type="button" class="btn btn-default btn-back">Back</button>';
-            html +='                            <button type="button" class="btn btn-default btn-custom pull-right">Update</button>';
-            html +='                        </div>';
-            html +='                    </div>';
-            html +='                </div>';
-            html +='            </div>';
-            html +='            <div class="col-lg-6"></div>';
-            html +='        </div>';
-            html +='    </td>';
-            html +='</tr>';
-            $(this).closest('tr').after(html);
-       });
-
-       $('.form-table').on('click', '.table>tbody>tr .btn-back', function(){
-            $(".form-table .table>tbody>tr").removeAttr('style');
-            $('.edit-row').remove();
-       });
+        // delete
+        $('.form-table .table>tbody>tr>td span.delete a').on('click', function(){
+            var id = $(this).attr('data-id');
+                $("#modal-id-language").val(id);
+        });
+        $("#modal-delete-language").on('click', function(){
+            var id = $("#modal-id-language").val();
+            if(id != '')
+            {
+                var obj = { 'id' : id};
+                $.ajax({
+                    type:"POST",
+                    url: "<?php echo $this->url($this->route, array('controller' => 'language', 'action' => 'delete')) ?>",
+                    data: obj,
+                    dataType: 'JSON',
+                    success: function(data){
+                        $("#message-user").empty().append(data.message);
+                        setTimeout(function(){
+                            $('.modal-delete-language').modal('hide');
+                            $("#id-language-"+id).remove();
+                            $("#message-user").empty();
+                        }, 500);
+                        location.reload();
+                    }    
+               });
+            } 
+        });
+        
+        // change status
+        $(".form-table .table>tbody>tr>td.column_status a").on('click', function(){
+            var data = $(this).attr('data-status');
+            var loadData = jQuery.parseJSON(data);
+            var obj = { 'id' : loadData.id, 'status': loadData.status };
+            if (confirm('Bạn có muốn thay đổi trạng thái không?')) {
+                $.ajax({
+                    type:"POST",
+                    url: "<?php echo $this->url($this->route, array('controller' => 'language', 'action' => 'changestatus')) ?>",
+                    data: obj,
+                    dataType: 'JSON',
+                    beforeSend: function(){
+                    },
+                    success: function(){
+                        location.reload();
+                    }    
+               });
+            }   
+        });
+        // update weight
+        $(".btn.btn-default.btn-custom.update").on('click', function(){
+            var infoId = [];
+            $("input[name='weight']").each(function(){
+                infoId[$(this).attr('data-id')] = $(this).val();
+            });
+                $.ajax({
+                    type:"POST",
+                    url: "<?php echo $this->url($this->route, array('controller' => 'role', 'action' => 'updateweight')) ?>",
+                    data: {info: infoId},
+                    dataType: 'JSON',
+                    beforeSend: function(){
+                    },
+                    success: function(data){
+                        location.reload();
+                    }    
+               });
+        });
+        
+        // delete 
+//        $(".form-table .table>tbody>tr>td .row-action a").on('click', function(){
+//            var id = $(this).attr('data-id');
+//            var obj = { 'id' : id};
+//            if (confirm('Bạn có muốn thay đổi trạng thái không?')) {
+//                $.ajax({
+//                    type:"POST",
+//                    url: "<?php echo $this->url($this->route, array('controller' => 'role', 'action' => 'changestatus')) ?>",
+//                    data: obj,
+//                    dataType: 'JSON',
+//                    beforeSend: function(){
+//                    },
+//                    success: function(){
+//                        location.reload();
+//                    }    
+//               });
+//            }
+//                
+//        });
+        
     });
 </script>

@@ -56,15 +56,15 @@ class Module
 		$vm->setTemplate('layout/login');
 	}
 	public function preDispatch(MvcEvent $e){
-		$data = $e->getRouteMatch()->getParams();
-		$dataAcl = \Sky\System\Permission::checkAcl($data);
-		if(!empty($dataAcl) && $data['action'] != $dataAcl['action']){
-			$url = $e->getRouter()->assemble(array('controller' => $dataAcl['__CONTROLLER__'], 'action' => $dataAcl['action']), array('name' => 'backend'));
-			$reponse = $e->getResponse();
-			$reponse->getHeaders()->addHeaderLine('Location', $url);
-			$reponse->setStatusCode(302);
-			$reponse->sendHeaders();
-		}
+//		$data = $e->getRouteMatch()->getParams();
+//		$dataAcl = \Sky\System\Permission::checkAcl($data);
+//		if(!empty($dataAcl) && $data['action'] != $dataAcl['action']){
+//			$url = $e->getRouter()->assemble(array('controller' => $dataAcl['__CONTROLLER__'], 'action' => $dataAcl['action']), array('name' => 'backend'));
+//			$reponse = $e->getResponse();
+//			$reponse->getHeaders()->addHeaderLine('Location', $url);
+//			$reponse->setStatusCode(302);
+//			$reponse->sendHeaders();
+//		}
 	}
 	public function getConfig()
     {
