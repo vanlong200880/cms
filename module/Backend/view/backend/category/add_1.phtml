@@ -14,39 +14,37 @@
             <div class="content">
                 <div class="row">
                     <div class="col-lg-12">
+						<div class="row">
+							<div class="col-lg-12 language">
+								<ul class="nav nav-tabs" role="tablist">
+									<li role="presentation" class="active"><a href="#vi" data-lang="vi" aria-controls="vi" role="tab" data-toggle="tab">Tiếng Việt</a></li>
+									<li role="presentation"><a href="#en" data-lang="en" aria-controls="en" role="tab" data-toggle="tab">English</a></li>
+								</ul>
+							</div>
+						</div>
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="box">
                                     <div class="box-language lang-vi">
                                         <div class="box-header"><h2>Thông tin chung</h2></div>
                                     </div>
+                                    <div class="box-language lang-en hidden">
+                                        <div class="box-header"><h2>Basic information</h2></div>
+                                    </div>
                                     <div class="box-body">
                                         <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <div class="box-language lang-vi">
-                                                                <label for="taxonomy">Nhóm<span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường bắt buộc chọn.">?</span></label>
-                                                                <select id="taxonomy" name="taxonomy" class="selectpicker show-tick form-control" data-live-search="true">
-                                                                    <option selected>-- Chọn --</option>
-                                                                    <?php if($taxonomy): ?>
-                                                                    <?php foreach ($taxonomy as $value): ?>
-                                                                    <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
-                                                                    <?php endforeach; ?>
-                                                                    <?php endif; ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <div class="col-lg-12">
                                                 <div class="form-group">
 													<div class="box-language lang-vi">
 														<label for="name">Tên <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Tên danh mục ( Đây là trường bắt buộc nhập ).">?</span></label>
 														<input type="text" class="form-control" value="" name="name[vi]" placeholder="Tên" data-name ="Tên">
 													</div>
+													<div class="box-language lang-en hidden">
+														<label for="name">Name <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Category Name.">?</span></label>
+														<input type="text" class="form-control" value="" name="name[en]" placeholder="name">
+													</div>
+													
+                                                    
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
@@ -54,6 +52,10 @@
 													<div class="box-language lang-vi">
 														<label for="slug">Slug <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Alias ( Đây là trường bắt buộc nhập - viết liền không dấu - cách nhau bởi đấu '-'. VD: product-name ).">?</span></label>
 														<input type="text" class="form-control" placeholder="Slug" name="slug[vi]">
+													</div>
+													<div class="box-language lang-en hidden">
+														<label for="slug">Slug <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Alias">?</span></label>
+														<input type="text" class="form-control" name="slug[en]" placeholder="Slug">
 													</div>
                                                 </div>
                                             </div>
@@ -78,6 +80,23 @@
                                                                     <option> Category 3</option>
                                                                 </select>
                                                             </div>
+                                                            <div class="box-language lang-en hidden">
+                                                                <label for="category">Category Parent <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Choose.">?</span></label>
+                                                                <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
+                                                                    <option selected>-- Choose --</option>
+                                                                    <option>Category</option>
+                                                                    <option> &nbsp; &nbsp;Parent 1</option>
+                                                                    <option> &nbsp; &nbsp; &nbsp; &nbsp;Child 1</option>
+                                                                    <option> &nbsp; &nbsp; &nbsp; &nbsp;Child 2</option>
+                                                                    <option> &nbsp; &nbsp; &nbsp; &nbsp;Child 3</option>
+                                                                    <option> &nbsp; &nbsp;Parent 2</option>
+                                                                    <option> &nbsp; &nbsp;Parent 3</option>
+                                                                    <option> &nbsp; &nbsp;Parent 4</option>
+                                                                    <option> Category 1</option>
+                                                                    <option> Category 2</option>
+                                                                    <option> Category 3</option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -89,6 +108,10 @@
                                                         <label for="description">Mô tả <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
                                                         <textarea class="form-control" rows="3" name="description[vi]"></textarea>
                                                     </div>
+                                                    <div class="box-language lang-en hidden">
+                                                        <label for="description">Description <span class="help" data-toggle="tooltip" data-placement="right" title="">?</span></label>
+                                                        <textarea class="form-control" rows="3" name="description[en]"></textarea>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -99,6 +122,10 @@
                                                             <div class="box-language lang-vi">
                                                                 <label for="weight">Vị trí <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
                                                                 <input type="number" value="0" class="form-control" id="weight" name="weigh[vi]" placeholder="Vị trí">
+                                                            </div>
+                                                            <div class="box-language lang-en hidden">
+                                                                <label for="weight">Weight <span class="help" data-toggle="tooltip" data-placement="right" title="The field is not empty.">?</span></label>
+                                                                <input type="number" value="0" class="form-control" id="weight" name="weigh[en]" placeholder="Vị trí">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -116,6 +143,13 @@
                                                                     </label>
                                                                 </div>
                                                             </div>
+                                                            <div class="box-language lang-en hidden">
+                                                                <div class="checkbox">
+                                                                    <label>
+                                                                        <span><input checked type="checkbox" name="status[en]"> Published</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
                                                             
                                                         </div>
                                                     </div>
@@ -130,6 +164,9 @@
                                     <div class="box-language lang-vi">
                                         <div class="box-header"><h2>Cài đặt SEO</h2></div>
                                     </div>
+                                    <div class="box-language lang-en hidden">
+                                        <div class="box-header"><h2>Meta SEO</h2></div>
+                                    </div>
                                     <div class="box-body">
                                         <div class="row">
                                             <div class="col-lg-12">
@@ -137,6 +174,10 @@
                                                     <div class="box-language lang-vi">
                                                         <label for="title">Tiêu đề SEO <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
                                                         <input type="text" class="form-control" name="metatitle[vi]" placeholder="Tiêu đề">
+                                                    </div>
+                                                    <div class="box-language lang-en hidden">
+                                                        <label for="title">Meta title <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
+                                                        <input type="text" class="form-control" name="metatitle[en]" placeholder="Meta title">
                                                     </div>
                                                 </div>
                                             </div>
@@ -146,6 +187,10 @@
                                                         <label for="keyword">Từ khóa SEO <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
                                                         <input type="text" class="form-control" name="metakeyword[vi]" placeholder="Từ khóa seo">
                                                     </div>
+                                                    <div class="box-language lang-en hidden">
+                                                        <label for="keyword">Meta keyword <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
+                                                        <input type="text" class="form-control" name="metakeyword[en]" placeholder="Meta keyword">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
@@ -153,6 +198,10 @@
                                                     <div class="box-language lang-vi">
                                                         <label for="description">Mô tả SEO <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
                                                         <textarea class="form-control" rows="3" name="metadescriptionp[vi]"></textarea>
+                                                    </div>
+                                                    <div class="box-language lang-en hidden">
+                                                        <label for="description">Meta description <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
+                                                        <textarea class="form-control" rows="3" name="metadescriptionp[en]"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -172,25 +221,3 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    jQuery(document).ready(function($){
-        $("#taxonomy").on('change', function(){
-            var taxonomyId = this.value;
-            $.ajax({
-                type:"POST",
-                url: "<?php echo $this->url($this->route, array('controller' => 'category', 'action' => 'loadcategory')) ?>",
-                data: { 'id' : taxonomyId},
-                dataType: 'JSON',
-                success: function(data){
-                    $("#message").empty().append(data.message);
-                    setTimeout(function(){
-                        $('.modal-delete-permission').modal('hide');
-                        $("#id-permission-"+id).remove();
-                        $("#message").empty();
-                    }, 500);
-                    location.reload();
-                }    
-           });
-        });
-    });
-</script>

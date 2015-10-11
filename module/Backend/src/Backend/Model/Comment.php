@@ -5,18 +5,18 @@ use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\Feature;
-class Product extends AbstractTableGateway
+class Comment extends AbstractTableGateway
 {
-    protected $table = 'product';
+    protected $table = 'comment';
     
     public function __construct() {
         $this->featureSet = new Feature\FeatureSet();
         $this->featureSet->addFeature(new Feature\GlobalAdapterFeature());
         $this->initialize();
     }
-    // delete product by id
-    public function deleteProductById($id){
-        $this->delete('id = '.$id);
+    // delete comment by product id
+    public function deleteCommentByProductId($id){
+        $this->delete('product_id = '.$id);
     }
     
     // get product by category id

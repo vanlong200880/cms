@@ -9,6 +9,9 @@ use Sky\Uploads\Upload;
 use Sky\Uploads\Thumbs;
 use Backend\Model\Taxonomy;
 use Backend\Model\Category;
+use Backend\Model\Product;
+use Backend\Model\Comment;
+use Backend\Model\Image;
 use Backend\Model\News;
 use Zend\Session\Container;
 
@@ -114,6 +117,9 @@ class TaxonomyController extends AbstractActionController
             $file = new Thumbs();
             if(!empty($dataCategory)){
                 $news = new News();
+                $product = new Product();
+                $comment = new Comment();
+                $image = new Image();
                 foreach ($dataCategory as $value){
                     //delete table news
                     $paramId['id'] = $value['id'];
@@ -126,6 +132,28 @@ class TaxonomyController extends AbstractActionController
                         }
                     }
                     //delete table product
+                    $productData['id'] = $value['id'];
+                    $dataProduct = $product->getProductByCategoryId($productData);
+                    if(!empty($dataProduct)){
+                        foreach ($dataProduct as $val){
+                            // delete comment
+                            $comment->deleteCommentByProductId($val['id']);
+                            // delete image
+                            $imageParam['id'] = $val['id'];
+                            $dataImage = $image->getImageByProductId($imageParam);
+                            if($dataImage){
+                                foreach ($dataImage as $vimage){
+                                    // remove image
+                                    
+                                    // delete image
+                                    $image->deleteImageById($vimage['id']);
+                                }
+                            }
+                            // delete product id
+                            $product->deleteProductById($val['id']);
+                        }
+                    }
+                    
                 }
             }
             

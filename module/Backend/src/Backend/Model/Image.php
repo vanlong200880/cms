@@ -5,9 +5,9 @@ use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\Feature;
-class Product extends AbstractTableGateway
+class Image extends AbstractTableGateway
 {
-    protected $table = 'product';
+    protected $table = 'image';
     
     public function __construct() {
         $this->featureSet = new Feature\FeatureSet();
@@ -15,15 +15,15 @@ class Product extends AbstractTableGateway
         $this->initialize();
     }
     // delete product by id
-    public function deleteProductById($id){
+    public function deleteImageById($id){
         $this->delete('id = '.$id);
     }
     
-    // get product by category id
-    public function getProductByCategoryId($arrayParam = null){
+    // get image by product id and type = product
+    public function getImageByProductId($arrayParam = null){
         $select = new Select();
         $select->from($this->table);
-        $select->where(array('category_id' => $arrayParam['id']));
+        $select->where(array('product_id' => $arrayParam['id'], 'type' => 'product'));
         $resultSet = $this->selectWith($select);
         $resultSet = $resultSet->toArray();
         return $resultSet;
