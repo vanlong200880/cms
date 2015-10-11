@@ -865,3 +865,19 @@ a.block.fa{
 .language-icon img{
     max-width: 40px;
 }
+.form-control-category{
+    position: relative;
+}
+.form-control-category:before{
+    content: " ";
+    position: absolute;
+    width:  35px;
+    height: 34px;
+    right: 0;
+    display: none;
+    z-index: 9;
+    background: url('../img/ajax-loader.gif') no-repeat center;
+}
+.form-control-category.on:before{
+    display: block;
+}

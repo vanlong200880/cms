@@ -33,5 +33,50 @@ class Category extends AbstractTableGateway
         $resultSet = $resultSet->toArray();
         return $resultSet;
     }
+    // count category by parent
+    public function countCategoryByParent($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->where(array('parent' => $arrayParam['parent']));
+        $resultSet = $this->selectWith($select);
+        $resultSet = $resultSet->toArray();
+        return $resultSet;
+    }
+    // add category
+    public function addCategory($arrayParam = null)
+	{
+		$data = array(
+            'parent'		=> $arrayParam['post']['parent'], 
+            'name'          => $arrayParam['post']['name'],
+            'slug'          => $arrayParam['post']['slug'],
+            'excerpt'       => $arrayParam['post']['excerpt'],
+            'created'       => $arrayParam['post']['created'],
+            'changed'       => $arrayParam['post']['changed'],
+            'title'         => $arrayParam['post']['title'],
+            'keyword'       => $arrayParam['post']['keyword'],
+            'description'	=> $arrayParam['post']['description'],
+            'sort'          => $arrayParam['post']['sort'],
+            'status'        => $arrayParam['post']['status'],
+            'taxonomy_id'	=> $arrayParam['post']['taxonomy_id'],
+		);
+		if(isset($arrayParam['id'])){
+            // update
+            if($this->update($data, 'id = '.$arrayParam['id'])){
+                return true;
+            }else{
+                return false;
+            }
+		}
+		else{
+			// add
+            $data['created'] =  $data['changed'] = time();
+			if($this->insert($data)){
+                return true;
+            }else{
+                return false;
+            }
+		}
+	}
+    
 }
 
