@@ -28,7 +28,7 @@ class Category extends AbstractTableGateway
     public function getCategoryByTaxonomyId($arrayParam = null){
         $select = new Select();
         $select->from($this->table);
-        $select->where(array('taxonomy_id' => $arrayParam['id']));
+        //$select->where(array('taxonomy_id' => $arrayParam['id']));
         $resultSet = $this->selectWith($select);
         $resultSet = $resultSet->toArray();
         return $resultSet;
