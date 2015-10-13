@@ -42,6 +42,15 @@ class Category extends AbstractTableGateway
         $resultSet = $resultSet->toArray();
         return $resultSet;
     }
+    // get category by id
+    public function getCategoryById($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->where(array('id' => $arrayParam['id']));
+        $resultSet = $this->selectWith($select);
+        $resultSet = $resultSet->toArray();
+        return $resultSet[0];
+    }
     // add category
     public function addCategory($arrayParam = null)
 	{
@@ -61,6 +70,8 @@ class Category extends AbstractTableGateway
 		);
 		if(isset($arrayParam['id'])){
             // update
+            unset($data['created']);
+            $data['changed'] = time();
             if($this->update($data, 'id = '.$arrayParam['id'])){
                 return true;
             }else{

@@ -8,7 +8,7 @@
         </div>
     </div>
 </div>
-<form action="<?php echo $this->url('backend', array('controller' => 'category', 'action' => 'add')) ?>" id="form-add-category" method="post" enctype="multipart/form-data">
+<form action="<?php echo $this->url('backend', array('controller' => 'category', 'action' => 'edit', 'id' => $arrayParam['id'])) ?>" id="form-add-category" method="post" enctype="multipart/form-data">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
@@ -93,7 +93,7 @@
                                                             <div class="form-group">
                                                                 <div class="box-language lang-vi">
                                                                     <label for="weight">Vị trí <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
-                                                                    <input type="number" value="0" min="0" class="form-control" id="weight" name="sort" placeholder="Vị trí">
+                                                                    <input type="number" value="<?php echo isset($arrayParam['post']['sort'])?$arrayParam['post']['sort']:'0' ?>" min="0" class="form-control" id="weight" name="sort" placeholder="Vị trí">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -134,7 +134,7 @@
                                                     <div class="form-group">
                                                         <div class="box-language lang-vi">
                                                             <label for="title">Tiêu đề SEO <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
-                                                            <input type="text" class="form-control" name="title" placeholder="Tiêu đề">
+                                                            <input type="text" class="form-control" value="<?php echo isset($arrayParam['post']['title'])?$arrayParam['post']['title']:'' ?>" name="title" placeholder="Tiêu đề">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -142,7 +142,7 @@
                                                     <div class="form-group">
                                                         <div class="box-language lang-vi">
                                                             <label for="keyword">Từ khóa SEO <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
-                                                            <input type="text" class="form-control" name="keyword" placeholder="Từ khóa seo">
+                                                            <input type="text" class="form-control" value="<?php echo isset($arrayParam['post']['keyword'])?$arrayParam['post']['keyword']:'' ?>" name="keyword" placeholder="Từ khóa seo">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -150,16 +150,14 @@
                                                     <div class="form-group">
                                                         <div class="box-language lang-vi">
                                                             <label for="description">Mô tả SEO <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
-                                                            <textarea class="form-control" rows="3" name="description"></textarea>
+                                                            <textarea class="form-control" rows="3" name="description"><?php echo isset($arrayParam['post']['description'])?$arrayParam['post']['description']:'' ?></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="box-footer">
-                                                <button type="reset" class="btn btn-default btn-back add">Nhập lại</button>
-                                                <button type="submit" name="save" value="save" class="btn btn-default btn-custom add">Lưu</button>
-                                                <button type="submit" name="save-news" value="save-news" class="btn btn-default btn-custom add">Lưu & Thêm mới</button>                                       
+                                                <button type="submit" name="save" value="save" class="btn btn-default btn-custom add">Cập nhật</button>
                                         </div>
                                     </div>
                                 </div>
@@ -181,12 +179,13 @@
             $.ajax({
                 type:"POST",
                 url: "<?php echo $this->url($this->route, array('controller' => 'category', 'action' => 'loadcategory')) ?>",
-                data: { 'id' : id, 'category_id':category},
+                data: { 'id' : id, 'category_id':category, 'action': 'edit'},
                 dataType: 'JSON',
                 beforeSend: function( xhr ) {
                      $(".form-control-category").addClass('on');
                 },
                 success: function(data){
+                    console.log(data);
                     $("#category").empty().append(data.data);
                     $('#category').selectpicker('refresh');
                     $(".form-control-category").removeClass('on');

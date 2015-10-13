@@ -26,9 +26,13 @@ class CategoryController extends AbstractActionController
         return new ViewModel($data);
     }
     
-    public function getDataMenu($active = '', $data ,$parent = 0, $text = ''){
+    public function getDataMenu($function = '',$active = '', $data ,$parent = 0, $text = ''){
         $dataOption = array();
+        
         foreach ($data as $key => $value){
+//            if($function == 'edit'){
+//                unset($data[6]);
+//            }
             if($value['parent'] == $parent){
                 $dataOption[] = $value;
                 unset($data[$key]);
@@ -46,9 +50,12 @@ class CategoryController extends AbstractActionController
         $html = '';
         if($dataOption){
             foreach ($dataOption as $key => $val){
+                if($function == 'edit'){
+                    unset($dataOption[6]);
+                }
                 $selected = ($val['id'] == $active)?'selected':'';
                 $html .= '<option '.$selected.' value="'.$val['id'].'">'.$text.$val['name']. '</option>';
-                $html .= $this->getDataMenu($active, $data, $val['id'], $text.'--');
+                $html .= $this->getDataMenu($function,$active, $data, $val['id'], $text.'--');
             }
         }
         return $html;
@@ -56,14 +63,6 @@ class CategoryController extends AbstractActionController
 
     public function addAction()
     {
-//        $category = new Category();
-//        $arrayParam = array();
-//        $arrayParam['id'] = 1;
-//        $data = $category->getCategoryByTaxonomyId($arrayParam);
-////        
-//        var_dump($this->getDataMenu(1,$data));
-////       
-////        
         $taxonomy = new Taxonomy();
         $data= array();
         $data['taxonomyList'] = $taxonomy->getAll();
@@ -79,7 +78,7 @@ class CategoryController extends AbstractActionController
                 $dataPost = $this->params()->fromPost();
                 $arrayParam['post'] = $dataPost;
                 $arrayParam['post']['created'] = $arrayParam['post']['changed'] = '';
-                var_dump($arrayParam);
+                
                 $category->addCategory($arrayParam);
                 $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Tạo danh mục thành công.</div>');
                 if(isset($arrayParam['post']['save'])){
@@ -90,12 +89,42 @@ class CategoryController extends AbstractActionController
                     }
                 }
             }
-        }else{
-            
         }
         $data['arrayParam'] = $arrayParam;
         return new ViewModel($data);
     }
+    
+    public function editAction(){
+        $category = new Category();
+        $taxonomy = new Taxonomy();
+        $data= array();
+        $arrayParam['id'] = $this->params()->fromRoute('id');
+        $dataCategory = $category->getCategoryById($arrayParam);
+        $request = $this->getRequest();
+        if($request->isPost()== true){
+            $arrayParam['post'] = $this->params()->fromPost();
+            $validate = new ValidateCategory($arrayParam, 'edit');
+            if($validate->isError() === true){
+				$arrayParam['error'] = $validate->getMessagesError();
+            }else{
+                $dataPost = $this->params()->fromPost();
+                var_dump($dataPost);
+                $arrayParam['post'] = $dataPost;
+                $arrayParam['post']['created'] = $arrayParam['post']['changed'] = '';
+                $category->addCategory($arrayParam);
+                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật danh mục thành công.</div>');
+                //return $this->redirect()->toRoute('backend', array('controller' => 'category', 'action' => 'index'));
+                
+            }
+        }else{
+            $arrayParam['post'] = $dataCategory;
+        }
+        var_dump($arrayParam);
+        $data['taxonomyList'] = $taxonomy->getAll();
+        $data['arrayParam'] = $arrayParam;
+        return new ViewModel($data);
+    }
+
     public function loadcategoryAction(){
         $request = $this->getRequest();
         $arrayParam	= array(); 
@@ -103,9 +132,11 @@ class CategoryController extends AbstractActionController
             
             $category = new Category();
             $arrayParam['id']         = $request->getPost('id');
+            $arrayParam['action'] = $request->getPost('action');
             $arrayParam['category_id']         = $request->getPost('category_id');
             $dataCategory = $category->getCategoryByTaxonomyId($arrayParam);
-            $html = $this->getDataMenu($arrayParam['category_id'], $dataCategory, $arrayParam['id'] );
+            
+            $html = $this->getDataMenu($arrayParam['action'] ,$arrayParam['category_id'], $dataCategory, $arrayParam['id'] );
             $arrayParam['data'] = '<option value="0">-- Chọn --</option>'.$html;
         }
         return new JsonModel($arrayParam);
