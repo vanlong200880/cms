@@ -170,22 +170,20 @@
     </div>
 </form>
 <script type="text/javascript">
-    <?php //var_dump($arrayParam['post']['parent']); ?>
     jQuery(document).ready(function($){
         var id = $("#taxonomy").val();
         if(id){
-            var category = <?php echo $arrayParam['post']['parent'] ?>;
-//            alert(category);
+            var category = <?php echo isset($arrayParam['post']['parent'])? $arrayParam['post']['parent']: '0' ?>;
+            var parent = <?php echo isset($arrayParam['id'])? $arrayParam['post']['id']: '0' ?>;
             $.ajax({
                 type:"POST",
                 url: "<?php echo $this->url($this->route, array('controller' => 'category', 'action' => 'loadcategory')) ?>",
-                data: { 'id' : id, 'category_id':category, 'action': 'edit'},
+                data: { 'id' : id, 'category_id':category, 'action': 'edit', 'parent' : parent},
                 dataType: 'JSON',
                 beforeSend: function( xhr ) {
                      $(".form-control-category").addClass('on');
                 },
                 success: function(data){
-                    console.log(data);
                     $("#category").empty().append(data.data);
                     $('#category').selectpicker('refresh');
                     $(".form-control-category").removeClass('on');
@@ -198,7 +196,7 @@
             $.ajax({
                 type:"POST",
                 url: "<?php echo $this->url($this->route, array('controller' => 'category', 'action' => 'loadcategory')) ?>",
-                data: { 'id' : taxonomyId},
+                data: { 'id' : taxonomyId, 'category_id':category, 'action': 'edit', 'parent' : parent},
                 dataType: 'JSON',
                 beforeSend: function( xhr ) {
                      $(".form-control-category").addClass('on');

@@ -83,16 +83,17 @@
                                         <th class="description column_descripton">Mô tả</th>
                                         <th class="weight column_weight">Vị trí</th>
                                         <th class="quantity column_quantity">Số lượng</th>
-                                        <th class="quantity column_quantity">Ngôn ngữ</th>
                                         <th class="status column_status">Trang thái</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php if($list): ?>
+                                    <?php foreach ($list as $value): ?>
                                     <tr>
                                         <td><input type="checkbox" class="form-checkbox check-all"></td>
-                                        <td>1</td>
+                                        <td><?php echo $value['id']; ?></td>
                                         <td class="column-title column_name">
-                                            <strong class="key-title">A Tên 1</strong>
+                                            <strong class="key-title"><?php echo $value['name']; ?></strong>
                                             <div class="row-action">
                                                 <span class="edit">
                                                     <a href="#">Sửa</a> | 
@@ -108,65 +109,16 @@
                                                 </span>
                                             </div>
                                         </td>
-                                        <td class="column_descripton">Mô tả</td>
-                                        <td class="column_weight"><input value="1" name="updateweight[]" class="update_weight form-control"></td>
+                                        <td class="column_descripton"><?php echo $value['description']; ?></td>
+                                        <td class="column_weight"><input type="number" min="0" value="<?php echo $value['sort']; ?>" name="sort[]" class="update_weight form-control"></td>
                                         <td class="column_quantity">200</td>
-                                        <td class="column_quantity">en</td>
-                                        <td class="column_status status"><a title="Hiển thị" class="fa fa-check-circle"></a></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td><input type="checkbox" class="form-checkbox check-all"></td>
-                                        <td>2</td>
-                                        <td class="column-title column_name">
-                                            <strong>C Tên 2</strong>
-                                            <div class="row-action">
-                                                <span class="edit">
-                                                    <a href="#">Sửa</a> | 
-                                                </span>
-                                                <span class="quick-edit">
-                                                    <a data-name="Tên 2" data-slug="ten-2" data-weight="2" href="javascript:void(0)">Sửa nhanh</a> | 
-                                                </span>
-                                                <span class="delete">
-                                                    <a href="#">Xóa</a> | 
-                                                </span>
-                                                <span class="view">
-                                                    <a href="#">Xem</a>
-                                                </span>
-                                            </div>
+                                        <td class="column_status status">
+                                            <?php echo ($value['status'] == 1)? '<a data-status='.json_encode(array('id' => $value['id'], 'status' => 1)).' href="javascript:void(0)" title="Hiển thị" class="active fa fa-check-circle"></a>': '<a data-status='.json_encode(array('id' => $value['id'], 'status' => 0)).' title="Không hiển thị" class="unactive fa fa-minus-circle"></a>'; ?>
                                         </td>
-                                        <td class="column_descripton">Mô tả</td>
-                                        <td class="column_weight"><input value="1" name="updateweight[]" class="update_weight form-control"></td>
-                                        <td class="column_quantity">200</td>
-                                        <td class="column_quantity">vi</td>
-                                        <td class="column_status unstatus"><a title="Không hiển thị" class="fa fa-minus-circle"></a></td>
                                     </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-checkbox check-all"></td>
-                                        <td>3</td>
-                                        <td class="column-title column_name">
-                                            <strong>B Tên 3</strong>
-                                            <div class="row-action">
-                                                <span class="edit">
-                                                    <a href="#">Sửa</a> | 
-                                                </span>
-                                                <span class="quick-edit">
-                                                    <a data-name="Tên 3" data-slug="ten-3" data-weight="3" href="javascript:void(0)">Sửa nhanh</a> | 
-                                                </span>
-                                                <span class="delete">
-                                                    <a href="#">Xóa</a> | 
-                                                </span>
-                                                <span class="view">
-                                                    <a href="#">Xem</a>
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td class="column_descripton">Mô tả</td>
-                                        <td class="column_weight"><input value="1" name="updateweight[]" class="update_weight form-control"></td>
-                                        <td class="column_quantity">200</td>
-                                        <td class="column_quantity">en</td>
-                                        <td class="column_status unstatus"><a title="Không hiển thị" class="fa fa-minus-circle"></a></td>
-                                    </tr>
+                                    <?php endforeach; ?>
+                                    <?php endif; ?>
+                                    
                                 </tbody>
                             </table>
                         </div>

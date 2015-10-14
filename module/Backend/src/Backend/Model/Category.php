@@ -24,11 +24,22 @@ class Category extends AbstractTableGateway
         }
     }
     
+    // get all category
+    public function getAllCategory($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+//        $select->columns(array('id' ,'name', 'description', 'sort', 'status','count' => new \Zend\Db\Sql\Expression('COUNT(product.id)')));
+//        $select->join('product', 'category.id = product.category_id',array(), 'left');
+        $resultSet = $this->selectWith($select);
+        $resultSet = $resultSet->toArray();
+        return $resultSet;
+    }
+    
     // get category by taxonomy id
     public function getCategoryByTaxonomyId($arrayParam = null){
         $select = new Select();
         $select->from($this->table);
-        //$select->where(array('taxonomy_id' => $arrayParam['id']));
+        $select->where(array('taxonomy_id' => $arrayParam['id']));
         $resultSet = $this->selectWith($select);
         $resultSet = $resultSet->toArray();
         return $resultSet;
