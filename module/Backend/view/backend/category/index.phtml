@@ -7,9 +7,8 @@
             <div class="row">
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                     <select class="form-control selected-custom">
-                        <option value="">----</option>
+                        <option value="">-- Chức năng --</option>
                         <option value="delete">Xóa vĩnh viễn</option>
-                        <option value="delete_flag">Xóa tạm thời</option>
                         <option value="published">Đăng</option>
                         <option value="unpublished">Tạm dừng</option>
                         <option value="update_weight">Cập nhật vị trí</option>
@@ -39,23 +38,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-5 col-md-5">
-                                        <div class="form-group">
-                                            <label for="keyword" class="col-lg-3 col-md-4 control-label">Danh mục</label>
-                                            <div class="col-lg-9 col-md-8">
-                                                <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
-                                                    <option>cow</option>
-                                                    <option>bull</option>
-                                                    <option class="get-class" disabled>ox</option>
-                                                    <optgroup label="test" data-subtext="another test">
-                                                        <option>ASD</option>
-                                                        <option selected>Bla</option>
-                                                        <option>Ble</option>
-                                                    </optgroup>
-                                                  </select>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="col-lg-2 col-md-2">
                                         <div class="col-lg-12">
                                             <div class="form-group">
@@ -70,15 +52,67 @@
 
                     <div class="col-lg-12">
                         <div class="form-table">
+                            <?php if($list): ?>
                             <table id="table-data" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th id="all" class="all"><input type="checkbox" class="form-all"></th>
                                         <th id="key" class="name column_name no-sort">
-                                            <a class="asc" href="#">Mã <i class="fa fa-sort-asc"></i></a>
+                                            <?php
+                                                    if(isset($arrayParam['sort']) && $arrayParam['sort'] == 'id' && isset($arrayParam['order']) && !empty($arrayParam['order'])):
+                                                        $class = $arrayParam['order'];
+                                                        $link = $this->url($this->route, array('controller' => 'category', 'action' => 'index')). implode('', $paramSort);
+                                                        $icon = 'fa-sort-'.$arrayParam['order'];
+                                                    else:
+                                                        $arrIdSort = $paramSort;
+                                                        if(!isset($arrIdSort['sort']) || $arrIdSort['sort'] != 'id'){
+                                                            if(isset($arrIdSort['sort']) && $arrIdSort['sort'] != 'id'){
+                                                                unset($arrIdSort['sort']);
+                                                            }
+                                                            $arrId = array();
+                                                            if(isset($arrIdSort['page'])){
+                                                                $arrId['page'] = $paramSort['page'];
+                                                            }
+                                                            $arrId['sort'] = '/sort/id';
+                                                            $arrIdSort = array_merge($arrId, $arrIdSort);
+                                                        }
+                                                        $arrIdSort['order'] = '/order/asc';
+                                                        $class = '';
+                                                        $link = $this->url($this->route, array('controller' => 'category', 'action' => 'index')). implode('', $arrIdSort);
+                                                        $icon = 'fa-sort-desc';
+                                                    endif;
+                                                ?>
+                                                <a class="<?php echo $class ?>" href="<?php echo $link; ?>">Mã <i class="fa <?php echo $icon; ?>"></i></a>
+                                                
                                         </th>
                                         <th id="name">
-                                            <a class="" href="#">Tên <i class="fa fa-sort-desc"></i></a>
+                                            <?php
+                                                    if(isset($arrayParam['sort']) && $arrayParam['sort'] == 'name' && isset($arrayParam['order']) && !empty($arrayParam['order'])):
+                                                        $class = $arrayParam['order'];
+                                                        $link = $this->url($this->route, array('controller' => 'category', 'action' => 'index')). implode('', $paramSort);
+                                                        $icon = 'fa-sort-'.$arrayParam['order'];
+                                                    else:
+                                                        $paramFullnameSort = $paramSort;
+       
+                                                        if(!isset($paramFullnameSort['sort']) || $paramFullnameSort['sort'] != 'name'){
+                                                            if(isset($paramFullnameSort['sort']) && $paramFullnameSort['sort'] != 'name'){
+                                                                unset($paramFullnameSort['sort']);
+                                                            }
+                                                            $arrName = array();
+                                                            if(isset($paramFullnameSort['page'])){
+                                                                $arrName['page'] = $paramFullnameSort['page'];
+                                                            }
+                                                            $arrName['sort'] = '/sort/name';
+                                                            $paramFullnameSort = array_merge($arrName, $paramFullnameSort);
+                                                        }
+                                                        
+                                                        $paramFullnameSort['order'] = '/order/asc';
+                                                        $class = '';
+                                                        $link = $this->url($this->route, array('controller' => 'category', 'action' => 'index')). implode('', $paramFullnameSort);
+                                                        $icon = 'fa-sort-desc';
+                                                    endif;
+                                                ?>
+                                                <a class="<?php echo $class; ?>" href="<?php echo $link; ?>">Tên danh mục <i class="fa <?php echo $icon; ?>"></i></a>
                                         </th>
                                         <th class="description column_descripton">Mô tả</th>
                                         <th class="weight column_weight">Vị trí</th>
@@ -87,11 +121,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if($list): ?>
                                     <?php foreach ($list as $value): ?>
                                     <tr>
                                         <td><input type="checkbox" class="form-checkbox check-all"></td>
-                                        <td><?php echo $value['id']; ?></td>
+                                        <td>
+                                            <?php echo $value['id']; ?></td>
                                         <td class="column-title column_name">
                                             <strong class="key-title"><?php echo $value['name']; ?></strong>
                                             <div class="row-action">
@@ -111,16 +145,17 @@
                                         </td>
                                         <td class="column_descripton"><?php echo $value['description']; ?></td>
                                         <td class="column_weight"><input type="number" min="0" value="<?php echo $value['sort']; ?>" name="sort[]" class="update_weight form-control"></td>
-                                        <td class="column_quantity">200</td>
+                                        <td class="column_quantity"><?php echo $value['count']; ?></td>
                                         <td class="column_status status">
                                             <?php echo ($value['status'] == 1)? '<a data-status='.json_encode(array('id' => $value['id'], 'status' => 1)).' href="javascript:void(0)" title="Hiển thị" class="active fa fa-check-circle"></a>': '<a data-status='.json_encode(array('id' => $value['id'], 'status' => 0)).' title="Không hiển thị" class="unactive fa fa-minus-circle"></a>'; ?>
                                         </td>
                                     </tr>
-                                    <?php endforeach; ?>
-                                    <?php endif; ?>
-                                    
+                                    <?php endforeach; ?>  
                                 </tbody>
                             </table>
+                            <?php else: ?>
+                                <div class="alert alert-info" role="alert">Không tồn tại user nào. </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -128,23 +163,12 @@
         </div>
     </div>
 </div>
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
-            <div class="pager">
-                <ul class="pagination">
-                    <li><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                    <li><a href="#" title="Lùi lại"><i class="fa fa-angle-left"></i></a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li class="active"><a>3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#" title="Tiếp theo"><i class="fa fa-angle-right"></i></a></li>
-                    <li><a href="#" title="Trang Cuối"><i class="fa fa-angle-double-right"></i></a></li>
-                </ul>
-
-            </div>
+			<?php
+				echo $this->paginationControl($paginator, 'Elastic', 'partial/pagination.phtml',array('name' => 'backend','controller' => 'category','action' => 'index', 'routeParam' => $routeParam));
+			?>
         </div>
     </div>
 </div>
@@ -222,6 +246,26 @@
         $('.form-table').on('click', '.table>tbody>tr .btn-back', function(){
              $(".form-table .table>tbody>tr").removeAttr('style');
              $('.edit-row').remove();
+        });
+        
+        // change status
+        $(".form-table .table>tbody>tr>td.column_status a").on('click', function(){
+            var data = $(this).attr('data-status');
+            var loadData = jQuery.parseJSON(data);
+            var obj = { 'id' : loadData.id, 'status': loadData.status };
+            if (confirm('Bạn có muốn thay đổi trạng thái không?')) {
+                $.ajax({
+                    type:"POST",
+                    url: "<?php echo $this->url($this->route, array('controller' => 'category', 'action' => 'changestatus')) ?>",
+                    data: obj,
+                    dataType: 'JSON',
+                    beforeSend: function(){
+                    },
+                    success: function(){
+                        location.reload();
+                    }    
+               });
+            }   
         });
    
   

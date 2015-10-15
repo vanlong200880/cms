@@ -37,7 +37,7 @@ class Taxonomy extends AbstractTableGateway
         }
     }
     
-    // get language by id
+    // get taxonomy by id
     public function getTaxonomyById($arrayParam = null){
         $select = new Select();
         $select->from($this->table);
