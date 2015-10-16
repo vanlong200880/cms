@@ -214,5 +214,20 @@ jQuery(document).ready(function($){
     $(function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
-
+    
+    // check active background color
+    $("#all input:checkbox").on('click', function(){
+        if ($(this).is(':checked')) {
+            $(".form-table table tbody tr").addClass('active');
+        }else{
+            $(".form-table table tbody tr").removeClass('active');
+        }
+    });
+    $("input.check-all:checkbox").on('click', function(){
+        if ($(this).is(':checked')) {
+            $(this).closest('tr').addClass('active');
+        }else{
+            $(this).closest('tr').removeClass('active');
+        }
+    });
 });
