@@ -109,6 +109,17 @@ class Category extends AbstractTableGateway
         $resultSet = $resultSet->toArray();
         return $resultSet[0];
     }
+    
+    // get category by slug
+    public function getCategoryBySlug($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->join('taxonomy', 'taxonomy.id = category.taxonomy_id', array('taxomony_id' => 'id'), 'left');
+        $select->where(array('taxonomy.slug' => $arrayParam['slug']));
+        $resultSet = $this->selectWith($select);
+        $resultSet = $resultSet->toArray();
+        return $resultSet;
+    }
     // update status category
     public function changeStatus($arrayParam = null){
         $data = array('status' => $arrayParam['status']);
@@ -149,7 +160,7 @@ class Category extends AbstractTableGateway
 			// add
             $data['created'] =  $data['changed'] = time();
 			if($this->insert($data)){
-                return true;
+                return $this->lastInsertValue;
             }else{
                 return false;
             }

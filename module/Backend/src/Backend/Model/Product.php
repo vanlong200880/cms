@@ -20,10 +20,17 @@ class Product extends AbstractTableGateway
         $where = new Where();
         $select->from($this->table);
         $select->join('category', 'product.category_id = category.id', array('category-name' => 'name'), 'left');
-        // text search
+        // search name
         if(isset($arrayParam['textSearch']) == true && $arrayParam['textSearch'] != ''){
-	   		$where->like('name', '%' . $arrayParam['textSearch'] . '%');
-	   		$select->where($where);
+            if(isset($arrayParam['sort']) && $arrayParam['sort'] == 'id'){
+                $where->like('product.code', '%' .$arrayParam['textSearch']. '%');
+                $select->where($where);
+                
+            }else{
+                $where->like('product.name', '%' . $arrayParam['textSearch'] . '%');
+                $select->where($where);
+            }
+	   		
 	   	}
         // phan trang
         if(isset($arrayParam['limit']) && $arrayParam['limit'] !== ''){
@@ -143,6 +150,14 @@ class Product extends AbstractTableGateway
         }else{
             return false;
         }
+	}
+    
+    // update sort by id
+	public function updateSortById($dataSort = null){
+        $data = array(
+		  'sort' => $dataSort['sort']
+		);
+        $this->update($data, 'id = '. $dataSort['id']);
 	}
 }
 

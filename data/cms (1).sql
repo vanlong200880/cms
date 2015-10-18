@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 15, 2015 at 07:05 PM
+-- Generation Time: Oct 18, 2015 at 06:43 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   PRIMARY KEY (`id`,`taxonomy_id`),
   UNIQUE KEY `alias_UNIQUE` (`slug`),
   KEY `fk_category_taxonomy1_idx` (`taxonomy_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=55 ;
 
 --
 -- Dumping data for table `category`
@@ -56,8 +56,51 @@ INSERT INTO `category` (`id`, `parent`, `name`, `slug`, `excerpt`, `created`, `c
 (7, 6, 'child level 3', 'abc1112www', NULL, 0, NULL, NULL, NULL, NULL, 0, 0, 1),
 (8, 0, 'root 1', 'abc1112www123123', NULL, 0, NULL, NULL, NULL, NULL, 0, 0, 1),
 (9, 0, 'sdfsdfdsf', 'sdfsdfds', '', 1444668047, 1444668047, '', '', '', 0, 1, 1),
-(10, 1, 'demo', 'demo', '', 1444668229, 1444668229, '', '', '', 0, 0, 1),
-(11, 6, 'demo a11', 'demo-a11', '', 1444749388, 1444753963, 'abc11', 'abc11', 'abc11', 11, 0, 1);
+(10, 1, 'demo', 'demo', '', 1444668229, 1444668229, '', '', '', 0, 0, 2),
+(11, 6, 'demo a11', 'demo-a11', '', 1444749388, 1444753963, 'abc11', 'abc11', 'abc11', 11, 0, 1),
+(12, NULL, 'ajax', 'ajax', '', 1445161823, 1445161823, '', '', '', 0, 1, 1),
+(13, NULL, 'test ajax', 'test-ajax', '', 1445162008, 1445162008, '', '', '', 0, 1, 1),
+(14, NULL, 'hhhhh', 'hhhhh', '', 1445162099, 1445162099, '', '', '', 0, 1, 1),
+(15, NULL, '24234', '234234234', '', 1445162178, 1445162178, '', '', '', 0, 1, 1),
+(16, NULL, 'sd', 'asd', '', 1445162271, 1445162271, '', '', '', 0, 1, 1),
+(17, NULL, 'asd', 'asdasdsad', '', 1445162303, 1445162303, '', '', '', 0, 1, 1),
+(18, NULL, 'asd', 'asdasdasd', '', 1445162359, 1445162359, '', '', '', 0, 1, 1),
+(19, NULL, 'sd', '21321312', '', 1445162418, 1445162418, '', '', '', 0, 1, 1),
+(20, NULL, 'sdjjj', 'jjjj', '', 1445162430, 1445162430, '', '', '', 0, 1, 1),
+(21, NULL, '23423423434324234', '234234234234234234', '', 1445162475, 1445162475, '', '', '', 0, 1, 1),
+(22, NULL, '23423423434324234', '2342342342342342341111', '', 1445162527, 1445162527, '', '', '', 0, 1, 1),
+(23, NULL, '555', '5555', '', 1445162558, 1445162558, '', '', '', 0, 1, 1),
+(24, NULL, '555', '555555', '', 1445162563, 1445162563, '', '', '', 0, 1, 1),
+(25, NULL, '5544', '444', '', 1445162610, 1445162610, '', '', '', 0, 1, 1),
+(26, NULL, '5544', '4444', '', 1445162615, 1445162615, '', '', '', 0, 1, 1),
+(27, NULL, '1111', '111', '', 1445162672, 1445162672, '', '', '', 0, 1, 1),
+(28, NULL, '443434', '34343', '', 1445162744, 1445162744, '', '', '', 0, 1, 1),
+(29, NULL, 'asdf', 'a324e232', '', 1445162780, 1445162780, '', '', '', 0, 1, 1),
+(30, NULL, 'asdf', 'a324e2322', '', 1445162789, 1445162789, '', '', '', 0, 1, 1),
+(31, NULL, 'asdf', 'a324e23221', '', 1445162798, 1445162798, '', '', '', 0, 1, 1),
+(32, NULL, 'ahgfd', 'sdfsdfsdfsf', '', 1445162881, 1445162881, '', '', '', 0, 1, 1),
+(33, NULL, 'absdfwe', 're23423', '', 1445162949, 1445162949, '', '', '', 0, 1, 1),
+(34, NULL, '34234234', '23423432', '', 1445163123, 1445163123, '', '', '', 0, 1, 1),
+(35, NULL, 'jfjfj', 'fjjfg', '', 1445163292, 1445163292, '', '', '', 0, 1, 1),
+(36, NULL, 'sdf', '5656', '', 1445163362, 1445163362, '', '', '', 0, 1, 1),
+(37, NULL, 'sdf', '565676', '', 1445163368, 1445163368, '', '', '', 0, 1, 1),
+(38, 0, '123123213', '123v123 1 312', '', 1445163560, 1445163560, '', '', '', 0, 1, 1),
+(39, 0, '87643', '09876', '', 1445163580, 1445163580, '', '', '', 0, 1, 1),
+(40, 0, '09876', '098761234', '', 1445163619, 1445163619, '', '', '', 0, 1, 1),
+(41, 0, '09876', '0987612341234', '', 1445163626, 1445163626, '', '', '', 0, 1, 1),
+(42, 0, '2423 23 b4b', 'b23v242342v4', '', 1445163740, 1445163740, '', '', '', 0, 1, 1),
+(43, 0, '342', '234234234sdfsd', '', 1445163817, 1445163817, '', '', '', 0, 1, 1),
+(44, 0, '342', '234234234sdfsd111', '', 1445163823, 1445163823, '', '', '', 0, 1, 1),
+(45, 0, 'wer', 'werwerwe rw rwer ', '', 1445163842, 1445163842, '', '', '', 0, 1, 1),
+(46, 0, '23423 234 ', ' 243 3weqwe', '', 1445163885, 1445163885, '', '', '', 0, 1, 1),
+(47, 0, 'fsf s sf ', '12qewe', '', 1445163956, 1445163956, '', '', '', 0, 1, 1),
+(48, 0, '23 24 ', '244243 24343', '', 1445163997, 1445163997, '', '', '', 0, 1, 1),
+(49, 0, '124123', '12312312312', '', 1445164159, 1445164159, '', '', '', 0, 1, 1),
+(50, 0, 'abc', 'abcaf', '', 1445164220, 1445164220, '', '', '', 0, 1, 1),
+(51, 0, 'demo_123', 'demo_134', '', 1445164640, 1445164640, '', '', '', 0, 1, 1),
+(52, 0, 'h test', 'htest', '', 1445165212, 1445165212, '', '', '', 0, 1, 1),
+(53, 0, 'demo group', '123-group', '', 1445165399, 1445165399, '', '', '', 0, 1, 1),
+(54, 0, 't11', '5111t', '', 1445177412, 1445177412, '', '', '', 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -94,6 +137,33 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `phone` varchar(12) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `image`
+--
+
+CREATE TABLE IF NOT EXISTS `image` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `type` varchar(45) NOT NULL,
+  `name` varchar(60) NOT NULL,
+  `mine` varchar(45) DEFAULT NULL,
+  `size` varchar(45) DEFAULT NULL,
+  `timestamp` int(10) DEFAULT NULL,
+  `status` int(1) NOT NULL,
+  `highlight` int(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `image`
+--
+
+INSERT INTO `image` (`id`, `product_id`, `type`, `name`, `mine`, `size`, `timestamp`, `status`, `highlight`) VALUES
+(1, 2, 'product', 'demo', NULL, NULL, NULL, 1, NULL),
+(2, 2, 'product', 'demo 2', NULL, NULL, NULL, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -217,7 +287,10 @@ CREATE TABLE IF NOT EXISTS `product` (
   `color` varchar(255) DEFAULT NULL,
   `size` varchar(255) DEFAULT NULL,
   `sort` int(10) DEFAULT '0',
+  `cost` varchar(60) NOT NULL,
   `price` varchar(60) NOT NULL DEFAULT '0',
+  `view` int(11) DEFAULT NULL,
+  `quantity` int(11) NOT NULL DEFAULT '1',
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`,`trademark_id`,`supplier_id`,`shop_id`,`category_id`,`user_id`),
   KEY `fk_product_trademark1_idx` (`trademark_id`),
@@ -225,15 +298,16 @@ CREATE TABLE IF NOT EXISTS `product` (
   KEY `fk_product_shop1_idx` (`shop_id`),
   KEY `fk_product_category1_idx` (`category_id`),
   KEY `fk_product_user1_idx` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`id`, `code`, `trademark_id`, `supplier_id`, `shop_id`, `category_id`, `name`, `slug`, `excerpt`, `content`, `status`, `created`, `modified`, `weight`, `sale`, `hot`, `sticky`, `promote`, `color`, `size`, `sort`, `price`, `user_id`) VALUES
-(2, 'abc', 1, 1, 1, 1, 'asd asd', 'ad', NULL, NULL, 1, 0, NULL, NULL, 0, 0, 0, 0, NULL, NULL, 0, '0', 1),
-(3, '', 1, 1, 1, 1, '324234', '234', NULL, NULL, 1, 0, NULL, NULL, 0, 0, 0, 0, NULL, NULL, 0, '0', 1);
+INSERT INTO `product` (`id`, `code`, `trademark_id`, `supplier_id`, `shop_id`, `category_id`, `name`, `slug`, `excerpt`, `content`, `status`, `created`, `modified`, `weight`, `sale`, `hot`, `sticky`, `promote`, `color`, `size`, `sort`, `cost`, `price`, `view`, `quantity`, `user_id`) VALUES
+(2, 'abc', 1, 1, 1, 1, 'asd asd', 'ad', NULL, NULL, 0, 0, NULL, NULL, 0, 0, 0, 0, NULL, NULL, 100, '175847', '500000', NULL, 1, 1),
+(3, '3', 1, 1, 1, 1, '324234', '234', NULL, NULL, 0, 0, NULL, NULL, 0, 0, 0, 0, NULL, NULL, 20, '1457824', '15000000', NULL, 1, 1),
+(4, '', 1, 1, 1, 2, '324234wer', '234werw', NULL, NULL, 0, 0, NULL, NULL, 0, 0, 0, 0, NULL, NULL, 10, '1457824', '15000000', NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -292,14 +366,17 @@ CREATE TABLE IF NOT EXISTS `shop` (
   `fax` varchar(12) DEFAULT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `shop`
 --
 
 INSERT INTO `shop` (`id`, `name`, `address`, `phone`, `fax`, `status`) VALUES
-(1, 'shop 1', '', NULL, NULL, 1);
+(1, 'shop 1', '', NULL, NULL, 1),
+(2, 'asdasda', '', '', '', 1),
+(3, 'demo', '', '', '', 1),
+(4, 'test', '', '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -320,14 +397,27 @@ CREATE TABLE IF NOT EXISTS `supplier` (
   `status` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
 
 --
 -- Dumping data for table `supplier`
 --
 
 INSERT INTO `supplier` (`id`, `name`, `phone`, `address`, `email`, `companyname`, `tax`, `note`, `account`, `status`) VALUES
-(1, 'supplier', '', NULL, NULL, NULL, NULL, NULL, NULL, 1);
+(1, 'supplier', '', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2, 'supplier 1', '', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(3, 'sdf', '', '', '', '', '', '', '', 1),
+(5, 'ahdsdf', '', '', '', '', '', '', '', 1),
+(8, 'sdfdsf', '', '', '', '', '', '', '', 1),
+(18, 'ssdf', '', '', '', '', '', '', '', 1),
+(19, 'ssdf1212', '', '', '', '', '', '', '', 1),
+(20, '345345345', '', '', '', '', '', '', '', 1),
+(21, '23423', '', '', '', '', '', '', '', 1),
+(22, 'werwe', '', '', '', '', '', '', '', 1),
+(23, 'werwerwer', '', '', '', '', '', '', '', 1),
+(24, 'ewsdfsdf', '', '', '', '', '', '', '', 1),
+(25, 'abcs', '', '', '', '', '', '', '', 1),
+(26, 'demo demo', '', '', '', '', '', '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -349,8 +439,8 @@ CREATE TABLE IF NOT EXISTS `taxonomy` (
 --
 
 INSERT INTO `taxonomy` (`id`, `name`, `slug`, `status`) VALUES
-(1, 'abc', 'abc', 0),
-(2, 'absdf', 'sdfdf', 1),
+(1, 'Sản Phẩm', 'product', 0),
+(2, 'Tin tức', 'news', 1),
 (3, 'sdfsdfsdf1', 'ssss1', 1),
 (4, '123', '12312313', 1);
 
@@ -370,14 +460,15 @@ CREATE TABLE IF NOT EXISTS `trademark` (
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `trademark`
 --
 
 INSERT INTO `trademark` (`id`, `name`, `slug`, `title`, `keyword`, `description`, `status`) VALUES
-(1, 'trademark', '', NULL, NULL, NULL, 1);
+(1, 'trademark', '', NULL, NULL, NULL, 1),
+(2, 'abc', 'abc', '', '', '', 1);
 
 -- --------------------------------------------------------
 

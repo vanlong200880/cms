@@ -5,6 +5,13 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Backend\Model\Product;
+use Backend\Model\Category;
+use Backend\Model\Supplier;
+use Backend\Model\Trademark;
+use Backend\Form\ValidateCategory;
+use Backend\Form\ValidateSupplier;
+use Backend\Form\ValidateStore;
+use Backend\Form\ValidateTrademark;
 
 class ProductController extends AbstractActionController
 {
@@ -40,13 +47,25 @@ class ProductController extends AbstractActionController
                         break;
                     case 'published': // active
                     case 'unpublished': // deactive
-                        var_dump($arrayParam);
+                        
                         if($product->updateStatus($arrayParam)){
                             $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật trạng thái thành công.</div>');
                             return $this->redirect()->toUrl($url);
                         }else{
                             $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật thất bại.</div>');
                              return $this->redirect()->toUrl($url);
+                        }
+                        break;
+                    case 'sort':
+                        if(isset($arrayParam['post']['sort']) && !empty($arrayParam['post']['sort'])){
+                            $dataSort = array();
+                            foreach ($arrayParam['post']['sort'] as $key => $value){
+                                $dataSort['id'] = $key;
+                                $dataSort['sort'] = $value;
+                                $product->updateSortById($dataSort);
+                            }
+                            $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật vị trí thành công.</div>');
+                            return $this->redirect()->toUrl($url);
                         }
                         break;
                     default :
@@ -56,11 +75,11 @@ class ProductController extends AbstractActionController
             }
         }
         
-        
+       
         $order      = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order'):'desc';
         $sort       = $this->params()->fromRoute('sort') ? $this->params()->fromRoute('sort'):'id';
         $type       = $this->params()->fromRoute('type') ? $this->params()->fromRoute('type'): null;
-        $search     = $this->params()->fromRoute('txtSearch') ? $this->params()->fromRoute('txtSearch'): null;
+        $search     = $this->params()->fromRoute('textSearch') ? $this->params()->fromRoute('textSearch'): null;
         $page       = $this->params()->fromRoute('page') ? (int) $this->params()->fromRoute('page') : null;
         
         $arrayParam['limit'] = PAGING_LIMIT;
@@ -78,8 +97,9 @@ class ProductController extends AbstractActionController
             'type'          => (!empty($type))? '/type/'.$type: '',
             'sort'          => (!empty($sort))? '/sort/'.$sort: '',
             'order'         => (!empty($order))? '/order/'.$order: '',
-            'txtSearch'     => (!empty($search))? '/txtSearch/'.$search: '',
+            'textSearch'     => (!empty($search))? '/textSearch/'.$search: '',
         );
+
         $dataProduct = $product->getAllProduct($arrayParam);
         // dem tong so user
         $countUser = $product->countTotalProduct($arrayParam);
@@ -91,7 +111,7 @@ class ProductController extends AbstractActionController
 		if(is_numeric($page) && $page > $paginator->count())
 		{
             // redirect 404
-			return $this->redirect()->toRoute('backend',array('controller' => 'product', 'action' => 'index'));
+			///return $this->redirect()->toRoute('backend',array('controller' => 'product', 'action' => 'index'));
 		}
         $paginator->setPageRange(PAGE_RAND);
 		
@@ -109,11 +129,12 @@ class ProductController extends AbstractActionController
         $this->params()->fromRoute('sort') ? $paramSort['sort'] ='/sort/'. $this->params()->fromRoute('sort'):'';
         ($this->params()->fromRoute('order') === 'asc') ? $paramSort['order'] = '/order/desc': $paramSort['order'] = '/order/asc';
         $this->params()->fromRoute('textSearch') ? $paramSort['textSearch'] = '/textSearch/'. $this->params()->fromRoute('textSearch'): '';
-        
+        $category = new Category();
         $module                 = explode('\\', $arrayParam['controller']);
         $data['module']         = $module[0];
         $data['arrayParam']     = $arrayParam;
         $data['list']           = $dataProduct;
+        $data['type']           = $category->getAllCategory();
         $data['title']          = "Danh sách user";
         $data['param']          = $arrParam;
         $data['paginator']      = $paginator;
@@ -149,6 +170,186 @@ class ProductController extends AbstractActionController
     
     public function addAction()
     {
-        return new ViewModel();
+        $category = new Category();
+        $arrayParam = array();
+        $arrayParam['slug'] = 'product';
+        $dataCategory = $category->getCategoryBySlug($arrayParam);
+        $data = array();
+        $data['category'] = $this->getDataCategory(1, $dataCategory);
+        // supplier
+        $supplier = new Supplier();
+        $dataSupplider = $supplier->getAllSupplier();
+        $data['supplier'] = $dataSupplider;
+        // shop
+        $shop = new \Backend\Model\Store();
+        $dataShop = $shop->getAllShop();
+        $data['shop'] = $dataShop;
+        // shop
+        $trademark = new Trademark();
+        $dataTrademark = $trademark->getAllTrademark();
+        $data['trademark'] = $dataTrademark;
+        return new ViewModel($data);
+    }
+    public function getDataCategory($active = '', $data ,$parent = 0, $text = ''){
+        $dataOption = array();
+        
+        foreach ($data as $key => $value){
+            if($value['parent'] == $parent){
+                $dataOption[] = $value;
+                unset($data[$key]);
+            }
+        }
+        $html = '';
+        if($dataOption){
+            foreach ($dataOption as $key => $val){
+                $selected = ($val['id'] == $active)?'selected':'';
+                $html .= '<option '.$selected.' value="'.$val['id'].'">'.$text.$val['name']. '</option>';
+                $html .= $this->getDataCategory($active, $data, $val['id'], $text.'--');
+            }
+        }
+        return $html;
+    }
+    
+    public function ajaxloadcategoryAction(){
+        $arrayParam	= array(); 
+        $category = new Category();
+        $arrayParam['slug'] = 'product';
+        $dataCategory = $category->getCategoryBySlug($arrayParam);
+        $html = $this->getDataCategory(0, $dataCategory);
+        $arrayParam['data'] = '<option value="0">-- Chọn --</option>'.$html;
+        return new JsonModel($arrayParam);
+    }
+    public function ajaxaddcategoryAction(){
+        $arrayParam	= array();
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $arrayParam['post'] = $this->params()->fromPost();
+            $category = new Category();
+            $validate = new ValidateCategory($arrayParam, 'category_ajax');
+            if($validate->isError() === true){
+                $arrayParam['error'] = $validate->getMessagesError();
+            }else{
+                $arrayParam['error'] = '';
+                $taxonomy = new \Backend\Model\Taxonomy();
+                $arrayParam['slug'] = 'product';
+                $dataTaxonomy = $taxonomy->getTaxonomyBySlug($arrayParam);
+                $arrayParam['post']['excerpt']      = '';
+                $arrayParam['post']['created']      = time();
+                $arrayParam['post']['changed']      = time();
+                $arrayParam['post']['title']        = '';
+                $arrayParam['post']['keyword']      = '';
+                $arrayParam['post']['description']  = '';
+                $arrayParam['post']['sort']         = 0;
+                $arrayParam['post']['status']       = 1;
+                $arrayParam['post']['taxonomy_id']  = $dataTaxonomy['id'];
+                $id = $category->addCategory($arrayParam);
+                
+                // reload category
+                $dataCategory = $category->getCategoryBySlug($arrayParam);
+                $html = $this->getDataCategory($id, $dataCategory);
+                $arrayParam['reloadCategory'] = $html;
+//                $arrayParam['data'] = '<option value="0">-- Chọn --</option>'.$html;
+            }
+        }
+        return new JsonModel($arrayParam);
+    }
+    
+    public function ajaxaddsupplierAction(){
+        $arrayParam	= array();
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $arrayParam['post'] = $this->params()->fromPost();
+            $supplier = new Supplier();
+            $validate = new ValidateSupplier($arrayParam, 'supplier_ajax');
+            if($validate->isError() === true){
+                $arrayParam['error'] = $validate->getMessagesError();
+            }else{
+                $arrayParam['error'] = '';
+                $arrayParam['post']['phone']        = '';
+                $arrayParam['post']['address']      = '';
+                $arrayParam['post']['email']        = '';
+                $arrayParam['post']['companyname']  = '';
+                $arrayParam['post']['tax']          = '';
+                $arrayParam['post']['note']         = '';
+                $arrayParam['post']['account']      = '';
+                $arrayParam['post']['status']       = 1;
+                $id = $supplier->addSupplier($arrayParam);
+                // reload category
+                $dataSupplier = $supplier->getAllSupplier($arrayParam);
+                $html = '';
+                $html .= '<option value="0">-- Chọn --</option>';
+                if($dataSupplier){
+                    foreach ($dataSupplier as $value){
+                        $selected = ($id == $value['id'])?'selected':'';
+                        $html .= '<option '.$selected.' value='.$value['id'].'>'.$value['name'].'</option>';
+                    }
+                }
+                $arrayParam['reloadSupplier'] = $html;
+            }
+        }
+        return new JsonModel($arrayParam);
+    }
+    
+    public function ajaxaddstoreAction(){
+        $arrayParam	= array();
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $arrayParam['post'] = $this->params()->fromPost();
+            $shop = new \Backend\Model\Store();
+            $validate = new ValidateStore($arrayParam, 'shop_ajax');
+            if($validate->isError() === true){
+                $arrayParam['error'] = $validate->getMessagesError();
+            }else{
+                $arrayParam['error'] = '';
+                $arrayParam['post']['phone']        = '';
+                $arrayParam['post']['address']      = '';
+                $arrayParam['post']['fax']        = '';
+                $arrayParam['post']['status']       = 1;
+                $id = $shop->addShop($arrayParam);
+                // reload category
+                $dataSupplier = $shop->getAllShop($arrayParam);
+                $html = '';
+                $html .= '<option value="0">-- Chọn --</option>';
+                if($dataSupplier){
+                    foreach ($dataSupplier as $value){
+                        $selected = ($id == $value['id'])?'selected':'';
+                        $html .= '<option '.$selected.' value='.$value['id'].'>'.$value['name'].'</option>';
+                    }
+                }
+                $arrayParam['reloadShop'] = $html;
+            }
+        }
+        return new JsonModel($arrayParam);
+    }
+    public function ajaxaddtrademarkAction(){
+        $arrayParam	= array();
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $arrayParam['post'] = $this->params()->fromPost();
+            $trademark = new Trademark();
+            $validate = new ValidateTrademark($arrayParam, 'trademark_ajax');
+            if($validate->isError() === true){
+                $arrayParam['error'] = $validate->getMessagesError();
+            }else{
+                $arrayParam['error'] = '';
+                $arrayParam['post']['title']        = '';
+                $arrayParam['post']['description']  = '';
+                $arrayParam['post']['keyword']      = '';
+                $arrayParam['post']['status']       = 1;
+                $id = $trademark->addTrademark($arrayParam);
+                // reload category
+                $dataTrademark = $trademark->getAllTrademark($arrayParam);
+                $html = '';
+                $html .= '<option value="0">-- Chọn --</option>';
+                if($dataTrademark){
+                    foreach ($dataTrademark as $value){
+                        $selected = ($id == $value['id'])?'selected':'';
+                        $html .= '<option '.$selected.' value='.$value['id'].'>'.$value['name'].'</option>';
+                    }
+                }
+                $arrayParam['reloadTrademark'] = $html;
+            }
+        }
+        return new JsonModel($arrayParam);
     }
 }

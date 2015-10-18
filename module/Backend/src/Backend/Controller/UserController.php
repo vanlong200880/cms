@@ -70,7 +70,7 @@ class UserController extends AbstractActionController
         $order      = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order'):'desc';
         $sort       = $this->params()->fromRoute('sort') ? $this->params()->fromRoute('sort'):'id';
         $type       = $this->params()->fromRoute('type') ? $this->params()->fromRoute('type'): null;
-        $search     = $this->params()->fromRoute('txtSearch') ? $this->params()->fromRoute('txtSearch'): null;
+        $search     = $this->params()->fromRoute('textSearch') ? $this->params()->fromRoute('textSearch'): null;
         $page       = $this->params()->fromRoute('page') ? (int) $this->params()->fromRoute('page') : null;
         
         $arrayParam['limit'] = PAGING_LIMIT;

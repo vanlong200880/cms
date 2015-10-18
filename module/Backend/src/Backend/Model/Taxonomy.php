@@ -46,6 +46,15 @@ class Taxonomy extends AbstractTableGateway
         $resultSet = $resultSet->toArray();
         return $resultSet[0];
     }
+    // get taxonomy by slug
+    public function getTaxonomyBySlug($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->where(array('slug' => $arrayParam['slug']));
+        $resultSet = $this->selectWith($select);
+        $resultSet = $resultSet->toArray();
+        return $resultSet[0];
+    }
     
     // get all language
     public function getAll()

@@ -16,7 +16,7 @@
                         </select>
                         <button type="submit" name="apply" class="btn btn-default btn-custom apply">Thực hiện</button>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><button type="button" class="btn btn-default btn-custom pull-right">Thêm mới</button></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><a href="<?php echo $this->url('backend', array('controller' => 'product', 'action' => 'add')); ?>" class="btn btn-default btn-custom pull-right">Thêm mới</a></div>
                 </div>
             </div>
         </div>
@@ -31,10 +31,27 @@
                                 <fieldset>
                                     <legend>Tìm kiếm</legend>
                                     <div class="col-lg-5 col-md-5">
-                                        <div class="form-group">
-                                            <label for="keyword" class="col-lg-3 col-md-4 control-label">Từ khóa</label>
-                                            <div class="col-lg-9 col-md-8 col-sm-12">
-                                                <input type="email" class="form-control" id="keyword">
+                                        <div class="row form-horizontal">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="keyword" class="col-lg-3 col-md-4 control-label">Từ khóa</label>
+                                                    <div class="col-lg-9 col-md-8 col-sm-12">
+                                                        <input type="text" value=""  name="textSearch" class="form-control" id="keyword">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="keyword" class="col-lg-3 col-md-4 control-label">Tìm theo</label>
+                                                    <div class="col-lg-9 col-md-8 col-sm-12">
+                                                        <label for="search-name" class="radio-inline">
+                                                            <input type="radio" checked="" id="search-name" name="group-search" value="name"> Tên sản phẩm
+                                                        </label>
+                                                        <label for="search-id" class="radio-inline">
+                                                            <input type="radio" id="search-id" name="group-search" value="id"> Mã sản phẩm
+                                                        </label>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -42,23 +59,19 @@
                                         <div class="form-group">
                                             <label for="keyword" class="col-lg-3 col-md-4 control-label">Danh mục</label>
                                             <div class="col-lg-9 col-md-8">
-                                                <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
-                                                    <option>cow</option>
-                                                    <option>bull</option>
-                                                    <option class="get-class" disabled>ox</option>
-                                                    <optgroup label="test" data-subtext="another test">
-                                                        <option>ASD</option>
-                                                        <option selected>Bla</option>
-                                                        <option>Ble</option>
-                                                    </optgroup>
-                                                  </select>
+                                                <select id="type" name="type" class="selectpicker show-tick form-control" data-live-search="true">
+                                                        <option value="">-- Chọn --</option>
+                                                        <?php foreach ($type as $value): ?>
+                                                        <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
+                                                        <?php endforeach; ?>
+                                                      </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-2 col-md-2">
                                         <div class="col-lg-12">
                                             <div class="form-group">
-                                                <button type="button" class="btn btn-default btn-custom">Tìm</button>
+                                                <button type="button" id="btn-search" class="btn btn-default btn-custom">Tìm</button>
                                             </div>
                                         </div>
                                     </div>
@@ -197,7 +210,7 @@
                                             <td class="column_category"><?php echo $value['category-name']; ?></td>
                                             <td class="column_price"><?php echo number_format(round($value['price'], -3),0,'.','.'); ?></td>
                                             <td class="column_price"><?php echo number_format(round($value['price'], -3),0,'.','.'); ?></td>
-                                            <td class="column_weight"><input type="number" min="0" value="<?php echo $value['sort']; ?>" name="sort[]" class="form-control update_weight"></td>
+                                            <td class="column_weight"><input type="number" min="0" value="<?php echo $value['sort']; ?>" name="sort[<?php echo $value['id'] ?>]" class="form-control update_weight"></td>
                                             <td class="column_quantity"><?php echo $value['quantity']; ?></td>
                                             <td class="column_status status">
                                                 <?php echo ($value['status'] == 1)? '<a data-status='.json_encode(array('id' => $value['id'], 'status' => 1)).' href="javascript:void(0)" title="Hiển thị" class="active fa fa-check-circle"></a>': '<a data-status='.json_encode(array('id' => $value['id'], 'status' => 0)).' title="Không hiển thị" class="unactive fa fa-minus-circle"></a>'; ?>
@@ -208,7 +221,7 @@
                                     </tbody>
                                 </table>
                                 <?php else: ?>
-                                <div class="alert alert-info" role="alert">Không tồn tại user nào. </div>
+                                <div class="alert alert-info" role="alert">Không có sản phẩm nào. </div>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -303,7 +316,27 @@
 //             $(".form-table .table>tbody>tr").removeAttr('style');
 //             $('.edit-row').remove();
 //        });
-        
+        // search
+        var param = '<?php echo json_encode($paramSort); ?>';
+        $("#btn-search").on('click', function(){
+            var textSearch = $("#keyword").val();
+            var type = $("#type").val();
+            var sort = $("[name=group-search]:checked").val();
+            if(textSearch.length === 0){
+                alert('Bạn chưa nhập từ khóa cần tìm.');
+                return false;
+            }
+            var data = jQuery.parseJSON(param);
+            var uri = '';
+            uri += '<?php echo $this->url('backend', array('controller' => 'product', 'action' => 'index')); ?>';
+            uri += data.page ? data.page: '';
+            uri += (type.length !== 0 && $.isNumeric(type))?'/type/'+ type :'';
+            //uri += data.sort ? data.sort: '';
+            uri += (sort.length !== 0)?'/sort/'+ sort :'';
+            uri += data.order ? data.order: '';
+            uri += (textSearch.length !== 0 )?'/textSearch/'+ textSearch :'';
+            window.location.href = uri;
+        });
         // change status
         $(".form-table .table>tbody>tr>td.column_status a").on('click', function(){
             var data = $(this).attr('data-status');

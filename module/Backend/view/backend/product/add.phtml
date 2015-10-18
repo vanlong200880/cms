@@ -17,238 +17,377 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="box">
-                                    <div class="box-header"><h2>Thông tin chung</h2></div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <label for="name">Tên</label>
-                                                <input type="text" data-toggle="tooltip" data-placement="top" title="Nhập tên sản phẩm" class="form-control" id="name" placeholder="Tên">
+                                    <div class="box-header"><h2>Thông tin cơ bản</h2></div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="name">Tên sản phẩm</label><span class="validation">*</span>
+                                                    <input type="text" data-toggle="tooltip" data-placement="top" title="Nhập tên sản phẩm" class="form-control" id="name" name="name">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <label for="slug">Slug</label>
-                                                <input type="text" data-toggle="tooltip" data-placement="top" title="Nhập alias cho sản phẩm" class="form-control" id="slug" placeholder="Slug">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="slug">Slug</label><span class="validation">*</span>
+                                                    <input type="text" data-toggle="tooltip" data-placement="top" title="Nhập alias cho sản phẩm" class="form-control" id="slug" name="slug">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-8 col-sm-6 col-xs-6">
-                                                    <div class="form-group">
-                                                        <label for="quantity">Danh mục</label>
-                                                        <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
-                                                            <option>cow</option>
-                                                            <option>bull</option>
-                                                            <option class="get-class" disabled>ox</option>
-                                                            <optgroup label="test" data-subtext="another test">
-                                                                <option>ASD</option>
-                                                                <option selected>Bla</option>
-                                                                <option>Ble</option>
-                                                            </optgroup>
-                                                        </select>
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-8 col-sm-6 col-xs-6">
+                                                        <div class="form-group">
+                                                            <label>Danh mục</label><span class="validation">*</span>
+                                                            <select name="category_id" id="category_id" class="selectpicker show-tick form-control" data-live-search="true">
+                                                                <?php echo $category; ?>
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-6">
-                                                    <label for="quantity">&nbsp;</label>
-                                                    <div class="add-item" data-toggle="modal" data-target=".bs-category"><i class="fa fa-plus"></i></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <label for="price">Giá nhập</label>
-                                                <input type="text" class="form-control" data-toggle="tooltip" data-placement="top" title="Giá nhập hàng (giá gốc)" id="price" placeholder="Giá nhập">
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <label for="price_cost">Giá bán</label>
-                                                <input type="text" class="form-control" id="price_cost" data-toggle="tooltip" data-placement="top" title="Nhập giá bán" placeholder="Giá bán">
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-lg-12">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label for="quantity">Số lượng</label>
-                                                        <input type="number" class="form-control" data-toggle="tooltip" data-placement="top" title="Nhập số lượng sản phẩm" id="quantity" placeholder="Tồn kho">
+                                                    <div class="col-lg-6 col-md-4 col-sm-6 col-xs-6">
+                                                        <label>&nbsp;</label>
+                                                        <div class="add-item" data-toggle="modal" data-target=".bs-category"><i class="fa fa-plus"></i></div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        
-                                        <div class="col-lg-12">
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-8 col-sm-6 col-xs-6">
-                                                    <div class="form-group">
-                                                        <label for="quantity">Chọn kho hàng</label>
-                                                        <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
-                                                            <option>cow</option>
-                                                            <option>bull</option>
-                                                            <option class="get-class" disabled>ox</option>
-                                                            <optgroup label="test" data-subtext="another test">
-                                                                <option>ASD</option>
-                                                                <option selected>Bla</option>
-                                                                <option>Ble</option>
-                                                            </optgroup>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-6">
-                                                    <label for="quantity">&nbsp;</label>
-                                                    <div class="add-item" data-toggle="modal" data-target=".bs-store"><i class="fa fa-plus"></i></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-lg-12">
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-8 col-sm-6 col-xs-6">
-                                                    <div class="form-group">
-                                                        <label for="quantity">Thương hiệu</label>
-                                                        <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
-                                                            <option>cow</option>
-                                                            <option>bull</option>
-                                                            <option class="get-class" disabled>ox</option>
-                                                            <optgroup label="test" data-subtext="another test">
-                                                                <option>ASD</option>
-                                                                <option selected>Bla</option>
-                                                                <option>Ble</option>
-                                                            </optgroup>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-6">
-                                                    <label for="quantity">&nbsp;</label>
-                                                    <div class="add-item" data-toggle="modal" data-target=".bs-trademark"><i class="fa fa-plus"></i></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-lg-12">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <div class="checkbox">
-                                                            <label>
-                                                                <input type="checkbox" checked="checked" name="status"> Trạng thái
-                                                            </label>
+                                            
+
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label for="quantity">Số lượng</label>
+                                                            <input type="number" min="1" value="1" class="form-control" data-toggle="tooltip" data-placement="top" title="Nhập số lượng sản phẩm" id="quantity" name="quantity">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label for="startday">Ngày đăng</label>
+                                                            <input type="date" id="startday"  name="startday" class="form-control" data-toggle="tooltip" data-placement="top" title="Ngày đăng">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label for="endday">Ngày hạ</label>
+                                                            <input type="date" id="endday" class="form-control" data-toggle="tooltip" data-placement="top" title="Ngày hạ" name="endday">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-8 col-sm-6 col-xs-6">
+                                                        <div class="form-group">
+                                                            <label for="supplier_id">Nhà cung cấp</label><span class="validation">*</span>
+                                                            <select name="supplier" id="supplier_id" class="selectpicker show-tick form-control" data-live-search="true">
+                                                                <option value="">-- Chọn --</option>
+                                                                <?php if($supplier): ?>
+                                                                <?php foreach ($supplier as $val): ?>
+                                                                <option value="<?php echo $val['id']; ?>"><?php echo $val['name']; ?></option>
+                                                                <?php endforeach; ?>
+                                                                <?php endif; ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-4 col-sm-6 col-xs-6">
+                                                        <label>&nbsp;</label>
+                                                        <div class="add-item" data-toggle="modal" data-target=".bs-supplier"><i class="fa fa-plus"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-8 col-sm-6 col-xs-6">
+                                                        <div class="form-group">
+                                                            <label for="store_id">Chọn kho hàng</label><span class="validation">*</span>
+                                                            <select name="store" id="store_id" class="selectpicker show-tick form-control" data-live-search="true">
+                                                                <option value="">-- Chọn --</option>
+                                                                <?php if($shop): ?>
+                                                                <?php foreach ($shop as $val): ?>
+                                                                <option value="<?php echo $val['id']; ?>"><?php echo $val['name']; ?></option>
+                                                                <?php endforeach; ?>
+                                                                <?php endif; ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-4 col-sm-6 col-xs-6">
+                                                        <label>&nbsp;</label>
+                                                        <div class="add-item" data-toggle="modal" data-target=".bs-store"><i class="fa fa-plus"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-8 col-sm-6 col-xs-6">
+                                                        <div class="form-group">
+                                                            <label for="trademark_id">Thương hiệu</label><span class="validation">*</span>
+                                                            <select name="trademark_id" id="trademark_id" class="selectpicker show-tick form-control" data-live-search="true">
+                                                                <option value="">-- Chọn --</option>
+                                                                <?php if($trademark): ?>
+                                                                <?php foreach ($trademark as $val): ?>
+                                                                <option value="<?php echo $val['id']; ?>"><?php echo $val['name']; ?></option>
+                                                                <?php endforeach; ?>
+                                                                <?php endif; ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-4 col-sm-6 col-xs-6">
+                                                        <label>&nbsp;</label>
+                                                        <div class="add-item" data-toggle="modal" data-target=".bs-trademark"><i class="fa fa-plus"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        
-                                        
+                                    </div>
+                                </div>
+                                
+                                <div class="box">
+                                    <div class="box-header"><h2>Thư viện ảnh</h2></div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="image">Ảnh đại điện</label><span class="validation">*</span>
+                                                    <input type="file" class="form-control" id="image">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="image_gallery">Ảnh gallery</label>
+                                                    <input type="file" class="form-control" id="image_gallery">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                                <div class="box">
+                                    <div class="box-header"><h2><i class="fa fa-plus"></i> Thông tin website</h2></div>
+                                    <div class="box-body box-bs">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" checked="checked" name="status"> Đăng
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" name="status"> Hiện ở trang chủ
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" name="new"> Sản phẩm mới
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" name="hot"> Sản phẩm hot
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" name="sticky"> Sản phẩm bán chạy
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" name="promote"> Sản phẩm quảng cáo
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="box">
+                                    <div class="box-header"><h2>Thông tin về giá</h2></div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="cost">Giá nhập</label><span class="validation">*</span>
+                                                    <input type="number" min="0" class="form-control" name="cost" data-toggle="tooltip" data-placement="top" title="Giá nhập hàng (giá gốc)" id="cost">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="price">Giá bán</label><span class="validation">*</span>
+                                                    <input type="number" min="0" class="form-control" name="price" id="price" data-toggle="tooltip" data-placement="top" title="Nhập giá bán">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label for="weight">Giảm giá (%)</label>
+                                                            <input type="number" min="0" max="100" class="form-control" id="weight" data-toggle="tooltip" data-placement="top" title="Giảm giá ( min: 0 - max: 100 )">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="tax">Thuế</label>
+                                                    <input type="number" min="0" max="30" value="0" name="tax" class="form-control" data-toggle="tooltip" data-placement="top" title="Thuế (VAT)" id="tax">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="box">
+                                    <div class="box-header"><h2>Thông tin về màu sắc & kích thước</h2></div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="color">Màu sắc</label>
+                                                    <input type="text" class="form-control" data-toggle="tooltip" data-placement="top" title='Nhập màu sắc cho sản phẩm ( cách nhau bởi dấu "," )' name="color">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="size">Size</label>
+                                                    <input type="text" class="form-control" id="size" data-toggle="tooltip" data-placement="top" title='Nhập Size cho sản phẩm ( cách nhau bởi dấu "," )' name="size">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label for="sort">Sắp xếp</label>
+                                                            <input type="number" min="0" class="form-control" id="sort" name="sort" placeholder="0" data-toggle="tooltip" data-placement="top" title='Nhập thử tự hiển thị'>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label for="gram">Khối lượng</label>
+                                                            <input type="number" min="0" class="form-control" name="gram" id="gramm" data-toggle="tooltip" data-placement="top" title="Nhập khối lượng sản phẩm (không bắt buộc)">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            
+                                        </div>
                                     </div>
                                 </div>
                                 
                                 
                                 <div class="box">
-                                    <div class="box-header"><h2>Thông tin thêm</h2></div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <label for="color">Màu sắc</label>
-                                                <input type="text" class="form-control" data-toggle="tooltip" data-placement="top" title='Nhập màu sắc cho sản phẩm ( cách nhau bởi dấu "," )' id="color" placeholder="Color">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <label for="name">Size</label>
-                                                <input type="text" class="form-control" id="size" placeholder="Size" data-toggle="tooltip" data-placement="top" title='Nhập Size cho sản phẩm ( cách nhau bởi dấu "," )'>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label for="weight">Vị trí</label>
-                                                        <input type="number" class="form-control" id="weight" placeholder="Vị trí" data-toggle="tooltip" data-placement="top" title='Nhập thử tự hiển thị'>
-                                                    </div>
+                                    <div class="box-header"><h2><i class="fa fa-plus"></i> Thông tin SEO</h2></div>
+                                    <div class="box-body box-bs">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="title">Meta title</label>
+                                                    <input type="text" class="form-control" id="title" data-toggle="tooltip" data-placement="top" title="Nhập tiêu đề SEO">
                                                 </div>
                                             </div>
-                                        </div>
-                                        
-                                        <div class="col-lg-12">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label for="gram">Khối lượng</label>
-                                                        <input type="number" class="form-control" id="gramm" placeholder="gram" placeholder="Tiêu đề" data-toggle="tooltip" data-placement="top" title="Nhập khối lượng sản phẩm (không bắt buộc)">
-                                                    </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="keyword">Meta keyword</label>
+                                                        <input type="text" class="form-control" id="keyword" data-toggle="tooltip" data-placement="top" title="Nhập từ khóa SEO">
                                                 </div>
                                             </div>
-                                        </div>
-                                        
-                                        <div class="col-lg-12">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label for="weight">Giảm giá (%)</label>
-                                                        <input type="number" class="form-control" id="weight" placeholder="10" placeholder="Tiêu đề" data-toggle="tooltip" data-placement="top" title="Giảm giá ( min: 0 - max: 100 )">
-                                                    </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="description">Meta description</label>
+                                                    <textarea class="form-control" rows="3" name="description" data-toggle="tooltip" data-placement="top" title="Nhập mô tả SEO"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="box">
-                                    <div class="box-header"><h2>Thư viện ảnh</h2></div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <label for="image">Ảnh đại điện</label>
-                                                <input type="file" class="form-control" id="image">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <label for="image_gallery">Ảnh gallery</label>
-                                                <input type="file" class="form-control" id="image_gallery">
-                                            </div>
-                                        </div>
-                                        
-                                    </div>
-                                    
-                                </div>
-                                <div class="box">
-                                    <div class="box-header"><h2><i class="fa fa-plus"></i> Cài đặt SEO</h2></div>
-                                    <div class="box-body box-bs">
+                                    <div class="box-bs">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="form-group">
-                                                    <label for="title">Tiêu đề</label>
-                                                    <input type="text" class="form-control" id="title" placeholder="Tiêu đề" data-toggle="tooltip" data-placement="top" title="Nhập tiêu đề SEO">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="form-group">
-                                                    <label for="keyword">Từ khóa</label>
-                                                        <input type="text" class="form-control" id="keyword" placeholder="keyword" placeholder="Tiêu đề" data-toggle="tooltip" data-placement="top" title="Nhập từ khóa SEO">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="form-group">
-                                                    <label for="description">Mô tả</label>
-                                                    <textarea class="form-control" rows="3" name="description" placeholder="Tiêu đề" data-toggle="tooltip" data-placement="top" title="Nhập mô tả SEO"></textarea>
+                                                    <label for="except">Mô tả ngắn</label>
+                                                    <textarea class="form-control" id="" rows="3" name="except" data-toggle="tooltip" data-placement="top" title="Mô tả ngắn"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div class="box box-botton">
-                                    <div class="box-footer">
-                                        <button type="reset" class="btn btn-default btn-back add">Nhập lại</button>
-                                        <button type="button" class="btn btn-default btn-custom add">Lưu</button>
-                                        <button type="button" class="btn btn-default btn-custom add">Lưu & Thêm mới</button>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="box">
+                                    <div class="box-bs">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="content">Nội dung</label>
+                                                    <textarea class="form-control" id="" rows="3" name="content" data-toggle="tooltip" data-placement="top" title="Nội dung"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <button type="reset" class="btn btn-default btn-back add">Nhập lại</button>
+                                <button type="button" class="btn btn-default btn-custom add">Lưu</button>
+                                <button type="button" class="btn btn-default btn-custom add">Lưu & Thêm mới</button>
                             </div>
                         </div>
                     </div>
@@ -269,24 +408,25 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="form-group">
-                        <label for="keyword">Tên nhóm</label>
-                        <input type="text" class="form-control" id="category_ajax" placeholder="Tên nhóm">
+                        <label for="category_ajax">Tên nhóm</label>
+                        <input type="text" class="form-control" id="category_name" placeholder="Tên nhóm">
+                        <p class="error" id="category_name_error"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="category_slug">Slug</label>
+                        <input type="text" class="form-control" id="category_slug" placeholder="Slug">
+                        <p class="error" id="category_slug_error"></p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group">
                         <div class="form-group">
-                            <label for="quantity">Nhóm cha</label>
-                            <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
-                                <option>cow</option>
-                                <option>bull</option>
-                                <option class="get-class" disabled>ox</option>
-                                <optgroup label="test" data-subtext="another test">
-                                    <option>ASD</option>
-                                    <option selected>Bla</option>
-                                    <option>Ble</option>
-                                </optgroup>
-                            </select>
+                            <label>Nhóm cha</label>
+                            <div class="form-control-category">
+                                <select name="parent" id="add-category" class="selectpicker show-tick form-control" data-live-search="true">
+                                </select>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -294,7 +434,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default btn-back add" data-dismiss="modal">Bỏ qua</button>
-            <button type="button" class="btn btn-primary btn-custom add">Lưu</button>
+            <button type="button" id="btn-category-add" class="btn btn-primary btn-custom add">Lưu</button>
         </div>
     </div>
   </div>
@@ -311,19 +451,47 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="form-group">
-                        <label for="keyword">Tên kho</label>
-                        <input type="text" class="form-control" id="category_ajax" placeholder="Tên kho hàng">
+                        <label for="store_name">Tên kho</label>
+                        <input type="text" name="store" class="form-control" id="store_name" placeholder="Tên kho hàng">
+                        <p class="error" id="store_name_error"></p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default btn-back add" data-dismiss="modal">Bỏ qua</button>
-            <button type="button" class="btn btn-primary btn-custom add">Lưu</button>
+            <button type="button" id="btn-store-add" class="btn btn-primary btn-custom add">Lưu</button>
         </div>
     </div>
   </div>
 </div>
+
+<div class="modal fade bs-supplier modal-custom" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+            <h4 class="modal-title" id="gridSystemModalLabel">Thêm nhà cung cấp</h4>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="supplier">Tên nhà cung cấp</label>
+                        <input type="text" name="supplier" class="form-control" id="supplier_name">
+                        <p class="error" id="supplier_name_error"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-back add" data-dismiss="modal">Bỏ qua</button>
+            <button type="button" id="btn-supplier-add" class="btn btn-primary btn-custom add">Lưu</button>
+        </div>
+    </div>
+  </div>
+</div>
+
 
 <div class="modal fade bs-trademark modal-custom" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
   <div class="modal-dialog modal-sm">
@@ -336,16 +504,138 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="form-group">
-                        <label for="keyword">Tên thương hiệu</label>
-                        <input type="text" class="form-control" id="category_ajax" placeholder="Tên thương hiệu">
+                        <label for="trademark_name">Tên thương hiệu</label>
+                        <input type="text" name="trademark" value="" class="form-control" id="trademark_name">
+                        <p class="error" id="trademark_name_error"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="trademark_slug">Slug</label>
+                        <input type="text" name="trademark_slug" value="" class="form-control" id="trademark_slug">
+                        <p class="error" id="trademark_slug_error"></p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default btn-back add" data-dismiss="modal">Bỏ qua</button>
-            <button type="button" class="btn btn-primary btn-custom add">Lưu</button>
+            <button type="button" id="btn-trademark-add" class="btn btn-primary btn-custom add">Lưu</button>
         </div>
     </div>
   </div>
 </div>
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+        $('.bs-category').on('shown.bs.modal', function () {
+            $.ajax({
+                type:"POST",
+                url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'ajaxloadcategory')) ?>",
+                data: {},
+                dataType: 'JSON',
+                beforeSend: function( xhr ) {
+                     $(".form-control-category").addClass('on');
+                },
+                success: function(data){
+                    $("#add-category").empty().append(data.data);
+                    $('#add-category').selectpicker('refresh');
+                    $(".form-control-category").removeClass('on');
+                }    
+           });
+        });
+        $("#btn-category-add").on('click', function(){
+            var name = $("#category_name").val();
+            var slug = $('#category_slug').val();
+            var category = $("#add-category").val();
+            $.ajax({
+                type:"POST",
+                url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'ajaxaddcategory')) ?>",
+                data: {'name': name, 'slug': slug , 'parent': category},
+                dataType: 'JSON',
+                success: function(data){
+                    if(data.error){
+                        $("#category_name_error").empty().append(data.error.name);
+                        $("#category_slug_error").empty().append(data.error.slug);
+                    }else{
+                        $('.bs-category').modal('hide');
+                        $("#category_name").val('');
+                        $('#category_slug').val('');
+                        $("#category_id").empty().append(data.reloadCategory);
+                        $('#category_id').selectpicker('refresh');
+                    }
+                }    
+           });
+        });
+    });
+    
+    // supplider
+    $("#btn-supplier-add").on('click', function(){
+        var name = $("#supplier_name").val();
+        $.ajax({
+            type:"POST",
+            url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'ajaxaddsupplier')) ?>",
+            data: {'name': name},
+            dataType: 'JSON',
+            success: function(data){
+                if(data.error){
+                    $("#supplier_name_error").empty().append(data.error.name);
+                }else{
+                    $('.bs-supplier').modal('hide');
+                    $("#supplier_name").val('');
+                    $("#supplier_name_error").empty();
+                    $("#supplier_id").empty().append(data.reloadSupplier);
+                    $('#supplier_id').selectpicker('refresh');
+                }
+            }    
+       });
+    });
+    
+    // store
+    $("#btn-store-add").on('click', function(){
+        var name = $("#store_name").val();
+        $.ajax({
+            type:"POST",
+            url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'ajaxaddstore')) ?>",
+            data: {'name': name},
+            dataType: 'JSON',
+            success: function(data){
+                if(data.error){
+                    $("#store_name_error").empty().append(data.error.name);
+                }else{
+                    $('.bs-store').modal('hide');
+                    $("#store_name").val('');
+                    $("#store_name_error").empty();
+                    $("#store_id").empty().append(data.reloadShop);
+                    $('#store_id').selectpicker('refresh');
+                }
+            }    
+       });
+    });
+    // trademark
+    $("#btn-trademark-add").on('click', function(){
+        var name = $("#trademark_name").val();
+        var slug = $("#trademark_slug").val();
+        $.ajax({
+            type:"POST",
+            url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'ajaxaddtrademark')) ?>",
+            data: {'name': name, 'slug': slug},
+            dataType: 'JSON',
+            success: function(data){
+                if(data.error){
+                    $("#trademark_name_error").empty().append(data.error.name);
+                    $("#trademark_slug_error").empty().append(data.error.slug);
+                }else{
+                    $('.bs-trademark').modal('hide');
+                    $("#trademark_name").val('');
+                    $("#trademark_slug").val('');
+                    $("#trademark_name_error").empty();
+                    $("#trademark_slug_error").empty();
+                    $("#trademark_id").empty().append(data.reloadTrademark);
+                    $('#trademark_id').selectpicker('refresh');
+                }
+            }    
+       });
+    });
+
+
+</script>

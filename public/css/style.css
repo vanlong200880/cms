@@ -376,9 +376,9 @@ i.icon.iconprofile{
     font-weight: normal;
 }
 /* table */
-/*.form-table{
-    margin-top: 30px;
-}*/
+.form-table{
+    margin-top: 10px;
+}
 .form-table .table{
     border: 1px solid #DDD;
 }

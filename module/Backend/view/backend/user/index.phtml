@@ -313,9 +313,9 @@
         // search
         var param = '<?php echo json_encode($paramSort); ?>';
         $("#btn-search").on('click', function(){
-            var txtSearch = $("#keyword").val();
+            var textSearch = $("#keyword").val();
             var type = $("#role").val();
-            if(txtSearch.length === 0){
+            if(textSearch.length === 0){
                 alert('Bạn chưa nhập từ khóa cần tìm.');
                 return false;
             }
@@ -326,7 +326,7 @@
             uri += (type.length !== 0 && $.isNumeric(type))?'/type/'+ type :'';
             uri += data.sort ? data.sort: '';
             uri += data.order ? data.order: '';
-            uri += (txtSearch.length !== 0 )?'/textSearch/'+ txtSearch :'';
+            uri += (textSearch.length !== 0 )?'/textSearch/'+ textSearch :'';
             window.location.href = uri;
         });
         
@@ -379,21 +379,6 @@
                });
             }
                 
-        });
-        
-        $("#btn-search").on('click', function(){
-            var obj = 1;
-            $.ajax({
-                type:"POST",
-                url: "<?php echo $this->url($this->route, array('controller' => 'user', 'action' => 'index')) ?>",
-                data: obj,
-                dataType: 'JSON',
-                beforeSend: function(){
-                },
-                success: function(data){
-//                    location.reload();
-                }    
-           });
         });
     });
 </script>
