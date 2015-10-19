@@ -12,6 +12,7 @@ use Backend\Form\ValidateCategory;
 use Backend\Form\ValidateSupplier;
 use Backend\Form\ValidateStore;
 use Backend\Form\ValidateTrademark;
+use Backend\Form\ValidateProduct;
 
 class ProductController extends AbstractActionController
 {
@@ -170,12 +171,31 @@ class ProductController extends AbstractActionController
     
     public function addAction()
     {
+        $data = array();
         $category = new Category();
         $arrayParam = array();
         $arrayParam['slug'] = 'product';
+        $request = $this->getRequest();
+        if($request->isPost() == true){
+            $arrayParam['post']	= array_merge_recursive(
+                                    $request->getPost()->toArray(),
+                                    $request->getFiles()->toArray()
+                                );
+            $validate = new ValidateProduct($arrayParam, 'add');
+            if($validate->isError() === true){
+                $arrayParam['error'] = $validate->getMessagesError();
+            }else{
+                
+            }
+        }
+        
+        $data['arrayParam'] = $arrayParam;
+        var_dump($arrayParam);
         $dataCategory = $category->getCategoryBySlug($arrayParam);
-        $data = array();
-        $data['category'] = $this->getDataCategory(1, $dataCategory);
+        
+        // check category active
+        $categoryActive = isset($arrayParam['post']['category_id'])? $arrayParam['post']['category_id']: '0';
+        $data['category'] = '<option value="0">-- Chọn --</option>'.$this->getDataCategory($categoryActive, $dataCategory);
         // supplier
         $supplier = new Supplier();
         $dataSupplider = $supplier->getAllSupplier();
