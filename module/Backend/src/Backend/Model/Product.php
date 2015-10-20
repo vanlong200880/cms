@@ -159,5 +159,36 @@ class Product extends AbstractTableGateway
 		);
         $this->update($data, 'id = '. $dataSort['id']);
 	}
+	
+	// add product
+	public function addRole($arrayParam = null)
+	{
+		$data = array(
+		  'role_name'		=> $arrayParam['post']['role_name'], 
+		  'description'	=> $arrayParam['post']['description'], 
+		  'status'		=> $arrayParam['post']['status'],
+		  'weight'		=> $arrayParam['post']['weight']
+		);
+		if(isset($arrayParam['id'])){
+            // update
+            if($this->getRoleByName($arrayParam)){
+                unset($data['role_name']);
+            }
+           
+            if($this->update($data, 'id = '.$arrayParam['id'])){
+                return true;
+            }else{
+                return false;
+            }
+		}
+		else{
+			// add
+			if($this->insert($data)){
+                return true;
+            }else{
+                return false;
+            }
+		}
+	}
 }
 
