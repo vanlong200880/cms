@@ -161,20 +161,36 @@ class Product extends AbstractTableGateway
 	}
 	
 	// add product
-	public function addRole($arrayParam = null)
+	public function addProduct($arrayParam = null)
 	{
 		$data = array(
-		  'role_name'		=> $arrayParam['post']['role_name'], 
-		  'description'	=> $arrayParam['post']['description'], 
-		  'status'		=> $arrayParam['post']['status'],
-		  'weight'		=> $arrayParam['post']['weight']
+            'trademark_id'  => $arrayParam['post']['trademark_id'],
+            'supplier_id'   => $arrayParam['post']['supplier_id'],
+            'shop_id'       => $arrayParam['post']['shop_id'],
+            'category_id'   => $arrayParam['post']['category_id'],
+            'name'          => $arrayParam['post']['name'],
+            'slug'          => $arrayParam['post']['slug'],
+            'excerpt'       => $arrayParam['post']['excerpt'],
+            'content'       => $arrayParam['post']['content'],
+            'status'        => $arrayParam['post']['status'],
+            'created'       => $arrayParam['post']['created'],
+            'modified'      => $arrayParam['post']['modified'],
+            'weight'        => $arrayParam['post']['weight'],
+            'sale'          => $arrayParam['post']['sale'],
+            'hot'           => $arrayParam['post']['hot'],
+            'sticky'        => $arrayParam['post']['sticky'],
+            'promote'       => $arrayParam['post']['promote'],
+            'color'         => $arrayParam['post']['color'],
+            'size'          => $arrayParam['post']['size'],
+            'sort'          => $arrayParam['post']['sort'],
+            'cost'          => $arrayParam['post']['cost'],
+            'price'          => $arrayParam['post']['price'],
+            'view'          => $arrayParam['post']['view'],
+            'quantity'      => $arrayParam['post']['quantity'],
+            'user_id'       => $arrayParam['post']['user_id']
 		);
 		if(isset($arrayParam['id'])){
             // update
-            if($this->getRoleByName($arrayParam)){
-                unset($data['role_name']);
-            }
-           
             if($this->update($data, 'id = '.$arrayParam['id'])){
                 return true;
             }else{
@@ -184,7 +200,7 @@ class Product extends AbstractTableGateway
 		else{
 			// add
 			if($this->insert($data)){
-                return true;
+                return $this->lastInsertValue;
             }else{
                 return false;
             }

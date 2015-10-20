@@ -13,6 +13,7 @@ use Backend\Form\ValidateSupplier;
 use Backend\Form\ValidateStore;
 use Backend\Form\ValidateTrademark;
 use Backend\Form\ValidateProduct;
+use Zend\Session\Container;
 
 class ProductController extends AbstractActionController
 {
@@ -171,22 +172,30 @@ class ProductController extends AbstractActionController
     
     public function addAction()
     {
+        $session = new Container(APPLICATION_KEY);
         $data = array();
         $category = new Category();
+        $product = new Product();
         $arrayParam = array();
         $arrayParam['slug'] = 'product';
         $request = $this->getRequest();
         if($request->isPost() == true){
-            $arrayParam['post']	= array_merge_recursive(
+            if(!empty($session->auth['userId'])){
+                $arrayParam['post']	= array_merge_recursive(
                                     $request->getPost()->toArray(),
                                     $request->getFiles()->toArray()
                                 );
-            $validate = new ValidateProduct($arrayParam, 'add');
-            if($validate->isError() === true){
-                $arrayParam['error'] = $validate->getMessagesError();
-            }else{
-                
+                $arrayParam['post']['user_id'] = $session->auth['userId'];
+                $arrayParam['post']['view'] = 0;
+                $arrayParam['post']['created'] = $arrayParam['post']['modified'] = time();
+                $validate = new ValidateProduct($arrayParam, 'add');
+                if($validate->isError() === true){
+                    $arrayParam['error'] = $validate->getMessagesError();
+                }else{
+                    $id = $product->addProduct($arrayParam);
+                }
             }
+            
         }
         
         $data['arrayParam'] = $arrayParam;

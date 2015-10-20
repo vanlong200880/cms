@@ -288,7 +288,7 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="weight">Giảm giá (%)</label>
-                                                                <input type="number" min="0" max="100" value="<?php echo isset($arrayParam['post']['sale'])?$arrayParam['post']['sale']:'' ?>" class="form-control" id="sale" data-toggle="tooltip" data-placement="top" title="Giảm giá ( min: 0 - max: 100 )">
+                                                                <input type="number" name="sale" min="0" max="100" value="<?php echo isset($arrayParam['post']['sale'])?$arrayParam['post']['sale']:'' ?>" class="form-control" id="sale" data-toggle="tooltip" data-placement="top" title="Giảm giá ( min: 0 - max: 100 )">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -334,8 +334,8 @@
                                                     <div class="row">
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
-                                                                <label for="gram">Khối lượng</label>
-                                                                <input type="number" min="0" value="<?php echo isset($arrayParam['post']['gram'])?$arrayParam['post']['gram']:'' ?>" class="form-control" name="gram" id="gramm" data-toggle="tooltip" data-placement="top" title="Nhập khối lượng sản phẩm (không bắt buộc)">
+                                                                <label for="weight">Khối lượng</label>
+                                                                <input type="number" min="0" value="<?php echo isset($arrayParam['post']['gram'])?$arrayParam['post']['gram']:'' ?>" class="form-control" name="weight" id="weight" data-toggle="tooltip" data-placement="top" title="Nhập khối lượng sản phẩm (không bắt buộc)">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -354,13 +354,13 @@
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
                                                         <label for="title">Meta title</label>
-                                                        <input type="text" class="form-control" value="<?php echo isset($arrayParam['post']['title'])?$arrayParam['post']['title']:'' ?>" id="title" data-toggle="tooltip" data-placement="top" title="Nhập tiêu đề SEO">
+                                                        <input type="text" class="form-control" name="title" value="<?php echo isset($arrayParam['post']['title'])?$arrayParam['post']['title']:'' ?>" id="title" data-toggle="tooltip" data-placement="top" title="Nhập tiêu đề SEO">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
                                                         <label for="keyword">Meta keyword</label>
-                                                        <input type="text" value="<?php echo isset($arrayParam['post']['keyword'])?$arrayParam['post']['keyword']:'' ?>" class="form-control" id="keyword" data-toggle="tooltip" data-placement="top" title="Nhập từ khóa SEO">
+                                                        <input type="text" name="keyword" value="<?php echo isset($arrayParam['post']['keyword'])?$arrayParam['post']['keyword']:'' ?>" class="form-control" id="keyword" data-toggle="tooltip" data-placement="top" title="Nhập từ khóa SEO">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
@@ -382,7 +382,7 @@
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
                                                         <label for="except">Mô tả ngắn</label>
-                                                        <textarea class="form-control" id="" rows="3" name="except" data-toggle="tooltip" data-placement="top" title="Mô tả ngắn"><?php echo isset($arrayParam['post']['except'])?$arrayParam['post']['except']:'' ?></textarea>
+                                                        <textarea class="form-control" id="" rows="3" name="excerpt" data-toggle="tooltip" data-placement="top" title="Mô tả ngắn"><?php echo isset($arrayParam['post']['except'])?$arrayParam['post']['except']:'' ?></textarea>
                                                     </div>
                                                 </div>
                                             </div>
