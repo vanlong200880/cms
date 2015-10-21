@@ -13,6 +13,9 @@ use Backend\Form\ValidateSupplier;
 use Backend\Form\ValidateStore;
 use Backend\Form\ValidateTrademark;
 use Backend\Form\ValidateProduct;
+use Backend\Model\Image;
+use Sky\Uploads\Upload;
+use Sky\Uploads\Thumbs;
 use Zend\Session\Container;
 
 class ProductController extends AbstractActionController
@@ -192,14 +195,36 @@ class ProductController extends AbstractActionController
                 if($validate->isError() === true){
                     $arrayParam['error'] = $validate->getMessagesError();
                 }else{
-                    $id = $product->addProduct($arrayParam);
+                    //$id = $product->addProduct($arrayParam);
+                    $id = 1;
+                    $image = new Image();
+                    if(!empty($arrayParam['post']['image']['name'])){
+                        $arrayParam['dataImage'] = array(
+                            'product_id' => $id,
+                            'type' => 'product',
+                            'name' => $arrayParam['post']['image']['name'],
+                            'mine' => $arrayParam['post']['image']['type'],
+                            'size' => $arrayParam['post']['image']['size'],
+                            'timestamp' => time(),
+                            'status' => 1,
+                            'highlight' => 1
+                        );
+                        var_dump($arrayParam['post']['image']['name']);
+                        $uploadFile = new Upload();
+                        $newName = $uploadFile->uploadImage($arrayParam['post']['image']['name'], PRODUCT_ICON);
+                        $arrayParam['dataImage']['name'] = $newName;
+                        $thumb = new Thumbs();
+                        $thumb->createThumb(PRODUCT_ICON ."/". $newName, array('1' => 40, '2' => 160, '3' => 260), array('1' => 80, '2' => 180, '3' => 300), array('1' => PRODUCT_ICON.'/40x80/', '2' => PRODUCT_ICON.'/160x180/', '3' => PRODUCT_ICON.'/260x300/'), 3, '');
+                        $image->addImage($arrayParam);
+                    }
+                    
                 }
             }
             
         }
         
         $data['arrayParam'] = $arrayParam;
-        var_dump($arrayParam);
+//        var_dump($arrayParam);
         $dataCategory = $category->getCategoryBySlug($arrayParam);
         
         // check category active
