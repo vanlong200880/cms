@@ -194,16 +194,16 @@
                                                 <strong class="key-title"><?php echo $value['name']; ?></strong>
                                                 <div class="row-action">
                                                     <span class="edit">
-                                                        <a href="#">Sửa</a> | 
+                                                        <a class="icon-edit" href="<?php echo $this->url('backend', array('controller' => 'product', 'action' => 'edit', 'id' => $value['id'])); ?>" title="Sửa"><i class="fa fa-pencil-square-o"></i></a>
                                                     </span>
                                                     <span class="quick-edit">
-                                                        <a data-name="Tên 1" data-slug="ten-1" data-weight="1" href="javascript:void(0)">Sửa nhanh</a> | 
+                                                        <a data-name="Tên 1" data-slug="ten-1" data-weight="1" title="Sửa nhanh" href="javascript:void(0)">Sửa nhanh</a> | 
                                                     </span>
                                                     <span class="delete">
-                                                        <a href="#">Xóa</a> | 
+                                                        <a class="icon-delete" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target=".modal-delete-taxonomy" title="Delete"><i class="fa fa-times"></i></a> 
                                                     </span>
                                                     <span class="view">
-                                                        <a href="#">Xem</a>
+                                                        <a href="#"><i class="fa fa-refresh"></i></a>
                                                     </span>
                                                 </div>
                                             </td>

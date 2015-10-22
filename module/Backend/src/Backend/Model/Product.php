@@ -184,10 +184,12 @@ class Product extends AbstractTableGateway
             'size'          => $arrayParam['post']['size'],
             'sort'          => $arrayParam['post']['sort'],
             'cost'          => $arrayParam['post']['cost'],
-            'price'          => $arrayParam['post']['price'],
+            'price'         => $arrayParam['post']['price'],
             'view'          => $arrayParam['post']['view'],
             'quantity'      => $arrayParam['post']['quantity'],
-            'user_id'       => $arrayParam['post']['user_id']
+            'user_id'       => $arrayParam['post']['user_id'],
+            'startday'      => $arrayParam['post']['startday'],
+            'endday'        => $arrayParam['post']['endday']
 		);
 		if(isset($arrayParam['id'])){
             // update

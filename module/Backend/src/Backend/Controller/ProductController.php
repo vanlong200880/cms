@@ -190,14 +190,17 @@ class ProductController extends AbstractActionController
                                 );
                 $arrayParam['post']['user_id'] = $session->auth['userId'];
                 $arrayParam['post']['view'] = 0;
+                $arrayParam['post']['startday'] = ($arrayParam['post']['startday'])? strtotime($arrayParam['post']['startday']) : 0;
+                $arrayParam['post']['endday'] = ($arrayParam['post']['endday'])? strtotime($arrayParam['post']['endday']) : 0;
                 $arrayParam['post']['created'] = $arrayParam['post']['modified'] = time();
                 $validate = new ValidateProduct($arrayParam, 'add');
                 if($validate->isError() === true){
                     $arrayParam['error'] = $validate->getMessagesError();
                 }else{
-                    //$id = $product->addProduct($arrayParam);
-                    $id = 1;
+                    $id = $product->addProduct($arrayParam);
                     $image = new Image();
+                    $uploadFile = new Upload();
+                    $thumb = new Thumbs();
                     if(!empty($arrayParam['post']['image']['name'])){
                         $arrayParam['dataImage'] = array(
                             'product_id' => $id,
@@ -209,22 +212,46 @@ class ProductController extends AbstractActionController
                             'status' => 1,
                             'highlight' => 1
                         );
-                        var_dump($arrayParam['post']['image']['name']);
-                        $uploadFile = new Upload();
                         $newName = $uploadFile->uploadImage($arrayParam['post']['image']['name'], PRODUCT_ICON);
                         $arrayParam['dataImage']['name'] = $newName;
-                        $thumb = new Thumbs();
                         $thumb->createThumb(PRODUCT_ICON ."/". $newName, array('1' => 40, '2' => 160, '3' => 260), array('1' => 80, '2' => 180, '3' => 300), array('1' => PRODUCT_ICON.'/40x80/', '2' => PRODUCT_ICON.'/160x180/', '3' => PRODUCT_ICON.'/260x300/'), 3, '');
                         $image->addImage($arrayParam);
                     }
                     
+                    // upload image gallery
+                    if(isset($arrayParam['post']['gallery']) && !empty($arrayParam['post']['gallery'])){
+                        foreach ($arrayParam['post']['gallery'] as $galleryValue){
+                            if($galleryValue['name']){
+                                $arrayParam['dataImage'] = array(
+                                    'product_id' => $id,
+                                    'type' => 'product',
+                                    'name' => $galleryValue['name'],
+                                    'mine' => $galleryValue['type'],
+                                    'size' => $galleryValue['size'],
+                                    'timestamp' => time(),
+                                    'status' => 1,
+                                    'highlight' => 0
+                                );
+                                $newName = $uploadFile->uploadImage($galleryValue['name'], PRODUCT_ICON);
+                                $arrayParam['dataImage']['name'] = $newName;
+                                $thumb->createThumb(PRODUCT_ICON ."/". $newName, array('1' => 40, '2' => 160, '3' => 260), array('1' => 80, '2' => 180, '3' => 300), array('1' => PRODUCT_ICON.'/40x80/', '2' => PRODUCT_ICON.'/160x180/', '3' => PRODUCT_ICON.'/260x300/'), 3, '');
+                                $image->addImage($arrayParam);
+                            }
+                        }
+                    }
+                    $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Đăng sản phẩm thành công.</div>');
+                    if(isset($arrayParam['post']['save'])){
+                        return $this->redirect()->toRoute('backend', array('controller' => 'product', 'action' => 'index'));
+                    }else{
+                        if(isset($arrayParam['post']['save-news'])){
+                            return $this->redirect()->toRoute('backend', array('controller' => 'product', 'action' => 'add'));
+                        }
+                    }                    
                 }
             }
             
         }
-        
         $data['arrayParam'] = $arrayParam;
-//        var_dump($arrayParam);
         $dataCategory = $category->getCategoryBySlug($arrayParam);
         
         // check category active
@@ -405,5 +432,10 @@ class ProductController extends AbstractActionController
             }
         }
         return new JsonModel($arrayParam);
+    }
+    
+    public function editAction(){
+        $data = array();
+        return new ViewModel($data);
     }
 }

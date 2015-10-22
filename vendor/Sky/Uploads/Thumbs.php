@@ -31,8 +31,8 @@ class Thumbs extends Imaging
             
             $this->thumbname = pathinfo($image, PATHINFO_FILENAME).'-'. $text. '.' .pathinfo($image, PATHINFO_EXTENSION);
             parent::save_img($this->thumbnail);
-            parent::clear_cache();
         }
+        parent::clear_cache();
     }
 
     public function removeImage($link, $folder, $name , $item = 1 )
