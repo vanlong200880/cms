@@ -21,20 +21,61 @@ class Image extends AbstractTableGateway
             'product_id'    => $arrayParam['dataImage']['product_id'],
             'type'          => $arrayParam['dataImage']['type'],
             'name'          => $arrayParam['dataImage']['name'],
+            'mine'          => $arrayParam['dataImage']['mine'],
+            'size'          => $arrayParam['dataImage']['size'],
             'timestamp'     => $arrayParam['dataImage']['timestamp'],
             'status'        => $arrayParam['dataImage']['status'],
             'highlight'     => $arrayParam['dataImage']['highlight']
 		);
-        if($this->insert($data)){
-            return $this->lastInsertValue;
+        if(isset($arrayParam['id'])){
+            // update
+            unset($data['product_id'], $data['type']);
+            $this->update($data, array('id' => $arrayParam['image_id'], 'highlight' => 1));
         }else{
+            if($this->insert($data)){
+                return $this->lastInsertValue;
+            }else{
+                return false;
+            }
+        }
+        
+	}
+    // get image by product id
+    public function getImageByProductId($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->where(array('product_id' => $arrayParam['id'], 'type' => $arrayParam['type']));
+        $resultSet = $this->selectWith($select);
+        return $resultSet->toArray();
+    }
+    
+    // get image by id
+    public  function getImageById($arrayPram = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->where(array('id' => $arrayPram['id']));
+        $resultSet = $this->selectWith($select);
+        $resultSet = $resultSet->toArray();
+        return $resultSet;
+    }
+    // get image by id and highlight
+    public  function getImageByProductIdHighlight($arrayPram = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->where(array('product_id' => $arrayPram['id'], 'highlight' => 1));
+        $resultSet = $this->selectWith($select);
+        $resultSet = $resultSet->toArray();
+        return $resultSet;
+    }
+    // delete product by id
+    public function deleteImageById($arrayParam = null){
+        if($this->delete('id = ' . $arrayParam['id'])){
+            return true;
+        }
+        else{
             return false;
         }
-	}
-    // delete product by id
-//    public function deleteImageById($id){
-//        $this->delete('id = '.$id);
-//    }
+    }
     
     // get image by product id and type = product
 //    public function getImageByProductId($arrayParam = null){

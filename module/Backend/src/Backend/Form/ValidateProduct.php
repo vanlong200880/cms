@@ -22,29 +22,26 @@ class ValidateProduct{
 			$this->_messagesError['name'] = 'Name: ' . current($message);
 		}
 		// kiểm tra code
-        if(isset($arrayParam['post']['slug'])){
-            if(isset($arrayParam['id']) == false){
-                $option = array(
-                    'table'     => 'product',
-                    'field'     => 'slug',
-                    'adapter'   => \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::getStaticAdapter(),
-                );
-            }else{
-                $option = array('table' => 'product',
-                    'field'     => 'slug',
-                    'adapter'   => \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::getStaticAdapter(),
-                    'exclude'   => array('field' => 'id',
-                                       'value' => $arrayParam['id'])
-                 );
-            }
-            $validator = new \Zend\Validator\ValidatorChain();
-            $validator->addValidator(new \Zend\Validator\NotEmpty(), true)
-                      ->addValidator(new \Zend\Validator\Db\NoRecordExists($option), true);
-            if(!$validator->isValid($arrayParam['post']['slug'])){			
-                $message = $validator->getMessages();
-                $this->_messagesError['slug'] = 'Slug: ' . current($message);
-            }
-            
+        if(isset($arrayParam['id']) == false){
+            $option = array(
+                'table'     => 'product',
+                'field'     => 'slug',
+                'adapter'   => \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::getStaticAdapter(),
+            );
+        }else{
+            $option = array('table' => 'product',
+                'field'     => 'slug',
+                'adapter'   => \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::getStaticAdapter(),
+                'exclude'   => array('field' => 'id',
+                                   'value' => $arrayParam['id'])
+             );
+        }
+        $validator = new \Zend\Validator\ValidatorChain();
+        $validator->addValidator(new \Zend\Validator\NotEmpty(), true)
+                  ->addValidator(new \Zend\Validator\Db\NoRecordExists($option), true);
+        if(!$validator->isValid($arrayParam['post']['slug'])){			
+            $message = $validator->getMessages();
+            $this->_messagesError['slug'] = 'Slug: ' . current($message);
         }
         // kiểm tra category
         $validator = new \Zend\Validator\ValidatorChain();
@@ -76,19 +73,19 @@ class ValidateProduct{
 		}
         
         // kiểm tra image
-//        if($arrayParam['post']['image']['name'] !== ''){
-        $validator = new \Zend\Validator\ValidatorChain();
-        $validator->addValidator(new \Zend\Validator\NotEmpty(), true);
-        $validator->addValidator(new \Zend\Validator\File\MimeType('image/jpg, image/jpeg, image/png'));
-        $validator->addValidator(new \Zend\Validator\File\ImageSize(array(
-            'minWidth' => PRODUCT_MIN_WIDTH, 'minHeight' => PRODUCT_MIN_HEIGHT,
-            'maxWidth' => PRODUCT_MAX_WIDTH, 'maxHeight' => PRODUCT_MAX_HRIGHT,
-        )));
-        if(!$validator->isValid($arrayParam['post']['image']['tmp_name'])){
-            $message = $validator->getMessages();
-            $this->_messagesError['image'] = current($message);
+        if(isset($arrayParam['id']) == false){
+            $validator = new \Zend\Validator\ValidatorChain();
+            $validator->addValidator(new \Zend\Validator\NotEmpty(), true);
+            $validator->addValidator(new \Zend\Validator\File\MimeType('image/jpg, image/jpeg, image/png'));
+            $validator->addValidator(new \Zend\Validator\File\ImageSize(array(
+                'minWidth' => PRODUCT_MIN_WIDTH, 'minHeight' => PRODUCT_MIN_HEIGHT,
+                'maxWidth' => PRODUCT_MAX_WIDTH, 'maxHeight' => PRODUCT_MAX_HRIGHT,
+            )));
+            if(!$validator->isValid($arrayParam['post']['image']['tmp_name'])){
+                $message = $validator->getMessages();
+                $this->_messagesError['image'] = current($message);
+            }
         }
-//        }
         
         // kiểm tra cost
         $validator = new \Zend\Validator\ValidatorChain();

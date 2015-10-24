@@ -10,6 +10,7 @@ use Backend\Model\Supplier;
 use Backend\Model\Trademark;
 use Backend\Form\ValidateCategory;
 use Backend\Form\ValidateSupplier;
+use Backend\Form\ValidateAjaxUploadImageProduct;
 use Backend\Form\ValidateStore;
 use Backend\Form\ValidateTrademark;
 use Backend\Form\ValidateProduct;
@@ -253,7 +254,6 @@ class ProductController extends AbstractActionController
         }
         $data['arrayParam'] = $arrayParam;
         $dataCategory = $category->getCategoryBySlug($arrayParam);
-        
         // check category active
         $categoryActive = isset($arrayParam['post']['category_id'])? $arrayParam['post']['category_id']: '0';
         $data['category'] = '<option value="0">-- Chọn --</option>'.$this->getDataCategory($categoryActive, $dataCategory);
@@ -265,7 +265,7 @@ class ProductController extends AbstractActionController
         $shop = new \Backend\Model\Store();
         $dataShop = $shop->getAllShop();
         $data['shop'] = $dataShop;
-        // shop
+        // trademark
         $trademark = new Trademark();
         $dataTrademark = $trademark->getAllTrademark();
         $data['trademark'] = $dataTrademark;
@@ -435,7 +435,155 @@ class ProductController extends AbstractActionController
     }
     
     public function editAction(){
+        $session = new Container(APPLICATION_KEY);
         $data = array();
+        $product = new Product();
+        $category = new Category();
+        $arrayParam = array();
+        $arrayParam['slug'] = 'product';
+        $arrayParam['id'] = $this->params()->fromRoute('id');
+        $dataProduct = $product->getProductById($arrayParam);
+        $arrayParam['post'] = $dataProduct;
+        $request = $this->getRequest();
+        if($request->isPost() == true){
+            if(!empty($session->auth['userId'])){
+                $arrayParam['post']	= array_merge_recursive(
+                                    $request->getPost()->toArray(),
+                                    $request->getFiles()->toArray()
+                                );
+                $arrayParam['post']['user_id'] = $session->auth['userId'];
+                $arrayParam['post']['view'] = 0;
+                $arrayParam['post']['startday'] = ($arrayParam['post']['startday'])? strtotime($arrayParam['post']['startday']) : 0;
+                $arrayParam['post']['endday'] = ($arrayParam['post']['endday'])? strtotime($arrayParam['post']['endday']) : 0;
+                $arrayParam['post']['created'] = $arrayParam['post']['modified'] = time();
+                $validate = new ValidateProduct($arrayParam, 'ecit');
+                if($validate->isError() === true){
+                    $arrayParam['error'] = $validate->getMessagesError();
+                }else{
+                    $product->addProduct($arrayParam);
+                    // change image
+                    if(isset($arrayParam['post']['image']) && !empty($arrayParam['post']['image']['name'])){
+                        $image = new Image();
+                        $uploadFile = new Upload();
+                        $thumb = new Thumbs();
+                        if(!empty($arrayParam['post']['image']['name'])){
+                            $arrayParam['dataImage'] = array(
+                                'product_id' => $arrayParam['id'],
+                                'type' => 'product',
+                                'name' => $arrayParam['post']['image']['name'],
+                                'mine' => $arrayParam['post']['image']['type'],
+                                'size' => $arrayParam['post']['image']['size'],
+                                'timestamp' => time(),
+                                'status' => 1,
+                                'highlight' => 1
+                            );
+                            $dataImage = $image->getImageByProductIdHighlight($arrayParam);
+                            
+                            if($dataImage){
+                                $thumb->removeImage(PRODUCT_ICON ."/", array('1' => '40x80/', '2' => '160x180/', '3' => '260x300/', '4' => ''), $dataImage[0]['name'], 4);
+                                $newName = $uploadFile->uploadImage($arrayParam['post']['image']['name'], PRODUCT_ICON);
+                                $arrayParam['dataImage']['name'] = $newName;
+                                $thumb->createThumb(PRODUCT_ICON ."/". $newName, array('1' => 40, '2' => 160, '3' => 260), array('1' => 80, '2' => 180, '3' => 300), array('1' => PRODUCT_ICON.'/40x80/', '2' => PRODUCT_ICON.'/160x180/', '3' => PRODUCT_ICON.'/260x300/'), 3, '');
+                                $arrayParam['image_id'] = $dataImage[0]['id'];
+                                $image->addImage($arrayParam);
+                            }
+                        }
+                    } 
+                    $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhất sản phẩm thành công.</div>');
+                    return $this->redirect()->toRoute('backend', array('controller' => 'product', 'action' => 'index')); 
+                }
+            }
+            
+        }
+        // get imag by product id
+        $image = new Image();
+        $arrayParam['type'] = 'product';
+        $dataImage = $image->getImageByProductId($arrayParam);
+        $arrayParam['dataImage'] = $dataImage;
+        // check category active
+        $dataCategory = $category->getCategoryBySlug($arrayParam);
+        $categoryActive = isset($arrayParam['post']['category_id'])? $arrayParam['post']['category_id']: '0';
+        $data['category'] = '<option value="0">-- Chọn --</option>'.$this->getDataCategory($categoryActive, $dataCategory);
+        
+        // supplier
+        $supplier = new Supplier();
+        $dataSupplider = $supplier->getAllSupplier();
+        $data['supplier'] = $dataSupplider;
+        
+        // shop
+        $shop = new \Backend\Model\Store();
+        $dataShop = $shop->getAllShop();
+        $data['shop'] = $dataShop;
+        
+        // trademark
+        $trademark = new Trademark();
+        $dataTrademark = $trademark->getAllTrademark();
+        $data['trademark'] = $dataTrademark;
+        
+        $data['arrayParam'] = $arrayParam;
         return new ViewModel($data);
+    }
+    public function deleteimagegalleryAction(){
+        $arrayParam= array();
+        $request = $this->getRequest();
+        if($request->isPost() == true){
+            $image = new Image();
+            $arrayParam['id'] = $this->params()->fromPost('id');
+            $dataImage = $image->getImageById($arrayParam);
+            $arrayParam['message'] = '';
+            if($dataImage){
+                // remove image
+                $thumb = new Thumbs();
+                $thumb->removeImage(PRODUCT_ICON ."/", array('1' => '40x80/', '2' => '160x180/', '3' => '260x300/', '4' => ''), $dataImage[0]['name'], 4);
+                if(!$image->deleteImageById($arrayParam)){
+                    $arrayParam['message'] = 'Ảnh này bạn không được phép xóa.';
+                }
+            } 
+        }
+        return new JsonModel($arrayParam); 
+    }
+    
+    public function uploadimaggeajaxAction(){
+        $arrayParam = array();
+        $arrayParam['id'] = $this->params()->fromPost('product_upload_id');
+        $arrayParam['image_form_submit'] = $this->params()->fromPost('image_form_submit');
+        if($arrayParam['image_form_submit'] == 1)
+        {
+            $image = new Image();
+            $uploadFile = new Upload();
+            $thumb = new Thumbs();
+            $images_arr = array();
+            $imagePreview = array();
+            foreach($_FILES['images']['name'] as $key=>$val){
+                $arrayParam['dataImage'] = array(
+                    'product_id' => $arrayParam['id'],
+                    'type' => 'product',
+                    'name' => $_FILES['images']['name'][$key],
+                    'mine' => $_FILES['images']['type'][$key],
+                    'size' => $_FILES['images']['size'][$key],
+                    'timestamp' => time(),
+                    'status' => 1,
+                    'highlight' => 0
+                );
+                $arrayParam['post']['image']['tmp_name'] = $_FILES['images']['tmp_name'][$key];
+                $validateUpload = new ValidateAjaxUploadImageProduct($arrayParam);
+                if($validateUpload->isError() === true){
+                    $arrayParam['error'] = $validateUpload->getMessagesError();
+                }else{
+                    
+                    $newName = $uploadFile->uploadImage($_FILES['images']['name'][$key], PRODUCT_ICON);
+                    $arrayParam['dataImage']['name'] = $newName;
+                    $thumb->createThumb(PRODUCT_ICON ."/". $newName, array('1' => 40, '2' => 160, '3' => 260), array('1' => 80, '2' => 180, '3' => 300), array('1' => PRODUCT_ICON.'/40x80/', '2' => PRODUCT_ICON.'/160x180/', '3' => PRODUCT_ICON.'/260x300/'), 3, '');
+                    $id = $image->addImage($arrayParam);
+                    $imagePreview[] = array(
+                        'id'    => $id,
+                        'name'  => $newName
+                    );
+                }
+                
+            }
+            $arrayParam['imagePreview']= $imagePreview;
+        }
+        return new JsonModel($arrayParam);
     }
 }
