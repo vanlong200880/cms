@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 18, 2015 at 06:43 PM
+-- Generation Time: Oct 25, 2015 at 06:21 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   PRIMARY KEY (`id`,`taxonomy_id`),
   UNIQUE KEY `alias_UNIQUE` (`slug`),
   KEY `fk_category_taxonomy1_idx` (`taxonomy_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=55 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=56 ;
 
 --
 -- Dumping data for table `category`
@@ -100,7 +100,8 @@ INSERT INTO `category` (`id`, `parent`, `name`, `slug`, `excerpt`, `created`, `c
 (51, 0, 'demo_123', 'demo_134', '', 1445164640, 1445164640, '', '', '', 0, 1, 1),
 (52, 0, 'h test', 'htest', '', 1445165212, 1445165212, '', '', '', 0, 1, 1),
 (53, 0, 'demo group', '123-group', '', 1445165399, 1445165399, '', '', '', 0, 1, 1),
-(54, 0, 't11', '5111t', '', 1445177412, 1445177412, '', '', '', 0, 1, 1);
+(54, 0, 't11', '5111t', '', 1445177412, 1445177412, '', '', '', 0, 1, 1),
+(55, 0, 'edit', 'edit', '', 1445609017, 1445609017, '', '', '', 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -122,6 +123,24 @@ CREATE TABLE IF NOT EXISTS `comment` (
   PRIMARY KEY (`id`,`product_id`,`user_id`),
   KEY `fk_comment_product1_idx` (`product_id`),
   KEY `fk_comment_user1_idx` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact`
+--
+
+CREATE TABLE IF NOT EXISTS `contact` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `email` varchar(60) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `content` varchar(255) NOT NULL,
+  `created` int(10) DEFAULT NULL,
+  `status` int(1) DEFAULT '1',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -136,7 +155,14 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `address` varchar(255) NOT NULL,
   `phone` varchar(12) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`id`, `name`, `address`, `phone`) VALUES
+(1, 'abc', 'abc', '123');
 
 -- --------------------------------------------------------
 
@@ -155,15 +181,123 @@ CREATE TABLE IF NOT EXISTS `image` (
   `status` int(1) NOT NULL,
   `highlight` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=117 ;
 
 --
 -- Dumping data for table `image`
 --
 
 INSERT INTO `image` (`id`, `product_id`, `type`, `name`, `mine`, `size`, `timestamp`, `status`, `highlight`) VALUES
-(1, 2, 'product', 'demo', NULL, NULL, NULL, 1, NULL),
-(2, 2, 'product', 'demo 2', NULL, NULL, NULL, 1, NULL);
+(2, 2, 'product', 'demo 2', NULL, NULL, NULL, 1, NULL),
+(3, 1, 'product', '37106625-1445525515.png', NULL, NULL, 1445525515, 1, 1),
+(4, 1, 'product', '37106625-1445525719.png', NULL, NULL, 1445525719, 1, 1),
+(5, 1, 'product', '37106625-1445525732.png', NULL, NULL, 1445525732, 1, 1),
+(6, 1, 'product', '37106625-1445525833.png', NULL, NULL, 1445525833, 1, 1),
+(7, 1, 'product', '1439613478-1439611064-susu-3-1445525906.jpg', NULL, NULL, 1445525906, 1, 1),
+(8, 1, 'product', '1439613478-1439611064-susu-3-1445526067.jpg', NULL, NULL, 1445526067, 1, 1),
+(9, 1, 'product', '1439613478-1439611064-susu-3-1445526082.jpg', NULL, NULL, 1445526082, 1, 1),
+(10, 1, 'product', 'GX5051-1445526366.jpg', NULL, NULL, 1445526366, 1, 1),
+(11, 1, 'product', 'noithathoaphat-345-1445526430.jpg', NULL, NULL, 1445526430, 1, 1),
+(12, 11, 'product', 'noithathoaphat-345-1445526699.jpg', NULL, NULL, 1445526699, 1, 1),
+(13, 1, 'product', '37106625-1445696802.png', 'image/png', '128681', 1445696802, 1, 1),
+(14, 1, 'product', 'noithathoaphat-345-1445526947.jpg', NULL, NULL, 1445526947, 1, 1),
+(15, 1, 'product', '1439613478-1439611064-susu-3-1445527018.jpg', NULL, NULL, 1445527018, 1, 1),
+(16, 1, 'product', '1439613478-1439611064-susu-3-1445527053.jpg', NULL, NULL, 1445527053, 1, 1),
+(17, 1, 'product', '1439613478-1439611064-susu-3-1445527084.jpg', NULL, NULL, 1445527084, 1, 1),
+(18, 1, 'product', '1439613478-1439611064-susu-3-1445527114.jpg', NULL, NULL, 1445527114, 1, 1),
+(19, 1, 'product', '1439613478-1439611064-susu-3-1445527327.jpg', NULL, NULL, 1445527327, 1, 1),
+(20, 1, 'product', '1439613478-1439611064-susu-3-1445527388.jpg', NULL, NULL, 1445527388, 1, 1),
+(21, 1, 'product', '4_660x0-1445527388.jpg', NULL, NULL, 1445527388, 1, 0),
+(22, 1, 'product', '37106625-1445527388.png', NULL, NULL, 1445527388, 1, 0),
+(23, 1, 'product', '1439613478-1439611064-susu-3-1445527413.jpg', NULL, NULL, 1445527413, 1, 1),
+(24, 1, 'product', '4_660x0-1445527413.jpg', NULL, NULL, 1445527413, 1, 0),
+(25, 1, 'product', '37106625-1445527413.png', NULL, NULL, 1445527413, 1, 0),
+(26, 12, 'product', '1439613478-1439611064-susu-3-1445527943.jpg', NULL, NULL, 1445527943, 1, 1),
+(27, 12, 'product', '4_660x0-1445527944.jpg', NULL, NULL, 1445527944, 1, 0),
+(28, 12, 'product', '37106625-1445527944.png', NULL, NULL, 1445527944, 1, 0),
+(29, 13, 'product', '37106625-1445696976.png', 'image/png', '128681', 1445696976, 1, 1),
+(32, 14, 'product', '1439613478-1439611064-susu-3-1445611157.jpg', NULL, NULL, 1445611157, 1, 1),
+(36, 1, 'product', '4_660x0-1445677153.jpg', NULL, NULL, 1445677153, 1, 0),
+(37, 1, 'product', '4_660x0-1445677778.jpg', 'image/jpeg', '301851', 1445677778, 1, 0),
+(38, 1, 'product', '3_660x0-1445677850.jpg', 'image/jpeg', '323207', 1445677850, 1, 0),
+(39, 1, 'product', '4_660x0-1445677850.jpg', 'image/jpeg', '301851', 1445677850, 1, 0),
+(40, 1, 'product', '4_660x0-1445678238.jpg', 'image/jpeg', '301851', 1445678238, 1, 0),
+(41, 1, 'product', '37106625-1445678547.png', 'image/png', '128681', 1445678547, 1, 0),
+(42, 1, 'product', '37106625-1445678608.png', 'image/png', '128681', 1445678608, 1, 0),
+(43, 1, 'product', '4_660x0-1445678746.jpg', 'image/jpeg', '301851', 1445678746, 1, 0),
+(44, 1, 'product', '37106625-1445678771.png', 'image/png', '128681', 1445678771, 1, 0),
+(45, 1, 'product', '4_660x0-1445678868.jpg', 'image/jpeg', '301851', 1445678868, 1, 0),
+(46, 1, 'product', '3_660x0-1445678964.jpg', 'image/jpeg', '323207', 1445678964, 1, 0),
+(47, 1, 'product', '4_660x0-1445678964.jpg', 'image/jpeg', '301851', 1445678964, 1, 0),
+(48, 1, 'product', '4_660x0-1445679020.jpg', 'image/jpeg', '301851', 1445679020, 1, 0),
+(49, 1, 'product', 'Austrian_identity_card_-_front_and_back-1445679068.png', 'image/png', '779962', 1445679068, 1, 0),
+(50, 1, 'product', '4_660x0-1445679084.jpg', 'image/jpeg', '301851', 1445679084, 1, 0),
+(51, 1, 'product', '1_660x0-1445679128.jpg', 'image/jpeg', '252192', 1445679128, 1, 0),
+(52, 1, 'product', '1_660x0-1445679172.jpg', 'image/jpeg', '252192', 1445679172, 1, 0),
+(53, 1, 'product', '4_660x0-1445679221.jpg', 'image/jpeg', '301851', 1445679221, 1, 0),
+(54, 1, 'product', '4_660x0-1445679272.jpg', 'image/jpeg', '301851', 1445679272, 1, 0),
+(55, 1, 'product', '4_660x0-1445679328.jpg', 'image/jpeg', '301851', 1445679328, 1, 0),
+(56, 1, 'product', '3_660x0-1445679352.jpg', 'image/jpeg', '323207', 1445679352, 1, 0),
+(57, 1, 'product', '4_660x0-1445679352.jpg', 'image/jpeg', '301851', 1445679352, 1, 0),
+(58, 1, 'product', '37106625-1445679352.png', 'image/png', '128681', 1445679352, 1, 0),
+(59, 1, 'product', 'MC20130-U11-1445679400.jpg', 'image/jpeg', '71238', 1445679400, 1, 0),
+(60, 1, 'product', 'MC20331-MF1-1445679400.jpg', 'image/jpeg', '638759', 1445679400, 1, 0),
+(61, 1, 'product', 'MC20401-F51-1445679401.jpg', 'image/jpeg', '67782', 1445679401, 1, 0),
+(62, 1, 'product', '4_660x0-1445679529.jpg', 'image/jpeg', '301851', 1445679529, 1, 0),
+(63, 1, 'product', '37106625-1445679529.png', 'image/png', '128681', 1445679529, 1, 0),
+(64, 1, 'product', '3_660x0-1445679553.jpg', 'image/jpeg', '323207', 1445679553, 1, 0),
+(65, 1, 'product', '4_660x0-1445679553.jpg', 'image/jpeg', '301851', 1445679553, 1, 0),
+(66, 1, 'product', '37106625-1445679553.png', 'image/png', '128681', 1445679553, 1, 0),
+(67, 1, 'product', '3_660x0-1445679840.jpg', 'image/jpeg', '323207', 1445679840, 1, 0),
+(68, 1, 'product', '4_660x0-1445679841.jpg', 'image/jpeg', '301851', 1445679841, 1, 0),
+(69, 1, 'product', '4_660x0-1445679944.jpg', 'image/jpeg', '301851', 1445679944, 1, 0),
+(70, 1, 'product', '4_660x0-1445680643.jpg', 'image/jpeg', '301851', 1445680643, 1, 0),
+(71, 1, 'product', '4_660x0-1445680759.jpg', 'image/jpeg', '301851', 1445680759, 1, 0),
+(72, 1, 'product', '4_660x0-1445680781.jpg', 'image/jpeg', '301851', 1445680781, 1, 0),
+(73, 1, 'product', '4_660x0-1445680810.jpg', 'image/jpeg', '301851', 1445680810, 1, 0),
+(74, 1, 'product', 'GX5051-1445680834.jpg', 'image/jpeg', '36622', 1445680834, 1, 0),
+(75, 1, 'product', '4_660x0-1445681088.jpg', 'image/jpeg', '301851', 1445681088, 1, 0),
+(76, 1, 'product', '4_660x0-1445681159.jpg', 'image/jpeg', '301851', 1445681159, 1, 0),
+(77, 1, 'product', '4_660x0-1445681189.jpg', 'image/jpeg', '301851', 1445681189, 1, 0),
+(78, 1, 'product', '4_660x0-1445681242.jpg', 'image/jpeg', '301851', 1445681242, 1, 0),
+(79, 1, 'product', '4_660x0-1445681275.jpg', 'image/jpeg', '301851', 1445681275, 1, 0),
+(80, 1, 'product', '4_660x0-1445681299.jpg', 'image/jpeg', '301851', 1445681299, 1, 0),
+(81, 1, 'product', '4_660x0-1445681720.jpg', 'image/jpeg', '301851', 1445681720, 1, 0),
+(82, 1, 'product', '4_660x0-1445681784.jpg', 'image/jpeg', '301851', 1445681784, 1, 0),
+(83, 1, 'product', '4_660x0-1445681989.jpg', 'image/jpeg', '301851', 1445681989, 1, 0),
+(84, 1, 'product', '4_660x0-1445682043.jpg', 'image/jpeg', '301851', 1445682043, 1, 0),
+(85, 1, 'product', '3_660x0-1445682058.jpg', 'image/jpeg', '323207', 1445682058, 1, 0),
+(86, 1, 'product', '37106625-1445682065.png', 'image/png', '128681', 1445682065, 1, 0),
+(87, 1, 'product', '1_660x0-1445682071.jpg', 'image/jpeg', '252192', 1445682071, 1, 0),
+(88, 1, 'product', '4_660x0-1445682177.jpg', 'image/jpeg', '301851', 1445682177, 1, 0),
+(89, 1, 'product', 'MC20130-U11-1445682196.jpg', 'image/jpeg', '71238', 1445682196, 1, 0),
+(90, 1, 'product', 'MC20331-MF1-1445682197.jpg', 'image/jpeg', '638759', 1445682197, 1, 0),
+(91, 1, 'product', 'MC20401-F51-1445682197.jpg', 'image/jpeg', '67782', 1445682197, 1, 0),
+(92, 1, 'product', '3_660x0-1445682266.jpg', 'image/jpeg', '323207', 1445682266, 1, 0),
+(93, 1, 'product', '4_660x0-1445682266.jpg', 'image/jpeg', '301851', 1445682266, 1, 0),
+(94, 1, 'product', '37106625-1445682266.png', 'image/png', '128681', 1445682266, 1, 0),
+(95, 1, 'product', '1439613478-1439611064-susu-3-1445682267.jpg', 'image/jpeg', '249929', 1445682267, 1, 0),
+(96, 1, 'product', 'OC10212-3C1-1445682343.jpg', 'image/jpeg', '99589', 1445682343, 1, 0),
+(97, 1, 'product', '4_660x0-1445682381.jpg', 'image/jpeg', '301851', 1445682381, 1, 0),
+(98, 1, 'product', '4_660x0-1445682534.jpg', 'image/jpeg', '301851', 1445682534, 1, 0),
+(99, 1, 'product', '1_660x0-1445682627.jpg', 'image/jpeg', '252192', 1445682627, 1, 0),
+(100, 1, 'product', '1_660x0-1445682722.jpg', 'image/jpeg', '252192', 1445682722, 1, 0),
+(101, 1, 'product', '1_660x0-1445682845.jpg', 'image/jpeg', '252192', 1445682845, 1, 0),
+(102, 1, 'product', '1_660x0-1445682912.jpg', 'image/jpeg', '252192', 1445682912, 1, 0),
+(103, 1, 'product', '1_660x0-1445682922.jpg', 'image/jpeg', '252192', 1445682922, 1, 0),
+(104, 1, 'product', '1_660x0-1445682940.jpg', 'image/jpeg', '252192', 1445682940, 1, 0),
+(105, 1, 'product', '1_660x0-1445682979.jpg', 'image/jpeg', '252192', 1445682979, 1, 0),
+(106, 1, 'product', '2_660x0-1445682979.jpg', 'image/jpeg', '287243', 1445682979, 1, 0),
+(107, 1, 'product', '3_660x0-1445682979.jpg', 'image/jpeg', '323207', 1445682979, 1, 0),
+(108, 1, 'product', '4_660x0-1445682980.jpg', 'image/jpeg', '301851', 1445682980, 1, 0),
+(109, 1, 'product', '37106625-1445682980.png', 'image/png', '128681', 1445682980, 1, 0),
+(110, 1, 'product', '3_660x0-1445683227.jpg', 'image/jpeg', '323207', 1445683227, 1, 0),
+(111, 1, 'product', '4_660x0-1445683227.jpg', 'image/jpeg', '301851', 1445683227, 1, 0),
+(112, 1, 'product', '37106625-1445683227.png', 'image/png', '128681', 1445683227, 1, 0),
+(113, 1, 'product', 'GX5051-1445683419.jpg', 'image/jpeg', '36622', 1445683419, 1, 0),
+(114, 15, 'product', '1_660x0-1445762609.jpg', 'image/jpeg', '252192', 1445762609, 1, 1),
+(115, 15, 'product', '37106625-1445762609.png', 'image/png', '128681', 1445762609, 1, 0),
+(116, 15, 'product', '1439613478-1439611064-susu-3-1445762609.jpg', 'image/jpeg', '249929', 1445762609, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -210,7 +344,14 @@ CREATE TABLE IF NOT EXISTS `order` (
   PRIMARY KEY (`id`,`customer_id`,`payment_method_id`),
   KEY `fk_order_customer1_idx` (`customer_id`),
   KEY `fk_order_payment_method1_idx` (`payment_method_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `order`
+--
+
+INSERT INTO `order` (`id`, `payment`, `total`, `status`, `customer_id`, `payment_method_id`) VALUES
+(2, 1, 1, 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -229,6 +370,34 @@ CREATE TABLE IF NOT EXISTS `order_detail` (
   PRIMARY KEY (`id`,`order_id`,`product_id`),
   KEY `fk_order_detail_order1_idx` (`order_id`),
   KEY `fk_order_detail_product1_idx` (`product_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `order_detail`
+--
+
+INSERT INTO `order_detail` (`id`, `quantity`, `color`, `size`, `price`, `order_id`, `product_id`) VALUES
+(1, 1, '1', '1', 1, 2, 14);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `page`
+--
+
+CREATE TABLE IF NOT EXISTS `page` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `slug` varchar(45) NOT NULL,
+  `excerpt` varchar(255) DEFAULT NULL,
+  `content` longtext,
+  `created` int(10) DEFAULT NULL,
+  `changed` int(10) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `keyword` varchar(255) DEFAULT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -243,7 +412,14 @@ CREATE TABLE IF NOT EXISTS `payment_method` (
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `payment_method`
+--
+
+INSERT INTO `payment_method` (`id`, `name`, `status`) VALUES
+(1, 'abc', 1);
 
 -- --------------------------------------------------------
 
@@ -284,30 +460,43 @@ CREATE TABLE IF NOT EXISTS `product` (
   `hot` int(1) DEFAULT '0',
   `sticky` int(1) DEFAULT '0',
   `promote` int(1) DEFAULT '0',
+  `highlight` int(11) DEFAULT '0',
   `color` varchar(255) DEFAULT NULL,
   `size` varchar(255) DEFAULT NULL,
   `sort` int(10) DEFAULT '0',
   `cost` varchar(60) NOT NULL,
   `price` varchar(60) NOT NULL DEFAULT '0',
+  `tax` int(11) DEFAULT '0',
   `view` int(11) DEFAULT NULL,
   `quantity` int(11) NOT NULL DEFAULT '1',
   `user_id` int(11) NOT NULL,
+  `startday` int(10) NOT NULL DEFAULT '0',
+  `endday` int(10) DEFAULT '0',
+  `title` varchar(255) NOT NULL,
+  `keyword` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
   PRIMARY KEY (`id`,`trademark_id`,`supplier_id`,`shop_id`,`category_id`,`user_id`),
   KEY `fk_product_trademark1_idx` (`trademark_id`),
   KEY `fk_product_supplier1_idx` (`supplier_id`),
   KEY `fk_product_shop1_idx` (`shop_id`),
   KEY `fk_product_category1_idx` (`category_id`),
   KEY `fk_product_user1_idx` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`id`, `code`, `trademark_id`, `supplier_id`, `shop_id`, `category_id`, `name`, `slug`, `excerpt`, `content`, `status`, `created`, `modified`, `weight`, `sale`, `hot`, `sticky`, `promote`, `color`, `size`, `sort`, `cost`, `price`, `view`, `quantity`, `user_id`) VALUES
-(2, 'abc', 1, 1, 1, 1, 'asd asd', 'ad', NULL, NULL, 0, 0, NULL, NULL, 0, 0, 0, 0, NULL, NULL, 100, '175847', '500000', NULL, 1, 1),
-(3, '3', 1, 1, 1, 1, '324234', '234', NULL, NULL, 0, 0, NULL, NULL, 0, 0, 0, 0, NULL, NULL, 20, '1457824', '15000000', NULL, 1, 1),
-(4, '', 1, 1, 1, 2, '324234wer', '234werw', NULL, NULL, 0, 0, NULL, NULL, 0, 0, 0, 0, NULL, NULL, 10, '1457824', '15000000', NULL, 1, 1);
+INSERT INTO `product` (`id`, `code`, `trademark_id`, `supplier_id`, `shop_id`, `category_id`, `name`, `slug`, `excerpt`, `content`, `status`, `created`, `modified`, `weight`, `sale`, `hot`, `sticky`, `promote`, `highlight`, `color`, `size`, `sort`, `cost`, `price`, `tax`, `view`, `quantity`, `user_id`, `startday`, `endday`, `title`, `keyword`, `description`) VALUES
+(2, 'abc', 1, 1, 1, 1, 'asd asd', 'ad', NULL, NULL, 1, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, NULL, 100, '175847', '500000', 0, NULL, 1, 1, 0, 0, '', '', ''),
+(3, '3', 1, 1, 1, 1, '324234', '234', NULL, NULL, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, NULL, 20, '1457824', '15000000', 0, NULL, 1, 1, 0, 0, '', '', ''),
+(4, '', 1, 1, 1, 2, '324234wer', '234werw', NULL, NULL, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, NULL, 10, '1457824', '15000000', 0, NULL, 1, 1, 0, 0, '', '', ''),
+(5, '', 1, 1, 2, 11, 'abcd', 'abc', '', '', 1, 1445358722, 1445358722, 0, 0, 1, 1, 1, 0, '', '', 0, '500', '0', 0, 0, 1, 1, 0, 0, '', '', ''),
+(6, '', 2, 2, 4, 2, 'ten san pham', 'ten-san-pham', '5050', '5050', 1, 1445358992, 1445358992, 50, 50, 1, 1, 1, 0, '50', '50', 50, '5050', '50', 0, 0, 500, 1, 0, 0, '', '', ''),
+(7, '', 1, 1, 1, 1, '234', '234123123123123', '', '', 1, 1445446722, 1445446722, 0, 0, 1, 1, 1, 0, '', '', 0, '2341', '123', 0, 0, 1, 1, 0, 0, '', '', ''),
+(8, '', 1, 1, 1, 1, '234', '2341231231231', '', '', 1, 1445446787, 1445446787, 0, 0, 1, 1, 1, 0, '', '', 0, '2341', '123', 0, 0, 1, 1, 0, 0, '', '', ''),
+(9, '', 1, 1, 1, 1, '234', '234123123wwe1231', '', '', 0, 1445446888, NULL, 0, 0, 1, 1, 1, 1, '', '', 0, '1', '1', 0, 0, 1, 1, 0, 0, '', '', ''),
+(14, '', 1, 3, 2, 1, 'qwqwq', 'demo-image1', '', '', 0, 1445611156, NULL, 0, 21, 1, 1, 1, 1, '1', '1', 12, '1232131', '1231', 0, 0, 1, 1, 0, 0, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -366,7 +555,7 @@ CREATE TABLE IF NOT EXISTS `shop` (
   `fax` varchar(12) DEFAULT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `shop`
@@ -376,7 +565,26 @@ INSERT INTO `shop` (`id`, `name`, `address`, `phone`, `fax`, `status`) VALUES
 (1, 'shop 1', '', NULL, NULL, 1),
 (2, 'asdasda', '', '', '', 1),
 (3, 'demo', '', '', '', 1),
-(4, 'test', '', '', '', 1);
+(4, 'test', '', '', '', 1),
+(5, 'shop edit', '', '', '', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `slider`
+--
+
+CREATE TABLE IF NOT EXISTS `slider` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  `link` varchar(45) DEFAULT NULL,
+  `image` varchar(45) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `startday` int(10) NOT NULL,
+  `endday` int(10) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -397,7 +605,7 @@ CREATE TABLE IF NOT EXISTS `supplier` (
   `status` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
 
 --
 -- Dumping data for table `supplier`
@@ -417,7 +625,8 @@ INSERT INTO `supplier` (`id`, `name`, `phone`, `address`, `email`, `companyname`
 (23, 'werwerwer', '', '', '', '', '', '', '', 1),
 (24, 'ewsdfsdf', '', '', '', '', '', '', '', 1),
 (25, 'abcs', '', '', '', '', '', '', '', 1),
-(26, 'demo demo', '', '', '', '', '', '', '', 1);
+(26, 'demo demo', '', '', '', '', '', '', '', 1),
+(27, 'supplier edit', '', '', '', '', '', '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -460,7 +669,7 @@ CREATE TABLE IF NOT EXISTS `trademark` (
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `trademark`
@@ -468,7 +677,8 @@ CREATE TABLE IF NOT EXISTS `trademark` (
 
 INSERT INTO `trademark` (`id`, `name`, `slug`, `title`, `keyword`, `description`, `status`) VALUES
 (1, 'trademark', '', NULL, NULL, NULL, 1),
-(2, 'abc', 'abc', '', '', '', 1);
+(2, 'abc', 'abc', '', '', '', 1),
+(3, 'trademark edit', 'trademark-edit', '', '', '', 1);
 
 -- --------------------------------------------------------
 
