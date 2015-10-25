@@ -939,3 +939,6 @@ a.block.fa{
     -webkit-border-radius: 0;
     background: #f5f5f5;
 }
+.edit-row select.selectpicker{
+    display: block !important;
+}

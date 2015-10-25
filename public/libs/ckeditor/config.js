@@ -5,12 +5,50 @@
 
 CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
-	 config.language = 'vi';
-	 config.uiColor = '#9AB8F3';
+	config.language = 'en';
+	config.uiColor = '#9AB8F3';
     config.filebrowserBrowseUrl ='http://localhost:8080/libs/ckeditor/ckfinder/ckfinder.html';
 	config.filebrowserImageBrowseUrl = 'http://localhost:8080/cms/public/libs/ckeditor/ckfinder/ckfinder.html?type=Images';
 	config.filebrowserFlashBrowseUrl = 'http://localhost:8080/cms/public/libs/ckeditor/ckfinder/ckfinder.html?type=Flash';
 	config.filebrowserUploadUrl = 'http://localhost:8080/cms/public/libs/ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files';
 	config.filebrowserImageUploadUrl = 'http://localhost:8080/cms/public/libs/ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images';
 	config.filebrowserFlashUploadUrl = 'http://localhost:8080/cms/public/libs/ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash';
+    
+    config.toolbar = 'Admin';
+    
+
+//    config.toolbar = [
+//           ['Bold','Italic','Strike'],['SelectAll','RemoveFormat'],
+//           ['Link','Unlink','Anchor'],['NumberedList','BulletedList'],['Image'], 
+//           ['Cut','Copy','Paste','PasteText','PasteFromWord','-','SpellChecker'],
+//           ['Maximize','ShowBlocks'],
+//           '/',
+//           ['Source'],['Format'],['TextColor','BGColor']['Smiley','SpecialChar'],['Undo','Redo','-','Find','Replace']
+//    ];
 };
+
+CKEDITOR.config.toolbar_Admin = [
+        ['Source'],
+        ['Source','Maximize','ShowBlocks'],
+        ['Bold','Italic','Strike'],
+        ['SelectAll','RemoveFormat'],
+        ['Link','Unlink','Anchor'],
+        ['NumberedList','BulletedList'],
+        ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar'], 
+        ['Cut','Copy','Paste','PasteText','PasteFromWord','-','SpellChecker'],
+        ['Styles','Format','Font','FontSize'],
+        ['TextColor','BGColor'],
+        ['Smiley','SpecialChar'],
+        ['Undo','Redo','-','Find','Replace'],
+        ['Link','Unlink','Anchor'],['NumberedList','BulletedList'],
+    ] ;
+    
+    
+CKEDITOR.replace( 'ckeditor_excerpt', {
+    toolbar: [
+            { name: 'document', items : [ 'Source'] },
+            [ '-', 'Undo', 'Redo' ],			// Defines toolbar group without name.																				// Line break - next group will be placed in new line.
+            { name: 'basicstyles', items: [ 'Bold','Italic','Underline','Strike','-','RemoveFormat' ] }
+        ],
+        uiColor : '#9AB8F3'
+});

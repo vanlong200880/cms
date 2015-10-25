@@ -77,6 +77,16 @@ class Image extends AbstractTableGateway
         }
     }
     
+    // delete image by product id and type
+    public function deleteImageByProductId($arrayParam = null){
+       if($this->delete(array('product_id = ' . $arrayParam['id'], 'type' => $arrayParam['type']))){
+           return true;
+       } else{
+           return false;
+       }
+    }
+
+
     // get image by product id and type = product
 //    public function getImageByProductId($arrayParam = null){
 //        $select = new Select();

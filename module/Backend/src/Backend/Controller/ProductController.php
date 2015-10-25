@@ -11,6 +11,7 @@ use Backend\Model\Trademark;
 use Backend\Form\ValidateCategory;
 use Backend\Form\ValidateSupplier;
 use Backend\Form\ValidateAjaxUploadImageProduct;
+use Backend\Form\ValidateProductQuickEdit;
 use Backend\Form\ValidateStore;
 use Backend\Form\ValidateTrademark;
 use Backend\Form\ValidateProduct;
@@ -18,6 +19,8 @@ use Backend\Model\Image;
 use Sky\Uploads\Upload;
 use Sky\Uploads\Thumbs;
 use Zend\Session\Container;
+use Backend\Model\OrderDetail;
+use Backend\Model\Comment;
 
 class ProductController extends AbstractActionController
 {
@@ -583,6 +586,218 @@ class ProductController extends AbstractActionController
                 
             }
             $arrayParam['imagePreview']= $imagePreview;
+        }
+        return new JsonModel($arrayParam);
+    }
+    
+    public function deleteproductAction(){
+        $arrayParam = array();
+        $request = $this->getRequest();
+        if($request->isPost() == true){
+            $arrayParam['message'] = '';
+            $orderDetail = new OrderDetail();
+            $arrayParam['product_id'] = $this->params()->fromPost('id');
+            $arrayParam['id'] = $this->params()->fromPost('id');
+            $dataOrderDetail = $orderDetail->getOrderDetailByProductId($arrayParam);
+            if($dataOrderDetail){
+                $arrayParam['message'] = 'Bạn không được quyền xóa sản phẩm này.';
+            }else{
+                // delete comment
+                $comment = new Comment();
+                $arrayParam['comment_type'] = 'product';
+                $comment->deleteCommentByProductId($arrayParam);
+                // delete image
+                $image = new Image();
+                $arrayParam['type'] = 'product';
+                $dataImage = $image->getImageByProductId($arrayParam);
+                if($dataImage){
+                    $thumb = new Thumbs();
+                    foreach ($dataImage as $value){
+                        $thumb = new Thumbs();
+                        $thumb->removeImage(PRODUCT_ICON ."/", array('1' => '40x80/', '2' => '160x180/', '3' => '260x300/', '4' => ''), $value['name'], 4);
+                    }
+                }
+                $product = new Product();
+                $product->deleteProductById($arrayParam['id']);
+                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa sản phẩm thành công.</div>');
+            }
+        }
+        return new JsonModel($arrayParam); 
+    }
+    
+    public function quickeditAction(){
+        $arrayParam = array();
+        $request = $this->getRequest();
+        $html = '';
+        if($request->isPost() == true){
+            $arrayParam['id'] = $this->params()->fromPost('id');
+            // get product
+            $product = new Product();
+            $dataProduct = $product->getProductById($arrayParam);
+            $category = new Category();
+            $arrayParam['slug'] = 'product';
+            $dataCategory = $category->getCategoryBySlug($arrayParam);
+            $htmlCategory = $this->getDataCategory($dataProduct['category_id'], $dataCategory);
+            if($dataProduct){
+                $dataProduct['hot']         = ($dataProduct['hot'] == 1)? 'checked': '';
+                $dataProduct['sticky']      = ($dataProduct['sticky'] == 1)? 'checked': '';
+                $dataProduct['highlight']   = ($dataProduct['highlight'] == 1)? 'checked': '';
+                $dataProduct['promote']     = ($dataProduct['promote'] == 1)? 'checked': '';
+                $html .= '<tr id="edit-'.$dataProduct['id'].'" class="edit-row">
+                            <td colspan="9" class="">
+                                <div class="column-qiuck-edit">
+                                    <div class="col-lg-12"><h2>Sửa nhanh</h2></div>
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <input type="hidden" value="'.$dataProduct['id'].'" id="id">
+                                                    <label for="name">Tên sản phẩm</label><span class="validation">*</span>
+                                                    <input type="text" data-toggle="tooltip" value="'.$dataProduct['name'].'" data-placement="top" title="Nhập tên sản phẩm" class="form-control" id="name" name="name">
+                                                    <p class="error" id="error_name"></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="slug">Slug</label><span class="validation">*</span>
+                                                    <input type="text" data-toggle="tooltip" value="'.$dataProduct['slug'].'" data-placement="top" title="Nhập alias cho sản phẩm" class="form-control" id="slug" name="slug">
+                                                    <p class="error" id="error_slug"></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="color">Màu sắc</label>
+                                                    <input type="text" id="color" class="form-control" value="'.$dataProduct['color'].'" data-toggle="tooltip" data-placement="top" title="Nhập màu sắc cho sản phẩm ( cách nhau bởi dấu "," )" name="color">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="size">Size</label>
+                                                    <input type="text" id="size" class="form-control" value="'.$dataProduct['size'].'" id="size" data-toggle="tooltip" data-placement="top" title="Nhập Size cho sản phẩm ( cách nhau bởi dấu "," )" name="size">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="cost">Giá nhập</label><span class="validation">*</span>
+                                                    <input type="number" min="0" class="form-control" value="'.$dataProduct['cost'].'" name="cost" data-toggle="tooltip" data-placement="top" title="Giá nhập hàng (giá gốc)" id="cost">
+                                                    <p class="error" id="error_cost"></p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="price">Giá bán</label><span class="validation">*</span>
+                                                    <input type="number" id="price" min="0" class="form-control" value="'.$dataProduct['price'].'" name="price" id="price" data-toggle="tooltip" data-placement="top" title="Nhập giá bán">
+                                                    <p class="error" id="error_price"></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="weight">Giảm giá (%)</label>
+                                                    <input type="number" id="sale" name="sale" min="0" max="100" value="'.$dataProduct['sale'].'" class="form-control" id="sale" data-toggle="tooltip" data-placement="top" title="Giảm giá ( min: 0 - max: 100 )">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="tax">Thuế</label>
+                                                    <input type="number" min="0" max="30" value="'.$dataProduct['tax'].'" name="tax" class="form-control" data-toggle="tooltip" data-placement="top" title="Thuế (VAT)" id="tax">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="hidden" name="highlight" value="0">
+                                                            <input type="checkbox" name="highlight" id="sticky" value="1" '.$dataProduct['highlight'].'>Hiện ở trang chủ
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="hidden" name="hot" value="0">
+                                                            <input type="checkbox" name="hot" id="promote" value="1" '.$dataProduct['hot'].'>Sản phẩm mới
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="hidden" name="sticky" value="0">
+                                                            <input type="checkbox" name="sticky" id="promote" value="1" '.$dataProduct['sticky'].'>Sản phẩm bán chạy
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="hidden" name="promote" value="0">
+                                                            <input type="checkbox" name="promote" id="promote" value="1" '.$dataProduct['promote'].'>Sản phẩm quảng cáo
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="sort">Sắp xếp</label>
+                                                    <input type="number" min="0" value="'.$dataProduct['sort'].'" class="form-control" id="sort" name="sort" placeholder="0" data-toggle="tooltip" data-placement="top" title="Nhập thử tự hiển thị">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Danh mục cha</label>
+                                                    <select id="basic-quick-edit" class="selectpicker show-tick form-control" data-live-search="true">
+                                                        '.$htmlCategory.'
+                                                     </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <button type="button" class="btn btn-default btn-back">Trở lại</button>
+                                                    <button type="button" class="btn btn-default btn-custom pull-right" id="quick-edit">Cập nhật</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6"></div>
+                                </div>
+                            </td>
+                        </tr>';
+            }
+        }
+        $arrayParam['html'] = $html;
+        return new JsonModel($arrayParam);
+    }
+    
+    public function quickupdateAction(){
+        $arrayParam = array();
+        $request = $this->getRequest();
+        if($request->isPost() == true){
+            $arrayParam['post'] = $this->params()->fromPost();
+            $arrayParam['id'] = $this->params()->fromPost('id');
+            $validate = new ValidateProductQuickEdit($arrayParam, 'quick-edit');
+            if($validate->isError() === true){
+                $arrayParam['error'] = $validate->getMessagesError();
+            }else{
+                $product = new Product();
+                $product->quickEdit($arrayParam);
+            }
         }
         return new JsonModel($arrayParam);
     }

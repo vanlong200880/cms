@@ -180,6 +180,7 @@ class Product extends AbstractTableGateway
             'hot'           => $arrayParam['post']['hot'],
             'sticky'        => $arrayParam['post']['sticky'],
             'promote'       => $arrayParam['post']['promote'],
+            'highlight'     => $arrayParam['post']['highlight'],
             'color'         => $arrayParam['post']['color'],
             'size'          => $arrayParam['post']['size'],
             'sort'          => $arrayParam['post']['sort'],
@@ -190,7 +191,6 @@ class Product extends AbstractTableGateway
             'user_id'       => $arrayParam['post']['user_id'],
             'startday'      => $arrayParam['post']['startday'],
             'endday'        => $arrayParam['post']['endday'],
-            'user_id'       => $arrayParam['post']['user_id'],
             'title'         => $arrayParam['post']['title'],
             'keyword'       => $arrayParam['post']['keyword'],
             'description'   => $arrayParam['post']['description']
@@ -213,6 +213,31 @@ class Product extends AbstractTableGateway
             }else{
                 return false;
             }
+		}
+	}
+    
+    // quick edit
+    public function quickEdit($arrayParam = null)
+	{
+		$data = array(
+            'category_id'   => $arrayParam['post']['category_id'],
+            'name'          => $arrayParam['post']['name'],
+            'slug'          => $arrayParam['post']['slug'],
+            'status'        => $arrayParam['post']['status'],
+            'modified'      => $arrayParam['post']['modified'],
+            'sale'          => $arrayParam['post']['sale'],
+            'hot'           => $arrayParam['post']['hot'],
+            'sticky'        => $arrayParam['post']['sticky'],
+            'promote'       => $arrayParam['post']['promote'],
+            'highlight'     => $arrayParam['post']['highlight'],
+            'color'         => $arrayParam['post']['color'],
+            'size'          => $arrayParam['post']['size'],
+            'sort'          => $arrayParam['post']['sort'],
+            'cost'          => $arrayParam['post']['cost'],
+            'price'         => $arrayParam['post']['price']
+		);
+		if(isset($arrayParam['id'])){
+            return $this->update($data, 'id = '.$arrayParam['id']);
 		}
 	}
 }

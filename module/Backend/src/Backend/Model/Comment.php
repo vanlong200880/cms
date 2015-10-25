@@ -15,28 +15,28 @@ class Comment extends AbstractTableGateway
         $this->initialize();
     }
     // delete comment by product id
-    public function deleteCommentByProductId($id){
-        $this->delete('product_id = '.$id);
+    public function deleteCommentByProductId($arrayParam = null){
+        $this->delete(array('product_id' => $arrayParam['product_id'], 'type' => $arrayParam['comment_type']));
     }
     
     // get product by category id
-    public function getProductByCategoryId($arrayParam = null){
-        $select = new Select();
-        $select->from($this->table);
-        $select->where(array('category_id' => $arrayParam['id']));
-        $resultSet = $this->selectWith($select);
-        $resultSet = $resultSet->toArray();
-        return $resultSet;
-    }
+//    public function getProductByCategoryId($arrayParam = null){
+//        $select = new Select();
+//        $select->from($this->table);
+//        $select->where(array('category_id' => $arrayParam['id']));
+//        $resultSet = $this->selectWith($select);
+//        $resultSet = $resultSet->toArray();
+//        return $resultSet;
+//    }
     
     // get news by category id
-    public function getNewsByCategoryId($paramId = null){
-        $select = new Select();
-        $select->from($this->table);
-        $select->where(array('category_id' => $paramId['id']));
-        $resultSet = $this->selectWith($select);
-        $resultSet = $resultSet->toArray();
-        return $resultSet;
-    }
+//    public function getNewsByCategoryId($paramId = null){
+//        $select = new Select();
+//        $select->from($this->table);
+//        $select->where(array('category_id' => $paramId['id']));
+//        $resultSet = $this->selectWith($select);
+//        $resultSet = $resultSet->toArray();
+//        return $resultSet;
+//    }
 }
 

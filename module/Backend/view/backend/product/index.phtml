@@ -116,7 +116,7 @@
                                                     ?>
                                                     <a class="<?php echo $class ?>" href="<?php echo $link; ?>">Mã <i class="fa <?php echo $icon; ?>"></i></a>
                                                 </th>
-                                                <th id="name">
+                                                <th>
                                                     <?php
                                                         if(isset($arrayParam['sort']) && $arrayParam['sort'] == 'name' && isset($arrayParam['order']) && !empty($arrayParam['order'])):
                                                             $class = $arrayParam['order'];
@@ -148,7 +148,7 @@
                                                     ?>
                                                     <a class="<?php echo $class; ?>" href="<?php echo $link; ?>">Tên sản phẩm <i class="fa <?php echo $icon; ?>"></i></a>
                                                 </th>
-                                                <th id="name">
+                                                <th>
                                                     <?php
                                                         if(isset($arrayParam['sort']) && $arrayParam['sort'] == 'category_id' && isset($arrayParam['order']) && !empty($arrayParam['order'])):
                                                             $class = $arrayParam['order'];
@@ -186,6 +186,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+
+
+
+
+
+
                                         <?php foreach ($list as $value): ?>
                                         <tr id="product-<?php echo $value['id']; ?>">
                                             <td><input type="checkbox" value="<?php echo $value['id']; ?>" name="check-all[]" class="form-checkbox check-all"></td>
@@ -197,7 +203,7 @@
                                                         <a class="icon-edit" href="<?php echo $this->url('backend', array('controller' => 'product', 'action' => 'edit', 'id' => $value['id'])); ?>" title="Sửa"><i class="fa fa-pencil-square-o"></i></a>
                                                     </span>
                                                     <span class="quick-edit">
-                                                        <a data-name="Tên 1" data-slug="ten-1" data-weight="1" title="Sửa nhanh" href="javascript:void(0)">Sửa nhanh</a> | 
+                                                        <a data-id="<?php echo $value['id']; ?>"  title="Sửa nhanh" href="javascript:void(0)">Sửa nhanh</a> | 
                                                     </span>
                                                     <span class="delete">
                                                         <a class="icon-delete" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target=".modal-delete-taxonomy" title="Delete"><i class="fa fa-times"></i></a> 
@@ -243,79 +249,72 @@
 
 <script type="text/javascript">
     jQuery(document).ready(function($){
-//        $('.form-table .table>tbody>tr>td span.quick-edit a').on('click', function(){
-//             $(".form-table .table>tbody>tr").removeAttr('style');
-//             $(this).closest('tr').css('display', 'none');
-//             $('.edit-row').remove();
-//             var name = $(this).attr('data-name');
-//             var slug = $(this).attr('data-slug');
-//             var weight = $(this).attr('data-weight');
-//             var html = '';
-//             html +='<tr id="edit-1" class="edit-row">';
-//             html +='    <td colspan="8" class="">';
-//             html +='        <div class="column-qiuck-edit">';
-//             html +='            <div class="col-lg-12"><h2>Sửa nhanh</h2></div>';
-//             html +='            <div class="col-lg-12">';
-//             html +='                <div class="row">';
-//             html +='                    <div class="col-lg-6">';
-//             html +='                        <div class="form-group">';
-//             html +='                            <label for="name">Tên</label>';
-//             html +='                            <input type="text" class="form-control" value="'+name+'" id="name">';
-//             html +='                        </div>';
-//             html +='                        <div class="form-group">';
-//             html +='                            <label for="name">Slug</label>';
-//             html +='                            <input type="text" class="form-control" value="'+slug+'" id="slug">';
-//             html +='                        </div>';
-//             html +='                    </div>';
-//             html +='                </div>';
-//             html +='            </div>';
-//             html +='            <div class="col-lg-12">';
-//             html +='                <div class="row">';
-//             html +='                    <div class="col-lg-3">';
-//             html +='                        <div class="form-group">';
-//             html +='                            <label for="name">Vị trí</label>';
-//             html +='                            <input type="text" class="form-control" value="'+weight+'" id="weight">';
-//             html +='                        </div>';
-//             html +='                    </div>';
-//             html +='                    <div class="col-lg-3">';
-//             html +='                        <div class="form-group">';
-//             html +='                            <label>Danh mục cha</label>';
-//             html +='                            <select id="basic-1" class="selectpicker show-tick form-control" data-live-search="true">';
-//             html +='                                <option>cow</option>';
-//             html +='                                <option>bull</option>';
-//             html +='                                <option class="get-class" disabled>ox</option>';
-//             html +='                                <optgroup label="test" data-subtext="another test">';
-//             html +='                                    <option>ASD</option>';
-//             html +='                                    <option selected>Bla</option>';
-//             html +='                                    <option>Ble</option>';
-//             html +='                                </optgroup>';
-//             html +='                             </select>';
-//             html +='                        </div>';
-//             html +='                    </div>';
-//             html +='                </div>';
-//             html +='            </div>';
-//             html +='            <div class="col-lg-12">';
-//             html +='                <div class="row">';
-//             html +='                    <div class="col-lg-6">';
-//             html +='                        <div class="form-group">';
-//             html +='                            <button type="button" class="btn btn-default btn-back">Trở lại</button>';
-//             html +='                            <button type="button" class="btn btn-default btn-custom pull-right">Cập nhật</button>';
-//             html +='                        </div>';
-//             html +='                    </div>';
-//             html +='                </div>';
-//             html +='            </div>';
-//             html +='            <div class="col-lg-6"></div>';
-//             html +='        </div>';
-//             html +='    </td>';
-//             html +='</tr>';
-//             $(this).closest('tr').after(html);
+        $('.form-table .table>tbody>tr>td span.quick-edit a').on('click', function(){
+            $(".form-table .table>tbody>tr").removeAttr('style');
+            $(this).closest('tr').css('display', 'none');
+            $('.edit-row').remove();
+            var id = $(this).attr('data-id');
+            $.ajax({
+                type:"POST",
+                url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'quickedit')) ?>",
+                data: {'id': id},
+                dataType: 'JSON',
+                beforeSend: function(){
+                },
+                success: function(data){
+                     $("#product-"+id).addClass('tr-quick-edit').after(data.html);
+                }    
+            });
 //             $('.selectpicker').selectpicker('refresh');
-//        });
-//
-//        $('.form-table').on('click', '.table>tbody>tr .btn-back', function(){
-//             $(".form-table .table>tbody>tr").removeAttr('style');
-//             $('.edit-row').remove();
-//        });
+//             $('.selectpicker').selectpicker('render');
+//             $('.selectpicker').selectpicker('show');
+        });
+        // quick edit
+        $('.form-table').on('click', '.table>tbody>tr>td #quick-edit', function(){
+            var id = $("#id").val();
+            var name = $("#name").val();
+            var slug = $("#slug").val();
+            var color = $("#color").val();
+            var size = $("#size").val();
+            var cost = $("#cost").val();
+            var price = $("#price").val();
+            var sale = $("#sale").val();
+            var tax = $("#tax").val();
+            var sort = $("#sort").val();
+            var highlight = $("input[name=highlight]").is(':checked')? 1 : 0;
+            var hot = $("input[name=hot]").is(':checked')? 1 : 0;
+            var sticky = $("input[name=sticky]").is(':checked')? 1 : 0;
+            var promote = $("input[name=promote]").is(':checked')? 1 : 0;
+            var category_id = $("#basic-quick-edit").val();
+            
+            $.ajax({
+                type:"POST",
+                url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'quickupdate')) ?>",
+                data: {'id': id, 'name': name, 'slug': slug, 'color': color, 
+                       'size': size, 'cost': cost, 'price': price, 'sale': sale, 
+                       'sort': sort, 'highlight': highlight, 'hot': hot, 'sticky': sticky, 
+                       'promote': promote, 'category_id' : category_id},
+                dataType: 'JSON',
+                beforeSend: function(){
+                },
+                success: function(data){
+                    if(data.error){
+                        console.log((data.error).length);
+                        $("#error_name").empty().append(data.error.name);
+                        $("#error_slug").empty().append(data.error.slug);
+                        $("#error_cost").empty().append(data.error.cost);
+                        $("#error_price").empty().append(data.error.price);
+                    }
+                    console.log(data);
+                     //$("#product-"+id).addClass('tr-quick-edit').after(data.html);
+                }    
+            });
+        });
+
+        $('.form-table').on('click', '.table>tbody>tr .btn-back', function(){
+             $(".form-table .table>tbody>tr").removeAttr('style');
+             $('.edit-row').remove();
+        });
         // search
         var param = '<?php echo json_encode($paramSort); ?>';
         $("#btn-search").on('click', function(){
@@ -351,8 +350,30 @@
                     beforeSend: function(){
                     },
                     success: function(data){
-                        console.log(data);
                         location.reload();
+                    }    
+               });
+            }   
+        });
+        
+        // delete product 
+        $(".form-table .table>tbody>tr>td .row-action a.icon-delete").on('click', function(){
+            var id = $(this).attr('data-id');
+            var obj = { 'id' : id};
+            if (confirm('Bạn có muốn xóa không?')) {
+                $.ajax({
+                    type:"POST",
+                    url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'deleteproduct')) ?>",
+                    data: obj,
+                    dataType: 'JSON',
+                    beforeSend: function(){
+                    },
+                    success: function(data){
+                        if(data.message.length > 0){
+                            alert(data.message);
+                        }else{
+                            location.reload();
+                        }   
                     }    
                });
             }   
