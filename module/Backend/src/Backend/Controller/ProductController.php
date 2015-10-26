@@ -792,9 +792,11 @@ class ProductController extends AbstractActionController
             $arrayParam['post'] = $this->params()->fromPost();
             $arrayParam['id'] = $this->params()->fromPost('id');
             $validate = new ValidateProductQuickEdit($arrayParam, 'quick-edit');
+            $arrayParam['done'] = 'abc';
             if($validate->isError() === true){
                 $arrayParam['error'] = $validate->getMessagesError();
             }else{
+                $arrayParam['post']['modified'] = time();
                 $product = new Product();
                 $product->quickEdit($arrayParam);
             }

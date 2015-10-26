@@ -223,7 +223,7 @@ class Product extends AbstractTableGateway
             'category_id'   => $arrayParam['post']['category_id'],
             'name'          => $arrayParam['post']['name'],
             'slug'          => $arrayParam['post']['slug'],
-            'status'        => $arrayParam['post']['status'],
+//            'status'        => $arrayParam['post']['status'],
             'modified'      => $arrayParam['post']['modified'],
             'sale'          => $arrayParam['post']['sale'],
             'hot'           => $arrayParam['post']['hot'],

@@ -93,7 +93,9 @@ class ValidateProductQuickEdit{
 		$filter = new \Zend\Filter\StringTrim(array('charlist' => ' '));
 		$this->_arrData['post']['name'] = $filter->filter($this->_arrData['post']['name']);
 		$this->_arrData['post']['slug'] = $filter->filter($this->_arrData['post']['slug']);
-		$this->_arrData['post']['status'] = $filter->filter($this->_arrData['post']['status']);
+		$this->_arrData['post']['category_id'] = $filter->filter($this->_arrData['post']['category_id']);
+        $this->_arrData['post']['cost'] = $filter->filter($this->_arrData['post']['cost']);
+        $this->_arrData['post']['price'] = $filter->filter($this->_arrData['post']['price']);
 		return $this->_arrData;
 	}
 }

@@ -845,7 +845,7 @@ a.block.fa{
     text-align: center;
 }
 #messages{
-    position: absolute;
+    position: fixed;
     top: -70px;
     right: 15px;
     -moz-transition: top 0.35s ease;
@@ -941,4 +941,12 @@ a.block.fa{
 }
 .edit-row select.selectpicker{
     display: block !important;
+}
+.table>tbody>tr>td, 
+.table>tbody>tr>th, 
+.table>tfoot>tr>td, 
+.table>tfoot>tr>th, 
+.table>thead>tr>td, 
+.table>thead>tr>th{
+    padding: 5px 8px 0 8px;
 }

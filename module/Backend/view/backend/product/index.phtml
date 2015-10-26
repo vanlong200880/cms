@@ -203,20 +203,20 @@
                                                         <a class="icon-edit" href="<?php echo $this->url('backend', array('controller' => 'product', 'action' => 'edit', 'id' => $value['id'])); ?>" title="Sửa"><i class="fa fa-pencil-square-o"></i></a>
                                                     </span>
                                                     <span class="quick-edit">
-                                                        <a data-id="<?php echo $value['id']; ?>"  title="Sửa nhanh" href="javascript:void(0)">Sửa nhanh</a> | 
+                                                        <a data-id="<?php echo $value['id']; ?>"  title="Sửa nhanh" href="javascript:void(0)"><i class="fa fa-pencil-square"></i></a>
                                                     </span>
                                                     <span class="delete">
-                                                        <a class="icon-delete" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target=".modal-delete-taxonomy" title="Delete"><i class="fa fa-times"></i></a> 
+                                                        <a class="icon-delete" title="Xóa" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target=".modal-delete-taxonomy" title="Delete"><i class="fa fa-times"></i></a> 
                                                     </span>
                                                     <span class="view">
-                                                        <a href="#"><i class="fa fa-refresh"></i></a>
+                                                        <a href="#" title="Xem"><i class="fa fa-arrows-alt"></i></a>
                                                     </span>
                                                 </div>
                                             </td>
                                             <td class="column_category"><?php echo $value['category-name']; ?></td>
+                                            <td class="column_cost"><?php echo number_format(round($value['cost'], -3),0,'.','.'); ?></td>
                                             <td class="column_price"><?php echo number_format(round($value['price'], -3),0,'.','.'); ?></td>
-                                            <td class="column_price"><?php echo number_format(round($value['price'], -3),0,'.','.'); ?></td>
-                                            <td class="column_weight"><input type="number" min="0" value="<?php echo $value['sort']; ?>" name="sort[<?php echo $value['id'] ?>]" class="form-control update_weight"></td>
+                                            <td class="column_sort"><input type="number" min="0" value="<?php echo $value['sort']; ?>" name="sort[<?php echo $value['id'] ?>]" class="form-control update_weight"></td>
                                             <td class="column_quantity"><?php echo $value['quantity']; ?></td>
                                             <td class="column_status status">
                                                 <?php echo ($value['status'] == 1)? '<a data-status='.json_encode(array('id' => $value['id'], 'status' => 1)).' href="javascript:void(0)" title="Hiển thị" class="active fa fa-check-circle"></a>': '<a data-status='.json_encode(array('id' => $value['id'], 'status' => 0)).' title="Không hiển thị" class="unactive fa fa-minus-circle"></a>'; ?>
@@ -265,9 +265,6 @@
                      $("#product-"+id).addClass('tr-quick-edit').after(data.html);
                 }    
             });
-//             $('.selectpicker').selectpicker('refresh');
-//             $('.selectpicker').selectpicker('render');
-//             $('.selectpicker').selectpicker('show');
         });
         // quick edit
         $('.form-table').on('click', '.table>tbody>tr>td #quick-edit', function(){
@@ -286,7 +283,7 @@
             var sticky = $("input[name=sticky]").is(':checked')? 1 : 0;
             var promote = $("input[name=promote]").is(':checked')? 1 : 0;
             var category_id = $("#basic-quick-edit").val();
-            
+            var category_text = $("#basic-quick-edit option:selected").text();
             $.ajax({
                 type:"POST",
                 url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'quickupdate')) ?>",
@@ -304,9 +301,17 @@
                         $("#error_slug").empty().append(data.error.slug);
                         $("#error_cost").empty().append(data.error.cost);
                         $("#error_price").empty().append(data.error.price);
+                    }else{
+                        alert('Cập nhật thành công.');
+                        $('.edit-row').remove();
+                        $(".form-table .table>tbody>tr").removeAttr('style');
+                        $(".form-table .table>tbody>tr#product-"+id+ " .key-title").empty().append(name);
+                        $(".form-table .table>tbody>tr#product-"+id+ " .column_price").empty().append(price);
+                        $(".form-table .table>tbody>tr#product-"+id+ " .column_cost").empty().append(cost);
+                        $(".form-table .table>tbody>tr#product-"+id+ " .column_cost").empty().append(cost);
+                        $(".form-table .table>tbody>tr#product-"+id+ " .column_sort input").val(sort);
+                        $(".form-table .table>tbody>tr#product-"+id+ " .column_category").empty().append(category_text);
                     }
-                    console.log(data);
-                     //$("#product-"+id).addClass('tr-quick-edit').after(data.html);
                 }    
             });
         });
@@ -330,7 +335,6 @@
             uri += '<?php echo $this->url('backend', array('controller' => 'product', 'action' => 'index')); ?>';
             uri += data.page ? data.page: '';
             uri += (type.length !== 0 && $.isNumeric(type))?'/type/'+ type :'';
-            //uri += data.sort ? data.sort: '';
             uri += (sort.length !== 0)?'/sort/'+ sort :'';
             uri += data.order ? data.order: '';
             uri += (textSearch.length !== 0 )?'/textSearch/'+ textSearch :'';
@@ -378,7 +382,5 @@
                });
             }   
         });
-   
-  
 });
 </script>
