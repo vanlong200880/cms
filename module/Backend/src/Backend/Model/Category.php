@@ -166,6 +166,9 @@ class Category extends AbstractTableGateway
             }
 		}
 	}
+    public  function deleteCategoryById($id){
+        $this->delete('id = '.$id);
+    }
     
 }
 

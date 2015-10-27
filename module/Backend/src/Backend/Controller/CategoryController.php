@@ -14,6 +14,8 @@ use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Backend\Model\Category;
 use Backend\Model\Taxonomy;
+use Backend\Model\Product;
+use Backend\Model\OrderDetail;
 use Backend\Form\ValidateCategory;
 
 class CategoryController extends AbstractActionController
@@ -273,6 +275,87 @@ class CategoryController extends AbstractActionController
                         $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Thay đổi trạng thái thành công.</div>');
                     }
                 }
+            }
+        }
+        return new JsonModel($arrayParam);
+    }
+    
+    public function deletecategoryAction(){
+        $arrayParam = array();
+        $category = new Category();
+        $request = $this->getRequest();
+        if($request->isPost() == true){
+            $arrayParam['id'] = $this->params()->fromPost('category_id');
+            $dataCategory = $category->getCategoryById($arrayParam);
+            if($dataCategory){
+                // get taxonomy slug
+                $taxonomy = new Taxonomy();
+                $arrParam['id'] = $dataCategory['taxonomy_id'];
+                $dataTaxonomy = $taxonomy->getTaxonomyById($arrParam);
+                $product = new Product();
+                if($dataTaxonomy){
+                    switch ($dataTaxonomy['slug']){
+                    case 'products':
+                        $arrCategoryId = array($arrayParam['id']);
+                        //get category by parent
+                        $arrayParam['parent'] = $arrayParam['id'];
+                        $dataParent = $category->countCategoryByParent($arrayParam);
+                        if($dataParent){
+                            foreach ($dataParent as $parent){
+                                array_push($arrCategoryId, $parent['id']);
+                            }
+                        }
+                        if($arrCategoryId){
+                            // get all product by list category
+                            $arrayParam['list'] = $arrCategoryId;
+                            $dataListProduct = $product->getAllProductByArrayCategoryId($arrayParam);
+                            if($dataListProduct){
+                                $listIdProduct = array();
+                                foreach ($dataListProduct as $v){
+                                    array_push($listIdProduct, $v['id']);
+                                }
+                                if($listIdProduct){
+                                    $orderDetail = new OrderDetail();
+                                    $dataListIdProductInOrderDetail = $orderDetail->countAllProductByArrayCategoryId($listIdProduct);
+                                }
+                            }
+                            $arrayParam['p'] = $dataListProduct;
+//                            if($dataListProduct > 0){
+//                                $arrayParam['message'] = 'Bạn không được phép xóa danh mục này.';
+//                            }else{
+//                                $comment = new Comment();
+//                                $image = new Image();
+//                                $product = new Product();
+//                                foreach ($arrCategoryId as $value){
+                                    $arrayParam['111'] = 'sdf';
+                                    // delete comment
+//                                    $arrayParam['comment_type'] = 'product';
+//                                    $dataKey['id'] = $value;
+//                                    $comment->deleteCommentByProductId($dataKey);
+                                    // delete image
+//                                    $arrayParam['type'] = 'product';
+//                                    $dataImage = $image->getImageByProductId($arrayParam);
+//                                    if($dataImage){
+//                                        $thumb = new Thumbs();
+//                                        foreach ($dataImage as $value){
+//                                            $thumb = new Thumbs();
+//                                            $thumb->removeImage(PRODUCT_ICON ."/", array('1' => '40x80/', '2' => '160x180/', '3' => '260x300/', '4' => ''), $value['name'], 4);
+//                                        }
+//                                    }
+                                    // delete product
+//                                    $product->deleteProductById($arrayParam['id']);
+                                    // delete category
+//                                    $category->deleteCategoryById($value);
+//                                }
+//                            }
+                        }
+                        $arrayParam['done'] = $arrCategoryId;
+                        break;
+                    case 'news':
+                        break;
+                    }
+                }
+                $arrayParam['dsf'] = $dataTaxonomy;
             }
         }
         return new JsonModel($arrayParam);

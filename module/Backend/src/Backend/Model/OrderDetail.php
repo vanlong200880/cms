@@ -34,6 +34,15 @@ class OrderDetail extends AbstractTableGateway
         return $resultSet;
     }
     
+    // count all product id in array all category
+    public function countAllProductByArrayCategoryId($arrayParam = null){
+        $select = new Select();
+        $select->from($this->table);
+        $select->where->or->nest->in('product_id',$arrayParam['listIdProduct']);
+        $resultSet = $this->selectWith($select);
+        $resultSet = $resultSet->count();
+        return $resultSet;
+    }
     // count all category
     // dem tong so user
 //    public function countAllCategory($arrayParam = null){

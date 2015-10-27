@@ -130,16 +130,16 @@
                                             <strong class="key-title"><?php echo $value['name']; ?></strong>
                                             <div class="row-action">
                                                 <span class="edit">
-                                                    <a href="#">Sửa</a> | 
+                                                    <a class="icon-edit" href="<?php echo $this->url('backend', array('controller' => 'category', 'action' => 'edit', 'id' => $value['id'])); ?>" title="Sửa"><i class="fa fa-pencil-square-o"></i></a>
                                                 </span>
                                                 <span class="quick-edit">
-                                                    <a data-name="Tên 1" data-slug="ten-1" data-weight="1" href="javascript:void(0)">Sửa nhanh</a> | 
+                                                    <a data-id="<?php echo $value['id']; ?>"  title="Sửa nhanh" href="javascript:void(0)"><i class="fa fa-pencil-square"></i></a>
                                                 </span>
                                                 <span class="delete">
-                                                    <a href="#">Xóa</a> | 
+                                                    <a class="icon-delete" title="Xóa" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target=".modal-delete-taxonomy" title="Delete"><i class="fa fa-times"></i></a>  
                                                 </span>
                                                 <span class="view">
-                                                    <a href="#">Xem</a>
+                                                    <a href="#" title="Xem"><i class="fa fa-arrows-alt"></i></a>
                                                 </span>
                                             </div>
                                         </td>
@@ -263,6 +263,26 @@
                     },
                     success: function(){
                         location.reload();
+                    }    
+               });
+            }   
+        });
+        
+        // delete category
+        $(".form-table .table>tbody>tr>td .row-action span.delete a").on('click', function(){
+            var category_id = $(this).attr('data-id');
+            var obj = { 'category_id' : category_id};
+            if (confirm('Bạn có muốn xóa không không?')) {
+                $.ajax({
+                    type:"POST",
+                    url: "<?php echo $this->url($this->route, array('controller' => 'category', 'action' => 'deletecategory')) ?>",
+                    data: obj,
+                    dataType: 'JSON',
+                    beforeSend: function(){
+                    },
+                    success: function(data){
+                        console.log(data);
+                       // location.reload();
                     }    
                });
             }   
