@@ -91,6 +91,14 @@ class CategoryController extends AbstractActionController
         $data['paramSort']               = $paramSort;
         $data['current_link'] = $url;
         
+//        $arrayParam['parent'] = $request->getPost('parent');
+        $arrayParam['id']         = 1;
+        $dataCategory = $category->getCategoryByTaxonomyId($arrayParam);
+        $test = $this->getDataCategoryByParent($dataCategory, 1);
+        echo '<pre>';
+        var_dump($test);
+        echo '</pre>';
+        
         $data['list'] = $categoryData;
         return new ViewModel($data);
     }
@@ -293,33 +301,95 @@ class CategoryController extends AbstractActionController
                 $arrParam['id'] = $dataCategory['taxonomy_id'];
                 $dataTaxonomy = $taxonomy->getTaxonomyById($arrParam);
                 $product = new Product();
+                $arrayParam['slug-12'] = $dataTaxonomy;
                 if($dataTaxonomy){
                     switch ($dataTaxonomy['slug']){
                     case 'products':
-                        $arrCategoryId = array($arrayParam['id']);
+                        ///$dataListCategoryByParent = array($arrayParam['id']);
+//                        $arrayParam['dsfsdf'] = $dataListCategory;
                         //get category by parent
-                        $arrayParam['parent'] = $arrayParam['id'];
-                        $dataParent = $category->countCategoryByParent($arrayParam);
-                        if($dataParent){
-                            foreach ($dataParent as $parent){
-                                array_push($arrCategoryId, $parent['id']);
+//                        $arrayParam['slug'] = 'products';
+//                        $dataTaxonomyId = $taxonomy->getTaxonomyBySlug($arrayParam);
+//                        $arrayParamTaxonomy['id']         = $dataTaxonomy['id'];
+                        // list category by taxonomy id
+                        $arrayParamTaxonomyId['id'] = $dataTaxonomy['id'];
+                        $dataListCategory = $category->getCategoryByTaxonomyId($arrayParamTaxonomyId);
+//                        $arrayParam['listCategoryId'] = $dataListCategory;
+                        $dataListCategoryByParent = $this->getDataCategoryByParent($dataListCategory, $arrayParam['id']);
+                        array_unshift($dataListCategoryByParent, $arrayParam['id']);
+//                        $arrayParam['listCategoryIdByParent'] = $dataListCategoryByParent;
+                        
+                        // get list product id 
+                        if($dataListCategoryByParent){
+                            // ko xoa 
+                            $arrayParam['list'] = $dataListCategoryByParent;
+                            $dataListProduct = $product->getAllProductByArrayCategoryId($arrayParam);
+                            $arrayParam['listProduct'] = $dataListProduct;
+                            if($dataListProduct){
+                                $orderDetail = new OrderDetail();
+                                $dataListIdProductInOrderDetail = $orderDetail->countAllProductByArrayCategoryId($arrayParam);
+//                                if($dataListIdProductInOrderDetail){
+                                    // Not permission delete category
+//                                    $arrayParam['message'] = 'Bạn không có quyền xóa danh mục này.';
+//                                }else{
+//                                    $comment = new Comment();
+//                                    $image = new Image();
+                                    //delete product by id
+//                                    foreach ($dataListProduct as $val){
+                                        // delete comment by product id
+//                                        $arrayParam['comment_type'] = 'product';
+//                                        $dataKey['id'] = $val;
+//                                        $comment->deleteCommentByProductId($dataKey);
+                                        // delete image by product id
+//                                        $arrayParam['type'] = 'product';
+//                                        $dataImage = $image->getImageByProductId($arrayParam);
+//                                        if($dataImage){
+//                                            $thumb = new Thumbs();
+//                                            foreach ($dataImage as $value){
+//                                                $thumb = new Thumbs();
+//                                                $thumb->removeImage(PRODUCT_ICON ."/", array('1' => '40x80/', '2' => '160x180/', '3' => '260x300/', '4' => ''), $value['name'], 4);
+//                                            }
+//                                        }
+                                        // delete product by id
+//                                        $product->deleteProductById($val);
+//                                    }
+//                                }
+//                                $arrayParam['listProduct'] = $dataListProduct;
+                            }else{
+                                // delete all category
                             }
+                            // check product id in order detail
+                            
                         }
+                        
+                        
+//                        $dataListCategory = $this->getDataCategoryByParent($dataCategory, 1);
+//                        $arrayParam['parent'] = $arrayParam['id'];
+//                        $dataParent = $category->getCategoryByParent($arrayParam);
+//                        if($dataParent){
+//                            foreach ($dataParent as $parent){
+//                                array_push($dataListCategory, $parent['id']);
+//                            }
+//                            
+//                        }
+//                        $arrayParam['listCategoryid'] = $dataCategory;
                         if($arrCategoryId){
                             // get all product by list category
-                            $arrayParam['list'] = $arrCategoryId;
-                            $dataListProduct = $product->getAllProductByArrayCategoryId($arrayParam);
-                            if($dataListProduct){
-                                $listIdProduct = array();
-                                foreach ($dataListProduct as $v){
-                                    array_push($listIdProduct, $v['id']);
-                                }
-                                if($listIdProduct){
-                                    $orderDetail = new OrderDetail();
-                                    $dataListIdProductInOrderDetail = $orderDetail->countAllProductByArrayCategoryId($listIdProduct);
-                                }
-                            }
-                            $arrayParam['p'] = $dataListProduct;
+//                            $arrayParam['list'] = $arrCategoryId;
+//                            $dataListProduct = $product->getAllProductByArrayCategoryId($arrayParam);
+//                            if($dataListProduct){
+//                                $listIdProduct = array();
+//                                foreach ($dataListProduct as $v){
+//                                    array_push($listIdProduct, $v['id']);
+//                                }
+//                                if($listIdProduct){
+//                                    $orderDetail = new OrderDetail();
+//                                    $arrayParam['listIdProduct'] = $listIdProduct;
+//                                    $dataListIdProductInOrderDetail = $orderDetail->countAllProductByArrayCategoryId($arrayParam);
+//                                    $arrayParam['order'] = $dataListIdProductInOrderDetail;
+//                                }
+//                            }
+//                            $arrayParam['p'] = $listIdProduct;
 //                            if($dataListProduct > 0){
 //                                $arrayParam['message'] = 'Bạn không được phép xóa danh mục này.';
 //                            }else{
@@ -327,7 +397,7 @@ class CategoryController extends AbstractActionController
 //                                $image = new Image();
 //                                $product = new Product();
 //                                foreach ($arrCategoryId as $value){
-                                    $arrayParam['111'] = 'sdf';
+//                                    $arrayParam['111'] = 'sdf';
                                     // delete comment
 //                                    $arrayParam['comment_type'] = 'product';
 //                                    $dataKey['id'] = $value;
@@ -349,15 +419,33 @@ class CategoryController extends AbstractActionController
 //                                }
 //                            }
                         }
-                        $arrayParam['done'] = $arrCategoryId;
+//                        $arrayParam['done'] = $arrCategoryId;
                         break;
                     case 'news':
                         break;
                     }
                 }
-                $arrayParam['dsf'] = $dataTaxonomy;
+//                $arrayParam['dsf'] = $dataTaxonomy;
             }
         }
         return new JsonModel($arrayParam);
+    }
+    
+    public function getDataCategoryByParent( $data ,$parent = 0){
+        $dataOption = array();
+        
+        foreach ($data as $key => $value){
+            if($value['parent'] == $parent){
+                $dataOption[] = $value;
+                unset($data[$key]);
+            }
+        }
+        $arr = array();
+        if($dataOption){
+            foreach ($dataOption as $key => $val){
+                array_push($arr, $val['id']);
+            }
+        }
+        return $arr;
     }
 }

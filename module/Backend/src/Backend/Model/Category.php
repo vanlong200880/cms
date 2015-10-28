@@ -92,7 +92,7 @@ class Category extends AbstractTableGateway
         return $resultSet;
     }
     // count category by parent
-    public function countCategoryByParent($arrayParam = null){
+    public function getCategoryByParent($arrayParam = null){
         $select = new Select();
         $select->from($this->table);
         $select->where(array('parent' => $arrayParam['parent']));
