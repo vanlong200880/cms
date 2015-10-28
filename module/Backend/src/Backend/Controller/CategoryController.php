@@ -15,6 +15,10 @@ use Zend\View\Model\JsonModel;
 use Backend\Model\Category;
 use Backend\Model\Taxonomy;
 use Backend\Model\Product;
+use Backend\Model\Comment;
+use Backend\Model\Image;
+use Sky\Uploads\Upload;
+use Sky\Uploads\Thumbs;
 use Backend\Model\OrderDetail;
 use Backend\Form\ValidateCategory;
 
@@ -94,6 +98,7 @@ class CategoryController extends AbstractActionController
 //        $arrayParam['parent'] = $request->getPost('parent');
         $arrayParam['id']         = 1;
         $dataCategory = $category->getCategoryByTaxonomyId($arrayParam);
+//        var_dump($dataCategory);
         $test = $this->getDataCategoryByParent($dataCategory, 1);
         echo '<pre>';
         var_dump($test);
@@ -301,125 +306,70 @@ class CategoryController extends AbstractActionController
                 $arrParam['id'] = $dataCategory['taxonomy_id'];
                 $dataTaxonomy = $taxonomy->getTaxonomyById($arrParam);
                 $product = new Product();
-                $arrayParam['slug-12'] = $dataTaxonomy;
                 if($dataTaxonomy){
                     switch ($dataTaxonomy['slug']){
                     case 'products':
-                        ///$dataListCategoryByParent = array($arrayParam['id']);
-//                        $arrayParam['dsfsdf'] = $dataListCategory;
-                        //get category by parent
-//                        $arrayParam['slug'] = 'products';
-//                        $dataTaxonomyId = $taxonomy->getTaxonomyBySlug($arrayParam);
-//                        $arrayParamTaxonomy['id']         = $dataTaxonomy['id'];
+                        $arrayParam['dsfsdf'] = $dataTaxonomy;
                         // list category by taxonomy id
                         $arrayParamTaxonomyId['id'] = $dataTaxonomy['id'];
                         $dataListCategory = $category->getCategoryByTaxonomyId($arrayParamTaxonomyId);
-//                        $arrayParam['listCategoryId'] = $dataListCategory;
                         $dataListCategoryByParent = $this->getDataCategoryByParent($dataListCategory, $arrayParam['id']);
-                        array_unshift($dataListCategoryByParent, $arrayParam['id']);
-//                        $arrayParam['listCategoryIdByParent'] = $dataListCategoryByParent;
-                        
+                        array_unshift($dataListCategoryByParent, $arrayParam['id']);                        
                         // get list product id 
                         if($dataListCategoryByParent){
-                            // ko xoa 
                             $arrayParam['list'] = $dataListCategoryByParent;
                             $dataListProduct = $product->getAllProductByArrayCategoryId($arrayParam);
-                            $arrayParam['listProduct'] = $dataListProduct;
+                            $arrayParam['dfsdfsdfsdf'] = $dataListProduct;
                             if($dataListProduct){
+                                $dataListProductTemp = array();
+                                foreach ($dataListProduct as $value){
+                                    array_push($dataListProductTemp, $value['id']);
+                                }
+                                $arrayParam['listIdProduct'] = $dataListProductTemp;
                                 $orderDetail = new OrderDetail();
                                 $dataListIdProductInOrderDetail = $orderDetail->countAllProductByArrayCategoryId($arrayParam);
-//                                if($dataListIdProductInOrderDetail){
+                                $arrayParam['a'] = $dataListIdProductInOrderDetail;
+                                if($dataListIdProductInOrderDetail > 0){
                                     // Not permission delete category
-//                                    $arrayParam['message'] = 'Bạn không có quyền xóa danh mục này.';
-//                                }else{
-//                                    $comment = new Comment();
-//                                    $image = new Image();
+                                    $arrayParam['message'] = 'Bạn không có quyền xóa danh mục này.';
+                                }else{
+                                    $comment = new Comment();
+                                    $image = new Image();
                                     //delete product by id
-//                                    foreach ($dataListProduct as $val){
+                                    foreach ($dataListProductTemp as $val){
                                         // delete comment by product id
-//                                        $arrayParam['comment_type'] = 'product';
-//                                        $dataKey['id'] = $val;
-//                                        $comment->deleteCommentByProductId($dataKey);
+                                        $arrayParam['comment_type'] = 'products';
+                                        $arrayParam['product_id'] = $val;
+                                        $comment->deleteCommentByProductId($arrayParam);
                                         // delete image by product id
-//                                        $arrayParam['type'] = 'product';
-//                                        $dataImage = $image->getImageByProductId($arrayParam);
-//                                        if($dataImage){
-//                                            $thumb = new Thumbs();
-//                                            foreach ($dataImage as $value){
-//                                                $thumb = new Thumbs();
-//                                                $thumb->removeImage(PRODUCT_ICON ."/", array('1' => '40x80/', '2' => '160x180/', '3' => '260x300/', '4' => ''), $value['name'], 4);
-//                                            }
-//                                        }
+                                        $arrayParam['type'] = 'products';
+                                        $dataImage = $image->getImageByProductId($arrayParam);
+                                        if($dataImage){
+                                            $thumb = new Thumbs();
+                                            foreach ($dataImage as $value){
+                                                $thumb = new Thumbs();
+                                                $thumb->removeImage(PRODUCT_ICON ."/", array('1' => '40x80/', '2' => '160x180/', '3' => '260x300/', '4' => ''), $value['name'], 4);
+                                            }
+                                        }
                                         // delete product by id
-//                                        $product->deleteProductById($val);
-//                                    }
-//                                }
-//                                $arrayParam['listProduct'] = $dataListProduct;
+                                        $product->deleteProductById($val);
+                                    }
+                                    $arrayParam['jjj'] = $dataListCategoryByParent;
+                                    // delete list category
+                                    foreach ($dataListCategoryByParent as $v){
+                                        $category->deleteCategoryById($v);
+                                    }
+                                    $arrayParam['message'] = 'Xóa thành công.';
+                                }
                             }else{
-                                // delete all category
-                            }
-                            // check product id in order detail
-                            
+                                // delete list category
+                                $arrayParam['ppp'] = $dataListCategoryByParent;
+                                foreach ($dataListCategoryByParent as $v){
+                                    $category->deleteCategoryById($v);
+                                    $arrayParam['sdfs'] = 1;
+                                }
+                            }                            
                         }
-                        
-                        
-//                        $dataListCategory = $this->getDataCategoryByParent($dataCategory, 1);
-//                        $arrayParam['parent'] = $arrayParam['id'];
-//                        $dataParent = $category->getCategoryByParent($arrayParam);
-//                        if($dataParent){
-//                            foreach ($dataParent as $parent){
-//                                array_push($dataListCategory, $parent['id']);
-//                            }
-//                            
-//                        }
-//                        $arrayParam['listCategoryid'] = $dataCategory;
-                        if($arrCategoryId){
-                            // get all product by list category
-//                            $arrayParam['list'] = $arrCategoryId;
-//                            $dataListProduct = $product->getAllProductByArrayCategoryId($arrayParam);
-//                            if($dataListProduct){
-//                                $listIdProduct = array();
-//                                foreach ($dataListProduct as $v){
-//                                    array_push($listIdProduct, $v['id']);
-//                                }
-//                                if($listIdProduct){
-//                                    $orderDetail = new OrderDetail();
-//                                    $arrayParam['listIdProduct'] = $listIdProduct;
-//                                    $dataListIdProductInOrderDetail = $orderDetail->countAllProductByArrayCategoryId($arrayParam);
-//                                    $arrayParam['order'] = $dataListIdProductInOrderDetail;
-//                                }
-//                            }
-//                            $arrayParam['p'] = $listIdProduct;
-//                            if($dataListProduct > 0){
-//                                $arrayParam['message'] = 'Bạn không được phép xóa danh mục này.';
-//                            }else{
-//                                $comment = new Comment();
-//                                $image = new Image();
-//                                $product = new Product();
-//                                foreach ($arrCategoryId as $value){
-//                                    $arrayParam['111'] = 'sdf';
-                                    // delete comment
-//                                    $arrayParam['comment_type'] = 'product';
-//                                    $dataKey['id'] = $value;
-//                                    $comment->deleteCommentByProductId($dataKey);
-                                    // delete image
-//                                    $arrayParam['type'] = 'product';
-//                                    $dataImage = $image->getImageByProductId($arrayParam);
-//                                    if($dataImage){
-//                                        $thumb = new Thumbs();
-//                                        foreach ($dataImage as $value){
-//                                            $thumb = new Thumbs();
-//                                            $thumb->removeImage(PRODUCT_ICON ."/", array('1' => '40x80/', '2' => '160x180/', '3' => '260x300/', '4' => ''), $value['name'], 4);
-//                                        }
-//                                    }
-                                    // delete product
-//                                    $product->deleteProductById($arrayParam['id']);
-                                    // delete category
-//                                    $category->deleteCategoryById($value);
-//                                }
-//                            }
-                        }
-//                        $arrayParam['done'] = $arrCategoryId;
                         break;
                     case 'news':
                         break;
@@ -444,6 +394,7 @@ class CategoryController extends AbstractActionController
         if($dataOption){
             foreach ($dataOption as $key => $val){
                 array_push($arr, $val['id']);
+                $arr = array_merge($arr, $this->getDataCategoryByParent($data, $val['id']));
             }
         }
         return $arr;
