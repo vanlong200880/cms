@@ -14,16 +14,6 @@ class Category extends AbstractTableGateway
         $this->featureSet->addFeature(new Feature\GlobalAdapterFeature());
         $this->initialize();
     }
-    // delete language
-//    public function delete($arrayParam = null){
-//        if($this->delete('id = ' . $arrayParam['id'])){
-//            return true;
-//        }
-//        else{
-//            return false;
-//        }
-//    }
-    
     // get all category
     public function getAllCategory($arrayParam = null){
         $select = new Select();

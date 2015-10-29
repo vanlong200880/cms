@@ -79,7 +79,6 @@ class ProductController extends AbstractActionController
                         break;
                     default :
                         return $this->redirect()->toUrl($url);
-                        break;
                 }
             }
         }
@@ -184,7 +183,7 @@ class ProductController extends AbstractActionController
         $category = new Category();
         $product = new Product();
         $arrayParam = array();
-        $arrayParam['slug'] = 'product';
+        $arrayParam['slug'] = 'products';
         $request = $this->getRequest();
         if($request->isPost() == true){
             if(!empty($session->auth['userId'])){
@@ -297,7 +296,7 @@ class ProductController extends AbstractActionController
     public function ajaxloadcategoryAction(){
         $arrayParam	= array(); 
         $category = new Category();
-        $arrayParam['slug'] = 'product';
+        $arrayParam['slug'] = 'products';
         $dataCategory = $category->getCategoryBySlug($arrayParam);
         $html = $this->getDataCategory(0, $dataCategory);
         $arrayParam['data'] = '<option value="0">-- Chọn --</option>'.$html;
@@ -315,7 +314,7 @@ class ProductController extends AbstractActionController
             }else{
                 $arrayParam['error'] = '';
                 $taxonomy = new \Backend\Model\Taxonomy();
-                $arrayParam['slug'] = 'product';
+                $arrayParam['slug'] = 'products';
                 $dataTaxonomy = $taxonomy->getTaxonomyBySlug($arrayParam);
                 $arrayParam['post']['excerpt']      = '';
                 $arrayParam['post']['created']      = time();
@@ -443,7 +442,7 @@ class ProductController extends AbstractActionController
         $product = new Product();
         $category = new Category();
         $arrayParam = array();
-        $arrayParam['slug'] = 'product';
+        $arrayParam['slug'] = 'products';
         $arrayParam['id'] = $this->params()->fromRoute('id');
         $dataProduct = $product->getProductById($arrayParam);
         $arrayParam['post'] = $dataProduct;
@@ -500,7 +499,7 @@ class ProductController extends AbstractActionController
         }
         // get imag by product id
         $image = new Image();
-        $arrayParam['type'] = 'product';
+        $arrayParam['type'] = 'products';
         $dataImage = $image->getImageByProductId($arrayParam);
         $arrayParam['dataImage'] = $dataImage;
         // check category active
@@ -560,7 +559,7 @@ class ProductController extends AbstractActionController
             foreach($_FILES['images']['name'] as $key=>$val){
                 $arrayParam['dataImage'] = array(
                     'product_id' => $arrayParam['id'],
-                    'type' => 'product',
+                    'type' => 'products',
                     'name' => $_FILES['images']['name'][$key],
                     'mine' => $_FILES['images']['type'][$key],
                     'size' => $_FILES['images']['size'][$key],
@@ -604,11 +603,11 @@ class ProductController extends AbstractActionController
             }else{
                 // delete comment
                 $comment = new Comment();
-                $arrayParam['comment_type'] = 'product';
+                $arrayParam['comment_type'] = 'products';
                 $comment->deleteCommentByProductId($arrayParam);
                 // delete image
                 $image = new Image();
-                $arrayParam['type'] = 'product';
+                $arrayParam['type'] = 'products';
                 $dataImage = $image->getImageByProductId($arrayParam);
                 if($dataImage){
                     $thumb = new Thumbs();
@@ -635,7 +634,7 @@ class ProductController extends AbstractActionController
             $product = new Product();
             $dataProduct = $product->getProductById($arrayParam);
             $category = new Category();
-            $arrayParam['slug'] = 'product';
+            $arrayParam['slug'] = 'products';
             $dataCategory = $category->getCategoryBySlug($arrayParam);
             $htmlCategory = $this->getDataCategory($dataProduct['category_id'], $dataCategory);
             if($dataProduct){
@@ -792,7 +791,6 @@ class ProductController extends AbstractActionController
             $arrayParam['post'] = $this->params()->fromPost();
             $arrayParam['id'] = $this->params()->fromPost('id');
             $validate = new ValidateProductQuickEdit($arrayParam, 'quick-edit');
-            $arrayParam['done'] = 'abc';
             if($validate->isError() === true){
                 $arrayParam['error'] = $validate->getMessagesError();
             }else{
