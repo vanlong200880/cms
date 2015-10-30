@@ -181,5 +181,31 @@ class News extends AbstractTableGateway
             return false;
         }
     }
+    
+    // quick edit
+    public function quickEdit($arrayParam = null)
+	{
+		$data = array(
+            'category_id'   => $arrayParam['post']['category_id'],
+            'name'          => $arrayParam['post']['name'],
+            'slug'          => $arrayParam['post']['slug'],
+            'status'        => $arrayParam['post']['status'],
+            'modified'      => $arrayParam['post']['modified'],
+            'sort'          => $arrayParam['post']['sort']
+		);
+		if(isset($arrayParam['id'])){
+            return $this->update($data, 'id = '.$arrayParam['id']);
+		}
+	}
+    
+    public function getAllNewsByArrayCategoryId($arrayParam = null){
+        $select = new Select();
+        $select->columns(array('id'));
+        $select->from($this->table);
+        $select->where->or->nest->in('category_id',$arrayParam['list']);
+        $resultSet = $this->selectWith($select);
+        $resultSet = $resultSet->toArray();
+        return $resultSet;
+    }
 }
 

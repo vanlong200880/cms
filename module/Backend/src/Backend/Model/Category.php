@@ -160,5 +160,37 @@ class Category extends AbstractTableGateway
         $this->delete('id = '.$id);
     }
     
+    public function updateStatus($arrayParam = null){
+        $data = array(
+		  'status' => $arrayParam['status']
+		);
+        if(isset($arrayParam['post']['function'])){
+            if($arrayParam['post']['function'] == 'published'){
+                $data['status'] = 1;
+            }else{
+                 if($arrayParam['post']['function'] == 'unpublished'){
+                     $data['status'] = 0;
+                 }
+            }
+        }
+        if(isset($arrayParam['post']['check-all']) && !empty($arrayParam['post']['check-all'])){
+                foreach ($arrayParam['post']['check-all'] as $value){
+                    $arrId['id'] = $value;
+                    if($this->getCategoryById($arrId)){
+                        $this->update($data, 'id = '. $value);
+                    }
+                }
+            return true;
+        }else{
+            return false;
+        }
+	}
+    public function updateSortById($dataSort = null){
+        $data = array(
+		  'sort' => $dataSort['sort']
+		);
+        $this->update($data, 'id = '.$dataSort['id']);
+	}
+    
 }
 

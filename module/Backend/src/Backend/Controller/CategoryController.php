@@ -1,12 +1,4 @@
 <?php
-/**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
-
 namespace Backend\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
@@ -18,6 +10,7 @@ use Backend\Model\Product;
 use Backend\Model\Comment;
 use Backend\Model\Image;
 use Sky\Uploads\Upload;
+use Backend\Model\News;
 use Sky\Uploads\Thumbs;
 use Backend\Model\OrderDetail;
 use Backend\Form\ValidateCategory;
@@ -26,9 +19,61 @@ class CategoryController extends AbstractActionController
 {
     public function indexAction()
     {
+        $category = new Category();
         $request    = $this->getRequest();
         $url        = $this->getRequest()->getRequestUri();
         $data= array();
+        if($request->isPost() == true){
+            $arrayParam['post']     = $request->getPost()->toArray();
+            $arrayParam['status']   = $arrayParam['post']['function'];
+            if(isset($arrayParam['post']['function']) && $arrayParam['post']['function'] != ''){
+                switch ($arrayParam['post']['function']){
+                    case 'delete':
+                        // delete
+                        if(isset($arrayParam['post']['check-all']) && !empty($arrayParam['post']['check-all'])){
+                            foreach ($arrayParam['post']['check-all'] as $value){
+                                $arrayParam['id']   = $value;
+                                $newsInfo           = $news->getNewById($arrayParam);
+                                if($newsInfo){
+                                    $file           = new \Sky\Uploads\Thumbs();
+                                    $file->removeImage(NEWS_ICON ."/", array('1' => '150x150/', '2' => ''), $newsInfo['image'], 2);
+                                    $news->deleteNews($newsInfo['id']);
+                                }
+                            }
+                            $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa thành công.</div>');
+                        }
+                        return $this->redirect()->toUrl($url);
+                        break;
+                    case 'published': // active
+                    case 'unpublished': // deactive
+                        if($category->updateStatus($arrayParam)){
+                            $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật trạng thái thành công.</div>');
+                            return $this->redirect()->toUrl($url);
+                        }else{
+                            $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật thất bại.</div>');
+                             return $this->redirect()->toUrl($url);
+                        }
+                        break;
+                    case 'sort': 
+                        if(isset($arrayParam['post']['sort']) && !empty($arrayParam['post']['sort'])){
+                            $dataSort = array();
+                            foreach ($arrayParam['post']['sort'] as $key => $value){
+                                $dataSort['id'] = $key;
+                                $dataSort['sort'] = $value;
+                                $category->updateSortById($dataSort);
+                            }
+                            $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật vị trí thành công.</div>');
+                            return $this->redirect()->toUrl($url);
+                        }
+                        break;
+                    default :
+                        $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Bạn chưa chọn chức năng.</div>');
+                        return $this->redirect()->toUrl($url);
+                }
+            }else{
+                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Bạn chưa chọn chức năng.</div>');
+            }
+        }
         $arrayParam = $this->params()->fromRoute();
         $order      = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order'):'desc';
         $sort       = $this->params()->fromRoute('sort') ? $this->params()->fromRoute('sort'):'id';
@@ -93,17 +138,7 @@ class CategoryController extends AbstractActionController
 		$data['controller']		= $arrayParam['__CONTROLLER__'];
 		$data['action']			= $arrayParam['action'];
         $data['paramSort']               = $paramSort;
-        $data['current_link'] = $url;
-        
-//        $arrayParam['parent'] = $request->getPost('parent');
-        $arrayParam['id']         = 1;
-        $dataCategory = $category->getCategoryByTaxonomyId($arrayParam);
-//        var_dump($dataCategory);
-        $test = $this->getDataCategoryByParent($dataCategory, 1);
-        echo '<pre>';
-        var_dump($test);
-        echo '</pre>';
-        
+        $data['current_link'] = $url;     
         $data['list'] = $categoryData;
         return new ViewModel($data);
     }
@@ -309,7 +344,6 @@ class CategoryController extends AbstractActionController
                 if($dataTaxonomy){
                     switch ($dataTaxonomy['slug']){
                     case 'products':
-                        $arrayParam['dsfsdf'] = $dataTaxonomy;
                         // list category by taxonomy id
                         $arrayParamTaxonomyId['id'] = $dataTaxonomy['id'];
                         $dataListCategory = $category->getCategoryByTaxonomyId($arrayParamTaxonomyId);
@@ -319,7 +353,6 @@ class CategoryController extends AbstractActionController
                         if($dataListCategoryByParent){
                             $arrayParam['list'] = $dataListCategoryByParent;
                             $dataListProduct = $product->getAllProductByArrayCategoryId($arrayParam);
-                            $arrayParam['dfsdfsdfsdf'] = $dataListProduct;
                             if($dataListProduct){
                                 $dataListProductTemp = array();
                                 foreach ($dataListProduct as $value){
@@ -332,6 +365,7 @@ class CategoryController extends AbstractActionController
                                 if($dataListIdProductInOrderDetail > 0){
                                     // Not permission delete category
                                     $arrayParam['message'] = 'Bạn không có quyền xóa danh mục này.';
+                                    $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Bạn không có quyền xóa danh mục này.</div>');
                                 }else{
                                     $comment = new Comment();
                                     $image = new Image();
@@ -347,35 +381,70 @@ class CategoryController extends AbstractActionController
                                         if($dataImage){
                                             $thumb = new Thumbs();
                                             foreach ($dataImage as $value){
-                                                $thumb = new Thumbs();
                                                 $thumb->removeImage(PRODUCT_ICON ."/", array('1' => '40x80/', '2' => '160x180/', '3' => '260x300/', '4' => ''), $value['name'], 4);
                                             }
                                         }
                                         // delete product by id
                                         $product->deleteProductById($val);
                                     }
-                                    $arrayParam['jjj'] = $dataListCategoryByParent;
                                     // delete list category
                                     foreach ($dataListCategoryByParent as $v){
                                         $category->deleteCategoryById($v);
                                     }
                                     $arrayParam['message'] = 'Xóa thành công.';
+                                    $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa thành công.</div>');
                                 }
                             }else{
                                 // delete list category
-                                $arrayParam['ppp'] = $dataListCategoryByParent;
                                 foreach ($dataListCategoryByParent as $v){
                                     $category->deleteCategoryById($v);
-                                    $arrayParam['sdfs'] = 1;
                                 }
+                                $arrayParam['message'] = 'Xóa thành công.';
+                                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa thành công.</div>');
                             }                            
                         }
                         break;
                     case 'news':
+                        // list category by taxonomy id
+                        $news = new News();
+                        $arrayParamTaxonomyId['id'] = $dataTaxonomy['id'];
+                        $dataListCategory = $category->getCategoryByTaxonomyId($arrayParamTaxonomyId);
+                        $dataListCategoryByParent = $this->getDataCategoryByParent($dataListCategory, $arrayParam['id']);
+                        array_unshift($dataListCategoryByParent, $arrayParam['id']);
+                        if($dataListCategoryByParent){
+                            $arrayParam['list'] = $dataListCategoryByParent;
+                            $dataListNews = $news->getAllNewsByArrayCategoryId($arrayParam);
+                            if($dataListNews){
+                                $comment = new Comment();
+                                foreach ($dataListNews as $value){
+                                    $arrayParam['comment_type'] = 'news';
+                                    $arrayParam['product_id'] = $value;
+                                    $comment->deleteCommentByProductId($arrayParam);
+                                    $arrayParam['id']   = $value;
+                                    $newsInfo           = $news->getNewById($arrayParam);
+                                    if($newsInfo){
+                                        $file           = new Thumbs();
+                                        $file->removeImage(NEWS_ICON ."/", array('1' => '150x150/', '2' => ''), $newsInfo['image'], 2);
+                                        $news->deleteNews($newsInfo['id']);
+                                    }
+                                }
+                                foreach ($dataListCategoryByParent as $v){
+                                        $category->deleteCategoryById($v);
+                                    }
+                                $arrayParam['message'] = 'Xóa thành công.';
+                                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa thành công.</div>');
+                            }else{
+                                // delete list category
+                                foreach ($dataListCategoryByParent as $v){
+                                    $category->deleteCategoryById($v);
+                                }
+                                $arrayParam['message'] = 'Xóa thành công.';
+                                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa thành công.</div>');
+                            }                            
+                        }
                         break;
                     }
                 }
-//                $arrayParam['dsf'] = $dataTaxonomy;
             }
         }
         return new JsonModel($arrayParam);

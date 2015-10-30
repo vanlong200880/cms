@@ -380,8 +380,6 @@ class NewsController extends AbstractActionController
                             'controller'    => $value['controller'],
                             'action'        => $actionList
                         );
-                        
-                        
                     }
                 }
                 $arrayParam['list'] = $dataList;
@@ -411,5 +409,110 @@ class NewsController extends AbstractActionController
             }
         }
         return new JsonModel($arrayParam); 
+    }
+    
+    public function quickeditAction(){
+        $arrayParam = array();
+        $request = $this->getRequest();
+        $html = '';
+        if($request->isPost() == true){
+            $arrayParam['id'] = $this->params()->fromPost('id');
+            // get product
+            $news = new News();
+            $dataNews = $news->getNewById($arrayParam);
+            $category = new Category();
+            $arrayParam['slug'] = 'news';
+            $dataCategory = $category->getCategoryBySlug($arrayParam);
+            $htmlCategory = $this->getDataCategory($dataNews['category_id'], $dataCategory);
+            if($dataNews){
+                $dataNews['status']         = ($dataNews['status'] == 1)? 'checked': '';
+                $html .= '<tr id="edit-'.$dataNews['id'].'" class="edit-row">
+                            <td colspan="9" class="">
+                                <div class="column-qiuck-edit">
+                                    <div class="col-lg-12"><h2>Sửa nhanh</h2></div>
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <input type="hidden" value="'.$dataNews['id'].'" id="id">
+                                                    <label for="name">Tên sản phẩm</label><span class="validation">*</span>
+                                                    <input type="text" data-toggle="tooltip" value="'.$dataNews['name'].'" data-placement="top" title="Tiêu đề tin" class="form-control" id="name" name="name">
+                                                    <p class="error" id="error_name"></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="slug">Slug</label><span class="validation">*</span>
+                                                    <input type="text" data-toggle="tooltip" value="'.$dataNews['slug'].'" data-placement="top" title="Nhập định danh" class="form-control" id="slug" name="slug">
+                                                    <p class="error" id="error_slug"></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="hidden" name="status" value="0">
+                                                            <input type="checkbox" name="status" id="status" value="1" '.$dataNews['status'].'>Đăng
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label>Danh mục cha</label>
+                                                    <select id="basic-quick-edit" class="selectpicker show-tick form-control" data-live-search="true">
+                                                        '.$htmlCategory.'
+                                                     </select>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="sort">Sắp xếp</label>
+                                                    <input type="number" min="0" value="'.$dataNews['sort'].'" class="form-control" id="sort" name="sort" placeholder="0" data-toggle="tooltip" data-placement="top" title="Nhập thử tự hiển thị">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <button type="button" class="btn btn-default btn-back">Trở lại</button>
+                                                    <button type="button" class="btn btn-default btn-custom pull-right" id="quick-edit">Cập nhật</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6"></div>
+                                </div>
+                            </td>
+                        </tr>';
+            }
+        }
+        $arrayParam['html'] = $html;
+        return new JsonModel($arrayParam);
+    }
+    
+    public function quickupdateAction(){
+        $arrayParam = array();
+        $request = $this->getRequest();
+        if($request->isPost() == true){
+            $arrayParam['post'] = $this->params()->fromPost();
+            $arrayParam['id'] = $this->params()->fromPost('id');
+            $validate = new ValidateNews($arrayParam, 'quick-edit');
+            if($validate->isError() === true){
+                $arrayParam['error'] = $validate->getMessagesError();
+            }else{
+                $arrayParam['post']['modified'] = time();
+                $news = new News();
+                $news->quickEdit($arrayParam);
+            }
+        }
+        return new JsonModel($arrayParam);
     }
 }

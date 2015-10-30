@@ -187,7 +187,7 @@
 
 
                                         <?php foreach ($list as $value): ?>
-                                        <tr id="product-<?php echo $value['id']; ?>">
+                                        <tr id="news-<?php echo $value['id']; ?>">
                                             <td><input type="checkbox" value="<?php echo $value['id']; ?>" name="check-all[]" class="form-checkbox check-all"></td>
                                             <td><?php echo $value['id']; ?></td>
                                             <td class="column-title column_name">
@@ -247,13 +247,13 @@
             var id = $(this).attr('data-id');
             $.ajax({
                 type:"POST",
-                url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'quickedit')) ?>",
+                url: "<?php echo $this->url($this->route, array('controller' => 'news', 'action' => 'quickedit')) ?>",
                 data: {'id': id},
                 dataType: 'JSON',
                 beforeSend: function(){
                 },
                 success: function(data){
-                     $("#product-"+id).addClass('tr-quick-edit').after(data.html);
+                     $("#news-"+id).addClass('tr-quick-edit').after(data.html);
                 }    
             });
         });
@@ -262,26 +262,16 @@
             var id = $("#id").val();
             var name = $("#name").val();
             var slug = $("#slug").val();
-            var color = $("#color").val();
-            var size = $("#size").val();
-            var cost = $("#cost").val();
-            var price = $("#price").val();
-            var sale = $("#sale").val();
-            var tax = $("#tax").val();
             var sort = $("#sort").val();
-            var highlight = $("input[name=highlight]").is(':checked')? 1 : 0;
-            var hot = $("input[name=hot]").is(':checked')? 1 : 0;
-            var sticky = $("input[name=sticky]").is(':checked')? 1 : 0;
-            var promote = $("input[name=promote]").is(':checked')? 1 : 0;
+            var status = $("input[name=status]").is(':checked')? 1 : 0;
             var category_id = $("#basic-quick-edit").val();
             var category_text = $("#basic-quick-edit option:selected").text();
             $.ajax({
                 type:"POST",
-                url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'quickupdate')) ?>",
-                data: {'id': id, 'name': name, 'slug': slug, 'color': color, 
-                       'size': size, 'cost': cost, 'price': price, 'sale': sale, 
-                       'sort': sort, 'highlight': highlight, 'hot': hot, 'sticky': sticky, 
-                       'promote': promote, 'category_id' : category_id},
+                url: "<?php echo $this->url($this->route, array('controller' => 'news', 'action' => 'quickupdate')) ?>",
+                data: {'id': id, 'name': name, 'slug': slug, 
+                       'sort': sort, 'status': status, 
+                       'category_id' : category_id},
                 dataType: 'JSON',
                 beforeSend: function(){
                 },
@@ -289,18 +279,14 @@
                     if(data.error){
                         $("#error_name").empty().append(data.error.name);
                         $("#error_slug").empty().append(data.error.slug);
-                        $("#error_cost").empty().append(data.error.cost);
-                        $("#error_price").empty().append(data.error.price);
                     }else{
+                        
                         alert('Cập nhật thành công.');
                         $('.edit-row').remove();
                         $(".form-table .table>tbody>tr").removeAttr('style');
-                        $(".form-table .table>tbody>tr#product-"+id+ " .key-title").empty().append(name);
-                        $(".form-table .table>tbody>tr#product-"+id+ " .column_price").empty().append(price);
-                        $(".form-table .table>tbody>tr#product-"+id+ " .column_cost").empty().append(cost);
-                        $(".form-table .table>tbody>tr#product-"+id+ " .column_cost").empty().append(cost);
-                        $(".form-table .table>tbody>tr#product-"+id+ " .column_sort input").val(sort);
-                        $(".form-table .table>tbody>tr#product-"+id+ " .column_category").empty().append(category_text);
+                        $(".form-table .table>tbody>tr#news-"+id+ " .key-title").empty().append(name);
+                        $(".form-table .table>tbody>tr#news-"+id+ " .column_sort input").val(sort);
+                        $(".form-table .table>tbody>tr#news-"+id+ " .column_category").empty().append(category_text);
                     }
                 }    
             });
