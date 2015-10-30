@@ -52,7 +52,8 @@ class ValidateNews{
 		}
         
         // kiểm tra image
-        if(isset($arrayParam['id']) == false){
+        if($options == 'add'){
+          if(isset($arrayParam['id']) == false){
             $validator = new \Zend\Validator\ValidatorChain();
             $validator->addValidator(new \Zend\Validator\NotEmpty(), true);
             $validator->addValidator(new \Zend\Validator\File\MimeType('image/jpg, image/jpeg, image/png'));
@@ -64,7 +65,24 @@ class ValidateNews{
                 $message = $validator->getMessages();
                 $this->_messagesError['image'] = current($message);
             }
+          }
         }
+        if($options == 'edit'){
+          if(isset($arrayParam['post']['image']) && !empty($arrayParam['post']['image']['name'])){
+            $validator = new \Zend\Validator\ValidatorChain();
+            $validator->addValidator(new \Zend\Validator\NotEmpty(), true);
+            $validator->addValidator(new \Zend\Validator\File\MimeType('image/jpg, image/jpeg, image/png'));
+            $validator->addValidator(new \Zend\Validator\File\ImageSize(array(
+                'minWidth' => NEWS_MIN_WIDTH, 'minHeight' => NEWS_MIN_HEIGHT,
+                'maxWidth' => NEWS_MAX_WIDTH, 'maxHeight' => NEWS_MAX_HRIGHT,
+            )));
+            if(!$validator->isValid($arrayParam['post']['image']['tmp_name'])){
+                $message = $validator->getMessages();
+                $this->_messagesError['image'] = current($message);
+            }
+          }
+        }
+        
 	}
     //============================================
 	//Kiem Tra Va Tra Ve True Neu Co Loi

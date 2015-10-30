@@ -9,6 +9,7 @@ use Backend\Model\Category;
 use Sky\Uploads\Upload;
 use Sky\Uploads\Thumbs;
 use Backend\Form\ValidateNews;
+use Backend\Model\Comment;
 use Backend\Form\ValidateCategory;
 use Zend\Session\Container;
 class NewsController extends AbstractActionController
@@ -168,39 +169,6 @@ class NewsController extends AbstractActionController
         }
         return new JsonModel($arrayParam);
     }
-    public function deleteAction(){
-        $arrayParam = array();
-        $request = $this->getRequest();
-        if($request->isPost()){
-            $arrayParam['id']         = $request->getPost('id');
-            $role = new Role();
-            if($role->getRoleById($arrayParam)){                
-                if($role->deleteRole($arrayParam)){
-                    $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa thành công.</div>');
-                }
-            }
-        }
-        return new JsonModel($arrayParam);
-    }
-    
-    public function updateweightAction(){
-        $arrayParam = array();
-        $request = $this->getRequest();
-        if($request->isPost()){
-            $data        = $request->getPost('info');
-            if(!empty($data)){
-                $role = new Role();
-                foreach ($data as $key => $value){
-                    $arrayParam['id'] = $key;
-                    $arrayParam['weight'] = $value;
-                    $role->updateWeight($arrayParam);
-                    $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Lưu thành công.</div>');
-                }
-            }
-        }
-        return new JsonModel($arrayParam);
-    }
-    
     public function addAction()
     {
         $session = new Container(APPLICATION_KEY);
@@ -310,24 +278,53 @@ class NewsController extends AbstractActionController
         return new JsonModel($arrayParam);
     }
     public function editAction(){
-        $arrayParam = $this->params()->fromRoute();
-        $request = $this->getRequest();
-        $role = new Role();
+        $session = new Container(APPLICATION_KEY);
+        $data = array();
+        $news = new News();
+        $category = new Category();
+        $arrayParam = array();
+        $arrayParam['slug'] = 'news';
         $arrayParam['id'] = $this->params()->fromRoute('id');
-        $roleInfo = $role->getRoleById($arrayParam);
-        if($request->isPost() && !empty($roleInfo)){
-            $arrayParam['post'] = $this->params()->fromPost();
-            $validate = new ValidateRole($arrayParam, 'edit');
-			if($validate->isError() === true){
-				$arrayParam['error'] = $validate->getMessagesError();
+        $dataNews = $news->getNewById($arrayParam);
+        $arrayParam['post'] = $dataNews;
+        $request = $this->getRequest();
+        if($request->isPost() == true){
+          $arrayParam['post']	= array_merge_recursive(
+                              $request->getPost()->toArray(),
+                              $request->getFiles()->toArray());
+          $arrayParam['post']['startday'] = ($arrayParam['post']['startday'])? strtotime($arrayParam['post']['startday']) : 0;
+          $arrayParam['post']['endday'] = ($arrayParam['post']['endday'])? strtotime($arrayParam['post']['endday']) : 0;
+          $arrayParam['post']['created'] = $arrayParam['post']['modified'] = time();
+          $arrayParam['post']['user_id']  = $session->auth['userId'];
+          $validate = new ValidateNews($arrayParam, 'edit');
+          if($validate->isError() === true){
+              $arrayParam['error'] = $validate->getMessagesError();
+              $arrayParam['post']['image'] = $dataNews['image'];
+          }else{
+            if($arrayParam['post']['image']['name'] == ''){
+              $arrayParam['post']['image'] = $dataNews['image'];
             }else{
-                $role->addRole($arrayParam);
-                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật thành công.</div>');
-                return $this->redirect()->toRoute('backend', array('controller' => 'role', 'action' => 'index'));
+              $uploadFile = new Upload();
+              $thumb = new Thumbs();
+              $newName = $uploadFile->uploadImage($arrayParam['post']['image']['name'], NEWS_ICON);
+              // remove image news thumb
+              $thumb->removeImage(NEWS_ICON ."/", array('1' => '150x150/', '2' => ''), $dataNews['image'], 2);
+              // update news image
+              $thumb->createThumb(NEWS_ICON ."/". $newName, array('1' => 150), array('1' => 150), array('1' => NEWS_ICON.'/150x150/'), 1, '');
+              $arrayParam['post']['image'] = $newName;
             }
-        }else{
-            $arrayParam['post'] = $roleInfo;
+            // update news
+            $news->addNews($arrayParam); 
+            $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật tin thành công.</div>');
+            return $this->redirect()->toRoute('backend', array('controller' => 'news', 'action' => 'index')); 
+          }
+            
         }
+        // check category active
+        $dataCategory = $category->getCategoryBySlug($arrayParam);
+        $categoryActive = isset($arrayParam['post']['category_id'])? $arrayParam['post']['category_id']: '0';
+        $data['category'] = '<option value="0">-- Chọn --</option>'.$this->getDataCategory($categoryActive, $dataCategory);
+        
         $data['arrayParam'] = $arrayParam;
         return new ViewModel($data);
     }
@@ -392,5 +389,27 @@ class NewsController extends AbstractActionController
         }
         $data['arrayParam'] = $arrayParam;        
         return new ViewModel($data);
+    }
+    public function deletenewsAction(){
+        $arrayParam = array();
+        $news = new News();
+        $request = $this->getRequest();
+        if($request->isPost() == true){
+            $arrayParam['message'] = '';
+            $arrayParam['product_id'] = $this->params()->fromPost('id');
+            $arrayParam['id'] = $this->params()->fromPost('id');
+            // delete comment
+            $dataNews = $news->getNewById($arrayParam);
+            if($dataNews){
+              $comment = new Comment();
+              $arrayParam['comment_type'] = 'news';
+              $comment->deleteCommentByProductId($arrayParam);
+              $thumb = new Thumbs();
+              $thumb->removeImage(NEWS_ICON ."/", array('1' => '150x150/', '2' => ''), $dataNews['name'], 2);
+              $news->deleteNews($arrayParam['id']);
+              $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa sản phẩm thành công.</div>');
+            }
+        }
+        return new JsonModel($arrayParam); 
     }
 }

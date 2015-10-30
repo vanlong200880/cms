@@ -116,9 +116,6 @@ class News extends AbstractTableGateway
 		);
 		if(isset($arrayParam['id'])){
             // update
-            if($this->getRoleByName($arrayParam)){
-                unset($data['created']);
-            }
             if($this->update($data, 'id = '.$arrayParam['id'])){
                 return true;
             }else{

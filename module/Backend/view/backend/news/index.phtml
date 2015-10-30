@@ -16,7 +16,7 @@
                         </select>
                         <button type="submit" name="apply" class="btn btn-default btn-custom apply">Thực hiện</button>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><a href="<?php echo $this->url('backend', array('controller' => 'product', 'action' => 'add')); ?>" class="btn btn-default btn-custom pull-right">Thêm mới</a></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><a href="<?php echo $this->url('backend', array('controller' => 'news', 'action' => 'add')); ?>" class="btn btn-default btn-custom pull-right">Thêm mới</a></div>
                 </div>
             </div>
         </div>
@@ -232,7 +232,7 @@
     <div class="row">
         <div class="col-lg-12">
 			<?php
-				echo $this->paginationControl($paginator, 'Elastic', 'partial/pagination.phtml',array('name' => 'backend','controller' => 'product','action' => 'index', 'routeParam' => $routeParam));
+				echo $this->paginationControl($paginator, 'Elastic', 'partial/pagination.phtml',array('name' => 'backend','controller' => 'news','action' => 'index', 'routeParam' => $routeParam));
 			?>
         </div>
     </div>
@@ -287,7 +287,6 @@
                 },
                 success: function(data){
                     if(data.error){
-                        console.log((data.error).length);
                         $("#error_name").empty().append(data.error.name);
                         $("#error_slug").empty().append(data.error.slug);
                         $("#error_cost").empty().append(data.error.cost);
@@ -351,14 +350,14 @@
             }   
         });
         
-        // delete product 
+        // delete news 
         $(".form-table .table>tbody>tr>td .row-action a.icon-delete").on('click', function(){
             var id = $(this).attr('data-id');
             var obj = { 'id' : id};
             if (confirm('Bạn có muốn xóa không?')) {
                 $.ajax({
                     type:"POST",
-                    url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'deleteproduct')) ?>",
+                    url: "<?php echo $this->url($this->route, array('controller' => 'news', 'action' => 'deletenews')) ?>",
                     data: obj,
                     dataType: 'JSON',
                     beforeSend: function(){

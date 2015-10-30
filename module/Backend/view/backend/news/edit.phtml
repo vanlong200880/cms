@@ -1,14 +1,14 @@
 <div class="container-fluid">
     <div class="row function-title">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <h1>Sửa sản phẩm</h1>
+            <h1>Sửa tin</h1>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <a href="<?php echo $this->url('backend', array('controller' => 'product', 'action' => 'index')); ?>" class="btn btn-default btn-custom pull-right">Trở lại</a>
+            <a href="<?php echo $this->url('backend', array('controller' => 'news', 'action' => 'index')); ?>" class="btn btn-default btn-custom pull-right">Trở lại</a>
         </div>
     </div>
 </div>
-<form action="<?php echo $this->url('backend', array('controller' => 'product', 'action' => 'edit', 'id' => $arrayParam['id'])); ?>" id="form-add-user" method="post" enctype="multipart/form-data">
+<form action="<?php echo $this->url('backend', array('controller' => 'news', 'action' => 'edit', 'id' => $arrayParam['id'])) ?>" id="form-add-user" method="post" enctype="multipart/form-data">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
@@ -23,15 +23,15 @@
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
-                                                        <label for="name">Tên sản phẩm</label><span class="validation">*</span>
-                                                        <input type="text" data-toggle="tooltip" value="<?php echo isset($arrayParam['post']['name'])?$arrayParam['post']['name']:'' ?>" data-placement="top" title="Nhập tên sản phẩm" class="form-control" id="name" name="name">
+                                                        <label for="name">Tiêu đề</label><span class="validation">*</span>
+                                                        <input type="text" data-toggle="tooltip" value="<?php echo isset($arrayParam['post']['name'])?$arrayParam['post']['name']:'' ?>" data-placement="top" title="Tiêu đề tin tức" class="form-control" id="name" name="name">
                                                         <p class="error"><?php echo isset($arrayParam['error']['name'])? $arrayParam['error']['name']:'' ?></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
                                                         <label for="slug">Slug</label><span class="validation">*</span>
-                                                        <input type="text" data-toggle="tooltip" value="<?php echo isset($arrayParam['post']['slug'])?$arrayParam['post']['slug']:'' ?>" data-placement="top" title="Nhập alias cho sản phẩm" class="form-control" id="slug" name="slug">
+                                                        <input type="text" data-toggle="tooltip" value="<?php echo isset($arrayParam['post']['slug'])?$arrayParam['post']['slug']:'' ?>" data-placement="top" title="Nhập alias cho tin tức" class="form-control" id="slug" name="slug">
                                                         <p class="error"><?php echo isset($arrayParam['error']['slug'])? $arrayParam['error']['slug']:'' ?></p>
                                                     </div>
                                                 </div>
@@ -49,18 +49,6 @@
                                                         <div class="col-lg-6 col-md-4 col-sm-6 col-xs-6">
                                                             <label>&nbsp;</label>
                                                             <div class="add-item" data-toggle="modal" data-target=".bs-category"><i class="fa fa-plus"></i></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="col-lg-12">
-                                                    <div class="row">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <label for="quantity">Số lượng</label>
-                                                                <input type="number" min="1" value="<?php echo isset($arrayParam['post']['quantity'])?$arrayParam['post']['quantity']:'1' ?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Nhập số lượng sản phẩm" id="quantity" name="quantity">
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -85,133 +73,16 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-12">
-                                                    <div class="row">
-                                                        <div class="col-lg-6 col-md-8 col-sm-6 col-xs-6">
-                                                            <div class="form-group">
-                                                                <label for="supplier_id">Nhà cung cấp</label><span class="validation">*</span>
-                                                                <select name="supplier_id" id="supplier_id" class="selectpicker show-tick form-control" data-live-search="true">
-                                                                    <option value="">-- Chọn --</option>
-                                                                    <?php if($supplier): ?>
-                                                                    <?php foreach ($supplier as $val): ?>
-                                                                    <?php $supplierSelect = (isset($arrayParam['post']['supplier_id']) && $arrayParam['post']['supplier_id'] == $val['id'])? 'selected':'' ?>
-                                                                    <option <?php echo $supplierSelect; ?> value="<?php echo $val['id']; ?>"><?php echo $val['name']; ?></option>
-                                                                    <?php endforeach; ?>
-                                                                    <?php endif; ?>
-                                                                </select>
-                                                                <p class="error"><?php echo isset($arrayParam['error']['supplier_id'])? $arrayParam['error']['supplier_id']:'' ?></p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-4 col-sm-6 col-xs-6">
-                                                            <label>&nbsp;</label>
-                                                            <div class="add-item" data-toggle="modal" data-target=".bs-supplier"><i class="fa fa-plus"></i></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                
 
-                                                <div class="col-lg-12">
-                                                    <div class="row">
-                                                        <div class="col-lg-6 col-md-8 col-sm-6 col-xs-6">
-                                                            <div class="form-group">
-                                                                <label for="store_id">Chọn kho hàng</label><span class="validation">*</span>
-                                                                <select name="shop_id" id="store_id" class="selectpicker show-tick form-control" data-live-search="true">
-                                                                    <option value="">-- Chọn --</option>
-                                                                    <?php if($shop): ?>
-                                                                    <?php foreach ($shop as $val): ?>
-                                                                    <?php $shopSelect = (isset($arrayParam['post']['shop_id']) && $arrayParam['post']['shop_id'] == $val['id'])? 'selected':'' ?>
-                                                                    <option <?php echo $shopSelect;?> value="<?php echo $val['id']; ?>"><?php echo $val['name']; ?></option>
-                                                                    <?php endforeach; ?>
-                                                                    <?php endif; ?>
-                                                                </select>
-                                                                <p class="error"><?php echo isset($arrayParam['error']['shop_id'])? $arrayParam['error']['shop_id']:'' ?></p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-4 col-sm-6 col-xs-6">
-                                                            <label>&nbsp;</label>
-                                                            <div class="add-item" data-toggle="modal" data-target=".bs-store"><i class="fa fa-plus"></i></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                
 
-                                                <div class="col-lg-12">
-                                                    <div class="row">
-                                                        <div class="col-lg-6 col-md-8 col-sm-6 col-xs-6">
-                                                            <div class="form-group">
-                                                                <label for="trademark_id">Thương hiệu</label><span class="validation">*</span>
-                                                                <select name="trademark_id" id="trademark_id" class="selectpicker show-tick form-control" data-live-search="true">
-                                                                    <option value="">-- Chọn --</option>
-                                                                    <?php if($trademark): ?>
-                                                                    <?php foreach ($trademark as $val): ?>
-                                                                    <?php $trademarkSelect = (isset($arrayParam['post']['trademark_id']) && $arrayParam['post']['trademark_id'] == $val['id'])? 'selected':'' ?>
-                                                                    <option <?php echo $trademarkSelect; ?> value="<?php echo $val['id']; ?>"><?php echo $val['name']; ?></option>
-                                                                    <?php endforeach; ?>
-                                                                    <?php endif; ?>
-                                                                </select>
-                                                                <p class="error"><?php echo isset($arrayParam['error']['trademark_id'])? $arrayParam['error']['trademark_id']:'' ?></p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-4 col-sm-6 col-xs-6">
-                                                            <label>&nbsp;</label>
-                                                            <div class="add-item" data-toggle="modal" data-target=".bs-trademark"><i class="fa fa-plus"></i></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                               
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="box">
-                                        <div class="box-header"><h2>Thư viện ảnh</h2></div>
-                                        <div class="box-body">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label for="image">Ảnh đại điện</label><span class="validation">*</span>
-                                                        <input type="file" name="image" class="form-control" id="image">
-                                                        <p class="error"><?php echo isset($arrayParam['error']['image'])? $arrayParam['error']['image']:'' ?></p>
-                                                        
-                                                        <div id="view-image" class="form-group">
-                                                            <?php if(isset($arrayParam['dataImage'])): ?>
-                                                            <?php foreach ($arrayParam['dataImage'] as $img): ?>
-                                                                <?php if($img['highlight'] == 1): ?>
-                                                                    <a data-id="<?php echo $img['id']; ?>" class="delete-image"></a>
-                                                                    <img src="<?php echo $this->basePath('files/products/160x180/'.$img['name']); ?>" />
-                                                                <?php endif; ?>
-                                                            <?php endforeach; ?>
-                                                            <?php endif; ?>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label for="image_gallery">Ảnh gallery</label>
-                                                        <?php if(!isset($arrayParam['id'])): ?>
-                                                        <input name="gallery[]" multiple type="file" class="form-control" id="image_gallery">
-                                                        <?php endif; ?>
-                                                        <div id="view-gallery-image" class="form-group">
-                                                            <ul class="clearfix">
-                                                                <li>
-                                                                    <a data-toggle="modal" data-target=".bs-update-gallary"><i class="fa fa-plus"></i></a>
-                                                                </li>
-                                                            <?php if(isset($arrayParam['dataImage'])): ?>
-                                                            <?php foreach ($arrayParam['dataImage'] as $img): ?>
-                                                                <?php if($img['highlight'] != 1): ?>
-                                                                <li id="gallery-id-<?php echo $img['id'] ?>">
-                                                                    <a data-id="<?php echo $img['id']; ?>" class="delete-avartar delete-gallery"></a>
-                                                                    <img src="<?php echo $this->basePath('files/products/160x180/'.$img['name']); ?>" />
-                                                                </li>
-                                                                <?php endif; ?>
-                                                            <?php endforeach; ?>
-                                                            <?php endif; ?>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
+                                    
 
                                     <div class="box">
                                         <div class="box-header"><h2><i class="fa fa-plus"></i> Thông tin website</h2></div>
@@ -232,59 +103,11 @@
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
-                                                                <div class="checkbox">
-                                                                    <label>
-                                                                        <input type="hidden" name="heighlight" value="0">
-                                                                        <input type="checkbox" name="heighlight" id="heighlight" value="1" <?php echo ((isset($arrayParam['post']['heighlight'])) && $arrayParam['post']['heighlight'] == 1)?'checked':'' ?>>
-                                                                        Hiện ở trang chủ
-                                                                    </label>
-                                                                </div>
+                                                                <label for="sort">Sắp xếp</label>
+                                                                <input type="number" min="0" value="<?php echo isset($arrayParam['post']['sort'])?$arrayParam['post']['sort']:'0' ?>" class="form-control" id="sort" name="sort" placeholder="0" data-toggle="tooltip" data-placement="top" title='Nhập thử tự hiển thị'>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <div class="checkbox">
-                                                                    <label>
-                                                                        <input type="hidden" name="new" value="0">
-                                                                        <input type="checkbox" name="new" id="promote" value="1" <?php echo ((isset($arrayParam['post']['new'])) && $arrayParam['post']['new'] == 1)?'checked':'' ?>>
-                                                                        Sản phẩm mới
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <div class="checkbox">
-                                                                    <label>
-                                                                        <input type="hidden" name="hot" value="0">
-                                                                        <input type="checkbox" name="hot" id="promote" value="1" <?php echo ((isset($arrayParam['post']['hot'])) && $arrayParam['post']['hot'] == 1)?'checked':'' ?>>
-                                                                        Sản phẩm hot
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <div class="checkbox">
-                                                                    <label>
-                                                                        <input type="hidden" name="sticky" value="0">
-                                                                        <input type="checkbox" name="sticky" id="promote" value="1" <?php echo ((isset($arrayParam['post']['sticky'])) && $arrayParam['post']['sticky'] == 1)?'checked':'' ?>>
-                                                                        Sản phẩm bán chạy
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <div class="checkbox">
-                                                                    <label>
-                                                                        <input type="hidden" name="promote" value="0">
-                                                                        <input type="checkbox" name="promote" id="promote" value="1" <?php echo ((isset($arrayParam['post']['promote'])) && $arrayParam['post']['promote'] == 1)?'checked':'' ?>>
-                                                                        Sản phẩm quảng cáo
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
 
@@ -295,88 +118,25 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="box">
-                                        <div class="box-header"><h2>Thông tin về giá</h2></div>
+                                        <div class="box-header"><h2>Thư viện ảnh</h2></div>
                                         <div class="box-body">
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
-                                                        <label for="cost">Giá nhập</label><span class="validation">*</span>
-                                                        <input type="number" min="0" class="form-control" value="<?php echo isset($arrayParam['post']['cost'])?$arrayParam['post']['cost']:'' ?>" name="cost" data-toggle="tooltip" data-placement="top" title="Giá nhập hàng (giá gốc)" id="cost">
-                                                        <p class="error"><?php echo isset($arrayParam['error']['cost'])? $arrayParam['error']['price']:'' ?></p>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label for="price">Giá bán</label><span class="validation">*</span>
-                                                        <input type="number" min="0" class="form-control" value="<?php echo isset($arrayParam['post']['price'])?$arrayParam['post']['price']:'' ?>" name="price" id="price" data-toggle="tooltip" data-placement="top" title="Nhập giá bán">
-                                                        <p class="error"><?php echo isset($arrayParam['error']['price'])? $arrayParam['error']['price']:'' ?></p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="row">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <label for="weight">Giảm giá (%)</label>
-                                                                <input type="number" name="sale" min="0" max="100" value="<?php echo isset($arrayParam['post']['sale'])?$arrayParam['post']['sale']:'' ?>" class="form-control" id="sale" data-toggle="tooltip" data-placement="top" title="Giảm giá ( min: 0 - max: 100 )">
-                                                            </div>
+                                                        <label for="image">Ảnh đại điện</label><span class="validation">*</span>
+                                                        <input type="file" name="image" class="form-control" id="image">
+                                                        <p class="error"><?php echo isset($arrayParam['error']['image'])? $arrayParam['error']['image']:'' ?></p>
+                                                        <div id="view-image" class="form-group">
+                                                            <?php if(isset($arrayParam['post']['image'])): ?>
+                                                                    <img src="<?php echo $this->basePath('files/news/150x150/'.$arrayParam['post']['image']); ?>" />
+                                                            <?php endif; ?>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label for="tax">Thuế</label>
-                                                        <input type="number" min="0" max="30" value="<?php echo isset($arrayParam['post']['tax'])?$arrayParam['post']['tax']:'0' ?>" name="tax" class="form-control" data-toggle="tooltip" data-placement="top" title="Thuế (VAT)" id="tax">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="box">
-                                        <div class="box-header"><h2>Thông tin về màu sắc & kích thước</h2></div>
-                                        <div class="box-body">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label for="color">Màu sắc</label>
-                                                        <input type="text" class="form-control" value="<?php echo isset($arrayParam['post']['color'])?$arrayParam['post']['color']:'' ?>" data-toggle="tooltip" data-placement="top" title='Nhập màu sắc cho sản phẩm ( cách nhau bởi dấu "," )' name="color">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label for="size">Size</label>
-                                                        <input type="text" class="form-control" value="<?php echo isset($arrayParam['post']['size'])?$arrayParam['post']['size']:'' ?>" id="size" data-toggle="tooltip" data-placement="top" title='Nhập Size cho sản phẩm ( cách nhau bởi dấu "," )' name="size">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="row">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <label for="sort">Sắp xếp</label>
-                                                                <input type="number" min="0" value="<?php echo isset($arrayParam['post']['sort'])?$arrayParam['post']['sort']:'' ?>" class="form-control" id="sort" name="sort" placeholder="0" data-toggle="tooltip" data-placement="top" title='Nhập thử tự hiển thị'>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-12">
-                                                    <div class="row">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <label for="weight">Khối lượng</label>
-                                                                <input type="number" min="0" value="<?php echo isset($arrayParam['post']['gram'])?$arrayParam['post']['gram']:'' ?>" class="form-control" name="weight" id="weight" data-toggle="tooltip" data-placement="top" title="Nhập khối lượng sản phẩm (không bắt buộc)">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-
+                                    
                                     <div class="box">
                                         <div class="box-header"><h2><i class="fa fa-plus"></i> Thông tin SEO</h2></div>
                                         <div class="box-body box-bs">
@@ -412,7 +172,7 @@
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
                                                         <label for="except">Mô tả ngắn</label>
-                                                        <textarea class="form-control" id="" rows="3" name="excerpt" data-toggle="tooltip" data-placement="top" title="Mô tả ngắn"><?php echo isset($arrayParam['post']['except'])?$arrayParam['post']['except']:'' ?></textarea>
+                                                        <textarea class="form-control ckeditor_excerpt" id="ckeditor_excerpt" rows="3" name="excerpt" data-toggle="tooltip" data-placement="top" title="Mô tả ngắn"><?php echo isset($arrayParam['post']['except'])?$arrayParam['post']['except']:'' ?></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -429,7 +189,7 @@
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
                                                         <label for="content">Nội dung</label>
-                                                        <textarea class="form-control" id="" rows="3" name="content" data-toggle="tooltip" data-placement="top" title="Nội dung"><?php echo isset($arrayParam['post']['content'])?$arrayParam['post']['content']:'' ?></textarea>
+                                                        <textarea class="form-control ckeditor" id="ckeditor" rows="3" name="content" data-toggle="tooltip" data-placement="top" title="Nội dung"><?php echo isset($arrayParam['post']['content'])?$arrayParam['post']['content']:'' ?></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -440,7 +200,7 @@
 
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <button type="submit" name="save" value="save" class="btn btn-default btn-custom add">Cập nhật</button>
+                                    <button type="submit" name="save" value="save" class="btn btn-default btn-custom add">Lưu</button>
                                 </div>
                             </div>
                         </div>
@@ -455,14 +215,14 @@
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
-            <h4 class="modal-title" id="gridSystemModalLabel">Thêm nhóm hàng</h4>
+            <h4 class="modal-title" id="gridSystemModalLabel">Thêm danh mục</h4>
         </div>
         <div class="modal-body">
             <div class="container-fluid">
                 <div class="row">
                     <div class="form-group">
-                        <label for="category_ajax">Tên nhóm</label>
-                        <input type="text" class="form-control" id="category_name" placeholder="Tên nhóm">
+                        <label for="category_ajax">Tên</label>
+                        <input type="text" class="form-control" id="category_name" placeholder="Tên">
                         <p class="error" id="category_name_error"></p>
                     </div>
                     <div class="form-group">
@@ -493,129 +253,12 @@
   </div>
 </div>
 
-<div class="modal fade bs-store modal-custom" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
-            <h4 class="modal-title" id="gridSystemModalLabel">Thêm kho hàng</h4>
-        </div>
-        <div class="modal-body">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="form-group">
-                        <label for="store_name">Tên kho</label>
-                        <input type="text" name="store" class="form-control" id="store_name" placeholder="Tên kho hàng">
-                        <p class="error" id="store_name_error"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default btn-back add" data-dismiss="modal">Bỏ qua</button>
-            <button type="button" id="btn-store-add" class="btn btn-primary btn-custom add">Lưu</button>
-        </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade bs-supplier modal-custom" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
-            <h4 class="modal-title" id="gridSystemModalLabel">Thêm nhà cung cấp</h4>
-        </div>
-        <div class="modal-body">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="form-group">
-                        <label for="supplier">Tên nhà cung cấp</label>
-                        <input type="text" name="supplier" class="form-control" id="supplier_name">
-                        <p class="error" id="supplier_name_error"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default btn-back add" data-dismiss="modal">Bỏ qua</button>
-            <button type="button" id="btn-supplier-add" class="btn btn-primary btn-custom add">Lưu</button>
-        </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal fade bs-trademark modal-custom" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
-            <h4 class="modal-title" id="gridSystemModalLabel">Thêm thương hiệu</h4>
-        </div>
-        <div class="modal-body">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="form-group">
-                        <label for="trademark_name">Tên thương hiệu</label>
-                        <input type="text" name="trademark" value="" class="form-control" id="trademark_name">
-                        <p class="error" id="trademark_name_error"></p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label for="trademark_slug">Slug</label>
-                        <input type="text" name="trademark_slug" value="" class="form-control" id="trademark_slug">
-                        <p class="error" id="trademark_slug_error"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default btn-back add" data-dismiss="modal">Bỏ qua</button>
-            <button type="button" id="btn-trademark-add" class="btn btn-primary btn-custom add">Lưu</button>
-        </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade bs-update-gallary modal-custom" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
-                <h4 class="modal-title" id="gridSystemModalLabel">Đăng hình gallery</h4>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <form method="post" name="multiple_upload_form" id="multiple_upload_form" enctype="multipart/form-data" action="<?php echo $this->url('backend', array('controller' => 'product', 'action' => 'uploadimaggeajax')); ?>">
-                        <div class="form-group">
-                            <p id="gallery-error" class="error"></p>
-                            <input type="hidden" name="image_form_submit" value="1"/>
-                            <input type="hidden" name="product_upload_id" value="<?php echo $arrayParam['id']; ?>"/>
-                            <label for="images_gallery">Chọn ảnh</label>
-                            <input type="file" name="images[]" id="images_gallery" multiple >
-                        </div>
-                    </form> 
-                </div>
-            </div>
-            <div class="progress-bar-block">
-                <div class="uploading none">
-                      <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>          
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script type="text/javascript">
     jQuery(document).ready(function($){
         $('.bs-category').on('shown.bs.modal', function () {
             $.ajax({
                 type:"POST",
-                url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'ajaxloadcategory')) ?>",
+                url: "<?php echo $this->url($this->route, array('controller' => 'news', 'action' => 'ajaxnewsloadcategory')) ?>",
                 data: {},
                 dataType: 'JSON',
                 beforeSend: function( xhr ) {
@@ -634,10 +277,11 @@
             var category = $("#add-category").val();
             $.ajax({
                 type:"POST",
-                url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'ajaxaddcategory')) ?>",
+                url: "<?php echo $this->url($this->route, array('controller' => 'news', 'action' => 'ajaxnewsaddcategory')) ?>",
                 data: {'name': name, 'slug': slug , 'parent': category},
                 dataType: 'JSON',
                 success: function(data){
+                    console.log(data);
                     if(data.error){
                         $("#category_name_error").empty().append(data.error.name);
                         $("#category_slug_error").empty().append(data.error.slug);
@@ -651,121 +295,5 @@
                 }    
            });
         });
-    
-    // supplider
-    $("#btn-supplier-add").on('click', function(){
-        var name = $("#supplier_name").val();
-        $.ajax({
-            type:"POST",
-            url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'ajaxaddsupplier')) ?>",
-            data: {'name': name},
-            dataType: 'JSON',
-            success: function(data){
-                if(data.error){
-                    $("#supplier_name_error").empty().append(data.error.name);
-                }else{
-                    $('.bs-supplier').modal('hide');
-                    $("#supplier_name").val('');
-                    $("#supplier_name_error").empty();
-                    $("#supplier_id").empty().append(data.reloadSupplier);
-                    $('#supplier_id').selectpicker('refresh');
-                }
-            }    
-       });
     });
-    
-    // store
-    $("#btn-store-add").on('click', function(){
-        var name = $("#store_name").val();
-        $.ajax({
-            type:"POST",
-            url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'ajaxaddstore')) ?>",
-            data: {'name': name},
-            dataType: 'JSON',
-            success: function(data){
-                if(data.error){
-                    $("#store_name_error").empty().append(data.error.name);
-                }else{
-                    $('.bs-store').modal('hide');
-                    $("#store_name").val('');
-                    $("#store_name_error").empty();
-                    $("#store_id").empty().append(data.reloadShop);
-                    $('#store_id').selectpicker('refresh');
-                }
-            }    
-       });
-    });
-    // trademark
-    $("#btn-trademark-add").on('click', function(){
-        var name = $("#trademark_name").val();
-        var slug = $("#trademark_slug").val();
-        $.ajax({
-            type:"POST",
-            url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'ajaxaddtrademark')) ?>",
-            data: {'name': name, 'slug': slug},
-            dataType: 'JSON',
-            success: function(data){
-                if(data.error){
-                    $("#trademark_name_error").empty().append(data.error.name);
-                    $("#trademark_slug_error").empty().append(data.error.slug);
-                }else{
-                    $('.bs-trademark').modal('hide');
-                    $("#trademark_name").val('');
-                    $("#trademark_slug").val('');
-                    $("#trademark_name_error").empty();
-                    $("#trademark_slug_error").empty();
-                    $("#trademark_id").empty().append(data.reloadTrademark);
-                    $('#trademark_id').selectpicker('refresh');
-                }
-            }    
-       });
-    });
-    // delete image gallery
-    $("#view-gallery-image ul>li>a.delete-gallery").on('click', function(){
-        var id = $(this).attr('data-id');
-        $.ajax({
-            type:"POST",
-            url: "<?php echo $this->url($this->route, array('controller' => 'product', 'action' => 'deleteimagegallery')) ?>",
-            data: {'id': id},
-            dataType: 'JSON',
-            success: function(data){
-                if((data.message).length > 0){
-                    alert(data.message);
-                }else{
-                    $("#gallery-id-"+ data.id).remove();
-                }
-            }    
-       });
-    });
-    
-    // upload image ajax
-    $('#images_gallery').on('change',function(){
-		$('#multiple_upload_form').ajaxForm({
-			//target:'#images_preview',
-			beforeSubmit:function(e){
-				$('.uploading').show();
-                $(".progress .progress-bar").css('width','100%');
-			},
-			success:function(e){
-                var html = '';
-                $.each( e.imagePreview, function( key, value ) {
-                    html += '<li id="gallery-id-'+value.id+'">';
-                        html += '<a data-id="'+value.id+'" class="delete-avartar delete-gallery"></a>';
-                        html += '<img src="<?php echo $this->basePath("files/products/160x180/'+value.name+'"); ?>" />';
-                    html += '</li>';
-                  });
-               
-                $("#view-gallery-image ul").append(html);
-				$('.uploading').hide();
-                $(".progress .progress-bar").removeAttr('style');
-                $('.bs-update-gallary').modal('hide');
-                document.getElementById("multiple_upload_form").reset();
-			},
-			error:function(e){
-                $("#gallery-error").empty().append('sdfsdf');
-			}
-		}).submit();
-	});
-});
 </script>
-  
