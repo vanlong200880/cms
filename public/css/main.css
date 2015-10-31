@@ -1,8 +1,7 @@
 /*@import "vendors/bootstrap/stylesheets/bootstrap_custom";*/
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic,500italic,700italic,900,900italic&subset=latin,vietnamese);
 .clearfix {
-  clear: both;
-}
+  clear: both; }
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -22,65 +21,49 @@ time, mark, audio, video {
   border: 0;
   font-size: 100%;
   font: inherit;
-  vertical-align: baseline;
-}
+  vertical-align: baseline; }
 
 html, body {
   font-family: "Roboto", sans-serif;
   font-size: 14px;
   line-height: 1;
   zoom: 1;
-  color: #000;
-}
+  color: #000; }
 
 h1, h2, h3, h4, h5, h6 {
-  padding: 5px 0;
-}
+  padding: 5px 0; }
 
 h1 {
-  font-size: 36px;
-}
+  font-size: 36px; }
 
 h2 {
-  font-size: 24px;
-}
+  font-size: 24px; }
 
 h3 {
-  font-size: 18px;
-}
+  font-size: 18px; }
 
 h4 {
-  font-size: 16px;
-}
+  font-size: 16px; }
 
 h5 {
-  font-size: 14px;
-}
+  font-size: 14px; }
 
 h6 {
-  font-size: 13px;
-}
+  font-size: 13px; }
 
 header {
-  /*@include border-left-radius(10px);*/
-}
+  background: #030303;
+  height: 80px; }
 
-ul li {
-  background: #000;
-}
-
-h1 {
-  transition: all 0.3s linear;
-  -moz-transition: all 0.3s linear;
-  -webkit-transition: all 0.3s linear;
-  -ms-transition: all 0.3s linear;
-  -o-transition: all 0.3s linear;
-}
-
-h1:hover {
-  opacity: 0;
-}
-
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 11, 2015, 9:28:01 AM
+    Author     : Curtis
+*/
 /*
  + set breakpoint
  + det device width max-width only
@@ -90,57 +73,43 @@ h1:hover {
 */
 @media all and (max-width: 990px) {
   .abc990 {
-    color: #000;
-  }
-}
+    color: #000; } }
 /*
  + set max width for tablet 960
 */
 @media all and (max-width: 990px) {
   .abc960 {
-    color: #000;
-  }
-}
+    color: #000; } }
 /*
  + set for tablet, min width 767 + 1px max width 990
 */
 @media all and (min-width: 768px) and (max-width: 990px) {
   .abc-max990-min767 {
-    color: #000;
-  }
-}
+    color: #000; } }
 /*
  + set for tablet, min width 767 + 1px max width 960
 */
 @media all and (min-width: 768px) and (max-width: 960px) {
   .abc-max990-min767 {
-    color: #000;
-  }
-}
+    color: #000; } }
 /*
  + set for tablet max width 767
 */
 @media all and (max-width: 767px) {
   .abc767 {
-    color: #fff;
-  }
-}
+    color: #fff; } }
 /*
  + set for tablet small max width 767 and min width 480 + 1px
 */
 @media all and (min-width: 481px) and (max-width: 767px) {
   .abc-max767-min480 {
-    color: #000;
-  }
-}
+    color: #000; } }
 /*
  + set for mobile max width 480
 */
 @media all and (max-width: 480px) {
   .abc480 {
-    color: #000;
-  }
-}
+    color: #000; } }
 /*
  + set for mobile max width 320
 */

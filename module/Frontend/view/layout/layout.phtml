@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>SASS</title>
+	<title>HOME</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?php 
 		echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image', 'href' => $this->basePath() . '/img/faviconaa.ico'))
@@ -14,38 +14,25 @@
 	<header class="header">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-12"><h1>Header</h1></div>
+                <div class="col-md-12">
+                    <?php echo $this->header(); ?>
+                </div>
 			</div>
 		</div>
 	</header>
-	<div class="nav">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<ul class="nav nav-pills">
-						<li><a href="">Home</a></li>
-						<li><a href="">About</a></li>
-						<li><a href="">Contact</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
 	<div class="wrapper">
-		<section class="section"></section>
+        <section class="section">
+            <?php echo $this->content; ?>
+        </section>
 	</div>
 	<footer class="footer">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-12">Footer</div>
+                <div class="col-md-12">
+                    <?php echo $this->header(); ?>
+                </div>
 			</div>
 		</div>
 	</footer>
 </body>
 </html>
-
-Layout: 
-<?php
-
-// echo $this->content;
-

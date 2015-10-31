@@ -24,6 +24,13 @@ return array(
             'translator' => 'MvcTranslator',
         ),
     ),
+    'view_helpers' => array(
+        'invokables' => array(
+            'header' => 'Frontend\Block\header',
+            'footer' => 'Frontend\Block\footer', 
+            'slider' => 'Frontend\Block\slider', 
+        ),
+    ),
     'translator' => array(
         'locale' => 'en_VI',
         'translation_file_patterns' => array(
