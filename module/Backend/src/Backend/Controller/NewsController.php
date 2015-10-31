@@ -403,9 +403,9 @@ class NewsController extends AbstractActionController
               $arrayParam['comment_type'] = 'news';
               $comment->deleteCommentByProductId($arrayParam);
               $thumb = new Thumbs();
-              $thumb->removeImage(NEWS_ICON ."/", array('1' => '150x150/', '2' => ''), $dataNews['name'], 2);
+              $thumb->removeImage(NEWS_ICON ."/", array('1' => '150x150/', '2' => ''), $dataNews['image'], 2);
               $news->deleteNews($arrayParam['id']);
-              $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa sản phẩm thành công.</div>');
+              $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa tin thành công.</div>');
             }
         }
         return new JsonModel($arrayParam); 
@@ -427,7 +427,7 @@ class NewsController extends AbstractActionController
             if($dataNews){
                 $dataNews['status']         = ($dataNews['status'] == 1)? 'checked': '';
                 $html .= '<tr id="edit-'.$dataNews['id'].'" class="edit-row">
-                            <td colspan="9" class="">
+                            <td colspan="6">
                                 <div class="column-qiuck-edit">
                                     <div class="col-lg-12"><h2>Sửa nhanh</h2></div>
                                     <div class="col-lg-6">

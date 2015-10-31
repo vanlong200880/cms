@@ -200,7 +200,7 @@ class News extends AbstractTableGateway
     
     public function getAllNewsByArrayCategoryId($arrayParam = null){
         $select = new Select();
-        $select->columns(array('id'));
+        $select->columns(array('id', 'image'));
         $select->from($this->table);
         $select->where->or->nest->in('category_id',$arrayParam['list']);
         $resultSet = $this->selectWith($select);

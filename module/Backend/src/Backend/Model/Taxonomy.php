@@ -16,10 +16,6 @@ class Taxonomy extends AbstractTableGateway
     }
     // delete language
     public function deleteTaxonomy($arrayParam = null){
-        $userRole = new UserRole();
-//        $rolePermision = new RolePermission();
-//        $userRole->deleteUserRoleByRoleId($arrayParam['id']);
-//        $rolePermision->deletePermisionByRole($arrayParam);
         if($this->delete('id = ' . $arrayParam['id'])){
             return true;
         }

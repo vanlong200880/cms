@@ -159,6 +159,9 @@ class Category extends AbstractTableGateway
     public  function deleteCategoryById($id){
         $this->delete('id = '.$id);
     }
+    public  function deleteCategoryByTaxonomyId($arrayParam = null){
+        $this->delete('taxonomy_id = '.$arrayParam['id']);
+    }
     
     public function updateStatus($arrayParam = null){
         $data = array(
@@ -190,6 +193,27 @@ class Category extends AbstractTableGateway
 		  'sort' => $dataSort['sort']
 		);
         $this->update($data, 'id = '.$dataSort['id']);
+	}
+    
+    // update quick edit
+    public function updateQuickEdit($arrayParam = null)
+	{
+		$data = array(
+            'parent'		=> $arrayParam['post']['parent'], 
+            'name'          => $arrayParam['post']['name'],
+            'slug'          => $arrayParam['post']['slug'],
+            'changed'       => $arrayParam['post']['changed'],
+            'sort'          => $arrayParam['post']['sort'],
+            'status'        => $arrayParam['post']['status']
+		);
+		if(isset($arrayParam['id'])){
+            // update
+            if($this->update($data, 'id = '.$arrayParam['id'])){
+                return true;
+            }else{
+                return false;
+            }
+		}
 	}
     
 }

@@ -288,7 +288,7 @@ class CategoryController extends AbstractActionController
             $arrayParam['id']         = $request->getPost('id');
             $arrayParam['action'] = $request->getPost('action');
             $arrayParam['parent'] = $request->getPost('parent');
-            $arrayParam['category_id']         = $request->getPost('category_id');
+            $arrayParam['parent_id']         = $request->getPost('parent_id');
             $dataCategory = $category->getCategoryByTaxonomyId($arrayParam);
             if($arrayParam['action'] == 'edit'){
                 foreach ($dataCategory as $key => $value){
@@ -301,7 +301,7 @@ class CategoryController extends AbstractActionController
                     }
                 }
             }
-            $html = $this->getDataMenu($arrayParam['category_id'], $dataCategory);
+            $html = $this->getDataMenu($arrayParam['parent_id'], $dataCategory);
             $arrayParam['data'] = '<option value="0">-- Chọn --</option>'.$html;
         }
         return new JsonModel($arrayParam);
@@ -467,5 +467,137 @@ class CategoryController extends AbstractActionController
             }
         }
         return $arr;
+    }
+    
+    public function quickeditAction(){
+        $arrayParam = array();
+        $request = $this->getRequest();
+        $html = '';
+        if($request->isPost() == true){
+            $category = new Category();
+            // get list category by taxonomy id
+            $arrayParam['id']         = $request->getPost('taxonomy_id');
+            $arrayParam['parent'] = $request->getPost('id');
+            $arrayParam['category_id']         = $request->getPost('id');
+            $dataListCategory = $category->getCategoryByTaxonomyId($arrayParam);
+            foreach ($dataListCategory as $key => $value){
+                if($value['id'] == $arrayParam['parent'])
+                {
+                    unset($dataListCategory[$key]);
+                }
+            }
+            $arrayParam['id'] = $request->getPost('id');
+            $dataCategory = $category->getCategoryById($arrayParam);
+            $htmlCategory = $this->getDataMenu($arrayParam['category_id'], $dataListCategory);
+            if($dataCategory){
+                $dataCategory['status']         = ($dataCategory['status'] == 1)? 'checked': '';
+                $html .= '<tr id="edit-'.$dataCategory['id'].'" class="edit-row">
+                            <td colspan="7">
+                                <div class="column-qiuck-edit">
+                                    <div class="col-lg-12"><h2>Sửa nhanh</h2></div>
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <input type="hidden" value="'.$dataCategory['id'].'" id="id">
+                                                    <label for="name">Tên danh mục</label><span class="validation">*</span>
+                                                    <input type="text" data-toggle="tooltip" value="'.$dataCategory['name'].'" data-placement="top" title="Tên danh mục" class="form-control" id="name" name="name">
+                                                    <p class="error" id="error_name"></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="slug">Slug</label><span class="validation">*</span>
+                                                    <input type="text" data-toggle="tooltip" value="'.$dataCategory['slug'].'" data-placement="top" title="Nhập định danh" class="form-control" id="slug" name="slug">
+                                                    <p class="error" id="error_slug"></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="hidden" name="status" value="0">
+                                                            <input type="checkbox" name="status" id="status" value="1" '.$dataCategory['status'].'>Đăng
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label>Danh mục cha</label>
+                                                    <select id="basic-quick-edit" class="selectpicker show-tick form-control" data-live-search="true">
+                                                        '.$htmlCategory.'
+                                                     </select>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="sort">Sắp xếp</label>
+                                                    <input type="number" min="0" value="'.$dataCategory['sort'].'" class="form-control" id="sort" name="sort" placeholder="0" data-toggle="tooltip" data-placement="top" title="Nhập thử tự hiển thị">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <button type="button" class="btn btn-default btn-back">Trở lại</button>
+                                                    <button type="button" class="btn btn-default btn-custom pull-right" id="quick-edit">Cập nhật</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6"></div>
+                                </div>
+                            </td>
+                        </tr>';
+            }
+        }
+        $arrayParam['html'] = $html;
+        return new JsonModel($arrayParam);
+    }
+    
+    public function getDataCategory($active = '', $data ,$parent = 0, $text = ''){
+        $dataOption = array();
+        
+        foreach ($data as $key => $value){
+            if($value['parent'] == $parent){
+                $dataOption[] = $value;
+                unset($data[$key]);
+            }
+        }
+        $html = '';
+        if($dataOption){
+            foreach ($dataOption as $key => $val){
+                $selected = ($val['id'] == $active)?'selected':'';
+                $html .= '<option '.$selected.' value="'.$val['id'].'">'.$text.$val['name']. '</option>';
+                $html .= $this->getDataCategory($active, $data, $val['id'], $text.'--');
+            }
+        }
+        return $html;
+    }
+    public function quickupdateAction(){
+        $arrayParam = array();
+        $request = $this->getRequest();
+        if($request->isPost() == true){
+            $arrayParam['post'] = $this->params()->fromPost();
+            $arrayParam['id'] = $this->params()->fromPost('id');
+            $validate = new ValidateCategory($arrayParam, 'category_ajax');
+            if($validate->isError() === true){
+                $arrayParam['error'] = $validate->getMessagesError();
+            }else{
+                $arrayParam['aaa'] = $arrayParam;
+                $arrayParam['post']['changed'] = time();
+                $category = new Category();
+                $category->updateQuickEdit($arrayParam);
+            }
+        }
+        return new JsonModel($arrayParam);
     }
 }
