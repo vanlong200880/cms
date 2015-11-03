@@ -1,0 +1,55 @@
+.deposit-form{
+    input{
+        box-sizing: border-box;
+    }
+    .modal-header{
+        padding: 5px 15px;
+        background: $background-bottom;
+        @include border-top-left-radius(3px);
+        @include border-top-right-radius(3px);
+        border-bottom-color: #a86016;
+        color: #FFF;
+        font-weight: bold;
+    }
+    .form-group{
+        margin-bottom: 30px;
+    }
+    .btn-primary{
+        background: #353535;
+        margin-right: 15px;
+    }
+    .login-line{
+        height: 1px;
+        background: #d0d0d0;
+    }
+    a{
+        color: #418bca;
+        text-decoration: none;
+    }
+    p{
+        padding-top: 15px;
+    }
+    .close{
+        @include border-radius(50%);
+        background: #FFF;
+        width: 20px;
+        height: 20px;
+        opacity: 1;
+        margin-top: 5px;
+        outline: none;
+        padding: 0;
+    }
+    .validation{
+        color: red;
+    }
+}
+/* register form */
+#register{
+    .form-group{
+        margin-bottom: 15px;
+    }
+    .modal-body{
+        padding-right: 50px;
+    }
+}
+/* end register form */

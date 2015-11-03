@@ -7,8 +7,16 @@
 	<?php 
 		echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image', 'href' => $this->basePath() . '/img/faviconaa.ico'))
 					->prependStylesheet($this->basePath() . '/css/main.css')
-					->prependStylesheet($this->basePath() . '/css/bootstrap.css'); 
+					->prependStylesheet($this->basePath() . '/libs/font-awesome/css/font-awesome.min.css')
+                    ->prependStylesheet($this->basePath() . '/libs/bootstrap/css/bootstrap.min.css'); 
+        
 	?>
+    <?php echo $this->headScript()
+            ->prependFile($this->basePath() . '/libs/bootstrap/js/bootstrap.min.js')
+            ->prependFile($this->basePath() . '/js/jquery-1.11.3.js')
+            ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+            ->prependFile($this->basePath() . '/js/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',))
+        ; ?>
 </head>
 <body>
 	<header class="header">
@@ -34,5 +42,143 @@
 			</div>
 		</div>
 	</footer>
+    
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
+    <div id="login" class="modal fade bs-example-modal-sm deposit-form" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Sign In</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input type="text" class="form-control" id="username" value="" placeholder="Username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                        <input type="password" class="form-control" id="password" value="" placeholder="Password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary">Login</button>
+                    <a href="#" class="forgot-password control-label">Forgot password?</a>
+                </div>
+                <div class="login-line"></div>
+                <p>Don't have an account <a href="#">Sign Up Here</a></p>
+            </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-default" data-toggle="modal" data-target="#register">
+      Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade deposit-form" id="register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Register User</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="sponsor-id" class="col-sm-4 control-label">Sponsor ID:<span class="validation">*</span> </label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="sponsor-id" id="sponsor-id">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="commitment-amount" class="col-sm-4 control-label">Commitment Amount:<span class="validation">*</span> </label>
+                            <div class="col-sm-8">
+                                <select class="form-control">
+                                    <option value="1">Select commitment</option>
+                                    <option value="2">Option 1</option>
+                                    <option value="3">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="member-name" class="col-sm-4 control-label">Member Name:<span class="validation">*</span> </label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="member-name" id="member-name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="mobile" class="col-sm-4 control-label">Mobile No.:<span class="validation">*</span> </label>
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <select class="form-control">
+                                            <option value="1">+015</option>
+                                            <option value="2">+84</option>
+                                            <option value="3">+87</option>
+                                            <option value="3">+064</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="mobile" id="mobile">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="col-sm-4 control-label">Email:<span class="validation">*</span> </label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="email" id="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="col-sm-4 control-label">Country:<span class="validation">*</span> </label>
+                            <div class="col-sm-8">
+                                <select class="form-control">
+                                    <option value="1">Select Country</option>
+                                    <option value="2">Vietnam</option>
+                                    <option value="3">Japan</option>
+                                    <option value="3">My</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="skype" class="col-sm-4 control-label">Skype:<span class="validation">*</span> </label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="skype" id="skype">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="security" class="col-sm-4 control-label">Security code:<span class="validation">*</span> </label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="security" id="security">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="security" class="col-sm-4 control-label"></label>
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <button type="button" class="btn btn-primary">Register</button>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p>you already have an account? <a href="#">Login</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

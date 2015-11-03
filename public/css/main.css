@@ -64,6 +64,60 @@ and open the template in the editor.
     Created on : Sep 11, 2015, 9:28:01 AM
     Author     : Curtis
 */
+.deposit-form input {
+  box-sizing: border-box; }
+.deposit-form .modal-header {
+  padding: 5px 15px;
+  background: #f19a0d;
+  border-top-left-radius: 3px;
+  -moz-border-top-left-radius: 3px;
+  -webkit-border-top-left-radius: 3px;
+  -ms-border-top-left-radius: 3px;
+  -o-border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  -moz-border-top-right-radius: 3px;
+  -webkit-border-top-right-radius: 3px;
+  -ms-border-top-right-radius: 3px;
+  -o-border-top-right-radius: 3px;
+  border-bottom-color: #a86016;
+  color: #FFF;
+  font-weight: bold; }
+.deposit-form .form-group {
+  margin-bottom: 30px; }
+.deposit-form .btn-primary {
+  background: #353535;
+  margin-right: 15px; }
+.deposit-form .login-line {
+  height: 1px;
+  background: #d0d0d0; }
+.deposit-form a {
+  color: #418bca;
+  text-decoration: none; }
+.deposit-form p {
+  padding-top: 15px; }
+.deposit-form .close {
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -o-border-radius: 50%;
+  -ms-border-radius: 50%;
+  background: #FFF;
+  width: 20px;
+  height: 20px;
+  opacity: 1;
+  margin-top: 5px;
+  outline: none;
+  padding: 0; }
+.deposit-form .validation {
+  color: red; }
+
+/* register form */
+#register .form-group {
+  margin-bottom: 15px; }
+#register .modal-body {
+  padding-right: 50px; }
+
+/* end register form */
 /*
  + set breakpoint
  + det device width max-width only
