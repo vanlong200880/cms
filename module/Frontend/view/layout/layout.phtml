@@ -7,11 +7,13 @@
 	<?php 
 		echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image', 'href' => $this->basePath() . '/img/faviconaa.ico'))
 					->prependStylesheet($this->basePath() . '/css/main.css')
+                    ->prependStylesheet($this->basePath() . '/libs/owl-carousel/owl.carousel.css')
 					->prependStylesheet($this->basePath() . '/libs/font-awesome/css/font-awesome.min.css')
                     ->prependStylesheet($this->basePath() . '/libs/bootstrap/css/bootstrap.min.css'); 
         
 	?>
     <?php echo $this->headScript()
+            ->prependFile($this->basePath() . '/libs/owl-carousel/owl.carousel.min.js')
             ->prependFile($this->basePath() . '/libs/bootstrap/js/bootstrap.min.js')
             ->prependFile($this->basePath() . '/js/jquery-1.11.3.js')
             ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
@@ -19,15 +21,7 @@
         ; ?>
 </head>
 <body>
-	<header class="header">
-		<div class="container">
-			<div class="row">
-                <div class="col-md-12">
-                    <?php echo $this->header(); ?>
-                </div>
-			</div>
-		</div>
-	</header>
+    <?php echo $this->header(); ?>
 	<div class="wrapper">
         <section class="section">
             <?php echo $this->content; ?>
@@ -37,13 +31,13 @@
 		<div class="container">
 			<div class="row">
                 <div class="col-md-12">
-                    <?php echo $this->header(); ?>
+                    <?php echo $this->footer(); ?>
                 </div>
 			</div>
 		</div>
 	</footer>
     
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
+    
     <div id="login" class="modal fade bs-example-modal-sm deposit-form" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -76,10 +70,6 @@
     </div>
     
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary btn-default" data-toggle="modal" data-target="#register">
-      Launch demo modal
-    </button>
-
     <!-- Modal -->
     <div class="modal fade deposit-form" id="register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">

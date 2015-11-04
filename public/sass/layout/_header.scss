@@ -1,4 +1,49 @@
 header{
 	background: $background;
-    height: 80px;
+}
+header{
+    .col-md-2,
+    .col-md-3{
+        width: 20%;
+    }
+    img{
+        max-height: 80px;
+    }
+    .col-md-7{
+        width: 60%;
+    }
+    ul.nav-menu{
+        padding-top: 30px;
+        li{
+            float: left;
+            padding: 5px 20px;
+            a{
+                color: #FFF;
+                text-transform: uppercase;
+            }
+        }
+    }
+    ul.login{
+        padding-top: 25px;
+        li{
+            float: left;
+            padding: 7px 20px;
+            a{
+                color: #FFF;
+            }
+            &:first-child{
+                border: $border;
+                @include border-top-right-radius(10px);
+                @include border-bottom-left-radius(10px);
+                margin-right: 15px;
+            }
+            &:last-child{
+                border: 1px solid #FFF;
+                @include border-top-right-radius(10px);
+                @include border-bottom-left-radius(10px);
+            }
+        }
+        
+    } 
+    
 }

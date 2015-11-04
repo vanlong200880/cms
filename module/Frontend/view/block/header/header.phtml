@@ -1,10 +1,25 @@
-
-This is Header
-    <?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+<header class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"> 
+                <img src="<?php echo $this->basePath('img/logo.png'); ?>">
+            </div>
+            <div class="col-md-7">
+                <ul class="nav-menu clearfix pull-right">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Investment overview</a></li>
+                    <li><a href="#">News</a></li>
+                    <li><a href="#">Faq</a></li>
+                    <li><a href="#">Contact us</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <ul class="login clearfix pull-right">
+                    <li><a data-toggle="modal" data-target=".bs-example-modal-sm">Login</a></li>
+                    <li><a data-toggle="modal" data-target="#register">Sign up</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>

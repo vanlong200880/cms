@@ -1,0 +1,42 @@
+.section{
+    width: 100%;
+}
+#slider{
+    overflow: hidden;
+    position: relative;
+    .item{
+        img{
+            max-width: 100%;
+        }
+    }
+    .owl-buttons{
+/*        overflow: hidden;
+        position: relative;*/
+        div{
+            position: absolute;
+            z-index: 9;
+            top: 43%;
+            
+        }
+        div.owl-prev{
+            left: -10%;
+            @include transition(left 0.5s);
+        }
+        div.owl-next{
+            right: -10%;
+            @include transition(right 0.5s);
+        }
+        i{
+            font-size: 60px;
+            color: #FFF;
+        }
+    }
+    &:hover{
+        div.owl-next{
+            right: 5%;
+        }
+        div.owl-prev{
+            left: 5%;
+        }
+    }
+}

@@ -1,10 +1,28 @@
-
-This is slider
-    <?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+<div id="slider" class="owl-carousel">
+        <div class="item">
+            <a href="#">
+                <img src="<?php echo $this->basePath('files/sliders/slider.png');?>" alt="">
+            </a>
+        </div>
+        <div class="item">
+            <a href="#">
+                <img src="<?php echo $this->basePath('files/sliders/slider1.png');?>" alt="">
+            </a>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+          $("#slider").owlCarousel({
+                autoPlay: 6000,
+                navigation : true,
+                slideSpeed : 300,
+                paginationSpeed : 1500,
+                singleItem : true,
+                navigationText : ["<i class='fa fa-angle-left'></i>","<i class='fa fa-angle-right'></i>"],
+                rewindNav : true,
+                stopOnHover : true,
+                pagination : false,
+                paginationNumbers: false
+          });
+        });
+    </script>
