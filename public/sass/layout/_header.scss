@@ -1,7 +1,14 @@
-header{
-	background: $background;
+header.fixed{
+    position: fixed;
+    width: 100%;
+    z-index: 99;
+    top: 82px;
+    margin-top: -82px;
+    @include transition(top 0.8s);
 }
 header{
+    background: $background;
+    top: 0;
     .col-md-2,
     .col-md-3{
         width: 20%;
@@ -13,14 +20,28 @@ header{
         width: 60%;
     }
     ul.nav-menu{
-        padding-top: 30px;
+        padding-top: 25px;
         li{
             float: left;
-            padding: 5px 20px;
+            padding: 7px 20px;
+            border: 1px solid transparent;
+            @include transition(border 0.3s);
+            @include border-top-right-radius(15px);
+            @include border-bottom-left-radius(15px);
             a{
                 color: #FFF;
                 text-transform: uppercase;
+                @include transition(color 0.2s);
             }
+            &:hover{
+                border: 1px solid $color-border;
+                @include transition(border 0.3s);
+                a{
+                    color: $color-hover;
+                    @include transition(color 0.2s);
+                }
+            }
+            
         }
     }
     ul.login{
@@ -44,6 +65,5 @@ header{
             }
         }
         
-    } 
-    
+    }    
 }
