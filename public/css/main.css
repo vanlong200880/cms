@@ -232,15 +232,66 @@ section.block-about-us {
     margin-bottom: 10px;
     text-align: justify; }
 
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : Sep 11, 2015, 9:28:01 AM
-    Author     : Curtis
-*/
+footer {
+  background: #030303;
+  padding: 15px 0; }
+  footer img {
+    max-height: 80px; }
+  footer div.col-md-4 {
+    border-right: 1px solid #2c2b31; }
+    footer div.col-md-4:last-of-type {
+      border-right: none; }
+    footer div.col-md-4 div.news h2 {
+      color: #FFF;
+      font-size: 24px;
+      text-transform: uppercase; }
+    footer div.col-md-4 div.news ul {
+      margin-left: 30px; }
+      footer div.col-md-4 div.news ul li {
+        list-style-type: square;
+        color: #FFF; }
+    footer div.col-md-4 div.social ul li {
+      display: inline-block; }
+      footer div.col-md-4 div.social ul li a {
+        color: #dadada; }
+        footer div.col-md-4 div.social ul li a i {
+          font-size: 30px; }
+  footer div.footer-block p {
+    color: #FFF;
+    margin-top: 15px;
+    line-height: 1.7;
+    font-size: 16px; }
+  footer div.footer-block p.logo {
+    margin-top: 0; }
+  footer div.footer-block p.address {
+    padding-right: 15px; }
+  footer div.footer-block p.coppyright {
+    font-size: 14px;
+    color: #737373; }
+    footer div.footer-block p.coppyright span {
+      text-transform: uppercase; }
+  footer div.footer-block ul li {
+    display: inline-block;
+    padding: 0 5px; }
+  footer ul {
+    margin-top: 15px; }
+    footer ul li {
+      line-height: 1.7; }
+      footer ul li a {
+        color: #FFF;
+        font-size: 14px; }
+        footer ul li a:hover {
+          color: #f19a0d; }
+        footer ul li a i.fa {
+          font-size: 20px;
+          padding-right: 15px;
+          width: 30px;
+          position: relative;
+          top: 2px; }
+        footer ul li a i.fa.fa-mobile {
+          font-size: 36px;
+          top: 5px; }
+
 .deposit-form input {
   box-sizing: border-box; }
 .deposit-form .modal-header {

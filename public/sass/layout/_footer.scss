@@ -1,10 +1,94 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : Sep 11, 2015, 9:28:01 AM
-    Author     : Curtis
-*/
-
+footer{
+    background: $background;
+    padding: 15px 0;
+    img{
+        max-height: 80px;
+    }
+    div.col-md-4{
+        border-right: 1px solid #2c2b31;
+        &:last-of-type{
+            border-right: none;
+        }
+        div.news{
+            h2{
+                color: #FFF;
+                font-size: 24px;
+                text-transform: uppercase;
+            }
+            ul {
+                margin-left: 30px;
+                li{
+                    list-style-type: square;
+                    color: #FFF;
+                }
+            }
+        }
+        div.social{
+            ul{
+                li{
+                    display: inline-block;
+                    a{
+                        color: #dadada;
+                        i{
+                            font-size: 30px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    div.footer-block{
+        p{
+            color: #FFF;
+            margin-top: 15px;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+        p.logo{
+            margin-top: 0;
+        }
+        p.address{
+            
+            padding-right: 15px;
+        }
+        p.coppyright{
+            font-size: 14px;
+            color: #737373;
+            span{
+                text-transform: uppercase;
+            }
+        }
+        ul{
+            li{
+                display: inline-block;
+                padding: 0 5px;
+            }
+        }
+    }
+    ul{
+        margin-top: 15px;
+        li{
+            line-height: 1.7;
+            a{
+                color: #FFF;
+                font-size: 14px;
+                &:hover{
+                    color: $color-hover;
+                }  
+                i.fa{
+                    font-size: 20px;
+                    padding-right: 15px;
+                    width: 30px;
+                    position: relative;
+                    top: 2px;
+                    
+                }
+                i.fa.fa-mobile{
+                    font-size: 36px;
+                    top: 5px;
+                }
+            }
+            
+        }
+    }
+}
