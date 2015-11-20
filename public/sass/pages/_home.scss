@@ -26,3 +26,129 @@ section.block-about-us{
         text-align: justify;
     }
 }
+section.block-deposit{
+    padding: 30px 0;
+    div.deposit-12{
+        text-align: center;
+        div.block-deposit-title{
+            display: inline-block;
+            max-width: 40%;
+            h1{
+                font-weight: bold;
+                font-size: 40px;
+            }
+            p{
+                line-height: 1.5;
+                font-size: 15px;
+            }
+        }
+    }
+    .col-md-12.rotate{
+        min-height: 460px;
+        .item{
+            width: 65%;
+            margin: 0 auto;
+            position: relative;
+            margin-top: 30px;
+            .item-logo{
+                width: 200px;
+                height: 200px;
+                line-height: 200px;
+                text-align: center;
+                margin: 0 auto;
+                background: $background;
+                @include border-radius(50%);
+                img{
+                    display: inline-block;
+                    max-width: 150px;
+                    vertical-align: middle;
+                }
+            }
+            .item-blance{
+                ul{
+                    li{
+                        div.blance{
+                            width: 100px;
+                            height: 100px;
+                            line-height: 100px;
+                            text-align: center;
+                            border: 2px solid $color-border;
+                            @include border-radius(50%);
+                            font-size: 50px;
+                            float: left;
+                        }
+                        div.description{
+                            float: left;
+                            text-align: left;
+                            height: 100px;
+                            margin-left: 10px;
+                            p{
+                                height: 50px;
+                            }
+                            p.name{
+                                padding-top: 20px;
+                                font-size: 24px;
+                            }
+                            p.price{
+                                padding-top: 10px;
+                                font-size: 30px;
+                                font-weight: bold;
+                            }
+                        }
+                        &:nth-child(1){
+                            position: absolute;
+                            left: 0;
+                            top: 50px;
+                            div.description{
+                                margin-left: 0;
+                                margin-right: 10px;
+                            }
+                        }
+                        &:nth-child(2){
+                            position: absolute;
+                            left: 10px;
+                            top: 180px;
+                            div.description{
+                                margin-left: 0;
+                                margin-right: 10px;
+                            }
+                        }
+                        &:nth-child(3){
+                            position: absolute;
+                            left: 50%;
+                            bottom: -250px;
+                            margin-left: -110px;
+                            width: 220px;
+                            text-align: center;
+                            div.description{
+                                margin-left: 0;
+                                margin-right: 10px;
+                                width: 100%;
+                                text-align: center;
+                                p{
+                                    height: auto;
+                                    padding: 0;
+                                    line-height: 1.3;
+                                }
+                            }
+                            div.blance{
+                                float: none;
+                                display: inline-block;
+                            }
+                        }
+                        &:nth-child(5){
+                            position: absolute;
+                            top: 50px;
+                            right: -20px;
+                        }
+                        &:nth-child(4){
+                            position: absolute;
+                            right: 20px;
+                            top: 180px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
