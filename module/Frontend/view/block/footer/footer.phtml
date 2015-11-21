@@ -1,7 +1,7 @@
 <footer class="footer">
     <div class="container">
         <div class="row">
-            <div class="col-md-4 footer-block">
+            <div class="col-md-4 footer-block animated fadeInUp">
                 <p class="logo"><a href="#"><img src="<?php echo $this->basePath('img/logo.png'); ?>"></a></p>
                 <p class="address"><strong>Address: </strong>25 Le Lai, Phuong 25, Quan Tan Binh, HCMC</p>
                 <ul>
@@ -13,7 +13,7 @@
                 </ul>
                 <p class="coppyright">Coppyright 2015 <span>chance4all.net </span>all rights reserved</p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 animated fadeInUp">
                 <div class="news">
                     <h2>News</h2>
                     <ul>
@@ -28,7 +28,7 @@
                     </p>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 animated fadeInUp">
                 <div class="social">
                     <ul>
                         <li><a href="#"><i class="fa fa-facebook-official"></i></a></li>
@@ -52,3 +52,53 @@
         </div>
     </div>
 </footer>
+<script>
+    jQuery(document).ready(function($){
+        var heightHeader        = $(".header").height();
+        var sliderHeight        = $("#slider").height();
+        var blockDepositHeight  = $(".block-deposit").height();
+        var blockAboutUsHeight  = $(".block-about-us").height();
+        var statisticsHeight    = $(".statistics").height();
+        var footerHeight        = $(".footer").height();
+        var wrapperHeight       = $(".wrapper").height();
+        var paymentHeight       = $(".payment").height();
+        $(window).scroll(function(){
+            var ScrollTop = parseInt($(window).scrollTop());
+            if (ScrollTop > (heightHeader+sliderHeight/10-100)) {
+                $("div.item-blance ul li").css("display", "block");
+            }
+            if (ScrollTop > (heightHeader+sliderHeight+blockDepositHeight/15)) {
+                $(".block-about-us .animated").css("display", "block");
+            }
+            if (ScrollTop > (heightHeader+sliderHeight+blockDepositHeight +statisticsHeight/2 - 300)) {
+                $(".statistics ul.animated").css("display", "block");
+            }
+            if (ScrollTop > (heightHeader+ wrapperHeight/2 + paymentHeight)) {
+                $(".payment .animated").css("display", "block");
+            }
+            if (ScrollTop > (heightHeader+ wrapperHeight/2 + paymentHeight + footerHeight)) {
+                $(".footer .animated").css("display", "block");
+            }
+        });
+
+        // user login 
+        $("#sign-up-here").on('click', function(){
+            $(".close").trigger('click');
+            setTimeout(function(){ 
+                 $("#register").modal('show'); 
+             }, 500);
+        });
+        $("#login-here").on('click', function(){
+            $(".close").trigger('click');
+            setTimeout(function(){ 
+                 $("#login").modal('show'); 
+             }, 500);
+        });
+        $(".forgot-password.control-label").on('click', function(){
+            $(".close").trigger('click');
+            setTimeout(function(){ 
+                 $("#forgot").modal('show'); 
+             }, 500);
+        });
+    });
+</script>

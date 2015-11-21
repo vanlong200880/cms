@@ -1,11 +1,14 @@
 footer{
     background: $background;
     padding: 15px 0;
+    overflow: hidden;
+    height: 276px;
     img{
         max-height: 80px;
     }
     div.col-md-4{
         border-right: 1px solid #2c2b31;
+        display: none;
         &:last-of-type{
             border-right: none;
         }

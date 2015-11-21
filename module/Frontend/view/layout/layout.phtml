@@ -7,6 +7,7 @@
 	<?php 
 		echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image', 'href' => $this->basePath() . '/img/faviconaa.ico'))
 					->prependStylesheet($this->basePath() . '/css/main.css')
+                    ->prependStylesheet($this->basePath() . '/css/animate.css')
                     ->prependStylesheet($this->basePath() . '/libs/owl-carousel/owl.carousel.css')
 					->prependStylesheet($this->basePath() . '/libs/font-awesome/css/font-awesome.min.css')
                     ->prependStylesheet($this->basePath() . '/libs/bootstrap/css/bootstrap.min.css'); 
@@ -32,7 +33,7 @@
     <?php echo $this->footer(); ?>
     
     
-    <div id="login" class="modal fade bs-example-modal-sm deposit-form" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div id="login" class="modal fade bs-example-modal-sm deposit-form" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -57,20 +58,43 @@
                     <a href="#" class="forgot-password control-label">Forgot password?</a>
                 </div>
                 <div class="login-line"></div>
-                <p>Don't have an account <a href="#">Sign Up Here</a></p>
+                <p>Don't have an account <a href="#" id="sign-up-here">Sign Up Here</a></p>
             </div>
         </div>
       </div>
     </div>
     
     <!-- Button trigger modal -->
+
+
+    <!-- forgot password -->
+    <div id="forgot" class="modal fade deposit-form" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Forgot password?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input type="text" class="form-control" id="email" value="" placeholder="Email">
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary">Forgot password</button>
+            </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Modal -->
-    <div class="modal fade deposit-form" id="register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade deposit-form" id="register" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Register User</h4>
+                    <h4 class="modal-title">Register User</h4>
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal">
@@ -153,7 +177,7 @@
                                         <button type="button" class="btn btn-primary">Register</button>
                                     </div>
                                     <div class="col-sm-9">
-                                        <p>you already have an account? <a href="#">Login</a></p>
+                                        <p>you already have an account? <a href="#" id="login-here">Login</a></p>
                                     </div>
                                 </div>
                             </div>

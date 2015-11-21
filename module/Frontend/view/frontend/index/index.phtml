@@ -13,7 +13,7 @@
                     <div class="item-logo"><img src="<?php echo $this->basePath('img/logo.png'); ?>"></div>
                     <div class="item-blance">
                         <ul>
-                            <li>
+                            <li class="bound-animated animated fadeInLeft">
                                 <div class="description">
                                     <p class="name">Blance</p>
                                     <p class="price">$27.000</p>
@@ -21,28 +21,28 @@
                                 <div class="blance blance-1"><i class="fa fa-camera"></i></div>
 
                             </li>
-                            <li>
+                            <li class="bound-animated animated fadeInLeft">
                                 <div class="description">
                                     <p class="name">Total deposit</p>
                                     <p class="price">$27.000</p>
                                 </div>
                                 <div class="blance blance-1"><i class="fa fa-camera"></i></div>
                             </li>
-                            <li>
+                            <li class="bound-animated animated rollIn">
                                 <div class="blance blance-1"><i class="fa fa-camera"></i></div>
                                 <div class="description">
                                     <p class="name">Total withdrow</p>
                                     <p class="price">$27.000</p>
                                 </div>
                             </li>
-                            <li>
+                            <li class="bound-animated animated fadeInRight">
                                 <div class="blance blance-1"><i class="fa fa-camera"></i></div>
                                 <div class="description">
                                     <p class="name">Last deposit</p>
                                     <p class="price">$275.000</p>
                                 </div>
                             </li>
-                            <li>
+                            <li class="bound-animated animated fadeInRight">
                                 <div class="blance blance-1"><i class="fa fa-camera"></i></div>
                                 <div class="description">
                                     <p class="name">Total bonus</p>
@@ -59,9 +59,9 @@
 
 <section class="block-about-us">
     <div class="container">
-        <div class="col-md-12"><h2>About us</h2></div>
-        <div class="col-md-4"><img src="<?php echo $this->basePath('default/about-us.png'); ?>"></div>
-        <div class="col-md-5">
+        <div class="col-md-12 animated fadeInUp"><h2>About us</h2></div>
+        <div class="col-md-4 animated fadeInUp"><img src="<?php echo $this->basePath('default/about-us.png'); ?>"></div>
+        <div class="col-md-5 animated fadeInUp">
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -73,15 +73,73 @@ consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 animated fadeInRight">
             <div class="item-security"><img src="<?php echo $this->basePath('default/ddos.png'); ?>"></div>
             <div class="item-security"><img src="<?php echo $this->basePath('default/ssl.png'); ?>"></div>
             <div class="item-security"><img src="<?php echo $this->basePath('default/sitelock.png'); ?>"></div>
         </div>
     </div>
 </section>
-<section class="payment">
+
+<section class="statistics">
     <div class="container">
-        <div class="row"></div>
+        <div class="row">
+            <div class="col-md-12 statistics-title">
+                <h2>Stable Forex Activity Statistics</h2>
+            </div>
+        </div>
+        <ul class="row animated bounceIn">
+            <li class="col-md-3">
+                <div class="round-statistics">
+                    <div class="item-statistics">
+                        <p class="number-statistics">$3.500</p>
+                        <p class="name-statistics">Running days</p>
+                    </div>
+                </div>
+            </li>
+            <li class="col-md-3">
+                <div class="round-statistics">
+                    <div class="item-statistics">
+                        <p class="number-statistics">$3.500</p>
+                        <p class="name-statistics">Running days</p>
+                    </div>
+                </div>
+            </li>
+            <li class="col-md-3">
+                <div class="round-statistics">
+                    <div class="item-statistics">
+                        <p class="number-statistics">$3.500</p>
+                        <p class="name-statistics">Running days</p>
+                    </div>
+                </div>
+            </li>
+            <li class="col-md-3">
+                <div class="round-statistics">
+                    <div class="item-statistics">
+                        <p class="number-statistics">$3.500</p>
+                        <p class="name-statistics">Running days</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
     </div>
 </section>
+<section class="payment">
+    <div class="container animated fadeInLeft">
+        <div class="row">
+            <div class="col-md-8">
+                <ul class="row">
+                    <li class="col-md-3"><img src="<?php echo $this->basePath('default/payment-1.png'); ?>" alt=""></li>
+                    <li class="col-md-3"><img src="<?php echo $this->basePath('default/payment-2.png'); ?>" alt=""></li>
+                    <li class="col-md-3"><img src="<?php echo $this->basePath('default/payment-3.png'); ?>" alt=""></li>
+                    <li class="col-md-3"><img src="<?php echo $this->basePath('default/payment-4.png'); ?>" alt=""></li>
+                </ul>
+            </div>
+            <div class="col-md-4 register-now">
+                <p>Start your investment today</p>
+                <a data-toggle="modal" data-target="#register">Create an account now <i class="fa fa-angle-double-right"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+
