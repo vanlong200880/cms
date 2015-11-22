@@ -12,6 +12,33 @@ return array(
                     ),
                 ),
             ),
+
+            'news' => array (
+                'type' => 'regex',
+                'options' => array (
+                    'regex' => '/news(/page-(?<page>[0-9]+))?(\.(?<format>(html)))?',
+                    'defaults' => array (
+                        'controller' => 'Frontend\Controller\News',
+                        'action' => 'index',
+                        'format' => 'html',
+                    ),
+                    'spec' => '/news/page-%page%.%format%'
+                )
+            ),
+
+            'news-detail' => array (
+                    'type' => 'regex',
+                    'options' => array (
+                            'regex' => '/news/(?<slug>[a-zA-Z0-9-]+)?(\.(?<format>(html)))?',
+                            'defaults' => array (
+                                    'controller' => 'Frontend\Controller\News',
+                                    'action' => 'detail',
+                                    'format' => 'html',
+                            ),
+                            'spec' => '/news/%slug%.%format%'
+                    )
+            ),
+
         ),
     ),
     
@@ -44,6 +71,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Frontend\Controller\Index'	=> 'Frontend\Controller\IndexController',
+            'Frontend\Controller\News' => 'Frontend\Controller\NewsController',
         ),
     ),
     'view_manager' => array(
