@@ -76,6 +76,7 @@ section.news-detail{
 			margin-right: 4%;
 			float: left;
 			margin-bottom: 30px;
+			min-height: 205px;
 			&:nth-child(2n+2){
 				margin-right: 0;
 			}
@@ -115,5 +116,8 @@ section.news-detail{
 				padding: 0 5px;
 			}
 		}
+	}
+	h1{
+		font-size: 24px;
 	}
 }
