@@ -243,3 +243,12 @@ section.payment{
         }
     }
 }
+
+/* custom animate */
+footer{
+    overflow: hidden;
+    height: 276px;
+    div.col-md-4{
+        display: none;
+	}
+}

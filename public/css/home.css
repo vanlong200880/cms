@@ -281,37 +281,283 @@ section.section-breadcrumb .col-md-12 {
   #slider:hover div.owl-prev {
     left: 5%; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/layout\/_news\.scss}line{font-family:\000033}}
-section.block-news ul.list-news li {
-  min-height: 315px;
-  margin-bottom: 30px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/layout\/_news\.scss}line{font-family:\000036}}
-  section.block-news ul.list-news li img {
-    max-width: 100%; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/layout\/_news\.scss}line{font-family:\000039}}
-  section.block-news ul.list-news li h2 {
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\000031}}
+section.block-about-us {
+  padding: 30px 0 30px 0;
+  background: #ececec;
+  overflow: hidden;
+  height: 420px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\000036}}
+  section.block-about-us div.animated {
+    display: none; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\000039}}
+  section.block-about-us h2 {
     font-weight: bold;
-    font-size: 14px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/layout\/_news\.scss}line{font-family:\0000313}}
-  section.block-news ul.list-news li p {
-    line-height: 1.3; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/layout\/_news\.scss}line{font-family:\0000315}}
-    section.block-news ul.list-news li p a {
-      text-transform: uppercase;
-      color: #575556;
-      border-left: 3px solid #f19a0d;
-      padding-left: 3px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/layout\/_news\.scss}line{font-family:\0000322}}
-  section.block-news ul.list-news li p.readmore {
-    margin-top: 5px; }
+    color: #000;
+    padding: 0 0 15px 0;
+    font-size: 36px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000315}}
+  section.block-about-us .item-security {
+    border: 1px solid #d2d2d2;
+    margin-bottom: 15px;
+    transition: border-color 0.2s;
+    -moz-transition: border-color 0.2s;
+    -webkit-transition: border-color 0.2s;
+    -ms-transition: border-color 0.2s;
+    -o-transition: border-color 0.2s; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000319}}
+    section.block-about-us .item-security img {
+      display: block; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000322}}
+    section.block-about-us .item-security:hover {
+      border-color: #f19a0d;
+      transition: border-color 0.2s;
+      -moz-transition: border-color 0.2s;
+      -webkit-transition: border-color 0.2s;
+      -ms-transition: border-color 0.2s;
+      -o-transition: border-color 0.2s; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000327}}
+  section.block-about-us p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    text-align: justify; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/layout\/_news\.scss}line{font-family:\0000330}}
-section.paging .pagination a, section.paging .pagination span {
-  margin-left: 5px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/layout\/_news\.scss}line{font-family:\0000334}}
-section.paging .pagination li.active a {
-  background-color: #f19a0d;
-  border-color: #f19a0d; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000334}}
+section.block-deposit {
+  padding: 30px 0; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000336}}
+  section.block-deposit div.deposit-12 {
+    text-align: center; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000338}}
+    section.block-deposit div.deposit-12 div.block-deposit-title {
+      display: inline-block;
+      max-width: 40%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000341}}
+      section.block-deposit div.deposit-12 div.block-deposit-title h1 {
+        font-weight: bold;
+        font-size: 40px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000345}}
+      section.block-deposit div.deposit-12 div.block-deposit-title p {
+        line-height: 1.5;
+        font-size: 15px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000351}}
+  section.block-deposit .col-md-12.rotate {
+    min-height: 460px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000353}}
+    section.block-deposit .col-md-12.rotate .item {
+      width: 65%;
+      margin: 0 auto;
+      position: relative;
+      margin-top: 30px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000358}}
+      section.block-deposit .col-md-12.rotate .item .item-logo {
+        width: 200px;
+        height: 200px;
+        line-height: 200px;
+        text-align: center;
+        margin: 0 auto;
+        background: #030303;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -o-border-radius: 50%;
+        -ms-border-radius: 50%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000366}}
+        section.block-deposit .col-md-12.rotate .item .item-logo img {
+          display: inline-block;
+          max-width: 150px;
+          vertical-align: middle; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000374}}
+      section.block-deposit .col-md-12.rotate .item .item-blance ul li {
+        display: none; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000376}}
+        section.block-deposit .col-md-12.rotate .item .item-blance ul li div.blance {
+          width: 100px;
+          height: 100px;
+          line-height: 100px;
+          text-align: center;
+          border: 2px solid #f19a0d;
+          border-radius: 50%;
+          -webkit-border-radius: 50%;
+          -moz-border-radius: 50%;
+          -o-border-radius: 50%;
+          -ms-border-radius: 50%;
+          font-size: 50px;
+          float: left; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000386}}
+        section.block-deposit .col-md-12.rotate .item .item-blance ul li div.description {
+          float: left;
+          text-align: left;
+          height: 100px;
+          margin-left: 10px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000391}}
+          section.block-deposit .col-md-12.rotate .item .item-blance ul li div.description p {
+            height: 50px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000394}}
+          section.block-deposit .col-md-12.rotate .item .item-blance ul li div.description p.name {
+            padding-top: 20px;
+            font-size: 24px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\0000398}}
+          section.block-deposit .col-md-12.rotate .item .item-blance ul li div.description p.price {
+            padding-top: 10px;
+            font-size: 30px;
+            font-weight: bold; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003104}}
+        section.block-deposit .col-md-12.rotate .item .item-blance ul li:nth-child(1) {
+          position: absolute;
+          left: 0;
+          top: 50px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003108}}
+          section.block-deposit .col-md-12.rotate .item .item-blance ul li:nth-child(1) div.description {
+            margin-left: 0;
+            margin-right: 10px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003113}}
+        section.block-deposit .col-md-12.rotate .item .item-blance ul li:nth-child(2) {
+          position: absolute;
+          left: 10px;
+          top: 180px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003117}}
+          section.block-deposit .col-md-12.rotate .item .item-blance ul li:nth-child(2) div.description {
+            margin-left: 0;
+            margin-right: 10px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003122}}
+        section.block-deposit .col-md-12.rotate .item .item-blance ul li:nth-child(3) {
+          position: absolute;
+          left: 50%;
+          bottom: -250px;
+          margin-left: -110px;
+          width: 220px;
+          text-align: center; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003129}}
+          section.block-deposit .col-md-12.rotate .item .item-blance ul li:nth-child(3) div.description {
+            margin-left: 0;
+            margin-right: 10px;
+            width: 100%;
+            text-align: center; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003134}}
+            section.block-deposit .col-md-12.rotate .item .item-blance ul li:nth-child(3) div.description p {
+              height: auto;
+              padding: 0;
+              line-height: 1.3; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003140}}
+          section.block-deposit .col-md-12.rotate .item .item-blance ul li:nth-child(3) div.blance {
+            float: none;
+            display: inline-block; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003145}}
+        section.block-deposit .col-md-12.rotate .item .item-blance ul li:nth-child(5) {
+          position: absolute;
+          top: 50px;
+          right: -20px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003150}}
+        section.block-deposit .col-md-12.rotate .item .item-blance ul li:nth-child(4) {
+          position: absolute;
+          right: 20px;
+          top: 180px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003162}}
+section.statistics {
+  background: url("../default/stats-bg.jpg") no-repeat;
+  height: 346px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003166}}
+  section.statistics div.statistics-title h2 {
+    color: #FFF;
+    font-size: 36px;
+    text-align: center;
+    padding: 30px 0 40px 0; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003173}}
+  section.statistics ul {
+    padding-bottom: 40px;
+    display: none; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003176}}
+    section.statistics ul li {
+      text-align: center; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003178}}
+      section.statistics ul li div.round-statistics {
+        width: 200px;
+        height: 200px;
+        border: 4px solid #ea611b;
+        display: inline-block;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -o-border-radius: 50%;
+        -ms-border-radius: 50%;
+        padding: 10px;
+        box-sizing: border-box; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003186}}
+        section.statistics ul li div.round-statistics div.item-statistics {
+          width: 100%;
+          height: 100%;
+          background: #37454e;
+          padding-top: 60px;
+          border-radius: 50%;
+          -webkit-border-radius: 50%;
+          -moz-border-radius: 50%;
+          -o-border-radius: 50%;
+          -ms-border-radius: 50%;
+          text-align: center; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003193}}
+          section.statistics ul li div.round-statistics div.item-statistics p.number-statistics {
+            color: #FFF;
+            font-size: 40px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003197}}
+          section.statistics ul li div.round-statistics div.item-statistics p.name-statistics {
+            color: #9d9d9d;
+            text-transform: uppercase;
+            padding-top: 10px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003204}}
+      section.statistics ul li:nth-child(2) div.round-statistics {
+        border-color: #ffc122; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003207}}
+      section.statistics ul li:nth-child(3) div.round-statistics {
+        border-color: #b3ce5b; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003210}}
+      section.statistics ul li:nth-child(4) div.round-statistics {
+        border-color: #55c3e8; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003216}}
+section.payment {
+  padding: 30px 0;
+  height: 150px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003219}}
+  section.payment .animated {
+    display: none; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003222}}
+  section.payment ul {
+    padding-top: 25px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003226}}
+  section.payment div.register-now p {
+    font-size: 24px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003230}}
+  section.payment div.register-now a {
+    background: #f19a0d;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 24px;
+    padding: 15px 5px;
+    color: #FFF;
+    display: inline-block;
+    width: 100%;
+    border-top-right-radius: 20px;
+    -moz-border-top-right-radius: 20px;
+    -webkit-border-top-right-radius: 20px;
+    -ms-border-top-right-radius: 20px;
+    -o-border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    -moz-border-bottom-left-radius: 20px;
+    -webkit-border-bottom-left-radius: 20px;
+    -ms-border-bottom-left-radius: 20px;
+    -o-border-bottom-left-radius: 20px; }
+
+/* custom animate */
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003248}}
+footer {
+  overflow: hidden;
+  height: 276px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003251}}
+  footer div.col-md-4 {
+    display: none; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/layout\/_footer\.scss}line{font-family:\000031}}
 footer {
@@ -546,4 +792,4 @@ footer {
  + set for mobile max width 320
 */
 
-/*# sourceMappingURL=main.css.map */
+/*# sourceMappingURL=home.css.map */

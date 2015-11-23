@@ -67,3 +67,44 @@ header{
         
     }    
 }
+section.section-breadcrumb{
+    .col-md-12{
+        text-align: center;
+        padding: 30px 0;
+        ol.breadcrumb{
+            background: none;
+            text-transform: uppercase;
+            width: 50%;
+            border-bottom: 1px solid #DDD;
+            display: inline-block;
+            @include border-radius(0px);
+            li{
+                span{
+                    &:before{
+                        content: "/\00a0";
+                        right: -13px;
+                        position: relative;
+                        font-weight: bold;
+                        font-size: 34px;
+                    }
+                     &:after{
+                        content: "/\00a0";
+                        font-weight: bold;
+                        font-size: 34px;
+                        position: relative;
+                        color: $color-hover;
+                    }
+                }
+                font-size: 30px;
+                a{
+                    color: #000;
+                }
+            }
+            li.active:before{
+                content: ' ';
+                display: none;
+            }
+        }
+    }
+    
+}

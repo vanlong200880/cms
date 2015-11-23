@@ -11,11 +11,9 @@ namespace Frontend;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use Facebook\FacebookSession;
-use Zend\Session\Container;
-use Frontend\Model\UserHasGroup;
-use Zend\Cache\StorageFactory;
-class Module
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
+class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 {
     public function onBootstrap(MvcEvent $e)
     {
@@ -24,6 +22,7 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
         $eventManager->attach(\Zend\Mvc\MvcEvent::EVENT_DISPATCH, array($this, 'preDispatch'), 100);
+		$eventManager->attach('dispatch', array($this, 'loadConfiguration' ));
 //        FacebookSession::setDefaultApplication('640478992715128', '5caadc63c88cd635aad3ae570ec267d5');
        // Start Set Layout
         $e->getApplication()->getEventManager()->getSharedManager()->attach('Zend\Mvc\Controller\AbstractController', 'dispatch', function($e) {
@@ -40,6 +39,30 @@ class Module
         		$viewModel = $event->getViewModel();
         		$viewModel->setTemplate('layout/frontend');
         }, -200);
+		
+		// get controller name
+		$e->getApplication()->getServiceManager()->get('viewhelpermanager')->setFactory('controllerName', function($sm) use ($e) {
+        $viewHelper = new View\Helper\ControllerName($e->getRouteMatch());
+			return $viewHelper;
+		});
+
+		$eventManager        = $e->getApplication()->getEventManager();
+		$moduleRouteListener = new ModuleRouteListener();
+		$moduleRouteListener->attach($eventManager);
+    }
+	
+	public function loadConfiguration(MvcEvent $e)
+    {
+        $controller = $e->getTarget();
+		$data = $e->getRouteMatch()->getParams();
+		$arrData = explode('\\', $data['controller']);
+		$dataModule = array(
+			'module'		=> strtolower($arrData[0]),
+			'controller'	=> strtolower($arrData[2]),
+			'action'		=> strtolower($data['action'])
+		);
+        //set 'variable' into layout...
+        $controller->layout()->modulenamespace = $dataModule;
     }
 
     public function preDispatch(MvcEvent $e)

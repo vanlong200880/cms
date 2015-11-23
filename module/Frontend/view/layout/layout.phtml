@@ -13,6 +13,14 @@
                     ->prependStylesheet($this->basePath() . '/libs/bootstrap/css/bootstrap.min.css'); 
         
 	?>
+	<?php 
+	$dataModule = $this->layout()->modulenamespace; 
+	if($dataModule['module'] == 'frontend' && $dataModule['controller'] == 'index' && $dataModule['action'] == 'index'):
+		echo $this->headLink()->prependStylesheet($this->basePath() . '/css/home.css');
+	else:
+		echo $this->headLink()->prependStylesheet($this->basePath() . '/css/main.css');
+	endif;
+	?>
     <?php echo $this->headScript()
             ->prependFile($this->basePath() . '/js/frontend.js')
             ->prependFile($this->basePath() . '/js/common.js')

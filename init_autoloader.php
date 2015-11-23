@@ -46,6 +46,7 @@ if ($zf2Path) {
                 'autoregister_zf' => true,
                 'namespaces' => array(
                     'Sky' => __DIR__ . '/vendor/Sky',
+					'App' => __DIR__ . '/vendor/App',
                 ),                
             )
         ));
