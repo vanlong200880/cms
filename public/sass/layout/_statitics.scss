@@ -1,0 +1,54 @@
+section.statistics{
+    background: url('../default/stats-bg.jpg') no-repeat;
+    height: 346px;
+    div.statistics-title{
+        h2{
+            color: #FFF;
+            font-size: 36px;
+            text-align: center;
+            padding: 30px 0 40px 0;
+        }
+    }
+    ul{
+        padding-bottom: 40px;
+        display: none;
+        li{
+            text-align: center;
+            div.round-statistics{
+                width: 200px;
+                height: 200px;
+                border: 4px solid #ea611b;
+                display: inline-block;
+                @include border-radius(50%);
+                padding: 10px;
+                box-sizing: border-box;
+                div.item-statistics{
+                    width: 100%;
+                    height: 100%;
+                    background: #37454e;
+                    padding-top: 60px;
+                    @include border-radius(50%);
+                    text-align: center;
+                    p.number-statistics{
+                        color: #FFF;
+                        font-size: 40px;
+                    }
+                    p.name-statistics{
+                        color: #9d9d9d;
+                        text-transform: uppercase;
+                        padding-top: 10px;
+                    }
+                }
+            }
+            &:nth-child(2) div.round-statistics{
+                border-color: #ffc122;
+            }
+            &:nth-child(3) div.round-statistics{
+                border-color: #b3ce5b;
+            }
+            &:nth-child(4) div.round-statistics{
+                border-color: #55c3e8;
+            }
+        }
+    }
+}

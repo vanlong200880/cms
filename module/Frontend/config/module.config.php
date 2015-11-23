@@ -14,9 +14,10 @@ return array(
             ),
 
             'news' => array (
-                'type' => 'regex',
+                 // 'regex' => '/manual/(?<manufacturer>[a-zA-Z0-9_-]+)/(?<category>[a-zA-Z0-9_-]+)',
+                'type' => 'Zend\Mvc\Router\Http\Regex',
                 'options' => array (
-                    'regex' => '/news(/page-(?<page>[0-9]+))?(\.(?<format>(html)))?',
+                    'regex' => '/category-news(/page-(?<page>[0-9]+))?(\.(?<format>(html)))?',
                     'defaults' => array (
                         'controller' => 'Frontend\Controller\News',
                         'action' => 'index',
@@ -55,7 +56,9 @@ return array(
         'invokables' => array(
             'header' => 'Frontend\Block\header',
             'footer' => 'Frontend\Block\footer', 
-            'slider' => 'Frontend\Block\slider', 
+            'slider' => 'Frontend\Block\slider',
+            'payment' => 'Frontend\Block\payment',
+            'statitics' => 'Frontend\Block\statitics', 
         ),
     ),
     'translator' => array(
