@@ -455,107 +455,12 @@ section.block-deposit {
           right: 20px;
           top: 180px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003162}}
-section.statistics {
-  background: url("../default/stats-bg.jpg") no-repeat;
-  height: 346px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003166}}
-  section.statistics div.statistics-title h2 {
-    color: #FFF;
-    font-size: 36px;
-    text-align: center;
-    padding: 30px 0 40px 0; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003173}}
-  section.statistics ul {
-    padding-bottom: 40px;
-    display: none; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003176}}
-    section.statistics ul li {
-      text-align: center; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003178}}
-      section.statistics ul li div.round-statistics {
-        width: 200px;
-        height: 200px;
-        border: 4px solid #ea611b;
-        display: inline-block;
-        border-radius: 50%;
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
-        -o-border-radius: 50%;
-        -ms-border-radius: 50%;
-        padding: 10px;
-        box-sizing: border-box; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003186}}
-        section.statistics ul li div.round-statistics div.item-statistics {
-          width: 100%;
-          height: 100%;
-          background: #37454e;
-          padding-top: 60px;
-          border-radius: 50%;
-          -webkit-border-radius: 50%;
-          -moz-border-radius: 50%;
-          -o-border-radius: 50%;
-          -ms-border-radius: 50%;
-          text-align: center; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003193}}
-          section.statistics ul li div.round-statistics div.item-statistics p.number-statistics {
-            color: #FFF;
-            font-size: 40px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003197}}
-          section.statistics ul li div.round-statistics div.item-statistics p.name-statistics {
-            color: #9d9d9d;
-            text-transform: uppercase;
-            padding-top: 10px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003204}}
-      section.statistics ul li:nth-child(2) div.round-statistics {
-        border-color: #ffc122; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003207}}
-      section.statistics ul li:nth-child(3) div.round-statistics {
-        border-color: #b3ce5b; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003210}}
-      section.statistics ul li:nth-child(4) div.round-statistics {
-        border-color: #55c3e8; }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003216}}
-section.payment {
-  padding: 30px 0;
-  height: 150px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003219}}
-  section.payment .animated {
-    display: none; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003222}}
-  section.payment ul {
-    padding-top: 25px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003226}}
-  section.payment div.register-now p {
-    font-size: 24px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003230}}
-  section.payment div.register-now a {
-    background: #f19a0d;
-    text-align: center;
-    margin-top: 10px;
-    font-size: 24px;
-    padding: 15px 5px;
-    color: #FFF;
-    display: inline-block;
-    width: 100%;
-    border-top-right-radius: 20px;
-    -moz-border-top-right-radius: 20px;
-    -webkit-border-top-right-radius: 20px;
-    -ms-border-top-right-radius: 20px;
-    -o-border-top-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    -moz-border-bottom-left-radius: 20px;
-    -webkit-border-bottom-left-radius: 20px;
-    -ms-border-bottom-left-radius: 20px;
-    -o-border-bottom-left-radius: 20px; }
-
 /* custom animate */
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003248}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003163}}
 footer {
   overflow: hidden;
   height: 276px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003251}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/wamp\/www\/cms\/public\/sass\/pages\/_home\.scss}line{font-family:\00003166}}
   footer div.col-md-4 {
     display: none; }
 

@@ -39,6 +39,19 @@ return array(
                             'spec' => '/news/%slug%.%format%'
                     )
             ),
+		  
+			'user' => array (
+                'type' => 'Zend\Mvc\Router\Http\Regex',
+                'options' => array (
+                    'regex' => '/user-profile/(?<name>[a-zA-Z0-9-]+)?(\.(?<format>(html)))?',
+                    'defaults' => array (
+                        'controller' => 'Frontend\Controller\User',
+                        'action' => 'index',
+                        'format' => 'html',
+                    ),
+                    'spec' => '/user-profile/%name%.%format%'
+                )
+            ),
 
         ),
     ),
@@ -75,6 +88,7 @@ return array(
         'invokables' => array(
             'Frontend\Controller\Index'	=> 'Frontend\Controller\IndexController',
             'Frontend\Controller\News' => 'Frontend\Controller\NewsController',
+			'Frontend\Controller\User' => 'Frontend\Controller\UserController',
         ),
     ),
     'view_manager' => array(
