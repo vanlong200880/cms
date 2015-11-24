@@ -1,6 +1,5 @@
 section.statistics{
     background: url('../default/stats-bg.jpg') no-repeat;
-    height: 346px;
     div.statistics-title{
         h2{
             color: #FFF;
@@ -11,7 +10,6 @@ section.statistics{
     }
     ul{
         padding-bottom: 40px;
-        display: none;
         li{
             text-align: center;
             div.round-statistics{

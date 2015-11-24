@@ -8,7 +8,7 @@ use App\Controller\AppController;
 
 class IndexController extends AbstractActionController
 {
-	public function __construct() {
+	public function __construct() { 
 		// $this->layout()->getView()->headLink()->appendStylesheet('/css/home.css');
 		//$this->getServiceLocator()->get('viewhelpermanager')->get('headLink')->appendStylesheet('/css/home.css');
 		//$this->_getHelper('HeadLink', $this->getServiceLocator())->prependFile('/css/home.css');
@@ -16,6 +16,7 @@ class IndexController extends AbstractActionController
 	}
 	public function indexAction()
     {
-        return new ViewModel();
+      $this->layout('layout/index');
+      return new ViewModel();
     }
 }

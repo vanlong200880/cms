@@ -14,7 +14,6 @@ return array(
             ),
 
             'news' => array (
-                 // 'regex' => '/manual/(?<manufacturer>[a-zA-Z0-9_-]+)/(?<category>[a-zA-Z0-9_-]+)',
                 'type' => 'Zend\Mvc\Router\Http\Regex',
                 'options' => array (
                     'regex' => '/category-news(/page-(?<page>[0-9]+))?(\.(?<format>(html)))?',
@@ -40,18 +39,123 @@ return array(
                     )
             ),
 		  
-			'user' => array (
+			'user-profile' => array (
                 'type' => 'Zend\Mvc\Router\Http\Regex',
                 'options' => array (
-                    'regex' => '/user-profile/(?<name>[a-zA-Z0-9-]+)?(\.(?<format>(html)))?',
+                    'regex' => '/user-profile?((?<char>[/]+))?(\.(?<format>(html)))?',
                     'defaults' => array (
                         'controller' => 'Frontend\Controller\User',
                         'action' => 'index',
                         'format' => 'html',
                     ),
-                    'spec' => '/user-profile/%name%.%format%'
+                    'spec' => '/user-profile%char%.%format%'
                 )
             ),
+
+            'user-edit-profile' => array (
+                'type' => 'Zend\Mvc\Router\Http\Regex',
+                'options' => array (
+                    'regex' => '/user-profile/edit?((?<char>[/]+))?(\.(?<format>(html)))?',
+                    'defaults' => array (
+                        'controller' => 'Frontend\Controller\User',
+                        'action' => 'edit',
+                        'format' => 'html',
+                    ),
+                    'spec' => '/user-profile/edit%char%.%format%'
+                )
+            ),
+
+            'login' => array (
+                'type' => 'Zend\Mvc\Router\Http\Regex',
+                'options' => array (
+                    'regex' => '/login?((?<char>[/]+))?(\.(?<format>(html)))?',
+                    'defaults' => array (
+                        'controller' => 'Frontend\Controller\User',
+                        'action' => 'login',
+                        'format' => 'html',
+                    ),
+                    'spec' => '/login%char%.%format%'
+                )
+            ),
+
+            'logout' => array (
+                'type' => 'Zend\Mvc\Router\Http\Regex',
+                'options' => array (
+                    'regex' => '/logout?((?<char>[/]+))?(\.(?<format>(html)))?',
+                    'defaults' => array (
+                        'controller' => 'Frontend\Controller\User',
+                        'action' => 'logout',
+                        'format' => 'html',
+                    ),
+                    'spec' => '/logout%char%.%format%'
+                )
+            ),
+
+            'forgotpassword' => array (
+                'type' => 'Zend\Mvc\Router\Http\Regex',
+                'options' => array (
+                    'regex' => '/forgotpassword?((?<char>[/]+))?(\.(?<format>(html)))?',
+                    'defaults' => array (
+                        'controller' => 'Frontend\Controller\User',
+                        'action' => 'forgotpassword',
+                        'format' => 'html',
+                    ),
+                    'spec' => '/forgotpassword%char%.%format%'
+                )
+            ),
+
+            'changepassword' => array (
+                'type' => 'Zend\Mvc\Router\Http\Regex',
+                'options' => array (
+                    'regex' => '/changepassword?((?<char>[/]+))?(\.(?<format>(html)))?',
+                    'defaults' => array (
+                        'controller' => 'Frontend\Controller\User',
+                        'action' => 'changepassword',
+                        'format' => 'html',
+                    ),
+                    'spec' => '/changepassword%char%.%format%'
+                )
+            ),
+          
+          'about' => array (
+            'type' => 'Zend\Mvc\Router\Http\Regex',
+            'options' => array (
+                'regex' => '/about?((?<char>[/]+))?(\.(?<format>(html)))?',
+                'defaults' => array (
+                    'controller' => 'Frontend\Controller\Page',
+                    'action' => 'about',
+                    'format' => 'html',
+                ),
+                'spec' => '/about%char%.%format%'
+            )
+          ),
+          
+          'contact' => array (
+            'type' => 'Zend\Mvc\Router\Http\Regex',
+            'options' => array (
+                'regex' => '/contact?((?<char>[/]+))?(\.(?<format>(html)))?',
+                'defaults' => array (
+                    'controller' => 'Frontend\Controller\Page',
+                    'action' => 'contact',
+                    'format' => 'html',
+                ),
+                'spec' => '/contact%char%.%format%'
+            )
+          ),
+          
+          'faq' => array (
+            'type' => 'Zend\Mvc\Router\Http\Regex',
+            'options' => array (
+                'regex' => '/faq?((?<char>[/]+))?(\.(?<format>(html)))?',
+                'defaults' => array (
+                    'controller' => 'Frontend\Controller\Page',
+                    'action' => 'index',
+                    'format' => 'html',
+                ),
+                'spec' => '/faq%char%.%format%'
+            )
+          ),
+
 
         ),
     ),
@@ -65,13 +169,14 @@ return array(
             'translator' => 'MvcTranslator',
         ),
     ),
-    'view_helpers' => array(
-        'invokables' => array(
-            'header' => 'Frontend\Block\header',
-            'footer' => 'Frontend\Block\footer', 
-            'slider' => 'Frontend\Block\slider',
-            'payment' => 'Frontend\Block\payment',
-            'statitics' => 'Frontend\Block\statitics', 
+    'view_helpers'    => array(
+        'invokables'  => array(
+            'header'        => 'Frontend\Block\header',
+            'footer'        => 'Frontend\Block\footer', 
+            'slider'        => 'Frontend\Block\slider',
+            'payment'       => 'Frontend\Block\payment',
+            'statitics'     => 'Frontend\Block\statitics', 
+            'newsrelated'   => 'Frontend\Block\newsRelated', 
         ),
     ),
     'translator' => array(
@@ -87,8 +192,9 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Frontend\Controller\Index'	=> 'Frontend\Controller\IndexController',
-            'Frontend\Controller\News' => 'Frontend\Controller\NewsController',
-			'Frontend\Controller\User' => 'Frontend\Controller\UserController',
+            'Frontend\Controller\News'  => 'Frontend\Controller\NewsController',
+            'Frontend\Controller\User'  => 'Frontend\Controller\UserController',
+            'Frontend\Controller\Page'  => 'Frontend\Controller\PageController',
         ),
     ),
     'view_manager' => array(

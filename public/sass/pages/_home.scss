@@ -167,3 +167,14 @@ footer{
         display: none;
 	}
 }
+section.payment{
+    .animated{
+        display: none;
+    }
+}
+section.statistics{
+    height: 346px;
+    ul{
+        display: none;
+    }
+}

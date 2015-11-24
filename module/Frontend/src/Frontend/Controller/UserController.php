@@ -11,4 +11,21 @@ class UserController extends AbstractActionController
     {
         return new ViewModel();
     }
+    public function editAction(){
+    	return new ViewModel();
+    }
+
+    public function loginAction()
+    {
+    	return new ViewModel();
+    }
+    public function logoutAction(){
+    	return new ViewModel();
+    }
+    public function forgotpasswordAction(){
+    	return new ViewModel();
+    }
+    public function changepasswordAction(){
+    	return new ViewModel();
+    }
 }

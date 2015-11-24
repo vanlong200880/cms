@@ -41,21 +41,8 @@ section.paging{
 		}
 	}
 }
-section.news-detail{
-	.detail{
-		p{
-			line-height: 1.5;
-			margin-bottom: 15px;
-		}
-	}
-	#detail-affix{
-		width: 370px;
-
-	}
-	.affix{
-		top: 100px;
-	}
-	.title-related{
+section{
+  .title-related{
 		width: 100%;
 		border-left: 5px solid $color-border;
 		padding: 5px 10px;
@@ -119,5 +106,14 @@ section.news-detail{
 	}
 	h1{
 		font-size: 24px;
+	}
+}
+
+section.news-detail{
+	.detail{
+		p{
+			line-height: 1.5;
+			margin-bottom: 15px;
+		}
 	}
 }
