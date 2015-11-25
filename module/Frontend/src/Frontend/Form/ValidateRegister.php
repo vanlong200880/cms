@@ -14,22 +14,44 @@ class ValidateLogin{
 	
 	public function __construct($arrayParam = array(), $options = null){
 		$this->_arrData	= $arrayParam;
+    
+    //============================================
+		//CHeck full name
+		//============================================
+		$validator = new \Zend\Validator\ValidatorChain();
+		$validator->addValidator(new \Zend\Validator\NotEmpty(), true);
+		if(!$validator->isValid($arrayParam['post']['fullname'])){
+			$message = $validator->getMessages();
+			$this->_messagesError['fullname'] = 'Full Name: ' . current($message);
+		}
 		
+    // ===========================================
+    // check user name
+      $option = array(
+          'table'     => 'user',
+          'field'     => 'username',
+          'adapter'   => \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::getStaticAdapter(),
+      );
+      $validator->addValidator(new \Zend\Validator\NotEmpty(), true)
+                ->addValidator(new \Zend\Validator\Regex(array('pattern' => '/^[a-z0-9]$/i')))
+                ->addValidator(new \Zend\Validator\Db\NoRecordExists($option), true);
+      if(!$validator->isValid($arrayParam['post']['username'])){			
+          $message = $validator->getMessages();
+          $this->_messagesError['username'] = 'Username: ' . current($message);
+      }
 		//============================================
 		//CHeck email
 		//============================================
-		$validator = new \Zend\Validator\ValidatorChain();
 		$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
 					->addValidator(new \Zend\Validator\EmailAddress(), true);
 		if(!$validator->isValid($arrayParam['post']['email'])){
 			$message = $validator->getMessages();
-			$this->_messagesError['Email'] = 'Email: ' . current($message);
+			$this->_messagesError['email'] = 'Email: ' . current($message);
 		}
 		
 		//============================================
 		//Check Password
 		//============================================
-		$validator = new \Zend\Validator\ValidatorChain();
 		$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
 					->addValidator(new \Zend\Validator\StringLength(6,32), true);
 		if(!$validator->isValid($arrayParam['post']['password'])){

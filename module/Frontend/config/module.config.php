@@ -90,6 +90,19 @@ return array(
                     'spec' => '/logout%char%.%format%'
                 )
             ),
+          
+            'register' => array (
+                'type' => 'Zend\Mvc\Router\Http\Regex',
+                'options' => array (
+                    'regex' => '/register?(\.(?<format>(html)))?',
+                    'defaults' => array (
+                        'controller' => 'Frontend\Controller\User',
+                        'action' => 'register',
+                        'format' => 'html',
+                    ),
+                    'spec' => '/register.%format%'
+                )
+            ),
 
             'forgotpassword' => array (
                 'type' => 'Zend\Mvc\Router\Http\Regex',
@@ -211,6 +224,9 @@ return array(
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+        'strategies' => array(
+            'ViewJsonStrategy'
         ),
     ),
     // Placeholder for console routes

@@ -18,7 +18,7 @@ return array(
 	),
     'db' => array(
         'driver' => 'Pdo',
-        'dsn' => 'mysql:dbname=cms;host=localhost;charset=utf8',
+        'dsn' => 'mysql:dbname=cms_deposit;host=localhost;charset=utf8',
         'driver_option' => array(
             PDO::MYSQL_ATTR_INIT_COMMAND  => "SET NAMES UTF8",
         ),
