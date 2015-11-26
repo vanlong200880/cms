@@ -122,12 +122,14 @@
                             <label for="sponsor-id" class="col-sm-4 control-label">Sponsor ID:<span class="validation">*</span> </label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" name="sponsor-id" id="sponsor-id">
+                                <p class="error" id="sponsor-error"></p>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="member-name" class="col-sm-4 control-label">Full Name:<span class="validation">*</span> </label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" name="fullname" id="fullname">
+                                <p class="error" id="fullname-error"></p>
                             </div>
                         </div>
                         
@@ -135,6 +137,7 @@
                             <label for="member-name" class="col-sm-4 control-label">Username:<span class="validation">*</span> </label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" name="username" id="username">
+                                <p class="error" id="username-error"></p>
                             </div>
                         </div>
                       
@@ -142,6 +145,7 @@
                             <label for="member-name" class="col-sm-4 control-label">Password:<span class="validation">*</span> </label>
                             <div class="col-sm-8">
                               <input type="password" class="form-control" name="password" id="password">
+                              <p class="error" id="password-error"></p>
                             </div>
                         </div>
                       
@@ -149,6 +153,7 @@
                             <label for="member-name" class="col-sm-4 control-label">Confirm Password:<span class="validation">*</span> </label>
                             <div class="col-sm-8">
                               <input type="password" class="form-control" name="confirm-password" id="confirm-password">
+                              <p class="error" id="confirm-password-error"></p>
                             </div>
                         </div>
                       
@@ -161,6 +166,7 @@
                                     <option value="3">Japan</option>
                                     <option value="3">My</option>
                                 </select>
+                              <p class="error" id="country-error"></p>
                             </div>
                         </div>
                       
@@ -175,9 +181,11 @@
                                             <option value="3">+87</option>
                                             <option value="3">+064</option>
                                         </select>
+                                      <p class="error" id="country-code-error"></p>
                                     </div>
                                     <div class="col-sm-8">
                                       <input type="tel" class="form-control" name="phone" id="phone">
+                                      <p class="error" id="phone-error"></p>
                                     </div>
                                 </div>
                             </div>
@@ -186,6 +194,7 @@
                             <label for="email" class="col-sm-4 control-label">Email:<span class="validation">*</span> </label>
                             <div class="col-sm-8">
                               <input type="email" class="form-control" name="email" id="email">
+                              <p class="error" id="email-error"></p>
                             </div>
                         </div>
                         
@@ -193,14 +202,10 @@
                             <label for="skype" class="col-sm-4 control-label">Skype:<span class="validation">*</span> </label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" name="skype" id="skype">
+                                <p class="error" id="skype-error"></p>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="security" class="col-sm-4 control-label">Security code:<span class="validation">*</span> </label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="security" id="security">
-                            </div>
-                        </div>
+                        
                         <div class="form-group">
                             <label for="security" class="col-sm-4 control-label"></label>
                             <div class="col-sm-8">
@@ -273,29 +278,42 @@
         // Login
         $("#register-submit").on('click', function(){
           
-          $("#register-form").submit(function(event){
+          $("#register-form").submit(function(e){
             var formObj = $(this);
             var formUrl = formObj.attr('action');
-            var formData = new FormData(this);
+//            var formData = new FormData(this);
+            var postData = $(this).serializeArray();
+            
             $.ajax({
               url: formUrl,
               type: 'POST',
-              data: formData,
+              data: postData,
               dataType: 'JSON',
-              mimeType:"multipart/form-data",
-              contentType: false,
-              cache: false,
-              processData:false,
-              success: function(data, textStatus, jqXHR){
-                console.log(data);
+              encode 		: true,
+//              mimeType:"multipart/form-data",
+//              contentType: false,
+//              cache: false,
+//              processData:false,
+//              async:      true,
+              success: function(data, status){
+                if(data.error){
+                  $("#register-form #fullname-error").empty().append(data.error.fullname);
+                  $("#register-form #sponsor-error").empty().append(data.error.sponsor);
+                  $("#register-form #username-error").empty().append(data.error.username);
+                  $("#register-form #password-error").empty().append(data.error.password);
+                  $("#register-form #confirm-password-error").empty().append(data.error.repassword);
+                }else{
+                  console.log('done');
+                }
+                
               },
               error: function(data, textStatus, jqXHR){
-                
+                console.log('error');
               }
             });
-            event.preventDefault();
-            
-//            alert('sdf');
+            e.preventDefault();
+            $(this).unbind(e);
+//            return false;
           });
           $("#register-form").submit();
         });

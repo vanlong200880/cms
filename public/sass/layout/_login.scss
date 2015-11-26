@@ -29,6 +29,12 @@
     p{
         padding-top: 15px;
     }
+    p.error{
+/*      padding-bottom: 15px;*/
+      padding-top: 5px;
+      color: red;
+      font-size: 12px;
+    }
     .close{
         @include border-radius(50%);
         background: #FFF;

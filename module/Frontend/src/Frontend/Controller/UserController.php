@@ -5,6 +5,7 @@ namespace Frontend\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
+use Frontend\Form\ValidateRegister;
 
 class UserController extends AbstractActionController
 {
@@ -31,10 +32,17 @@ class UserController extends AbstractActionController
     }
     public function registerAction()
     {
+      $arrayParam = array();
       $request = $this->getRequest();
-      if($request->isPost() == true){
-        $data = $request->getPost();
+      if($request->isXmlHttpRequest()){
+        $arrayParam['post'] = $request->getPost();
+        $validate = new ValidateRegister($arrayParam);
+        if($validate->isError() === true){
+          $arrayParam['error'] = $validate->getMessagesError();
+        }else{
+          
+        }
       }
-      return new JsonModel($data);
+      return new JsonModel($arrayParam);
     }
 }
