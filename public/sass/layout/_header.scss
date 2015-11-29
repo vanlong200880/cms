@@ -64,8 +64,95 @@ header{
                 @include border-bottom-left-radius(10px);
             }
         }
-        
-    }    
+    }
+    ul.user-header-profile{
+      text-align: right;
+      margin-top: 25px;
+      li{
+        display: inline-block;
+        position: relative;
+        padding-bottom: 10px;
+        a{
+          color: #FFF;
+          height: 30px;
+          line-height: 30px;
+          float: left;
+          i{
+            padding-left: 10px;
+          }
+        }
+        span.user-icon{
+          width: 30px;
+          height: 30px;
+          text-align: center;
+          line-height: 30px;
+          background: #FFF;
+          color: $color-hover;
+          @include border-radius(50%);
+          margin-right: 5px;
+          display: block;
+          float: left;
+        }
+        ul.user-list{
+          display: none;
+          text-align: left;
+          padding: 10px;
+          position: absolute;
+          right: 0;
+          top: 40px;
+          width: 200px;
+          background: #FFF;
+          z-index: 99;
+          border: 1px solid #ececec;
+          -webkit-box-shadow: 0 3px 5px 0 #464545;
+          box-shadow: 0 3px 5px 0 #464545;
+          -moz-box-shadow: 0 3px 5px 0 #464545;
+          @include border-bottom-right-radius(5px);
+          @include border-bottom-left-radius(5px);
+          &:before{
+            content: " ";
+            width: 0;
+            height: 0;
+            border-bottom: 7px solid #FFF;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            display: inline-block;
+            top: -7px;
+            right: 8px;
+            position: absolute;
+          }
+          
+          li{
+            display: block;
+            border-bottom: 1px solid #ececec;
+            padding-bottom: 5px;
+            a{
+              color: #000;
+              float: none;
+              text-align: left;
+              display: block;
+              i{
+                padding-left: 0;
+                padding-right: 5px;
+              }
+              &:hover{
+                color: $color-hover;
+                i{
+                  color: #000;
+                }
+              }
+            }
+            &:last-child{
+              border-bottom: 0;
+              padding-bottom: 0;
+            }
+          }
+        }
+        &:hover ul.user-list{
+          display: block;
+        }
+      }
+    }
 }
 section.section-breadcrumb{
     .col-md-12{

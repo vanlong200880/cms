@@ -6,19 +6,33 @@
             </div>
             <div class="col-md-7">
                 <ul class="nav-menu clearfix pull-right">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Investment overview</a></li>
-                    <li><a href="#">News</a></li>
-                    <li><a href="#">Faq</a></li>
-                    <li><a href="#">Contact us</a></li>
+                    <li><a href="<?php echo $this->url('home', array('controller' => 'index', 'action' => 'index')) ?>">Home</a></li>
+                    <li><a href="<?php echo $this->url('about', array('controller' => 'page', 'action' => 'about')) ?>">About Us</a></li>
+                    <li><a href="">Investment overview</a></li>
+                    <li><a href="<?php echo $this->url('news', array('controller' => 'news', 'action' => 'index', 'page' => 1)) ?>">News</a></li>
+                    <li><a href="<?php echo $this->url('faq', array('controller' => 'page', 'action' => 'faq')) ?>">Faq</a></li>
+                    <li><a href="<?php echo $this->url('contact', array('controller' => 'page', 'action' => 'contact')) ?>">Contact us</a></li>
                 </ul>
             </div>
             <div class="col-md-3">
+              <?php if(empty($userinfo)): ?>
                 <ul class="login clearfix pull-right">
                     <li><a id="login-header" data-toggle="modal" data-target=".bs-example-modal-sm">Login</a></li>
                     <li><a id="sign-in-header" data-toggle="modal" data-target="#register">Sign up</a></li>
                 </ul>
+              <?php else: ?>  
+              <ul class="user-header-profile">
+                <li>
+                  <span class="user-icon"><i class="fa fa-user"></i></span>
+                  <a><?php echo $userinfo['fullname']; ?> <i class="fa fa-caret-down"></i></a>
+                  <ul class="user-list">
+                    <li><a href="<?php echo $this->url('user-profile', array('controller' => 'user', 'action' => 'index')) ?>"><i class="fa fa-user"></i> My profile</a></li>
+                    <li><a href="<?php echo $this->url('changepassword', array('controller' => 'user', 'action' => 'changepassword')) ?>"><i class="fa fa-pencil-square-o"></i> Change password</a></li>
+                    <li><a href="<?php echo $this->url('logout', array('controller' => 'user', 'action' => 'logout')) ?>"><i class="fa fa-sign-out"></i> Logout</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <?php endif; ?>
             </div>
         </div>
     </div>

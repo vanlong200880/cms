@@ -20,9 +20,10 @@ return array(
                     'defaults' => array (
                         'controller' => 'Frontend\Controller\News',
                         'action' => 'index',
+                        'page'   => 1,
                         'format' => 'html',
                     ),
-                    'spec' => '/category-news/page-%page%.%format%'
+                    'spec' => '/category-news.%format%'
                 )
             ),
 
@@ -42,13 +43,13 @@ return array(
 			'user-profile' => array (
                 'type' => 'Zend\Mvc\Router\Http\Regex',
                 'options' => array (
-                    'regex' => '/user-profile?((?<char>[/]+))?(\.(?<format>(html)))?',
+                    'regex' => '/user-profile?(\.(?<format>(html)))?',
                     'defaults' => array (
                         'controller' => 'Frontend\Controller\User',
                         'action' => 'index',
                         'format' => 'html',
                     ),
-                    'spec' => '/user-profile%char%.%format%'
+                    'spec' => '/user-profile.%format%'
                 )
             ),
 
@@ -81,13 +82,13 @@ return array(
             'logout' => array (
                 'type' => 'Zend\Mvc\Router\Http\Regex',
                 'options' => array (
-                    'regex' => '/logout?((?<char>[/]+))?(\.(?<format>(html)))?',
+                    'regex' => '/logout?(\.(?<format>(html)))?',
                     'defaults' => array (
                         'controller' => 'Frontend\Controller\User',
                         'action' => 'logout',
                         'format' => 'html',
                     ),
-                    'spec' => '/logout%char%.%format%'
+                    'spec' => '/logout.%format%'
                 )
             ),
           
@@ -120,52 +121,52 @@ return array(
             'changepassword' => array (
                 'type' => 'Zend\Mvc\Router\Http\Regex',
                 'options' => array (
-                    'regex' => '/changepassword?((?<char>[/]+))?(\.(?<format>(html)))?',
+                    'regex' => '/user-profile/changepassword?(\.(?<format>(html)))?',
                     'defaults' => array (
                         'controller' => 'Frontend\Controller\User',
                         'action' => 'changepassword',
                         'format' => 'html',
                     ),
-                    'spec' => '/changepassword%char%.%format%'
+                    'spec' => '/user-profile/changepassword.%format%'
                 )
             ),
           
           'about' => array (
             'type' => 'Zend\Mvc\Router\Http\Regex',
             'options' => array (
-                'regex' => '/about?((?<char>[/]+))?(\.(?<format>(html)))?',
+                'regex' => '/about?(\.(?<format>(html)))?',
                 'defaults' => array (
                     'controller' => 'Frontend\Controller\Page',
                     'action' => 'about',
                     'format' => 'html',
                 ),
-                'spec' => '/about%char%.%format%'
+                'spec' => '/about.%format%'
             )
           ),
           
           'contact' => array (
             'type' => 'Zend\Mvc\Router\Http\Regex',
             'options' => array (
-                'regex' => '/contact?((?<char>[/]+))?(\.(?<format>(html)))?',
+                'regex' => '/contact?(\.(?<format>(html)))?',
                 'defaults' => array (
                     'controller' => 'Frontend\Controller\Page',
                     'action' => 'contact',
                     'format' => 'html',
                 ),
-                'spec' => '/contact%char%.%format%'
+                'spec' => '/contact.%format%'
             )
           ),
           
           'faq' => array (
             'type' => 'Zend\Mvc\Router\Http\Regex',
             'options' => array (
-                'regex' => '/faq?((?<char>[/]+))?(\.(?<format>(html)))?',
+                'regex' => '/faq?(\.(?<format>(html)))?',
                 'defaults' => array (
                     'controller' => 'Frontend\Controller\Page',
                     'action' => 'index',
                     'format' => 'html',
                 ),
-                'spec' => '/faq%char%.%format%'
+                'spec' => '/faq.%format%'
             )
           ),
 

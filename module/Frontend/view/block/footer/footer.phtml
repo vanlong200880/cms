@@ -156,15 +156,18 @@
                               <p class="error" id="confirm-password-error"></p>
                             </div>
                         </div>
-                      
                         <div class="form-group">
                             <label for="email" class="col-sm-4 control-label">Country:<span class="validation">*</span> </label>
                             <div class="col-sm-8">
                               <select class="form-control" id="country" name="country">
-                                    <option value="1">Select Country</option>
-                                    <option value="2">Vietnam</option>
-                                    <option value="3">Japan</option>
-                                    <option value="3">My</option>
+                                    <option data-code="" value="">Select Country</option>
+                                    <?php
+                                      if($country): ?>
+                                        <?php foreach ($country as $value): ?>
+                                        <option data-code="<?php echo $value['code']; ?>" value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
+                                        <?php endforeach;
+                                      endif; ?>
+                                    ?>
                                 </select>
                               <p class="error" id="country-error"></p>
                             </div>
@@ -175,16 +178,10 @@
                             <div class="col-sm-8">
                                 <div class="row">
                                     <div class="col-sm-4">
-                                      <select class="form-control" name="country-code" id="country-code">
-                                            <option value="1">+015</option>
-                                            <option value="2">+84</option>
-                                            <option value="3">+87</option>
-                                            <option value="3">+064</option>
-                                        </select>
-                                      <p class="error" id="country-code-error"></p>
+                                      <input type="tel" class="form-control" disabled="disabled" name="country-code" id="country-code">
                                     </div>
                                     <div class="col-sm-8">
-                                      <input type="tel" class="form-control" name="phone" id="phone">
+                                      <input type="text" size="12" class="form-control" name="phone" id="phone" min="6" max="16">
                                       <p class="error" id="phone-error"></p>
                                     </div>
                                 </div>
@@ -274,14 +271,22 @@
              }, 500);
         });
         
+        // Select country
+        $("#country").on('change', function(){
+          var code = $(this).find(':selected').attr('data-code');
+          if(code == ''){
+            code = '';
+          }else{
+            code = '+'+code;
+          }
+          $("#country-code").val(code);
+        });
         
         // Login
         $("#register-submit").on('click', function(){
-          
           $("#register-form").submit(function(e){
             var formObj = $(this);
             var formUrl = formObj.attr('action');
-//            var formData = new FormData(this);
             var postData = $(this).serializeArray();
             
             $.ajax({
@@ -290,11 +295,6 @@
               data: postData,
               dataType: 'JSON',
               encode 		: true,
-//              mimeType:"multipart/form-data",
-//              contentType: false,
-//              cache: false,
-//              processData:false,
-//              async:      true,
               success: function(data, status){
                 if(data.error){
                   $("#register-form #fullname-error").empty().append(data.error.fullname);
@@ -302,13 +302,27 @@
                   $("#register-form #username-error").empty().append(data.error.username);
                   $("#register-form #password-error").empty().append(data.error.password);
                   $("#register-form #confirm-password-error").empty().append(data.error.repassword);
+                  $("#register-form #country-error").empty().append(data.error.country);
+                  $("#register-form #phone-error").empty().append(data.error.phone);
+                  $("#register-form #email-error").empty().append(data.error.email);
+                  $("#register-form #skype-error").empty().append(data.error.skype);
                 }else{
-                  console.log('done');
+                  $("#register-form #fullname-error").empty();
+                  $("#register-form #sponsor-error").empty();
+                  $("#register-form #username-error").empty();
+                  $("#register-form #password-error").empty();
+                  $("#register-form #confirm-password-error").empty();
+                  $("#register-form #country-error").empty();
+                  $("#register-form #phone-error").empty();
+                  $("#register-form #email-error").empty();
+                  $("#register-form #skype-error").empty();
+                  if(data.message == 'done'){
+                    $("#register-form input").val('');
+                    window.location.href = "<?php echo $this->url('user-profile', array('controller' => 'user', 'action' => 'index')) ?>";
+                  }
                 }
-                
               },
               error: function(data, textStatus, jqXHR){
-                console.log('error');
               }
             });
             e.preventDefault();

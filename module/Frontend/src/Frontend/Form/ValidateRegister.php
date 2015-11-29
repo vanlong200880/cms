@@ -23,7 +23,6 @@ class ValidateRegister{
           'field'     => 'username',
           'adapter'   => \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::getStaticAdapter(),
       );
-//      ->addValidator(new \Zend\Validator\Regex(array('pattern' => '/^[a-z0-9]$/i')))
       $validator = new \Zend\Validator\ValidatorChain();
       $validator->addValidator(new \Zend\Validator\NotEmpty(), true)
                 ->addValidator(new \Zend\Validator\Db\RecordExists($option), true);
@@ -39,7 +38,7 @@ class ValidateRegister{
       );
       $validator = new \Zend\Validator\ValidatorChain();
       $validator->addValidator(new \Zend\Validator\NotEmpty(), true)
-//                ->addValidator(new \Zend\Validator\Regex(array('pattern' => '/(.*)[^a-zA-Z0-9](.*)/')))
+                ->addValidator(new \Zend\Validator\Regex('/^[a-zA-Z0-9 ._-]+$/'))
                 ->addValidator(new \Zend\Validator\Db\NoRecordExists($optionUser), true);
       if(!$validator->isValid($arrayParam['post']['username'])){			
           $message = $validator->getMessages();
@@ -66,32 +65,52 @@ class ValidateRegister{
         }
       }
       
-
-//			$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
-//						->addValidator(new \Zend\Validator\StringLength(6,32), true);
-//			if(!$validator->isValid($arrayParam['post']['password'])){
-//				$message = $validator->getMessages();
-//				$this->_messagesError['password'] = 'Password: ' . current($message);
-//			}
-		//============================================
-		//CHeck email
-		//============================================
-//		$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
-//					->addValidator(new \Zend\Validator\EmailAddress(), true);
-//		if(!$validator->isValid($arrayParam['post']['email'])){
-//			$message = $validator->getMessages();
-//			$this->_messagesError['email'] = 'Email: ' . current($message);
-//		}
-		
-		//============================================
-		//Check Password
-		//============================================
-//		$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
-//					->addValidator(new \Zend\Validator\StringLength(6,32), true);
-//		if(!$validator->isValid($arrayParam['post']['password'])){
-//			$message = $validator->getMessages();
-//			$this->_messagesError['password'] = 'Password: ' . current($message);
-//		}	
+      // check country
+      $optionCountry = array(
+          'table'     => 'country',
+          'field'     => 'id',
+          'adapter'   => \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::getStaticAdapter(),
+      );
+      $validator = new \Zend\Validator\ValidatorChain();
+      $validator->addValidator(new \Zend\Validator\NotEmpty(), true)
+                ->addValidator(new \Zend\Validator\Digits(), true)
+                ->addValidator(new \Zend\Validator\Db\RecordExists($optionCountry), true);
+      if(!$validator->isValid($arrayParam['post']['country'])){			
+          $message = $validator->getMessages();
+          $this->_messagesError['country'] = 'Country: ' . current($message);
+      }
+      
+      // check phone number
+      $validator = new \Zend\Validator\ValidatorChain();
+			$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
+            ->addValidator(new \Zend\Validator\Regex('/^[0-9 .-]+$/'))
+						->addValidator(new \Zend\Validator\StringLength(6,16), true);
+			if(!$validator->isValid($arrayParam['post']['phone'])){
+				$message = $validator->getMessages();
+				$this->_messagesError['phone'] = 'Phone: ' . current($message);
+			}
+      
+      // check email
+      $optionEmail = array(
+          'table'     => 'user',
+          'field'     => 'email',
+          'adapter'   => \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::getStaticAdapter(),
+      );
+      $validator = new \Zend\Validator\ValidatorChain();
+			$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
+                ->addValidator(new \Zend\Validator\EmailAddress(), true)
+                ->addValidator(new \Zend\Validator\Db\NoRecordExists($optionEmail), true);
+			if(!$validator->isValid($arrayParam['post']['email'])){
+				$message = $validator->getMessages();
+				$this->_messagesError['email'] = 'Email: ' . current($message);
+			}
+      // check skype
+      $validator = new \Zend\Validator\ValidatorChain();
+			$validator->addValidator(new \Zend\Validator\NotEmpty(), true);
+			if(!$validator->isValid($arrayParam['post']['skype'])){
+				$message = $validator->getMessages();
+				$this->_messagesError['skype'] = 'Skpye: ' . current($message);
+			}
 	}
 	
 	//============================================
@@ -117,8 +136,14 @@ class ValidateRegister{
 	//============================================
 	public function getData($options = null){
 		$filter = new \Zend\Filter\StringTrim(array('charlist' => ' '));
-		$this->_arrData['post']['fullname'] = $filter->filter($this->_arrData['post']['fullname']);
-		$this->_arrData['post']['password'] = $filter->filter($this->_arrData['post']['password']);
+    $this->_arrData['post']['sponsor-id'] = $filter->filter($this->_arrData['post']['sponsor-id']);
+		$this->_arrData['post']['fullname']   = $filter->filter($this->_arrData['post']['fullname']);
+    $this->_arrData['post']['username']   = $filter->filter($this->_arrData['post']['username']);
+		$this->_arrData['post']['password']   = $filter->filter($this->_arrData['post']['password']);
+    $this->_arrData['post']['country']    = $filter->filter($this->_arrData['post']['country']);
+    $this->_arrData['post']['phone']      = $filter->filter($this->_arrData['post']['phone']);
+    $this->_arrData['post']['email']      = $filter->filter($this->_arrData['post']['email']);
+    $this->_arrData['post']['skype']      = $filter->filter($this->_arrData['post']['skype']);
 		return $this->_arrData;
 	}
 }

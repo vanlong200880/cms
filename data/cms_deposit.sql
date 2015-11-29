@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 26, 2015 at 06:16 PM
+-- Generation Time: Nov 29, 2015 at 06:03 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -135,6 +135,28 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `status` int(1) DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `country`
+--
+
+CREATE TABLE IF NOT EXISTS `country` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `code` varchar(10) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `country`
+--
+
+INSERT INTO `country` (`id`, `name`, `code`, `status`) VALUES
+(1, 'Viet Nam', '084', 1),
+(2, 'Japan', '081', 1);
 
 -- --------------------------------------------------------
 
@@ -321,7 +343,7 @@ CREATE TABLE IF NOT EXISTS `news` (
   UNIQUE KEY `alias_UNIQUE` (`slug`),
   KEY `fk_new_category1_idx` (`category_id`),
   KEY `fk_new_user1_idx` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -365,7 +387,7 @@ CREATE TABLE IF NOT EXISTS `order_detail` (
   PRIMARY KEY (`id`,`order_id`,`product_id`),
   KEY `fk_order_detail_order1_idx` (`order_id`),
   KEY `fk_order_detail_product1_idx` (`product_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -469,7 +491,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   KEY `fk_product_shop1_idx` (`shop_id`),
   KEY `fk_product_category1_idx` (`category_id`),
   KEY `fk_product_user1_idx` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -665,7 +687,6 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(45) NOT NULL,
   `salt` varchar(100) NOT NULL,
   `fullname` varchar(45) NOT NULL,
-  `alias` varchar(45) DEFAULT NULL,
   `birthday` int(10) DEFAULT NULL,
   `sex` int(1) DEFAULT NULL,
   `address` varchar(45) DEFAULT NULL,
@@ -675,11 +696,22 @@ CREATE TABLE IF NOT EXISTS `user` (
   `avartar` varchar(45) DEFAULT NULL,
   `token` varchar(100) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
-  `social` int(1) NOT NULL DEFAULT '0',
-  `username` int(45) NOT NULL,
+  `username` varchar(45) NOT NULL,
+  `country_id` int(11) NOT NULL,
+  `skype` varchar(60) NOT NULL,
+  `sponsor_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `email`, `password`, `salt`, `fullname`, `birthday`, `sex`, `address`, `active`, `created`, `changed`, `avartar`, `token`, `status`, `username`, `country_id`, `skype`, `sponsor_id`) VALUES
+(1, 'vanlong200880@gmail.com', '123456', 'sdfsfsrrwerwewr', 'Pham Long', NULL, NULL, NULL, 1, 0, 0, NULL, '', 0, 'phamlong', 1, '', 0),
+(12, '111@gmail.com', '8926cc32e0f4a4756c44668ec3d9cfa13b7f9956', '{tBA>=#NHzsq!2DT<qP.!<egB@!z&Anq@/-$w,FZ!''Z.@A6h*m', '1123123', NULL, NULL, NULL, 1, 1448783237, 1448783237, NULL, '8c37e96aa929c77cc995b46a15d3ef77', 1, '12312312', 2, '1234567', 1),
+(13, 'an@gmail.com', 'd68cd801ed33a26b570628c24b80caefbab26e9a', '"TKx-vy,})Atk{Zn:p5!\\Y.$YUp"FW<Rg~{`q]m%Js>eeSJ@J|', 'an', NULL, NULL, NULL, 1, 1448806903, 1448806903, NULL, 'a74a5c244b4c9b9ca37862f14d8ce329', 1, 'an', 2, 'anky', 1);
 
 -- --------------------------------------------------------
 
