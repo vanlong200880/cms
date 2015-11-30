@@ -99,13 +99,16 @@
                 <h4 class="modal-title">Forgot password?</h4>
             </div>
             <div class="modal-body">
+              <form id="forgotpassword-form" action="<?php echo $this->url('forgotpassword', array('controller' => 'user', 'action' => 'forgotpassword'));?>" method="post" enctype="multipart/form-data">
+                <div class="forgotpassword-error"><p class="error" id="forgotpassword-error"></p></div>
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <input type="text" class="form-control" id="email" value="" placeholder="Email">
+                        <input type="text" name="email" class="form-control" id="email" value="" placeholder="Email">
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary">Forgot password</button>
+                <button type="button" id="forgotpassword-submit" class="btn btn-primary">Send</button>
+              </form>
             </div>
         </div>
       </div>
@@ -252,7 +255,7 @@
                 $(".footer .animated").css("display", "block");
             }
         });
-
+        
         // user login 
         $("#sign-up-here").on('click', function(){
             $(".close").trigger('click');
@@ -283,6 +286,42 @@
           }
           $("#country-code").val(code);
         });
+        
+        // User forgot password
+        $("#forgotpassword-submit").on('click', function(){
+					$("#forgotpassword-form").submit(function(e){
+						var formObj = $(this);
+						var formUrl = formObj.attr('action');
+						var postData = $(this).serializeArray();
+						$.ajax({
+							url: formUrl,
+							type: 'POST',
+							data: postData,
+							dataType: 'JSON',
+							encode: true,
+							success: function(data, status){
+                console.log(data);
+								if(data.error){
+									$("#forgotpassword-form #forgotpassword-error").empty().append(data.error.email);
+								}else{
+									$("#forgotpassword-form #forgotpassword-error").empty();
+                  if(data.message === 'done'){
+//                    $("#forgotpassword-form input").val('');
+//                    window.location.href = "<?php //echo $this->url('user-profile', array('controller' => 'user', 'action' => 'index')) ?>";
+                  }
+								}
+							},
+							error: function(data, textStatus, jqXHR){
+								console.log('error');
+              }
+						});
+						e.preventDefault();
+            $(this).unbind(e);
+					});
+					$("#forgotpassword-form").submit();
+				});
+        
+        
         // User login
 				$("#login-submit").on('click', function(){
 					$("#login-form").submit(function(e){

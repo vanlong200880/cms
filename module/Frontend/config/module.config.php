@@ -108,13 +108,26 @@ return array(
             'forgotpassword' => array (
                 'type' => 'Zend\Mvc\Router\Http\Regex',
                 'options' => array (
-                    'regex' => '/forgotpassword?((?<char>[/]+))?(\.(?<format>(html)))?',
+                    'regex' => '/forgotpassword?(\.(?<format>(html)))?',
                     'defaults' => array (
                         'controller' => 'Frontend\Controller\User',
                         'action' => 'forgotpassword',
                         'format' => 'html',
                     ),
-                    'spec' => '/forgotpassword%char%.%format%'
+                    'spec' => '/forgotpassword.%format%'
+                )
+            ),
+          
+            'reset-password' => array (
+                'type' => 'Zend\Mvc\Router\Http\Regex',
+                'options' => array (
+                    'regex' => '/resetpassword/(?<token_reset>[a-zA-Z0-9-]+)?(\.(?<format>(html)))?',
+                    'defaults' => array (
+                        'controller' => 'Frontend\Controller\User',
+                        'action' => 'resetpassword',
+                        'format' => 'html',
+                    ),
+                    'spec' => '/resetpassword/%token_reset%.%format%'
                 )
             ),
 

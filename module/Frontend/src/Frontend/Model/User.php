@@ -83,8 +83,21 @@ class User extends AbstractTableGateway{
 				'active = 1'
 		));
 		$resultSet = $this->selectWith($select);
-		
 		$dataResult = $resultSet->toArray();
 		return $dataResult;
 	}
+  
+  // Generator token reset password
+  public function generatorTokenReset($arrayParam = null){
+    $data = array(
+      'token_reset'		=> $arrayParam['post']['token_reset'], 
+      'time_reset'    => $arrayParam['post']['time_reset'],
+		);
+    // update
+    if($this->update($data, "email = '". $arrayParam['post']['email']."'")){
+        return true;
+    }else{
+        return false;
+    }
+  }
 }

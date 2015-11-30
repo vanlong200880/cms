@@ -44,8 +44,8 @@ return array(
 					'host'              => 'mail.unimedia.vn',
 					'connection_class'  => 'plain',
 					'connection_config' => array(
-						'username'				=> 'support@unimedia.vn',
-						'password'				=> '@*{lf5v$FB5]',
+						'username'				=> 'demo@unimedia.vn',
+						'password'				=> '123654789',
 						'port'						=> 25,
 						'ssl'							=> 'tls'
 					),

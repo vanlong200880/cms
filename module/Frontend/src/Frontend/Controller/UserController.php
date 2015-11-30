@@ -10,6 +10,12 @@ use Sky\System\EncriptPassword;
 use Frontend\Model\User;
 use Zend\Session\Container;
 use Frontend\Form\ValidateLogin;
+use Frontend\Form\ValidateResetPassword;
+use Zend\Mail\Message;
+use Zend\Mime\Message as MimeMessage;
+use Zend\Mime\Part as MimePart;
+use Zend\Mail\Transport\Smtp as SmtpTransport;
+use Zend\Mail\Transport\SmtpOptions;
 
 class UserController extends AbstractActionController
 {
@@ -33,12 +39,11 @@ class UserController extends AbstractActionController
 				if($request->isXmlHttpRequest()){
 					$arrayParam['post'] = $request->getPost();
 					$validate = new ValidateLogin($arrayParam);
-					if($validate->isError() == true){
+					if($validate->isError() === true){
 						$arrayParam['error'] = $validate->getMessagesError();
 					}else{
 						$user = new User();
 						$salt = $user->getSalt($arrayParam['post']['username']);
-						$arrayParam['sa'] = $salt;
 						if(!empty($salt)){
 							$arrayParam['post']['salt'] = $salt[0]['salt'];
 							$encriptPassword = new EncriptPassword();
@@ -74,7 +79,56 @@ class UserController extends AbstractActionController
 			return $this->redirect()->toRoute('home', array('controller' => 'index', 'action' => 'index'));
     }
     public function forgotpasswordAction(){
-    	return new ViewModel();
+      $request = $this->getRequest();
+//      $arrayParam['error'] = array();
+      if($request->isXmlHttpRequest()){
+        $arrayParam = array();
+        $arrayParam['post'] = $request->getPost();
+        $validate = new ValidateResetPassword($arrayParam);
+        if($validate->isError() === true){
+          $arrayParam['error'] = $validate->getMessagesError();
+        }else{
+          // Create link reset password
+          $user = new User();
+          $arrayParam['post']['time_reset'] = time();
+          $arrayParam['post']['token_reset'] = md5(uniqid(mt_rand(), true));
+          if($user->generatorTokenReset($arrayParam)){
+            // Send email
+            $subject = 'demo reset password';
+            $message = 'link reset';
+            $config = $this->getServiceLocator()->get('Config');
+            $arrayParam['cof'] = $config['mail']['transport'];
+            $message = new Message();
+            $bodyPart = new \Zend\Mime\Message();
+            $bodyMessage = new \Zend\Mime\Part($body);
+            $bodyMessage->type = 'text/html';
+            $bodyPart->setParts(array($bodyMessage));
+
+            $message->addTo('support@unimedia.vn')
+                ->addFrom('vanlong200880@gmail.com')
+                ->setSubject($subject)
+                ->setBody($bodyPart);
+            $message->setEncoding('UTF-8');
+
+            $transport = new SmtpTransport();
+//            $options   = new SmtpOptions(array(
+//              'name'              => 'localhost',
+//              'host'              => 'mail.unimedia.vn',
+//              'connection_class'  => 'plain',
+//              'connection_config' => array(
+//                  'username' => 'demo@unimedia.vn',
+//                  'password' => '123654789',
+//              ),
+//          ));
+//            $transport->setOptions($options);
+
+            $transport->setOptions($config['mail']['transport']);
+            $transport->send($message);		
+          }
+          
+        }
+      }
+    	return new JsonModel($arrayParam);
     }
     public function changepasswordAction(){
     	return new ViewModel();
