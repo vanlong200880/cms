@@ -1,40 +1,34 @@
 <?php
 namespace Frontend\Form;
 class ValidateLogin{
-	
-	//============================================
 	//Message error
-	//============================================
 	protected $_messagesError = NULL;
-	
-	//============================================
 	//Store data
-	//============================================
 	protected $_arrData = NULL;
 	
 	public function __construct($arrayParam = array(), $options = null){
 		$this->_arrData	= $arrayParam;
-		
-		//============================================
-		//CHeck email
-		//============================================
+		//Check username
+		$optionUsername = array(
+			'table'     => 'user',
+			'field'     => 'username',
+			'adapter'   => \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::getStaticAdapter(),
+		);
 		$validator = new \Zend\Validator\ValidatorChain();
 		$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
-					->addValidator(new \Zend\Validator\EmailAddress(), true);
-		if(!$validator->isValid($arrayParam['post']['email'])){
-			$message = $validator->getMessages();
-			$this->_messagesError['Email'] = 'Email: ' . current($message);
+							->addValidator(new \Zend\Validator\Db\RecordExists($optionUsername), true);
+		if(!$validator->isValid($arrayParam['post']['username'])){			
+				$message = $validator->getMessages();
+				$this->_messagesError['username'] = 'Username or password incorrect u.';
 		}
 		
-		//============================================
 		//Check Password
-		//============================================
 		$validator = new \Zend\Validator\ValidatorChain();
 		$validator->addValidator(new \Zend\Validator\NotEmpty(), true)
 					->addValidator(new \Zend\Validator\StringLength(6,32), true);
 		if(!$validator->isValid($arrayParam['post']['password'])){
 			$message = $validator->getMessages();
-			$this->_messagesError['password'] = 'Password: ' . current($message);
+			$this->_messagesError['username'] = 'Username or password incorrect p.';
 		}	
 	}
 	

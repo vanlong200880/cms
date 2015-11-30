@@ -32,6 +32,15 @@
         ; ?>
 </head>
 <body>
+	<div id="messages">
+			<?php
+			 $flashMessage = $this->flashMessenger()->getMessages();
+					if(!empty($flashMessage))
+					{
+							echo $flashMessage[0];
+					}
+			?>
+	</div>
     <?php echo $this->header(); ?>
 	<div class="wrapper">
         <section class="section">

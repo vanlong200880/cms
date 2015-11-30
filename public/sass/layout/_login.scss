@@ -48,6 +48,12 @@
     .validation{
         color: red;
     }
+		div.login-error{
+			p.error{
+				padding-bottom: 10px;
+				 font-size: 14px;
+			}
+		}
 }
 /* register form */
 #register{

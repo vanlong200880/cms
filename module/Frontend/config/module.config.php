@@ -69,13 +69,13 @@ return array(
             'login' => array (
                 'type' => 'Zend\Mvc\Router\Http\Regex',
                 'options' => array (
-                    'regex' => '/login?((?<char>[/]+))?(\.(?<format>(html)))?',
+                    'regex' => '/login?(\.(?<format>(html)))?',
                     'defaults' => array (
                         'controller' => 'Frontend\Controller\User',
                         'action' => 'login',
                         'format' => 'html',
                     ),
-                    'spec' => '/login%char%.%format%'
+                    'spec' => '/login.%format%'
                 )
             ),
 

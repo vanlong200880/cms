@@ -17,6 +17,15 @@ class EncriptPassword{
 		$data['token'] = md5(uniqid(mt_rand(), true));
 		return $data;
 	}
+	
+	// enscript password login
+	function encriptPasswordLogin($data){
+		$staticSalt			= $this->getStaticSalt();
+		$password				= $data['password'];
+		$dynamicSalt		= $data['salt'];
+		$data['password'] = sha1(md5($staticSalt . $password . $dynamicSalt));
+		return $data;
+	}
     
     public function encriptChangePassword($password, $salt){
         return sha1(md5($this->getStaticSalt() . $password . $salt));

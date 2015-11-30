@@ -37,4 +37,19 @@ return array(
         ),
     ),
     'static_salt' => 'qưertyuioZXCVMNBVGpasdfghjklzxcvbnm123456789ASDFGLKJHQWERPOIUT',
+		'mail' => array(
+			'transport' => array(
+				'options' => array(
+					'name'              => 'localhost',
+					'host'              => 'mail.unimedia.vn',
+					'connection_class'  => 'plain',
+					'connection_config' => array(
+						'username'				=> 'support@unimedia.vn',
+						'password'				=> '@*{lf5v$FB5]',
+						'port'						=> 25,
+						'ssl'							=> 'tls'
+					),
+				),  
+			),
+		)
 );

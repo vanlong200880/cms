@@ -3,6 +3,8 @@ namespace Frontend\Model;
 use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\TableGateway\Feature;
 use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Sql;
+use Zend\Db\Sql\Where;
 class User extends AbstractTableGateway{
   // Table name
   protected $table = 'user';
@@ -24,7 +26,7 @@ class User extends AbstractTableGateway{
   }
 
   // User register
-  public function userRegister($arrayParam = null)
+  public function userRegister($arrayParam = null)	
 	{
 		$data = array(
 		  'email'         => $arrayParam['post']['email'], 
@@ -53,6 +55,36 @@ class User extends AbstractTableGateway{
 //        'user_id'	=> $id
 //      );
 //      $role->addUserRole($userRole);
-    }	
+    }
+	}
+	// User login
+	function userLogin($arrayParam = null)
+	{
+		$select = new Select();
+		$select->from($this->table);
+		$select->columns(array('id', 'email', 'username', 'password', 'fullname', 'token', 'active'));
+		$select->where(array(
+			"username = '". $arrayParam['post']['username']."'",
+			"password = '".$arrayParam['post']['password']."'",
+			'active = 1'
+		));
+		$resultSet = $this->selectWith($select);
+		$dataUser = $resultSet->toArray();
+		return $dataUser;
+	}
+	
+	//Get salt
+	public function getSalt($username){
+		$select = new Select();
+		$select->from($this->table);
+		$select->columns(array('salt', 'username', 'active'));
+		$select->where(array(
+				"username = '". $username."'",
+				'active = 1'
+		));
+		$resultSet = $this->selectWith($select);
+		
+		$dataResult = $resultSet->toArray();
+		return $dataResult;
 	}
 }

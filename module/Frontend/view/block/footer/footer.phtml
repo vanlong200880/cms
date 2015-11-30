@@ -61,24 +61,27 @@
                 <h4 class="modal-title">Sign In</h4>
             </div>
             <div class="modal-body">
-                <div class="form-group">
+							<form id="login-form" action="<?php echo $this->url('login', array('controller' => 'user', 'action' => 'login')); ?>" method="post" enctype="multipart/form-data">
+                <div class="login-error"><p class="error" id="login-error"></p></div>
+								<div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <input type="text" class="form-control" id="username" value="" placeholder="Username">
+                        <input type="text" class="form-control" id="username" name="username" value="" placeholder="Username">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                        <input type="password" class="form-control" id="password" value="" placeholder="Password">
+                        <input type="password" class="form-control" id="password" name="password" value="" placeholder="Password">
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="button" class="btn btn-primary">Login</button>
+									<button type="button" id="login-submit" class="btn btn-primary">Login</button>
                     <a href="#" class="forgot-password control-label">Forgot password?</a>
                 </div>
                 <div class="login-line"></div>
                 <p>Don't have an account <a href="#" id="sign-up-here">Sign Up Here</a></p>
+							</form>
             </div>
         </div>
       </div>
@@ -172,7 +175,6 @@
                               <p class="error" id="country-error"></p>
                             </div>
                         </div>
-                      
                         <div class="form-group">
                             <label for="mobile" class="col-sm-4 control-label">Mobile No.:<span class="validation">*</span> </label>
                             <div class="col-sm-8">
@@ -281,8 +283,40 @@
           }
           $("#country-code").val(code);
         });
-        
-        // Login
+        // User login
+				$("#login-submit").on('click', function(){
+					$("#login-form").submit(function(e){
+						var formObj = $(this);
+						var formUrl = formObj.attr('action');
+						var postData = $(this).serializeArray();
+						$.ajax({
+							url: formUrl,
+							type: 'POST',
+							data: postData,
+							dataType: 'JSON',
+							encode: true,
+							success: function(data, status){
+								if(data.error){
+									$("#login-form #login-error").empty().append(data.error.username);
+								}else{
+									$("#login-form #login-error").empty();
+                  if(data.message === 'done'){
+                    $("#register-form input").val('');
+                    window.location.href = "<?php echo $this->url('user-profile', array('controller' => 'user', 'action' => 'index')) ?>";
+                  }
+								}
+							},
+							error: function(data, textStatus, jqXHR){
+								console.log('error');
+              }
+						});
+						e.preventDefault();
+            $(this).unbind(e);
+					});
+					$("#login-form").submit();
+				});
+				
+        // User register
         $("#register-submit").on('click', function(){
           $("#register-form").submit(function(e){
             var formObj = $(this);
@@ -327,7 +361,6 @@
             });
             e.preventDefault();
             $(this).unbind(e);
-//            return false;
           });
           $("#register-form").submit();
         });
