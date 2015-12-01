@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2015 at 11:00 AM
+-- Generation Time: Dec 01, 2015 at 11:01 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -702,6 +702,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `sponsor_id` int(11) NOT NULL,
   `token_reset` varchar(255) DEFAULT NULL,
   `time_reset` int(10) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
@@ -710,12 +711,12 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `email`, `password`, `salt`, `fullname`, `birthday`, `sex`, `address`, `active`, `created`, `changed`, `avartar`, `token`, `status`, `username`, `country_id`, `skype`, `sponsor_id`, `token_reset`, `time_reset`) VALUES
-(1, 'vanlong200880@gmail.com', '123456', 'sdfsfsrrwerwewr', 'Pham Long', NULL, NULL, NULL, 1, 0, 0, NULL, '', 0, 'phamlong', 1, '', 0, '', NULL),
-(12, '111@gmail.com', '8926cc32e0f4a4756c44668ec3d9cfa13b7f9956', '{tBA>=#NHzsq!2DT<qP.!<egB@!z&Anq@/-$w,FZ!''Z.@A6h*m', '1123123', NULL, NULL, NULL, 1, 1448783237, 1448783237, NULL, '8c37e96aa929c77cc995b46a15d3ef77', 1, '12312312', 2, '1234567', 1, '', NULL),
-(13, 'an@gmail.com', 'd68cd801ed33a26b570628c24b80caefbab26e9a', '"TKx-vy,})Atk{Zn:p5!\\Y.$YUp"FW<Rg~{`q]m%Js>eeSJ@J|', 'an', NULL, NULL, NULL, 1, 1448806903, 1448806903, NULL, 'a74a5c244b4c9b9ca37862f14d8ce329', 1, 'an', 2, 'anky', 1, '', NULL),
-(14, 'nguyenpham@gmail.com', '096dee5cd2f88590868de9daa6b42de757a6d810', 'ZpD)r^>DUlkw<}12/J<-grP6/P\\K|&$:<gU]d=S%@wmKfAf>#j', 'Pham Nguyen', NULL, NULL, NULL, 1, 1448846805, 1448846805, NULL, 'd81102c36efc813d50f86f4e1b2a7372', 1, 'nguyenpham', 2, 'phamk', 1, '', NULL),
-(15, 'phaman@gmail.com', 'a1c17740944bade4aa54037821124424fe0827a4', 'eRyE#na%@[r2D8ztCTug$s4sW''mpfL3hew@59ia<Tq6Y?RH6l\\', 'Pham An', NULL, NULL, NULL, 1, 1448847829, 1448847829, NULL, 'dc476be0b9dcb2a84379be3cbd15d4cb', 1, 'phaman', 2, 'phaman', 1, '', NULL);
+INSERT INTO `user` (`id`, `email`, `password`, `salt`, `fullname`, `birthday`, `sex`, `address`, `active`, `created`, `changed`, `avartar`, `token`, `status`, `username`, `country_id`, `skype`, `sponsor_id`, `token_reset`, `time_reset`, `phone`) VALUES
+(1, 'vanlong200880@gmail.com', '123456', 'sdfsfsrrwerwewr', 'Pham Long', NULL, NULL, NULL, 1, 0, 0, NULL, '', 0, 'phamlong', 1, '', 0, '976d7c0e5c9a06cc73c89f4ad36f9716', 1448934532, NULL),
+(12, '111@gmail.com', '8926cc32e0f4a4756c44668ec3d9cfa13b7f9956', '{tBA>=#NHzsq!2DT<qP.!<egB@!z&Anq@/-$w,FZ!''Z.@A6h*m', '1123123', NULL, NULL, NULL, 1, 1448783237, 1448783237, NULL, '8c37e96aa929c77cc995b46a15d3ef77', 1, '12312312', 2, '1234567', 1, '', NULL, NULL),
+(13, 'an@gmail.com', 'd68cd801ed33a26b570628c24b80caefbab26e9a', '"TKx-vy,})Atk{Zn:p5!\\Y.$YUp"FW<Rg~{`q]m%Js>eeSJ@J|', 'an', NULL, NULL, NULL, 1, 1448806903, 1448806903, NULL, 'a74a5c244b4c9b9ca37862f14d8ce329', 1, 'an', 2, 'anky', 1, '', NULL, NULL),
+(14, 'nguyenpham@gmail.com', '096dee5cd2f88590868de9daa6b42de757a6d810', 'ZpD)r^>DUlkw<}12/J<-grP6/P\\K|&$:<gU]d=S%@wmKfAf>#j', 'Pham Nguyen', NULL, NULL, NULL, 1, 1448846805, 1448846805, NULL, 'd81102c36efc813d50f86f4e1b2a7372', 1, 'nguyenpham', 2, 'phamk', 1, '', NULL, NULL),
+(15, 'phaman@gmail.com', '1f7f0b8aaf31fb7296e5b07becec7965cbd4fca2', 'p[!g&XfgfJN6qh{Ss^FRicOT""NHU1(Pt:P]{vM2824{e`H?qO', 'Pham An Nguyen', 1436565600, 0, 'abc', 1, 1448847829, 1448962603, NULL, 'dc476be0b9dcb2a84379be3cbd15d4cb', 1, 'phaman', 1, 'phaman', 1, 'e724d273a5b9e6d46e67ff61ce461c31', 1448935564, '09666601270');
 
 -- --------------------------------------------------------
 
