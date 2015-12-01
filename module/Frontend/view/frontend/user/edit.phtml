@@ -1,1 +1,116 @@
-edit profile
+<section class="change-password">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12"><h1>Edit profile</h1></div>
+			<div class="col-md-12">
+				<form class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->url('editprofile', array('controller' => 'user', 'action' => 'edit')) ?>">
+					<div class="form-group">
+						<p class="error"><?php echo isset($arrayParam['post']['error'])? $arrayParam['post']['error']:'' ?></p>
+					</div>
+
+					<div class="form-group">
+					    <label class="col-sm-2 control-label">Username</label>
+					    <div class="col-sm-10">
+								<label class="control-label"><?php echo $arrayParam['data']['username']; ?></label>
+					    </div>
+					  </div>
+
+					<div class="form-group">
+				    <label for="email" class="col-sm-2 control-label">Email</label>
+				    <div class="col-sm-10">
+							<input type="email" value="<?php echo isset($arrayParam['post']['email'])?$arrayParam['post']['email']:'' ?>" name="email" class="form-control" id="email">
+							<p class="error"><?php echo isset($arrayParam['error']['email'])? $arrayParam['error']['email']:'' ?></p>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="fullname" class="col-sm-2 control-label">Full name</label>
+				    <div class="col-sm-10">
+							<input type="text" value="<?php echo isset($arrayParam['post']['fullname'])?$arrayParam['post']['fullname']:'' ?>" name="fullname" class="form-control" id="fullname">
+							<p class="error"><?php echo isset($arrayParam['error']['fullname'])? $arrayParam['error']['fullname']:'' ?></p>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="birthday" class="col-sm-2 control-label">Birthday</label>
+				    <div class="col-sm-10">
+							<div class="row">
+								<div class="col-md-4">
+									<select name="day" class="form-control">
+									<?php echo $date['day']; ?>
+								</select>
+								</div>
+								<div class="col-md-4">
+									<select name="month" class="form-control">
+										<?php echo $date['month']; ?>
+									</select>
+								</div>
+								<div class="col-md-4">
+									<select name="year" class="form-control">
+										<?php echo $date['year']; ?>
+									</select>
+								</div>
+								<div class="col-sm-12">
+									<p class="error"><?php echo isset($arrayParam['error']['date'])? $arrayParam['error']['date']:'' ?></p>
+								</div>
+							</div>
+				    </div>
+				  </div>
+
+					<div class="form-group">
+				    <label for="birthday" class="col-sm-2 control-label">Sex</label>
+				    <div class="col-sm-10">
+							<select name="sex" id="sex" class="form-control">
+								<option value="">-- Choose --</option>
+								<option <?php echo ($arrayParam['post']['sex'] == 1)? 'selected': ''; ?> value="1">Male</option>
+								<option <?php echo ($arrayParam['post']['sex'] == '0')? 'selected': ''; ?> value="0">Female</option>
+							</select>
+				    </div>
+				  </div>
+
+					<div class="form-group">
+				    <label for="address" class="col-sm-2 control-label">Address</label>
+				    <div class="col-sm-10">
+							<input type="text" value="<?php echo isset($arrayParam['post']['address'])?$arrayParam['post']['address']:'' ?>" name="address" class="form-control" id="address">
+							<p class="error"><?php echo isset($arrayParam['error']['address'])? $arrayParam['error']['address']:'' ?></p>
+				    </div>
+				  </div>
+					
+					<div class="form-group">
+				    <label for="country" class="col-sm-2 control-label">Country</label>
+				    <div class="col-sm-10">
+							<select name="country_id" class="form-control">
+								<option value="">-- Choose --</option>
+							<?php if(!empty($country)):?>
+							<?php foreach ($country as $value): ?>
+							<option <?php echo ($arrayParam['post']['country_id'] == $value['id'])?'selected':''; ?> value="<?php echo $value['id'] ?>"> <?php echo $value['name']; ?> </option>
+							<?php endforeach; ?>
+							<?php endif; ?>
+							</select>
+							<p class="error"><?php echo isset($arrayParam['error']['country'])? $arrayParam['error']['country']:'' ?></p>
+				    </div>
+				  </div>
+					
+					<div class="form-group">
+				    <label for="phone" class="col-sm-2 control-label">Phone</label>
+				    <div class="col-sm-10">
+							<input type="text" value="<?php echo isset($arrayParam['post']['phone'])?$arrayParam['post']['phone']:'' ?>" name="phone" class="form-control" id="phone">
+							<p class="error"><?php echo isset($arrayParam['error']['phone'])? $arrayParam['error']['phone']:'' ?></p>
+				    </div>
+				  </div>
+					
+					<div class="form-group">
+				    <label for="skype" class="col-sm-2 control-label">Skype</label>
+				    <div class="col-sm-10">
+							<input type="text" value="<?php echo isset($arrayParam['post']['skype'])?$arrayParam['post']['skype']:'' ?>" name="skype" class="form-control" id="skype">
+							<p class="error"><?php echo isset($arrayParam['error']['skype'])? $arrayParam['error']['skype']:'' ?></p>
+				    </div>
+				  </div>
+					
+				  <div class="form-group">
+				    <div class="col-sm-offset-2 col-sm-10">
+				      <button type="submit" class="btn btn-default">Update</button>
+				    </div>
+				  </div>
+				</form>
+		</div>
+	</div>
+</section>

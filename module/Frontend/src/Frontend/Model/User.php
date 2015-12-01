@@ -100,4 +100,62 @@ class User extends AbstractTableGateway{
         return false;
     }
   }
+	
+	// check user change password
+	public function checkUserChangePassword($arrayParam = null){
+		$select = new Select();
+		$select->from($this->table);
+		$select->columns(array('id', 'email', 'username', 'password', 'fullname', 'token', 'active'));
+		$select->where(array(
+			"username = '". $arrayParam['post']['username']."'",
+			"password = '".$arrayParam['post']['password-old']."'",
+			"token = '".$arrayParam['post']['token']."'",
+			'active = 1'
+		));
+		$resultSet = $this->selectWith($select);
+		$dataResult = $resultSet->toArray();
+		return $dataResult;
+	}
+	
+	// change password
+	public function changePassword($arrayParam = null){
+		$data = array(
+      'password'		=> $arrayParam['post']['password-new'],
+      'salt'    => $arrayParam['post']['salt'],
+		);
+    // update
+    if($this->update($data, "id = '". $arrayParam['post']['id']."'")){
+        return true;
+    }else{
+        return false;
+    }
+	}
+	public function getUserById($arrayParam = null){
+		$select = new Select();
+		$select->from($this->table);
+		$select->where('id ='.(int) $arrayParam['post']['id']);
+		$resultSet = $this->selectWith($select);
+		$resultSet = $resultSet->toArray();
+		return $resultSet;
+	}
+	
+	// update user profile
+	public function userUpdateProfile($arrayParam = null)
+	{
+		$data = array(
+		  'email'		=> $arrayParam['post']['email'], 
+		  'fullname'	=> $arrayParam['post']['fullname'], 
+		  'birthday'	=> $arrayParam['post']['birthday'],  
+		  'sex'			=> $arrayParam['post']['sex'], 
+		  'address'		=> $arrayParam['post']['address'], 
+		  'changed'		=> $arrayParam['post']['changed'], 
+			'country_id'		=> $arrayParam['post']['country_id'],
+			'phone'		=> $arrayParam['post']['phone']
+		);
+		if($this->update($data, 'id = '.$arrayParam['post']['id'])){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

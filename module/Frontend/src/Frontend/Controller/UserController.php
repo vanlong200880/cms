@@ -8,6 +8,7 @@ use Zend\View\Model\JsonModel;
 use Frontend\Form\ValidateRegister;
 use Sky\System\EncriptPassword;
 use Frontend\Model\User;
+use Frontend\Model\Country;
 use Zend\Session\Container;
 use Frontend\Form\ValidateLogin;
 use Frontend\Form\ValidateResetPassword;
@@ -17,6 +18,8 @@ use Zend\Mime\Part as MimePart;
 use Zend\Mail\Transport\Smtp as SmtpTransport;
 use Zend\Mail\Transport\SmtpOptions;
 
+use Frontend\Form\ValidateChangePassword;
+
 class UserController extends AbstractActionController
 {
     public function indexAction()
@@ -24,7 +27,72 @@ class UserController extends AbstractActionController
         return new ViewModel();
     }
     public function editAction(){
-    	return new ViewModel();
+			$session = new Container('usermember');
+			$userInfo = $session->auth;
+			$arrayParam = array();
+			if(!empty($userInfo)){
+				$user = new User();
+				$arrayParam['post']['id'] = $userInfo['userid'];
+				$dataUser = $user->getUserById($arrayParam);
+				$request = $this->getRequest();
+				$arrayParam['data'] = $dataUser[0];
+				if($request->isPost()){
+					$arrayParam['post'] = $request->getPost()->toArray();
+					$arrayParam['post']['id'] = $userInfo['userid'];
+					$validate = new \Frontend\Form\ValidateUserEdit($arrayParam);
+					$activeDay = $activeMonth = $activeYear = '';
+					if(isset($arrayParam['post']['day'])){
+							$activeDay = $arrayParam['post']['day'];
+					}
+					if(isset($arrayParam['post']['month'])){
+							$activeMonth = $arrayParam['post']['month'];
+					}
+					if(isset($arrayParam['post']['year'])){
+							$activeYear = $arrayParam['post']['year'];
+					}
+					if($validate->isError() === true){
+						$arrayParam['error'] = $validate->getMessagesError();
+					}else{
+						//update user info
+						if($arrayParam['post']['day'] != '' && $arrayParam['post']['month'] != '' && $arrayParam['post']['year'] != ''){
+							$birthday = $arrayParam['post']['day'].'-'.$arrayParam['post']['month'].'-'.$arrayParam['post']['year'];
+							$arrayParam['post']['birthday'] = strtotime($birthday);
+						}else{
+							$arrayParam['post']['birthday'] = '';
+						}
+						$arrayParam['post']['changed'] = time();
+						if($user->userUpdateProfile($arrayParam)){
+							$session->auth['fullname'] = $arrayParam['post']['fullname'];
+							$this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Update profile successfull.</div>');
+							return $this->redirect()->refresh();
+						}
+					}
+				}else{
+					$arrayParam['post'] = $dataUser[0];
+					if(!empty($dataUser[0]['birthday'])){
+							$activeDay = date('d', $dataUser[0]['birthday']);
+							$activeMonth = date('m', $dataUser[0]['birthday']);
+							$activeYear = date('Y', $dataUser[0]['birthday']);
+					}else{
+							$activeDay = $activeMonth = $activeYear = '';
+					}
+				}
+			}else
+			{
+				return $this->redirect()->toRoute('home', array('controller' => 'index', 'action' => 'index'));
+			}
+			$country = new Country();
+			// get day month year
+			$dataCountry = $country->getAllCountry();
+			$arrayParam['arrayParam'] = $arrayParam;
+			$date = new \Sky\System\ListDateFormat();
+			$data['day'] = implode('', $date->listDay(1,31, $activeDay));
+			$data['month'] = implode('', $date->listMonth(1,12, $activeMonth));
+			$data['year'] = implode('', $date->listYear(date('Y')- 120, date('Y'), $activeYear));
+				
+			$arrayParam['country'] = $dataCountry;
+			$arrayParam['date'] = $data;
+    	return new ViewModel($arrayParam);
     }
 
     public function loginAction()
@@ -121,7 +189,7 @@ class UserController extends AbstractActionController
 //              ),
 //          ));
 //            $transport->setOptions($options);
-
+									
             $transport->setOptions($config['mail']['transport']);
             $transport->send($message);		
           }
@@ -131,7 +199,45 @@ class UserController extends AbstractActionController
     	return new JsonModel($arrayParam);
     }
     public function changepasswordAction(){
-    	return new ViewModel();
+			$session = new Container('usermember');
+			$userInfo = $session->auth;
+			if($userInfo['userid']){
+				$arrayParam = $dataPost = array();
+				$request = $this->getRequest();
+				if($request->isPost()){
+					$arrayParam['post'] = $request->getPost()->toArray();
+					$arrayParam['post']['username'] = $userInfo['username'];
+					$arrayParam['post']['id'] = $userInfo['userid'];
+					$arrayParam['post']['token'] = $userInfo['token'];
+					$dataPost = $arrayParam;
+					$validate = new ValidateChangePassword($arrayParam);
+					$encriptPassword = new EncriptPassword();
+					$user = new User();
+					$salt = $user->getSalt($arrayParam['post']['username']);
+					if(!empty($salt)){
+							$arrayParam['post']['salt'] = $salt[0]['salt'];
+							$arrayParam['post'] = $encriptPassword->encriptCheckChangePassword($arrayParam['post']);
+							if($validate->isError() === true){
+								$dataPost['error'] = $validate->getMessagesError();
+							}else{
+									if(!empty($user->checkUserChangePassword($arrayParam))){
+										// change password
+										$arrayParam['post'] = $encriptPassword->prepareDataChangePassword($arrayParam['post']);
+										$user->changePassword($arrayParam);
+										$this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Change password successfull.</div>');
+										return $this->redirect()->refresh();
+									}else{
+										$dataPost['post']['error'] = 'Username or password incorrect.';
+									}
+							}
+					}
+					else{
+						$dataPost['post']['error'] = 'Username or password incorrect.';
+					}
+				}
+			}
+			$arrayParam['arrayParam'] = $dataPost;
+    	return new ViewModel($arrayParam);
     }
     public function registerAction()
     {

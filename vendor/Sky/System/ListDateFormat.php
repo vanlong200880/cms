@@ -3,7 +3,7 @@ namespace Sky\System;
 class ListDateFormat{
     public function listDay($min = 1, $max = 31, $active = ''){
         $day = array();
-        $day[] = '<option value="">-- Ngày --</option>';
+        $day[] = '<option value="">-- Day --</option>';
         for($i = $min; $i <= $max; $i++){
             if($i == $active){
                 $day[] = '<option selected value="'.$i.'">'.$i.'</option>';
@@ -16,7 +16,7 @@ class ListDateFormat{
     }
     public function listMonth($min = 1, $max = 12, $active = ''){
         $month = array();
-        $month[] = '<option value="">-- Tháng --</option>';
+        $month[] = '<option value="">-- Month --</option>';
         for($i = $min; $i <= $max; $i++){
             if($i == $active){
                 $month[] = '<option selected value="'.$i.'">'.$i.'</option>';
@@ -29,7 +29,7 @@ class ListDateFormat{
     
     public function listYear($min = 1, $max = 2015, $active = ''){
         $year = array();
-        $year[] = '<option value="">-- Năm --</option>';
+        $year[] = '<option value="">-- Year --</option>';
         for($i = $max; $i >= $min; $i--){
             if($i == $active){
                 $year[] = '<option selected value="'.$i.'">'.$i.'</option>';

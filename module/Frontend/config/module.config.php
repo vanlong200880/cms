@@ -53,16 +53,16 @@ return array(
                 )
             ),
 
-            'user-edit-profile' => array (
+            'editprofile' => array (
                 'type' => 'Zend\Mvc\Router\Http\Regex',
                 'options' => array (
-                    'regex' => '/user-profile/edit?((?<char>[/]+))?(\.(?<format>(html)))?',
+                    'regex' => '/user-profile/edit?(\.(?<format>(html)))?',
                     'defaults' => array (
                         'controller' => 'Frontend\Controller\User',
                         'action' => 'edit',
                         'format' => 'html',
                     ),
-                    'spec' => '/user-profile/edit%char%.%format%'
+                    'spec' => '/user-profile/edit.%format%'
                 )
             ),
 

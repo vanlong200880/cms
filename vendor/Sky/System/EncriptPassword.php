@@ -18,6 +18,26 @@ class EncriptPassword{
 		return $data;
 	}
 	
+	// change password 
+	public function prepareDataChangePassword($data)
+	{
+		$data['salt'] = $this->generateDynamicSalt();				
+		$data['password-new'] = $this->encriptPassword(
+			$this->getStaticSalt(),
+			$data['password-new'],
+			$data['salt']
+		);
+		$data['token'] = md5(uniqid(mt_rand(), true));
+		return $data;
+	}
+	// enscript check change password 
+	function encriptCheckChangePassword($data){
+		$staticSalt			= $this->getStaticSalt();
+		$password				= $data['password-old'];
+		$dynamicSalt		= $data['salt'];
+		$data['password-old'] = sha1(md5($staticSalt . $password . $dynamicSalt));
+		return $data;
+	}
 	// enscript password login
 	function encriptPasswordLogin($data){
 		$staticSalt			= $this->getStaticSalt();
@@ -26,6 +46,7 @@ class EncriptPassword{
 		$data['password'] = sha1(md5($staticSalt . $password . $dynamicSalt));
 		return $data;
 	}
+	
     
     public function encriptChangePassword($password, $salt){
         return sha1(md5($this->getStaticSalt() . $password . $salt));
