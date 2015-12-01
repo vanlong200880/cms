@@ -2,8 +2,13 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>HOME</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <?php echo $this->headTitle('Chance4all')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+  <?php echo $this->headMeta()
+      ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+      ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+  ?>
 	<?php 
 		echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image', 'href' => $this->basePath() . '/img/faviconaa.ico'))
 					->prependStylesheet($this->basePath() . '/css/main.css')

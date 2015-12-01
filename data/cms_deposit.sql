@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2015 at 11:01 AM
+-- Generation Time: Dec 01, 2015 at 04:31 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -408,7 +408,14 @@ CREATE TABLE IF NOT EXISTS `page` (
   `keyword` varchar(255) DEFAULT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `page`
+--
+
+INSERT INTO `page` (`id`, `name`, `slug`, `excerpt`, `content`, `created`, `changed`, `title`, `description`, `keyword`, `status`) VALUES
+(1, 'About Us', 'about-us', 'About Us', 'Content About Us', NULL, NULL, 'About Us', 'Seo about us', 'Keyword about us', 1);
 
 -- --------------------------------------------------------
 

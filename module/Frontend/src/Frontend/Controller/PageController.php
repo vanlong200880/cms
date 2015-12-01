@@ -4,6 +4,7 @@ namespace Frontend\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Frontend\Model\Page;
 class PageController extends AbstractActionController{
   public function indexAction(){
     return new ViewModel();
@@ -11,7 +12,11 @@ class PageController extends AbstractActionController{
   
   public function aboutAction()
   {
-    return new ViewModel();
+    $page = new Page();
+    $arrayParam['slug'] = 'about-us';
+    $data = $page->getPageBySlug($arrayParam);
+    $arrayParam['about'] = $data[0];
+    return new ViewModel($arrayParam);
   }
   
   public function contactAction(){
