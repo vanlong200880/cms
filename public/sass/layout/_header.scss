@@ -41,7 +41,7 @@ header{
         padding-top: 25px;
         li{
             float: left;
-            padding: 7px 20px;
+            margin: 0 5px;
             border: 1px solid transparent;
             @include transition(border 0.3s);
             @include border-top-right-radius(15px);
@@ -50,6 +50,8 @@ header{
                 color: #FFF;
                 text-transform: uppercase;
                 @include transition(color 0.2s);
+								display: block;
+								padding: 10px 15px;
             }
             &:hover{
                 border: 1px solid $color-border;
@@ -59,8 +61,10 @@ header{
                     @include transition(color 0.2s);
                 }
             }
-            
         }
+				li.active{
+					border: 1px solid $color-border;
+				}
     }
     ul.login{
         padding-top: 25px;

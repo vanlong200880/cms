@@ -1,3 +1,6 @@
+<?php 
+	$dataModule = $this->layout()->modulenamespace;		
+?>
 <header class="header">
     <div class="container">
         <div class="row">
@@ -6,12 +9,12 @@
             </div>
             <div class="col-md-7">
                 <ul class="nav-menu clearfix pull-right">
-                    <li><a href="<?php echo $this->url('home', array('controller' => 'index', 'action' => 'index')) ?>">Home</a></li>
-                    <li><a href="<?php echo $this->url('about', array('controller' => 'page', 'action' => 'about')) ?>">About Us</a></li>
-                    <li><a href="">Investment overview</a></li>
-                    <li><a href="<?php echo $this->url('news', array('controller' => 'news', 'action' => 'index', 'page' => 1)) ?>">News</a></li>
-                    <li><a href="<?php echo $this->url('faq', array('controller' => 'page', 'action' => 'faq')) ?>">Faq</a></li>
-                    <li><a href="<?php echo $this->url('contact', array('controller' => 'page', 'action' => 'contact')) ?>">Contact us</a></li>
+									<li class="<?php echo ($dataModule['module'] == 'frontend' && $dataModule['controller'] == 'index' && $dataModule['action'] == 'index')?'active':''; ?>"><a href="<?php echo $this->url('home', array('controller' => 'index', 'action' => 'index')) ?>">Home</a></li>
+									<li class="<?php echo ($dataModule['module'] == 'frontend' && $dataModule['controller'] == 'page' && $dataModule['action'] == 'about')?'active':''; ?>"><a href="<?php echo $this->url('about', array('controller' => 'page', 'action' => 'about')) ?>">About Us</a></li>
+									<li><a href="">Investment overview</a></li>
+									<li class="<?php echo ($dataModule['module'] == 'frontend' && $dataModule['controller'] == 'news')?'active':''; ?>" ><a href="<?php echo $this->url('news', array('controller' => 'news', 'action' => 'index', 'page' => 1)) ?>">News</a></li>
+									<li class="<?php echo ($dataModule['module'] == 'frontend' && $dataModule['controller'] == 'page' && $dataModule['action'] == 'index')?'active':''; ?>"><a href="<?php echo $this->url('faq', array('controller' => 'page', 'action' => 'faq')) ?>">Faq</a></li>
+									<li class="<?php echo ($dataModule['module'] == 'frontend' && $dataModule['controller'] == 'page' && $dataModule['action'] == 'contact')?'active':''; ?>"><a href="<?php echo $this->url('contact', array('controller' => 'page', 'action' => 'contact')) ?>">Contact us</a></li>
                 </ul>
             </div>
             <div class="col-md-3">

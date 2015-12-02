@@ -8,6 +8,7 @@ define('USER_ICON', PUBLIC_PATH .'/files/users');
 define('SCRIPTS_PATH',PUBLIC_PATH . '/scripts');
 define('CAPTCHA_PATH',PUBLIC_PATH . '/captcha');
 define('PAGING_LIMIT',30);
+define('FRONTEND_PAGING_LIMIT', 20);
 define('PAGE_RAND',5);
 // user default
 define('USER_MIN_WIDTH',100);
