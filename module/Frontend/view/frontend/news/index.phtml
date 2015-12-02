@@ -14,110 +14,37 @@
 <section class="block-news">
 	<div class="container">
 		<ul class="row list-news">
+      <?php if($list): ?>
+      <?php foreach ($list as $value): ?>
 			<li class="col-md-3">
-				<p><img src="<?php echo $this->basePath('default/demo.jpg'); ?>"></p>
-				<h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, ex! Facilis, quam.</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis alias qui totam praesentium quam esse quod sapiente eaque numquam magnam.</p>
-				<p class="readmore"><a href="#">Read more <i class="fa fa-angle-double-right"></i></a>
+        <p><a title="<?php echo $value['name']; ?>" href="<?php echo $this->url('news-detail', array('controller' => 'news', 'action' => 'detail', 'slug' => $value['slug'])); ?>">
+            <img title="<?php echo $value['name']; ?>" alt="<?php echo $value['name']; ?>" src="<?php echo $this->basePath('files/news/272x181/'.$value['image']); ?>">
+          </a>
+        </p>
+            <h2><a href="<?php echo $this->url('news-detail', array('controller' => 'news', 'action' => 'detail', 'slug' => $value['slug'])); ?>"><?php echo $value['name']; ?></a></h2>
+				<p><?php echo $value['excerpt']; ?></p>
+				<p class="readmore"><a href="<?php echo $this->url('news-detail', array('controller' => 'news', 'action' => 'detail', 'slug' => $value['slug'])); ?>">Read more <i class="fa fa-angle-double-right"></i></a>
 			</li>
-			<li class="col-md-3">
-				<p><img src="<?php echo $this->basePath('default/demo.jpg'); ?>"></p>
-				<h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, ex! Facilis, quam.</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis alias qui totam praesentium quam esse quod sapiente eaque numquam magnam.</p>
-				<p class="readmore"><a href="#">Read more <i class="fa fa-angle-double-right"></i></a>
-			</li>
-			<li class="col-md-3">
-				<p><img src="<?php echo $this->basePath('default/demo.jpg'); ?>"></p>
-				<h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, ex! Facilis, quam.</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis alias qui totam praesentium quam esse quod sapiente eaque numquam magnam.</p>
-				<p class="readmore"<a href="#">Read more <i class="fa fa-angle-double-right"></i></a>
-			</li>
-			<li class="col-md-3">
-				<p><img src="<?php echo $this->basePath('default/demo.jpg'); ?>"></p>
-				<h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, ex! Facilis, quam.</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis alias qui totam praesentium quam esse quod sapiente eaque numquam magnam.</p>
-				<p class="readmore"><a href="#">Read more <i class="fa fa-angle-double-right"></i></a>
-			</li>
-			<li class="col-md-3">
-				<p><img src="<?php echo $this->basePath('default/demo.jpg'); ?>"></p>
-				<h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, ex! Facilis, quam.</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis alias qui totam praesentium quam esse quod sapiente eaque numquam magnam.</p>
-				<p class="readmore"><a href="#">Read more <i class="fa fa-angle-double-right"></i></a>
-			</li>
-			<li class="col-md-3">
-				<p><img src="<?php echo $this->basePath('default/demo.jpg'); ?>"></p>
-				<h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, ex! Facilis, quam.</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis alias qui totam praesentium quam esse quod sapiente eaque numquam magnam.</p>
-				<p class="readmore"><a href="#">Read more <i class="fa fa-angle-double-right"></i></a>
-			</li>
-			<li class="col-md-3">
-				<p><img src="<?php echo $this->basePath('default/demo.jpg'); ?>"></p>
-				<h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, ex! Facilis, quam.</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis alias qui totam praesentium quam esse quod sapiente eaque numquam magnam.</p>
-				<p class="readmore"><a href="#">Read more <i class="fa fa-angle-double-right"></i></a>
-			</li>
-			<li class="col-md-3">
-				<p><img src="<?php echo $this->basePath('default/demo.jpg'); ?>"></p>
-				<h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, ex! Facilis, quam.</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis alias qui totam praesentium quam esse quod sapiente eaque numquam magnam.</p>
-				<p class="readmore"><a href="#">Read more <i class="fa fa-angle-double-right"></i></a>
-			</li>
-			<li class="col-md-3">
-				<p><img src="<?php echo $this->basePath('default/demo.jpg'); ?>"></p>
-				<h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, ex! Facilis, quam.</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis alias qui totam praesentium quam esse quod sapiente eaque numquam magnam.</p>
-				<p><a href="#">Read more <i class="fa fa-angle-double-right"></i></a>
-			</li>
-			<li class="col-md-3">
-				<p><img src="<?php echo $this->basePath('default/demo.jpg'); ?>"></p>
-				<h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, ex! Facilis, quam.</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis alias qui totam praesentium quam esse quod sapiente eaque numquam magnam.</p>
-				<p class="readmore"><a href="#">Read more <i class="fa fa-angle-double-right"></i></a>
-			</li>
-			<li class="col-md-3">
-				<p><img src="<?php echo $this->basePath('default/demo.jpg'); ?>"></p>
-				<h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, ex! Facilis, quam.</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis alias qui totam praesentium quam esse quod sapiente eaque numquam magnam.</p>
-				<p class="readmore"><a href="#">Read more <i class="fa fa-angle-double-right"></i></a>
-			</li>
-			<li class="col-md-3">
-				<p><img src="<?php echo $this->basePath('default/demo.jpg'); ?>"></p>
-				<h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, ex! Facilis, quam.</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis alias qui totam praesentium quam esse quod sapiente eaque numquam magnam.</p>
-				<p><a href="#">Read more <i class="fa fa-angle-double-right"></i></a>
-			</li>
+      <?php endforeach; ?>
+      <?php else: ?>
+      <?php endif; ?>
 		</ul>
 	</div>
 </section>
+<?php if($list): ?>
 <section class="paging">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="paging">
 					<nav>
-					  <ul class="pagination">
-					    <li>
-					      <a href="#" aria-label="Previous">
-					        <span aria-hidden="true">&laquo;</span>
-					      </a>
-					    </li>
-					    <li><a href="#">1</a></li>
-					    <li><a href="#">2</a></li>
-					    <li class="active"><a href="#">3</a></li>
-					    <li><a href="#">4</a></li>
-					    <li><a href="#">5</a></li>
-					    <li>
-					      <a href="#" aria-label="Next">
-					        <span aria-hidden="true">&raquo;</span>
-					      </a>
-					    </li>
-					  </ul>
+					  <?php echo $this->paginationControl($this->paginator, 'Sliding', 'partial/pagination_news.phtml', array('name' => 'frontend','controller' => 'news','action' => 'index')); ?>
 					</nav>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
-
+<?php endif; ?>
 <?php //echo $this->statitics(); ?>
 <?php //echo $this->payment(); ?>

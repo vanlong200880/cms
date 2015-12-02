@@ -23,7 +23,7 @@ return array(
                         'page'   => 1,
                         'format' => 'html',
                     ),
-                    'spec' => '/category-news.%format%'
+                    'spec' => '/category-news/page-%page%.%format%'
                 )
             ),
 

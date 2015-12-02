@@ -1,0 +1,41 @@
+<?php
+	if($this->first != $this->current && $this->first > 0){		
+		$strPageStart = '<li><a href="' . $this->url('news', array('controller' => 'news','action' => 'index','page' => 1)) . '">First</a></li>';
+	}else{
+		$strPageStart = '';
+	}
+	
+	if(isset($this->previous)){
+		$linkPrevious 	='<li><a href="' . $this->url('news', array('controller' => 'news','action' => 'index','page' => $this->previous)) . '"><i class="fa fa-angle-left"></i></a></li>';
+	}else{
+		$linkPrevious 	='';
+	}
+	
+	if(isset($this->next)){
+		$linkNext 		='<li><a href="' . $this->url('news', array('controller' => 'news','action' => 'index','page' => $this->previous)) . '"><i class="fa fa-angle-right"></i></a></li>';
+	}else{
+		$linkNext 		='';
+	}
+	
+	
+	if($this->last != $this->current && $this->last > 0){
+		$strPageEnd = '<li><a href="' . $this->url('news', array('controller' => 'news','action' => 'index','page' => $this->pageCount)) . '">Last</a></li>';
+	}else{
+		$strPageEnd = '';
+	}
+	
+	$strPage  = '';
+	foreach ($this->pagesInRange as $key){
+		if($this->current != $key){
+			$strPage .= '<li><a href="' . $this->url('news', array('controller' => 'news','action' => 'index','page' => $key)) . '">' . $key . '</a></li>';
+		}else{
+			$strPage .= '<li class="active"><a href="javascript:void(0)">' . $key . '</a></li>';
+		}
+	}
+	$page = $strPageStart . $linkPrevious . $strPage . $linkNext . $strPageEnd;
+?>
+<?php if($this->last > 1){?>
+    <ul class="pagination">
+		<?php echo $page;?> 
+	</ul>
+<?php }?>             

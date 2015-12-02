@@ -13,7 +13,7 @@ class NewsController extends AbstractActionController
 			$news = new News();
 			$arrayParam = array(
 				'slug' => 'news',
-				'limit' => 2
+				'limit' => PAGE_RAND
 			);
 			$page       = $this->params()->fromRoute('page') ? (int) $this->params()->fromRoute('page') : null;
 			// lay so trang
@@ -29,7 +29,6 @@ class NewsController extends AbstractActionController
 			$paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\Null($countNews));
 			$paginator->setCurrentPageNumber($arrayParam['page']);
 			$paginator->setItemCountPerPage($arrayParam['limit']);
-        
 			if(is_numeric($page) && $page > $paginator->count())
 			{
 				return $this->redirect()->toRoute('frontend',array('controller' => 'news', 'action' => 'index'));
@@ -37,19 +36,11 @@ class NewsController extends AbstractActionController
 			$paginator->setPageRange(PAGE_RAND);
 			$data['paginator']      = $paginator;
 			$data['page']			= $page;
-			var_dump($data);
-//			$data['routeParam']		= $param;
-//		$data['controller']		= $arrayParam['__CONTROLLER__'];
-//		$data['action']			= $arrayParam['action'];
-//        $data['paramSort']               = $paramSort;
-//        $data['current_link'] = $url;     
-//        $data['list'] = $categoryData;
-				
-			
+      $data['arrayParam'] = $arrayParam;
 			$news = new News();
 			$dataNews = $news->getAllNews($arrayParam);
-			var_dump($dataNews);
-        return new ViewModel();
+      $data['list'] = $dataNews;
+        return new ViewModel($data);
     }
     public function detailAction(){
     	return new ViewModel();
