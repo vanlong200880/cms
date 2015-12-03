@@ -12,7 +12,7 @@
 	}
 	
 	if(isset($this->next)){
-		$linkNext 		='<li><a href="' . $this->url('news', array('controller' => 'news','action' => 'index','page' => $this->previous)) . '"><i class="fa fa-angle-right"></i></a></li>';
+		$linkNext 		='<li><a href="' . $this->url('news', array('controller' => 'news','action' => 'index','page' => $this->next)) . '"><i class="fa fa-angle-right"></i></a></li>';
 	}else{
 		$linkNext 		='';
 	}
