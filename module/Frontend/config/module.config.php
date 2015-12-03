@@ -16,7 +16,7 @@ return array(
             'news' => array (
                 'type' => 'Zend\Mvc\Router\Http\Regex',
                 'options' => array (
-                    'regex' => '/category-news(/page-(?<page>[0-9]+))?(\.(?<format>(html)))?',
+                    'regex' => '/category-news/(page-(?<page>[0-9]+))?(\.(?<format>(html)))?',
                     'defaults' => array (
                         'controller' => 'Frontend\Controller\News',
                         'action' => 'index',

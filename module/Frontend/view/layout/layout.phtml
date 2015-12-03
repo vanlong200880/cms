@@ -9,6 +9,15 @@
       ->appendName('viewport', 'width=device-width, initial-scale=1.0')
       ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
   ?>
+  <?php 
+	$dataModule = $this->layout()->modulenamespace; 
+	if($dataModule['module'] == 'frontend' && $dataModule['controller'] == 'index' && $dataModule['action'] == 'index'):
+		echo $this->headLink()->prependStylesheet($this->basePath() . '/css/home.css');
+	else:
+		echo $this->headLink()->prependStylesheet($this->basePath() . '/css/main.css');
+	endif;
+	?>
+  
 	<?php 
 		echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image', 'href' => $this->basePath() . '/img/faviconaa.ico'))
 					->prependStylesheet($this->basePath() . '/css/font-icon.css')
@@ -17,14 +26,6 @@
 					->prependStylesheet($this->basePath() . '/libs/font-awesome/css/font-awesome.min.css')
                     ->prependStylesheet($this->basePath() . '/libs/bootstrap/css/bootstrap.min.css'); 
         
-	?>
-	<?php 
-	$dataModule = $this->layout()->modulenamespace; 
-	if($dataModule['module'] == 'frontend' && $dataModule['controller'] == 'index' && $dataModule['action'] == 'index'):
-		echo $this->headLink()->prependStylesheet($this->basePath() . '/css/home.css');
-	else:
-		echo $this->headLink()->prependStylesheet($this->basePath() . '/css/main.css');
-	endif;
 	?>
     <?php echo $this->headScript()
             ->prependFile($this->basePath() . '/js/frontend.js')

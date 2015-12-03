@@ -51,7 +51,7 @@ header{
                 text-transform: uppercase;
                 @include transition(color 0.2s);
 								display: block;
-								padding: 10px 15px;
+								padding: 8px 15px;
             }
             &:hover{
                 border: 1px solid $color-border;
