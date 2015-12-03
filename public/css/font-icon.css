@@ -1,0 +1,113 @@
+
+@font-face {
+  font-family: "untitled-font-1";
+  src:url("../fonts/untitled-font-1.eot");
+  src:url("../fonts/untitled-font-1.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/untitled-font-1.woff") format("woff"),
+    url("../fonts/untitled-font-1.ttf") format("truetype"),
+    url("../fonts/untitled-font-1.svg#untitled-font-1") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "untitled-font-1" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "untitled-font-1" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-balance:before {
+  content: "\61";
+}
+.icon-history:before {
+  content: "\63";
+}
+.icon-last-deposit:before {
+  content: "\64";
+}
+.icon-logout:before {
+  content: "\65";
+}
+.icon-total-bonus:before {
+  content: "\66";
+}
+.icon-total-deposit:before {
+  content: "\67";
+}
+.icon-total-withdraw:before {
+  content: "\68";
+}
+.icon-user:before {
+  content: "\69";
+}
+.icon-edit:before {
+  content: "\62";
+}
+
+/*--customize--*/
+section.user-profile span i.icon-user,
+section.user-profile span i.icon-balance,
+section.user-profile span i.icon-last-deposit,
+section.user-profile span i.icon-history,
+section.user-profile span i.icon-total-deposit,
+section.user-profile span i.icon-total-withdraw{
+  font-size: 30px;
+  display: block;
+}
+
+section.user-profile span.icon-balance,
+section.user-profile span.icon-total-deposit,
+section.user-profile span.icon-total-withdraw,
+section.user-profile span.icon-last-deposit,
+section.user-profile span.icon-total-bonus{
+  text-align: center;
+  font-size: 40px;
+  display: inline-block;
+  border-radius: 50%;
+  border: 2px solid #f09925;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  color: #404041;
+}
+section.user-profile span.icon-balance:before,
+section.user-profile span.icon-total-deposit:before,
+section.user-profile span.icon-total-withdraw:before,
+section.user-profile span.icon-last-deposit:before,
+section.user-profile span.icon-total-bonus:before{
+  position: relative;
+  top: 3px;
+}
+.wrap-info-user span.icon-user,
+.wrap-info-user span.icon-edit,
+.wrap-info-user span.icon-logout{
+  font-size: 25px;
+  color: #404041;
+}
+.wrap-info-user span.icon-user:before,
+.wrap-info-user span.icon-edit:before,
+.wrap-info-user span.icon-logout:before{
+  position: relative;
+  top: 5px;
+}

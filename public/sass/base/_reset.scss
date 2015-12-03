@@ -21,3 +21,6 @@ time, mark, audio, video {
     font: inherit;
     vertical-align: baseline;
 }
+a{
+	@include transition(all ease-out .3s);
+}
