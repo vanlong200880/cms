@@ -182,6 +182,32 @@ return array(
                 'spec' => '/faq.%format%'
             )
           ),
+          
+          'investment' => array (
+            'type' => 'Zend\Mvc\Router\Http\Regex',
+            'options' => array (
+                'regex' => '/investment?(\.(?<format>(html)))?',
+                'defaults' => array (
+                    'controller' => 'Frontend\Controller\Investment',
+                    'action' => 'index',
+                    'format' => 'html',
+                ),
+                'spec' => '/investment.%format%'
+            )
+          ),
+          
+          'make-deposit' => array (
+            'type' => 'Zend\Mvc\Router\Http\Regex',
+            'options' => array (
+                'regex' => '/make-deposit?(\.(?<format>(html)))?',
+                'defaults' => array (
+                    'controller' => 'Frontend\Controller\Investment',
+                    'action' => 'makedeposit',
+                    'format' => 'html',
+                ),
+                'spec' => '/make-deposit.%format%'
+            )
+          ),
 
 
         ),
@@ -204,6 +230,7 @@ return array(
             'payment'       => 'Frontend\Block\payment',
             'statitics'     => 'Frontend\Block\statitics', 
             'newsrelated'   => 'Frontend\Block\newsRelated', 
+            'menuuser'      => 'Frontend\Block\menuuser', 
         ),
     ),
     'translator' => array(
@@ -218,10 +245,11 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Frontend\Controller\Index'	=> 'Frontend\Controller\IndexController',
-            'Frontend\Controller\News'  => 'Frontend\Controller\NewsController',
-            'Frontend\Controller\User'  => 'Frontend\Controller\UserController',
-            'Frontend\Controller\Page'  => 'Frontend\Controller\PageController',
+            'Frontend\Controller\Index'       => 'Frontend\Controller\IndexController',
+            'Frontend\Controller\News'        => 'Frontend\Controller\NewsController',
+            'Frontend\Controller\User'        => 'Frontend\Controller\UserController',
+            'Frontend\Controller\Page'        => 'Frontend\Controller\PageController',
+            'Frontend\Controller\Investment'  => 'Frontend\Controller\InvestmentController',
         ),
     ),
     'view_manager' => array(

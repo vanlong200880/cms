@@ -1,0 +1,54 @@
+section.investment{
+  ul.investment-list{
+    li{
+      .item-investment{
+        border: 1px solid #DDD;
+        margin-bottom: 15px;
+        margin-top: 15px;
+        padding: 15px;
+        ul.plan-list{
+          li{
+            line-height: 25px;
+            span{
+              color: $color-hover;
+            }
+          }
+        }
+        div.plan{
+          margin-top: 15px;
+          p{
+            color: #FFF;
+            text-align: center;
+            line-height: 22px;
+            padding: 15px 15px;
+          }
+        }
+        div.plan-title{
+          border-bottom: 1px solid #DDD;
+          display: inline-block;
+          width: 100%;
+          div{
+            float: left;
+            
+          }
+          div.percentage{
+            width: 20%;
+          }
+          div.period{
+            width: 80%;
+            font-size: 30px;
+            text-transform: uppercase;
+            font-weight: bold;
+          }
+        }
+        div.info-title{
+          background: $background-bottom;
+        }
+      }
+      
+    }
+  }
+  .box.calculator{
+    background: #f3f3f3;
+  }
+}

@@ -7,7 +7,7 @@ section.user-profile{
     		border-color: transparent;
     		border-radius:0;
     		border:none;
-    		border-bottom:5px solid $color-top-menu-user-hover;
+    		border-top:5px solid $color-top-menu-user-hover;
     		margin-bottom: 0;
     		.active{
     			a{
@@ -27,6 +27,7 @@ section.user-profile{
 				width: 20%;
     			a{
     				color: #fff;
+            text-transform: uppercase;
     				line-height: nomal;
     				span{
     					display: block;
@@ -38,14 +39,14 @@ section.user-profile{
     			.dropdown-menu{
     				padding: 0;
     				background-color: transparent;
-    				margin-top: 1px;
     				box-shadow: none;
     				border: none;
     				z-index: 10;
+            width: 228px;
     				li{
-    					width: 250px;
     					text-align: left;
     					border-bottom:1px solid #3a3a3a;
+              width: 100%;
     					a{
     						padding: 10px 20px;
     						&:hover{
@@ -81,7 +82,7 @@ section.user-profile{
 	.content-user-profile{
 		background-color: #fff;
 		margin-bottom: 30px;
-		padding: 50px 90px;
+		padding: 50px 15px;
 		ul.statistics-user-profile{
 			margin-bottom: 40px;
 			li{
@@ -90,8 +91,8 @@ section.user-profile{
 				border-right:1px solid #d5d5d5;
 				width: 20%;
 				text-align: center;
-				&:last-child{
-					border-right: 0;
+				&:last-of-type{
+					border-right: 1px solid transparent;
 				}
 				p{
 					text-align: center;
@@ -107,6 +108,7 @@ section.user-profile{
 					font-size: 30px;
 				}
 			}
+      
 		}
 		.wrap-info-user{
 			margin-bottom: 40px;
@@ -201,4 +203,31 @@ section.user-profile{
 			}
 		}
 	}
+}
+
+section.user-profile.make-deposit{
+  .content-user-profile{
+    padding: 30px 15px;
+  }
+  
+}
+section.user-profile{
+  fieldset{
+    border: 1px solid #E3E3E3;
+    @include border-radius(5px);
+    padding: 5px 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    legend{
+      width: auto;
+      padding: 0 5px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    ul.list-deposit{
+      li{
+        /*width:*/ 
+      }
+    }
+  }
 }
