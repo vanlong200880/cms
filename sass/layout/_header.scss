@@ -49,9 +49,10 @@ header{
             a{
                 color: #FFF;
                 text-transform: uppercase;
-                @include transition(color 0.2s);
 								display: block;
 								padding: 8px 15px;
+								font-family: $font-family-raleway;
+								font-weight: 600;
             }
             &:hover{
                 border: 1px solid $color-border;

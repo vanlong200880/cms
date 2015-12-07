@@ -64,7 +64,11 @@
 .icon-edit:before {
   content: "\62";
 }
-
+/*span.icon-total-deposit{
+	font-size: 30px;
+  display: block;
+	color: #000;
+}*/
 /*--customize--*/
 section.user-profile span i.icon-user,
 section.user-profile span i.icon-balance,

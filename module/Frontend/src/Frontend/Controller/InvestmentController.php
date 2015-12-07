@@ -11,5 +11,10 @@ class InvestmentController extends AbstractActionController{
   public function makedepositAction(){
     return new ViewModel();
   }
+	
+	public function investmentconfirmAction(){
+		return new ViewModel();
+	}
+	
   
 }

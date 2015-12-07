@@ -20,7 +20,6 @@ return array(
                     'defaults' => array (
                         'controller' => 'Frontend\Controller\News',
                         'action' => 'index',
-                        'page'   => 1,
                         'format' => 'html',
                     ),
                     'spec' => '/category-news/page-%page%.%format%'
@@ -206,6 +205,19 @@ return array(
                     'format' => 'html',
                 ),
                 'spec' => '/make-deposit.%format%'
+            )
+          ),
+					
+					'investment-confirm' => array (
+            'type' => 'Zend\Mvc\Router\Http\Regex',
+            'options' => array (
+                'regex' => '/investment-confirm?(\.(?<format>(html)))?',
+                'defaults' => array (
+                    'controller' => 'Frontend\Controller\Investment',
+                    'action' => 'investmentconfirm',
+                    'format' => 'html',
+                ),
+                'spec' => '/investment-confirm.%format%'
             )
           ),
 
