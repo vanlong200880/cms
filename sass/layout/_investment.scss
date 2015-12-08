@@ -7,6 +7,12 @@ section.investment{
     }
   }
   ul.investment-list{
+    li.active{
+      .item-investment{
+        @include box-shadow(0 0 5px #000);
+      }
+      	
+    }
     li{
       .item-investment{
         border: 1px solid $basic-top;
@@ -179,4 +185,47 @@ section.investment{
   .box.calculator{
     background: #f3f3f3;
   }
+  
+  .payment-amount{
+    margin: 15px 0;
+    padding: 15px;
+    p.amount-title{
+      margin-bottom: 5px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    p.amount-interest{
+      font-size: 24px;
+      color: #1CBCE4;
+      padding-top: 10px;
+      font-weight: bold;
+    }
+    p.amount-total{
+      font-size: 24px;
+      color: red;
+      padding-top: 10px;
+      font-weight: bold;
+    }
+    input{
+      text-align: right;
+    }
+  }
+}
+.btn-make-deposit.focus, 
+.btn-make-deposit:focus, 
+.btn-make-deposit:hover,
+.btn-make-deposit:visited,
+.btn-make-deposit{
+  background: #000;
+  border-color: #000;
+  color: #FFF;
+  text-transform: uppercase;
+  padding: 15px 15px;
+  font-size: 18px;
+  font-family: $font-family-raleway;
+  font-weight: 600;
+  @include border-top-right-radius(20px);
+  @include border-bottom-left-radius(20px);
+  @include transition(all ease-out .3s);
+  outline: none;
 }

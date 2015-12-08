@@ -203,7 +203,7 @@
 					<ul class="row payment-amount">
 						<li class="col-md-3 amount">
 							<div>
-								<p class="amount-title">Deposit Amount (USD)</p>
+								<p class="amount-title">Deposit Amount</p>
                 
                 <div class="form-group">
                   <div class="input-group">
@@ -227,7 +227,7 @@
 						</li>
             <li class="col-md-3 amount">
 							<div>
-                <button class="btn btn-primary">Make a Deposit Now</button>
+                <button class="btn btn-primary btn-make-deposit">Make a Deposit Now</button>
 							</div>
 						</li>
 					</ul>
@@ -236,3 +236,12 @@
 		</div>
 	</div>
 </section>
+<script type="text/javascript">
+  jQuery(document).ready(function($){
+    $(".investment-list li").on('click', function(){
+      $(".investment-list li").removeClass('active');
+      $(this).addClass('active');
+      $(this).find('input[type="radio"]').prop('checked', true);
+    });
+  });
+</script>
