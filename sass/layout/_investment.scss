@@ -5,47 +5,106 @@ section.investment{
         border: 1px solid #DDD;
         margin-bottom: 15px;
         margin-top: 15px;
-        padding: 15px;
         ul.plan-list{
           li{
             line-height: 25px;
+						padding: 10px 15px;
+						background: $event;
             span{
-              color: $color-hover;
+              color: $basic-top;
             }
+						&:nth-child(2n+2){
+							background: $odd;
+						}
           }
         }
-        div.plan{
-          margin-top: 15px;
-          p{
-            color: #FFF;
+				.plan.plan-title{
+					position: relative;
+					.percentage {
+						position: absolute;
+						right: 0;
+						top: 0;
+						width: 0px;
+						height: 0px;
+						border-right: 30px solid #E61839;
+						border-top: 45px solid #E61839;
+						border-left: 30px solid #E61839;
+						border-bottom: 20px solid transparent;
+						span{
+							color: #FFF;
+							font-weight: bold;
+							font-size: 18px;
+							position: relative;
+							left: -15px;
+							top: -30px;
+							font-family: Arial;
+						}
+					}
+					.checkbox{
+						left: 0;
+						position: absolute;
+						top: 0;
+						input{
+							margin-left: 0;
+						}
+						
+						input[type=radio] {
+							display:none;
+						}
+
+						input[type=radio] + label
+						{
+							background: url('../img/checked.png') no-repeat;
+							background-position: 0 -37px;
+							height: 27px;
+							width: 27px;
+							display:inline-block;
+							padding: 0 0 0 0px;
+						}
+						input[type=radio]:checked + label
+						{
+							background: url('../img/checked.png') no-repeat;
+							
+							height: 27px;
+							width: 27px;
+							display:inline-block;
+							padding: 0 0 0 0px;
+						}
+
+					}
+					h2{
+						font-size: 32px;
+						font-weight: 600;
+						font-family: $font-family-raleway;
+						background: $basic-top;
+						text-align: center;
+						text-transform: uppercase;
+						color: #FFF;
+						padding: 10px 0;
+					}
+					p{
+						color: #FFF;
             text-align: center;
             line-height: 22px;
-            padding: 15px 15px;
-          }
-        }
-        div.plan-title{
-          border-bottom: 1px solid #DDD;
-          display: inline-block;
-          width: 100%;
-          div{
-            float: left;
-            
-          }
-          div.percentage{
-            width: 20%;
-          }
-          div.period{
-            width: 80%;
-            font-size: 30px;
-            text-transform: uppercase;
-            font-weight: bold;
-          }
-        }
-        div.info-title{
-          background: $background-bottom;
+						background: $basic-bottom;
+						font-size: 18px;
+						padding: 5px 0;
+					}
+				}
+				.plan.plan-content{
+					p{
+						padding: 15px;
+						line-height: 22px;
+					}
+				}
+        .plan-title{
+          
         }
       }
-      
+      &:hover .item-investment{
+				@include box-shadow(0 0 5px #000);
+				cursor: pointer;
+			}
     }
   }
   .box.calculator{
