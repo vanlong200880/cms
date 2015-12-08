@@ -1,8 +1,15 @@
 section.investment{
+  .investment-description{
+    p{
+      line-height: 22px;
+      margin-bottom: 15px;
+      text-align: justify;
+    }
+  }
   ul.investment-list{
     li{
       .item-investment{
-        border: 1px solid #DDD;
+        border: 1px solid $basic-top;
         margin-bottom: 15px;
         margin-top: 15px;
         ul.plan-list{
@@ -41,7 +48,7 @@ section.investment{
 						}
 					}
 					.checkbox{
-						left: 0;
+						left: 15px;
 						position: absolute;
 						top: 0;
 						input{
@@ -55,9 +62,9 @@ section.investment{
 						input[type=radio] + label
 						{
 							background: url('../img/checked.png') no-repeat;
-							background-position: 0 -37px;
-							height: 27px;
-							width: 27px;
+							background-position: 0 -26px;
+							height: 26px;
+							width: 26px;
 							display:inline-block;
 							padding: 0 0 0 0px;
 						}
@@ -65,8 +72,8 @@ section.investment{
 						{
 							background: url('../img/checked.png') no-repeat;
 							
-							height: 27px;
-							width: 27px;
+							height: 26px;
+							width: 26px;
 							display:inline-block;
 							padding: 0 0 0 0px;
 						}
@@ -105,6 +112,68 @@ section.investment{
 				@include box-shadow(0 0 5px #000);
 				cursor: pointer;
 			}
+      &:nth-child(2){
+        .item-investment{
+          border: 1px solid $silver-top;
+          .plan.plan-title{
+            h2{
+                background: $silver-top;
+            }
+            p{
+                background: $silver-bottom;
+            }
+          }
+          ul.plan-list{
+            li{
+              span{
+                color: $silver-top;
+              }
+            }
+          }
+        }
+      }
+      &:nth-child(3){
+        .item-investment{
+          border: 1px solid $gold-top;
+          .plan.plan-title{
+            h2{
+                background: $gold-top;
+            }
+            p{
+                background: $gold-bottom;
+            }
+          }
+          ul.plan-list{
+            li{
+              span{
+                color: $gold-top;
+              }
+            }
+          }
+        }
+        
+      }
+      &:nth-child(4){
+        .item-investment{
+          border: 1px solid $platinum-top;
+          .plan.plan-title{
+            h2{
+                background: $platinum-top;
+            }
+            p{
+                background: $platinum-bottom;
+            }
+          }
+          ul.plan-list{
+            li{
+              span{
+                color: $platinum-top;
+              }
+            }
+          }
+        }
+        
+      }
     }
   }
   .box.calculator{
