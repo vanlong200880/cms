@@ -23,4 +23,9 @@ jQuery(document).ready(function($){
         }, 500);
       }, 4000);
     /* end show message */
+		 $(".investment-list li").on('click', function(){
+      $(".investment-list li").removeClass('active');
+      $(this).addClass('active');
+      $(this).find('input[type="radio"]').prop('checked', true);
+    });
 });
