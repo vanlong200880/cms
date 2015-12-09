@@ -211,6 +211,35 @@ section.investment{
     }
   }
 }
+section.confirm-deposit{
+	fieldset{
+		legend{
+			font-size: 26px;
+		}
+		ul.list-comfirm{
+			padding: 10px 20px;
+			h5{
+				margin-bottom: 20px;
+				font-size: 18px;
+			}
+			li{
+				line-height: 25px;
+				padding: 10px 15px;
+				background: $event;
+				&:nth-child(2n+2){
+					background: $odd;
+				}
+				span.icon-current{
+					position: relative;
+					top: -5px;
+				}
+			}
+		}
+		.wrap-button-confirm{
+			margin: 30px;
+		}
+	  }
+}
 .btn-make-deposit.focus, 
 .btn-make-deposit:focus, 
 .btn-make-deposit:hover,
@@ -228,4 +257,12 @@ section.investment{
   @include border-bottom-left-radius(20px);
   @include transition(all ease-out .3s);
   outline: none;
+}
+.btn-confirm{
+	background: #fff;
+	border:2px solid #333;
+	padding: 10px;
+	color: #000;
+	width: 150px;
+	@include border-radius(30px) 
 }

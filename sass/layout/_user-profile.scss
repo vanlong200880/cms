@@ -83,6 +83,9 @@ section.user-profile{
 		background-color: #fff;
 		margin-bottom: 30px;
 		padding: 50px 15px;
+		ol.breadcrumb{
+			padding-top: 0;
+		}
 		ul.statistics-user-profile{
 			margin-bottom: 40px;
 			li{
