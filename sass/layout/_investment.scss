@@ -340,6 +340,11 @@ section.confirm-deposit{
     &:nth-child(2n+2){
      background: $odd;
     }
+		span.price{
+			font-weight: bold;
+			font-family: Arial;
+			font-size: 16px;
+		}
     span.icon-current{
      position: relative;
      top: -5px;
@@ -351,12 +356,20 @@ section.confirm-deposit{
   }
    }
 }
+.btn-confirm.process{
+	background: $color-hover;
+}
+.btn-confirm:active,
+.btn-confirm:focus,
+.btn-confirm:visited,
 .btn-confirm{
- background: #fff;
- border:2px solid #333;
- padding: 10px;
- color: #000;
- width: 150px;
+	@include transition(all ease-out .3s);
+	background: #fff;
+	border:2px solid #333;
+	padding: 10px;
+	color: #000;
+	width: 150px;
+	outline: none;
  @include border-radius(30px) 
 }
 .btn.btn-make-deposit:focus, 
@@ -366,7 +379,6 @@ section.confirm-deposit{
 .btn.btn-make-deposit{
   background: #000;
 	border: none;
-  /*border-color: #000;*/
   color: #FFF;
   text-transform: uppercase;
   padding: 15px 15px;

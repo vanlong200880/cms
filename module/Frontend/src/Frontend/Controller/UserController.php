@@ -281,5 +281,20 @@ class UserController extends AbstractActionController
         }
       }
       return new JsonModel($arrayParam);
-    }    
+    } 
+	public function addbankAction(){
+		return new ViewModel();
+	}
+	public function memberAction(){
+		return new Viewmodel();
+	}
+	public function mydepositAction(){
+		return new ViewModel();
+	}
+	public function withdrawAction(){
+		return new ViewModel();
+	}
+	public function historyAction(){
+		return new ViewModel();
+	}
 }
