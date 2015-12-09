@@ -1,4 +1,4 @@
-<section class="user-profile make-deposit">
+<section class="user-profile make-deposit investment">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
@@ -12,21 +12,79 @@
                 <li><a href="#">Home</a> <i class="fa fa-angle-double-right"></i></li>
                 <li><a href="#">User profile</a> <i class="fa fa-angle-double-right"></i></li>
                 <li class="active">Make deposit</li>
-
               </ol>
             </div>
-            <div class="col-md-12"><h1>MAKE A DEPOSIT</h1></div>
             <div class="col-md-8">
               <div class="row">
                 <div class="col-md-12">
                   <fieldset class="choose-plan">
                     <legend>CHOOSE A PLAN</legend>
-                    <ul class="row list-deposit">
-                      <li class="col-md-6">Basic Plan</li>
-                      <li class="col-md-6">Silver Plan</li>
-                      <li class="col-md-6">Gold Plan</li>
-                      <li class="col-md-6">Platinum Plan</li>
-                    </ul>
+										
+										<ul class="row investment-list">
+											<li class="col-md-6">
+												<div class="item-investment">
+													<div class="plan plan-title">
+														<div class="checkbox">
+															<input type='radio' name='package' value='valuable' id="package-1"/><label for="package-1"></label> 
+														</div>
+														<div class="period">
+															<h2>Basic Plan</h2>
+															<p>01% after 1 day</p>
+															<h3 class="min-price">$10 Minimum - $999 Maximum</h3>
+														</div>
+														<div class="percentage percentage-hidden"><span>10%</span></div>
+													</div>
+												</div>
+											</li>
+
+											<li class="col-md-6">
+												<div class="item-investment">
+													<div class="plan plan-title">
+														<div class="checkbox">
+															<input type='radio' name='package' value='valuable' id="package-2"/><label for="package-2"></label> 
+														</div>
+														<div class="period">
+															<h2>Basic Plan</h2>
+															<p>01% after 1 day</p>
+															<h3 class="min-price">$10 Minimum - $999 Maximum</h3>
+														</div>
+														<div class="percentage percentage-hidden"><span>10%</span></div>
+													</div>
+												</div>
+											</li>
+
+											<li class="col-md-6">
+												<div class="item-investment">
+													<div class="plan plan-title">
+														<div class="checkbox">
+															<input type='radio' name='package' value='valuable' id="package-3"/><label for="package-3"></label> 
+														</div>
+														<div class="period">
+															<h2>Basic Plan</h2>
+															<p>01% after 1 day</p>
+															<h3 class="min-price">$10 Minimum - $999 Maximum</h3>
+														</div>
+														<div class="percentage percentage-hidden"><span>10%</span></div>
+													</div>
+												</div>
+											</li>
+											
+											<li class="col-md-6">
+												<div class="item-investment">
+													<div class="plan plan-title">
+														<div class="checkbox">
+															<input type='radio' name='package' value='valuable' id="package-4"/><label for="package-4"></label> 
+														</div>
+														<div class="period">
+															<h2>Basic Plan</h2>
+															<p>01% after 1 day</p>
+															<h3 class="min-price">$10 Minimum - $999 Maximum</h3>
+														</div>
+														<div class="percentage percentage-hidden"><span>10%</span></div>
+													</div>
+												</div>
+											</li>
+										</ul>
                   </fieldset>
                 </div>
                 
@@ -34,37 +92,53 @@
                   <fieldset class="choose-payment">
                     <legend>DEPOSIT PAYMENT</legend>
                     <ul class="row list-deposit">
-                      <li class="col-md-3">Paypal</li>
-                      <li class="col-md-3">Paypal</li>
-                      <li class="col-md-3">Paypal</li>
-                      <li class="col-md-3">Paypal</li>
+                      <li class="col-md-3">
+												<input type='radio' name='method-payment' value='method-payment' id="method-payment-1"/><label for="method-payment-1"></label>
+											</li>
+                      <li class="col-md-3">
+												<input type='radio' name='method-payment' value='method-payment' id="method-payment-2"/><label for="method-payment-2"></label>
+											</li>
+                      <li class="col-md-3">
+												<input type='radio' name='method-payment' value='method-payment' id="method-payment-3"/><label for="method-payment-3"></label>
+											</li>
+                      <li class="col-md-3">
+												<input type='radio' name='method-payment' value='method-payment' id="method-payment-4"/><label for="method-payment-4"></label>
+											</li>
                     </ul>
                   </fieldset>
                 </div>
-                
-                <div class="col-md-12">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div>
-                        <p class="amount-title">Deposit Amount (USD)</p>
-                        <div class="form-group">
-                          <input type="number" class="form-control" id="amount" min="1">
-                          </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div>
-                        <button class="btn btn-primary">Make a Deposit Now</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+								
+								<div class="col-md-12">
+									<div class="box calculator make-deposit-payment">
+										<ul class="row payment-amount">
+											<li class="col-md-12 amount">
+												<p class="amount-title">Deposit Amount</p>
+											</li>
+											<li class="col-md-6 amount">
+												<div class="form-group">
+													<div class="input-group">
+														<input type="text" name="amount" class="form-control" min="1" id="amount">
+														<div class="input-group-addon">USD</div>
+													</div>
+												</div>
+											</li>
+											<li class="col-md-6 amount">
+												<div>
+													<button class="btn btn-primary btn-make-deposit pull-right">Make a Deposit Now</button>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
               </div>
             </div>            
             <div class="col-md-4">
-              <div class="total-overview">Total deposit $1542,524,100</div>
+              <div class="total-overview">
+								<h2>Total deposit</h2>
+								<p>$1542,524,100</p>
+								</div>
               <div class="blance-review">
-                <h2>BALANCE OVERVIEW</h2>
+                <p>Balance Overview </p>
                 <ul>
                   <li>PERFECTMONEY <span class="pull-right">$0.00</span></li>
                   <li>PAYEER <span class="pull-right">$0.00</span></li>

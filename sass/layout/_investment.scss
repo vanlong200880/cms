@@ -53,6 +53,12 @@ section.investment{
 							font-family: Arial;
 						}
 					}
+					.percentage-hidden{
+						border-right: 30px solid transparent;
+						border-top: 45px solid transparent;
+						border-left: 30px solid transparent;
+						border-bottom: 20px solid transparent;
+					}
 					.checkbox{
 						left: 15px;
 						position: absolute;
@@ -102,6 +108,13 @@ section.investment{
 						background: $basic-bottom;
 						font-size: 18px;
 						padding: 5px 0;
+					}
+					h3{
+						font-size: 14px;
+						text-align: center;
+						background: #E6E7E8;
+						@include border-radius(10px);
+						margin: 10px 15px;
 					}
 				}
 				.plan.plan-content{
@@ -185,6 +198,25 @@ section.investment{
   .box.calculator{
     background: #f3f3f3;
   }
+	.box.calculator.make-deposit-payment{
+		background: transparent;
+		ul{
+			margin-right: -15px;
+			margin-left: -15px;
+			padding: 0;
+			li{
+				.amount-title{
+					border-bottom: 1px solid #E6E7E8;
+					padding-bottom: 7px;
+					margin-bottom: 30px;
+				}
+				input{
+					height: 50px;
+				}
+			}
+		}
+		
+	}
   
   .payment-amount{
     margin: 15px 0;
@@ -210,59 +242,142 @@ section.investment{
       text-align: right;
     }
   }
-}
-section.confirm-deposit{
-	fieldset{
-		legend{
-			font-size: 26px;
-		}
-		ul.list-comfirm{
-			padding: 10px 20px;
-			h5{
-				margin-bottom: 20px;
-				font-size: 18px;
+	
+	.choose-payment{
+		margin-top: 30px;
+		margin-bottom: 30px;
+			ul{
+				padding: 30px 0;
+				li{
+					input{
+							margin-left: 0;
+						}
+						
+						input[type=radio] {
+							display:none;
+						}
+
+						input[type=radio] + label
+						{
+							background: url('../img/checked-payment.png') no-repeat;
+							/*background-position: 0 -26px;*/
+							background-size: 100%;
+							height: 37px;
+							width: 227px;
+							display:inline-block;
+							padding: 0 0 0 0px;
+							cursor: pointer;
+						}
+						input[type=radio]:checked + label
+						{
+							background: url('../img/checked-payment.png') no-repeat;
+							background-size: 100%;
+							background-position: 0 -48px;
+							height: 37px;
+							width: 227px;
+							display:inline-block;
+							padding: 0 0 0 0px;
+						}
+				}
 			}
-			li{
+		}
+		.total-overview{
+			margin-top: 22px;
+			h2{
+				font-weight: 600;
+				background: #D1D2D4;
+				padding: 15px;
+				text-transform: uppercase;
+			}
+			p{
+				background: #BBBDC0;
+				padding: 15px;
+				font-size: 24px;
+				color: red;
+				font-family: Arial;
+				font-weight: bold;
+			}
+		}
+		.blance-review{
+			p{
+				border-bottom: 1px solid #DDD;
+				border-left: 1px solid #DDD;
+				border-right: 1px solid #DDD;
 				line-height: 25px;
-				padding: 10px 15px;
-				background: $event;
-				&:nth-child(2n+2){
-					background: $odd;
-				}
-				span.icon-current{
-					position: relative;
-					top: -5px;
+				padding: 5px 15px;
+			}
+			ul{
+				li{
+					border-bottom: 1px solid #DDD;
+					border-left: 1px solid #DDD;
+					border-right: 1px solid #DDD;
+					line-height: 25px;
+					padding: 5px 15px;
+					span{
+						font-weight: 600;
+						font-family: Arial;
+					}
 				}
 			}
 		}
-		.wrap-button-confirm{
-			margin: 30px;
-		}
-	  }
 }
-.btn-make-deposit.focus, 
-.btn-make-deposit:focus, 
-.btn-make-deposit:hover,
-.btn-make-deposit:visited,
-.btn-make-deposit{
+
+section.confirm-deposit{
+ fieldset{
+  legend{
+   font-size: 26px;
+  }
+  ul.list-comfirm{
+   padding: 10px 20px;
+   h5{
+    margin-bottom: 20px;
+    font-size: 18px;
+   }
+   li{
+    line-height: 25px;
+    padding: 10px 15px;
+    background: $event;
+    &:nth-child(2n+2){
+     background: $odd;
+    }
+    span.icon-current{
+     position: relative;
+     top: -5px;
+    }
+   }
+  }
+  .wrap-button-confirm{
+   margin: 30px;
+  }
+   }
+}
+.btn-confirm{
+ background: #fff;
+ border:2px solid #333;
+ padding: 10px;
+ color: #000;
+ width: 150px;
+ @include border-radius(30px) 
+}
+.btn.btn-make-deposit:focus, 
+.btn.btn-make-deposit:active, 
+.btn.btn-make-deposit:hover,
+.btn.tn-make-deposit:visited,
+.btn.btn-make-deposit{
   background: #000;
-  border-color: #000;
+	border: none;
+  /*border-color: #000;*/
   color: #FFF;
   text-transform: uppercase;
   padding: 15px 15px;
   font-size: 18px;
   font-family: $font-family-raleway;
   font-weight: 600;
+	border-top-right-radius: (20px);
+	border-bottom-left-radius: (20px);
+	border-top-right-radius: (20px);
   @include border-top-right-radius(20px);
   @include border-bottom-left-radius(20px);
   @include transition(all ease-out .3s);
   outline: none;
-}
-.btn-confirm{
-	background: #fff;
-	border:2px solid #333;
-	padding: 10px;
-	color: #000;
-	width: 150px;
-	@include border-radius(30px) 
 }
