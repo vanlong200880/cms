@@ -195,6 +195,45 @@ return array(
             )
           ),
           
+          'history' => array (
+            'type' => 'Zend\Mvc\Router\Http\Regex',
+            'options' => array (
+                'regex' => '/history?(\.(?<format>(html)))?',
+                'defaults' => array (
+                    'controller' => 'Frontend\Controller\Investment',
+                    'action' => 'history',
+                    'format' => 'html',
+                ),
+                'spec' => '/history.%format%'
+            )
+          ),
+          
+          'investment' => array (
+            'type' => 'Zend\Mvc\Router\Http\Regex',
+            'options' => array (
+                'regex' => '/investment?(\.(?<format>(html)))?',
+                'defaults' => array (
+                    'controller' => 'Frontend\Controller\Investment',
+                    'action' => 'index',
+                    'format' => 'html',
+                ),
+                'spec' => '/investment.%format%'
+            )
+          ),
+          
+          'withdraw' => array (
+            'type' => 'Zend\Mvc\Router\Http\Regex',
+            'options' => array (
+                'regex' => '/withdraw?(\.(?<format>(html)))?',
+                'defaults' => array (
+                    'controller' => 'Frontend\Controller\Investment',
+                    'action' => 'withdraw',
+                    'format' => 'html',
+                ),
+                'spec' => '/withdraw.%format%'
+            )
+          ),
+					
           'make-deposit' => array (
             'type' => 'Zend\Mvc\Router\Http\Regex',
             'options' => array (
@@ -207,7 +246,20 @@ return array(
                 'spec' => '/make-deposit.%format%'
             )
           ),
-					
+          
+          'my-deposit' => array (
+            'type' => 'Zend\Mvc\Router\Http\Regex',
+            'options' => array (
+                'regex' => '/my-deposit?(\.(?<format>(html)))?',
+                'defaults' => array (
+                    'controller' => 'Frontend\Controller\Investment',
+                    'action' => 'mydeposit',
+                    'format' => 'html',
+                ),
+                'spec' => '/my-deposit.%format%'
+            )
+          ),
+          
 					'investment-confirm' => array (
             'type' => 'Zend\Mvc\Router\Http\Regex',
             'options' => array (
@@ -218,6 +270,32 @@ return array(
                     'format' => 'html',
                 ),
                 'spec' => '/investment-confirm.%format%'
+            )
+          ),
+          
+          'add-bank' => array (
+            'type' => 'Zend\Mvc\Router\Http\Regex',
+            'options' => array (
+                'regex' => '/add-bank?(\.(?<format>(html)))?',
+                'defaults' => array (
+                    'controller' => 'Frontend\Controller\User',
+                    'action' => 'addbank',
+                    'format' => 'html',
+                ),
+                'spec' => '/add-bank.%format%'
+            )
+          ),
+          
+          'member' => array (
+            'type' => 'Zend\Mvc\Router\Http\Regex',
+            'options' => array (
+                'regex' => '/member?(\.(?<format>(html)))?',
+                'defaults' => array (
+                    'controller' => 'Frontend\Controller\User',
+                    'action' => 'member',
+                    'format' => 'html',
+                ),
+                'spec' => '/member.%format%'
             )
           ),
 
