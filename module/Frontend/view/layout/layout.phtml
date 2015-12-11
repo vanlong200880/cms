@@ -18,7 +18,7 @@
 	endif;
 	?>
   
-	<?php 
+	<?php
 		echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image', 'href' => $this->basePath() . '/img/faviconaa.ico'))
 					->prependStylesheet($this->basePath() . '/css/font-icon.css')
                     ->prependStylesheet($this->basePath() . '/css/animate.css')
@@ -52,8 +52,14 @@
         <section class="section">
             <?php echo $this->content; ?>
         </section>
-        <?php echo $this->statitics(); ?>
-        <?php echo $this->payment(); ?>
+				<?php
+				if($dataModule['module'] == 'frontend'):
+					if($dataModule['controller'] != 'user' && $dataModule['controller'] != 'investment'){
+					echo $this->statitics();
+					echo $this->payment();
+					}
+				endif;
+				?>
 	</div>
     <?php echo $this->footer(); ?>
 </body>
