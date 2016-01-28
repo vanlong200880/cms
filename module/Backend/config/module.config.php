@@ -102,7 +102,8 @@ return array(
     ),
     'view_helpers' => array(
     		'invokables' => array(
-                'adminheader' => 'Backend\Block\adminheader',
+          'adminheader' => 'Backend\Block\adminheader',
+          'menuadmin' => 'Backend\Block\menuadmin',
     		),
     ),
     'view_manager' => array(

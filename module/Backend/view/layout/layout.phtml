@@ -35,75 +35,9 @@
         ; ?>
     </head>
     <body>
-        <?php // $this->adminheader(); ?>
+        <?php  $this->adminheader(); ?>
         <div class="wrapper">
-<!--            <nav class="sidebar">
-                    <div class="menu-top">
-                        
-                        <ul class="menu-nav">-->
-<!--                            <li><a href="javascript:void(0)"><span class="icon dashboard"></span>Tổng quan</a>
-                            </li>
-                            <li class="active"> 
-                                <a class="active"><span class="icon iconproduct"></span> Hệ thống <i class="fa pull-right fa-angle-right"></i></a>
-                                <ul class="item">
-                                    <li><a href="<?php echo $this->url('backend', array('controller' => 'language', 'action' => 'index')); ?>"><i class="fa fa-angle-right"></i> Ngôn ngữ</a></li>
-                                </ul>
-                            </li>
-                            <li class="active"> 
-                                <a class="active"><span class="icon iconproduct"></span> Phân quyền <i class="fa pull-right fa-angle-right"></i></a>
-                                <ul class="item">
-                                    <li><a href="<?php echo $this->url('backend', array('controller' => 'permission', 'action' => 'permission')); ?>"><i class="fa fa-angle-right"></i> Permissions</a></li>
-                                    <li><a href="<?php echo $this->url('backend', array('controller' => 'role', 'action' => 'index')); ?>"><i class="fa fa-angle-right"></i> Roles</a></li>
-                                    <li><a href="<?php echo $this->url('backend', array('controller' => 'resource', 'action' => 'index')); ?>"><i class="fa fa-angle-right"></i> Resources</a></li>
-                                    <li><a href="<?php echo $this->url('backend', array('controller' => 'permission', 'action' => 'index')); ?>"><i class="fa fa-angle-right"></i> Privilege</a></li>
-                                </ul>
-                            </li>
-                            <li class="active">
-                                <a  href="#" class="active"><span class="icon iconstore"></span> Giao dịch <i class="fa pull-right fa-angle-right"></i></a>
-                                <ul class="item">
-                                    <li><a href="#"><i class="fa fa-angle-right"></i> Hóa đơn</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-right"></i> Trả hàng</a></li>
-                                    <li><a href="#" class="active"><i class="fa fa-angle-right"></i> Nhập hàng</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-right"></i> Trả hàng nhập</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-right"></i> Chuyển hàng</a></li>
-                                </ul>
-                            </li>-->
-<!--                            <li>
-                                <a href="#"><span class="icon iconpartner"></span> Đối tác <i class="fa pull-right fa-angle-right"></i></a>
-                                <ul class="item">
-                                    <li><a href="#"><i class="fa fa-angle-right"></i> Khách hàng</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-right"></i> Nhà cung cấp</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-right"></i> Thương Hiệu</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><span class="icon iconinvoice"></span> Báo cáo <i class="fa pull-right fa-angle-right"></i></a>
-                                <ul class="item">
-                                    <li><a href="#"><i class="fa fa-angle-right"></i> Bán hàng</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-right"></i> Hàng hóa</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-right"></i> Tài chính </a></li>
-                                    <li><a href="#"><i class="fa fa-angle-right"></i> Công nợ</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-right"></i> Cuối ngày</a></li>
-                                </ul>
-                            </li>
-							
-                            <li>
-                                <a href="#"><span class="icon iconconfig"></span> Thiết lập <i class="fa pull-right fa-angle-right"></i></a>
-                                <ul class="item">
-                                    <li><a href="#"><i class="fa fa-angle-right"></i> Quản lý thành viên</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-right"></i> Quản lý nhân viên</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-right"></i> Quản lý cửa hàng </a></li>
-                                    <li><a href="#"><i class="fa fa-angle-right"></i> Phân quyền hệ thống</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-right"></i> Quản lý Email</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#"> <span class="icon iconsale"></span>Bán hàng </a></li>
-                            <li><a href="#"><span class="icon iconhelp"></span> Hỗ trợ </a></li>-->
-<!--                        </ul>
-                        
-                        
-                    </div>
-            </nav>-->
+            <?php echo $this->menuadmin(); ?>
             <div class="main">
                 <div id="messages">
                     <?php
