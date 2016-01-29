@@ -19,7 +19,7 @@ class ValidateLogin{
 							->addValidator(new \Zend\Validator\Db\RecordExists($optionUsername), true);
 		if(!$validator->isValid($arrayParam['post']['username'])){			
 				$message = $validator->getMessages();
-				$this->_messagesError['username'] = 'Username or password incorrect u.';
+				$this->_messagesError['username'] = 'Username or password incorrect.';
 		}
 		
 		//Check Password
@@ -28,7 +28,7 @@ class ValidateLogin{
 					->addValidator(new \Zend\Validator\StringLength(6,32), true);
 		if(!$validator->isValid($arrayParam['post']['password'])){
 			$message = $validator->getMessages();
-			$this->_messagesError['username'] = 'Username or password incorrect p.';
+			$this->_messagesError['username'] = 'Username or password incorrect.';
 		}	
 	}
 	
