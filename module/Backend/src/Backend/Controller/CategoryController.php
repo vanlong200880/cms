@@ -233,8 +233,10 @@ class CategoryController extends AbstractActionController
             }else{
                 $dataPost = $this->params()->fromPost();
                 $arrayParam['post'] = $dataPost;
+								$filter = new \Sky\Filter\SeoUrl();
+								if(empty($arrayParam['post']['slug']))
+									$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['name']);
                 $arrayParam['post']['created'] = $arrayParam['post']['changed'] = '';
-                
                 $category->addCategory($arrayParam);
                 $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Tạo danh mục thành công.</div>');
                 if(isset($arrayParam['post']['save'])){
@@ -281,9 +283,8 @@ class CategoryController extends AbstractActionController
 
     public function loadcategoryAction(){
         $request = $this->getRequest();
-        $arrayParam	= array(); 
+        $arrayParam	= array();
         if($request->isPost()){
-            
             $category = new Category();
             $arrayParam['id']         = $request->getPost('id');
             $arrayParam['action'] = $request->getPost('action');
@@ -592,7 +593,10 @@ class CategoryController extends AbstractActionController
             if($validate->isError() === true){
                 $arrayParam['error'] = $validate->getMessagesError();
             }else{
-                $arrayParam['aaa'] = $arrayParam;
+							$filter = new \Sky\Filter\SeoUrl();
+							if($arrayParam['post']['slug']){
+								$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['name']);
+							}
                 $arrayParam['post']['changed'] = time();
                 $category = new Category();
                 $category->updateQuickEdit($arrayParam);

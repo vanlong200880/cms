@@ -20,7 +20,7 @@ class ValidateCategory{
             $validator->addValidator(new \Zend\Validator\NotEmpty(), true);
             if(!$validator->isValid($arrayParam['post']['taxonomy_id'])){
                 $message = $validator->getMessages();
-                $this->_messagesError['taxonomy_id'] = 'Nhóm: ' . current($message);
+                $this->_messagesError['taxonomy_id'] = ': ' . current($message);
             }
         }
         
@@ -48,8 +48,7 @@ class ValidateCategory{
                  );
             }
             $validator = new \Zend\Validator\ValidatorChain();
-            $validator->addValidator(new \Zend\Validator\NotEmpty(), true)
-                      ->addValidator(new \Zend\Validator\Db\NoRecordExists($option), true);
+            $validator->addValidator(new \Zend\Validator\Db\NoRecordExists($option), true);
             if(!$validator->isValid($arrayParam['post']['slug'])){			
                 $message = $validator->getMessages();
                 $this->_messagesError['slug'] = 'Slug: ' . current($message);
@@ -82,8 +81,8 @@ class ValidateCategory{
 		$filter = new \Zend\Filter\StringTrim(array('charlist' => ' '));
         $this->_arrData['post']['taxonomy'] = $filter->filter($this->_arrData['post']['taxonomy']);
         $this->_arrData['post']['category'] = $filter->filter($this->_arrData['post']['category']);
-		$this->_arrData['post']['name'] = $filter->filter($this->_arrData['post']['name']);
-		$this->_arrData['post']['slug'] = $filter->filter($this->_arrData['post']['slug']);
+				$this->_arrData['post']['name'] = $filter->filter($this->_arrData['post']['name']);
+				$this->_arrData['post']['slug'] = $filter->filter($this->_arrData['post']['slug']);
         $this->_arrData['post']['excerpt'] = $filter->filter($this->_arrData['post']['excerpt']);
         $this->_arrData['post']['slug'] = $filter->filter($this->_arrData['post']['slug']);
         $this->_arrData['post']['title'] = $filter->filter($this->_arrData['post']['title']);

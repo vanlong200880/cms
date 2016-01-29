@@ -99,8 +99,16 @@ class Category extends AbstractTableGateway
         $resultSet = $resultSet->toArray();
         return $resultSet[0];
     }
-    
-    // get category by slug
+		public function getCateBySlug($arrayParam = null){
+			$select = new Select();
+			$select->from($this->table);
+			$select->where(array('slug' => $arrayParam['post']['slug']));
+			$resultSet = $this->selectWith($select);
+			$resultSet = $resultSet->toArray();
+			return $resultSet;
+		}
+
+				// get category by slug
     public function getCategoryBySlug($arrayParam = null){
         $select = new Select();
         $select->from($this->table);
@@ -122,8 +130,11 @@ class Category extends AbstractTableGateway
     // add category
     public function addCategory($arrayParam = null)
 	{
+			if($this->getCateBySlug($arrayParam)){
+				$arrayParam['post']['slug'] = $arrayParam['post']['slug']. '-1'; 
+			}
 		$data = array(
-            'parent'		=> $arrayParam['post']['parent'], 
+            'parent'				=> $arrayParam['post']['parent'], 
             'name'          => $arrayParam['post']['name'],
             'slug'          => $arrayParam['post']['slug'],
             'excerpt'       => $arrayParam['post']['excerpt'],
@@ -131,10 +142,10 @@ class Category extends AbstractTableGateway
             'changed'       => $arrayParam['post']['changed'],
             'title'         => $arrayParam['post']['title'],
             'keyword'       => $arrayParam['post']['keyword'],
-            'description'	=> $arrayParam['post']['description'],
+            'description'		=> $arrayParam['post']['description'],
             'sort'          => $arrayParam['post']['sort'],
             'status'        => $arrayParam['post']['status'],
-            'taxonomy_id'	=> $arrayParam['post']['taxonomy_id'],
+            'taxonomy_id'		=> $arrayParam['post']['taxonomy_id'],
 		);
 		if(isset($arrayParam['id'])){
             // update
@@ -199,7 +210,7 @@ class Category extends AbstractTableGateway
     public function updateQuickEdit($arrayParam = null)
 	{
 		$data = array(
-            'parent'		=> $arrayParam['post']['parent'], 
+            'parent'				=> $arrayParam['post']['parent'], 
             'name'          => $arrayParam['post']['name'],
             'slug'          => $arrayParam['post']['slug'],
             'changed'       => $arrayParam['post']['changed'],
