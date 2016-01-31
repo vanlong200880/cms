@@ -200,6 +200,10 @@ class ProductController extends AbstractActionController
                 if($validate->isError() === true){
                     $arrayParam['error'] = $validate->getMessagesError();
                 }else{
+                    $filter = new \Sky\Filter\SeoUrl();
+                    if(empty($arrayParam['post']['slug']))
+                      $arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['name']);
+
                     $id = $product->addProduct($arrayParam);
                     $image = new Image();
                     $uploadFile = new Upload();
@@ -794,6 +798,9 @@ class ProductController extends AbstractActionController
             if($validate->isError() === true){
                 $arrayParam['error'] = $validate->getMessagesError();
             }else{
+                if($arrayParam['post']['slug']){
+                  $arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['name']);
+                }
                 $arrayParam['post']['modified'] = time();
                 $product = new Product();
                 $product->quickEdit($arrayParam);

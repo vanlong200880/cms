@@ -50,7 +50,7 @@ return array(
                         'type'          => '[0-9]+',
                         'sort'          => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'order'         => 'asc|desc',
-                        'textSearch'    => '.+', 
+                        'textSearch'    => '.+',
                         
                     ),
                     'defaults' => array(

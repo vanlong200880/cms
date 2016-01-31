@@ -159,10 +159,22 @@ class Product extends AbstractTableGateway
 		);
         $this->update($data, 'id = '. $dataSort['id']);
 	}
+  
+  public function getCateBySlug($arrayParam = null){
+			$select = new Select();
+			$select->from($this->table);
+			$select->where(array('slug' => $arrayParam['post']['slug']));
+			$resultSet = $this->selectWith($select);
+			$resultSet = $resultSet->toArray();
+			return $resultSet;
+		}
 	
 	// add product
 	public function addProduct($arrayParam = null)
 	{
+    if($this->getCateBySlug($arrayParam)){
+				$arrayParam['post']['slug'] = $arrayParam['post']['slug']. '-1'; 
+    }
 		$data = array(
             'trademark_id'  => $arrayParam['post']['trademark_id'],
             'supplier_id'   => $arrayParam['post']['supplier_id'],

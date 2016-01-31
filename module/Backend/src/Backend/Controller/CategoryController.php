@@ -229,7 +229,7 @@ class CategoryController extends AbstractActionController
             $arrayParam['post'] = $this->params()->fromPost();
             $validate = new ValidateCategory($arrayParam, 'add');
             if($validate->isError() === true){
-				$arrayParam['error'] = $validate->getMessagesError();
+            $arrayParam['error'] = $validate->getMessagesError();
             }else{
                 $dataPost = $this->params()->fromPost();
                 $arrayParam['post'] = $dataPost;
@@ -271,7 +271,6 @@ class CategoryController extends AbstractActionController
                 $category->addCategory($arrayParam);
                 $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật danh mục thành công.</div>');
                 return $this->redirect()->toRoute('backend', array('controller' => 'category', 'action' => 'index'));
-                
             }
         }else{
             $arrayParam['post'] = $dataCategory;

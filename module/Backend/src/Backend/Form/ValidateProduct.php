@@ -37,8 +37,7 @@ class ValidateProduct{
              );
         }
         $validator = new \Zend\Validator\ValidatorChain();
-        $validator->addValidator(new \Zend\Validator\NotEmpty(), true)
-                  ->addValidator(new \Zend\Validator\Db\NoRecordExists($option), true);
+        $validator->addValidator(new \Zend\Validator\Db\NoRecordExists($option), true);
         if(!$validator->isValid($arrayParam['post']['slug'])){			
             $message = $validator->getMessages();
             $this->_messagesError['slug'] = 'Slug: ' . current($message);
