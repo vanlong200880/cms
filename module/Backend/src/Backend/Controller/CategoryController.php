@@ -17,95 +17,95 @@ use Backend\Form\ValidateCategory;
 
 class CategoryController extends AbstractActionController
 {
-    public function indexAction()
-    {
-        $category = new Category();
-        $request    = $this->getRequest();
-        $url        = $this->getRequest()->getRequestUri();
-        $data= array();
-        if($request->isPost() == true){
-            $arrayParam['post']     = $request->getPost()->toArray();
-            $arrayParam['status']   = $arrayParam['post']['function'];
-            if(isset($arrayParam['post']['function']) && $arrayParam['post']['function'] != ''){
-                switch ($arrayParam['post']['function']){
-                    case 'delete':
-                        // delete
-                        if(isset($arrayParam['post']['check-all']) && !empty($arrayParam['post']['check-all'])){
-                            foreach ($arrayParam['post']['check-all'] as $value){
-                                $arrayParam['id']   = $value;
-                                $newsInfo           = $news->getNewById($arrayParam);
-                                if($newsInfo){
-                                    $file           = new \Sky\Uploads\Thumbs();
-                                    $file->removeImage(NEWS_ICON ."/", array('1' => '150x150/', '2' => ''), $newsInfo['image'], 2);
-                                    $news->deleteNews($newsInfo['id']);
-                                }
-                            }
-                            $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa thành công.</div>');
-                        }
-                        return $this->redirect()->toUrl($url);
-                        break;
-                    case 'published': // active
-                    case 'unpublished': // deactive
-                        if($category->updateStatus($arrayParam)){
-                            $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật trạng thái thành công.</div>');
-                            return $this->redirect()->toUrl($url);
-                        }else{
-                            $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật thất bại.</div>');
-                             return $this->redirect()->toUrl($url);
-                        }
-                        break;
-                    case 'sort': 
-                        if(isset($arrayParam['post']['sort']) && !empty($arrayParam['post']['sort'])){
-                            $dataSort = array();
-                            foreach ($arrayParam['post']['sort'] as $key => $value){
-                                $dataSort['id'] = $key;
-                                $dataSort['sort'] = $value;
-                                $category->updateSortById($dataSort);
-                            }
-                            $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật vị trí thành công.</div>');
-                            return $this->redirect()->toUrl($url);
-                        }
-                        break;
-                    default :
-                        $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Bạn chưa chọn chức năng.</div>');
-                        return $this->redirect()->toUrl($url);
+  public function indexAction()
+  {
+    $category = new Category();
+    $request    = $this->getRequest();
+    $url        = $this->getRequest()->getRequestUri();
+    $data= array();
+    if($request->isPost() == true){
+      $arrayParam['post']     = $request->getPost()->toArray();
+      $arrayParam['status']   = $arrayParam['post']['function'];
+      if(isset($arrayParam['post']['function']) && $arrayParam['post']['function'] != ''){
+        switch ($arrayParam['post']['function']){
+          case 'delete':
+            // delete
+            if(isset($arrayParam['post']['check-all']) && !empty($arrayParam['post']['check-all']))
+            {
+              foreach ($arrayParam['post']['check-all'] as $value){
+                $arrayParam['id']   = $value;
+                $newsInfo           = $news->getNewById($arrayParam);
+                if($newsInfo){
+                  $file           = new \Sky\Uploads\Thumbs();
+                  $file->removeImage(NEWS_ICON ."/", array('1' => '150x150/', '2' => ''), $newsInfo['image'], 2);
+                  $news->deleteNews($newsInfo['id']);
                 }
-            }else{
-                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Bạn chưa chọn chức năng.</div>');
+              }
+              $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa thành công.</div>');
             }
+            return $this->redirect()->toUrl($url);
+            break;
+          case 'published': // active
+          case 'unpublished': // deactive
+              if($category->updateStatus($arrayParam)){
+                  $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật trạng thái thành công.</div>');
+                  return $this->redirect()->toUrl($url);
+              }else{
+                  $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật thất bại.</div>');
+                   return $this->redirect()->toUrl($url);
+              }
+              break;
+          case 'sort': 
+              if(isset($arrayParam['post']['sort']) && !empty($arrayParam['post']['sort'])){
+                  $dataSort = array();
+                  foreach ($arrayParam['post']['sort'] as $key => $value){
+                      $dataSort['id'] = $key;
+                      $dataSort['sort'] = $value;
+                      $category->updateSortById($dataSort);
+                  }
+                  $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật vị trí thành công.</div>');
+                  return $this->redirect()->toUrl($url);
+              }
+              break;
+          default :
+              $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Bạn chưa chọn chức năng.</div>');
+              return $this->redirect()->toUrl($url);
         }
-        $arrayParam = $this->params()->fromRoute();
-        $order      = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order'):'desc';
-        $sort       = $this->params()->fromRoute('sort') ? $this->params()->fromRoute('sort'):'id';
-        $search     = $this->params()->fromRoute('txtSearch') ? $this->params()->fromRoute('txtSearch'): null;
-        $page       = $this->params()->fromRoute('page') ? (int) $this->params()->fromRoute('page') : null;
-        
-        $arrayParam['limit'] = PAGING_LIMIT;
-        // lay so trang
-        $arrayParam['page'] = (int) $this->params()->fromRoute('page', 0);
-        if($arrayParam['page'] != 0){
-            $arrayParam['offset'] = ($arrayParam['page'] - 1) * $arrayParam['limit'];
-        }else{
-            $arrayParam['offset'] = 0;
-        }
-        $category = new Category();
-        $categoryData = $category->getAllCategory($arrayParam);
-//        var_dump($categoryData);
-        $arrParam = array(
-			'controller'	=> $arrayParam['__CONTROLLER__'],
-			'action'		=> $arrayParam['action'],
+      }else{
+          $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Bạn chưa chọn chức năng.</div>');
+      }
+    }
+    $arrayParam = $this->params()->fromRoute();
+    $order      = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order'):'desc';
+    $sort       = $this->params()->fromRoute('sort') ? $this->params()->fromRoute('sort'):'id';
+    $search     = $this->params()->fromRoute('txtSearch') ? $this->params()->fromRoute('txtSearch'): null;
+    $page       = $this->params()->fromRoute('page') ? (int) $this->params()->fromRoute('page') : null;
+
+    $arrayParam['limit'] = PAGING_LIMIT;
+    // lay so trang
+    $arrayParam['page'] = (int) $this->params()->fromRoute('page', 0);
+    if($arrayParam['page'] != 0){
+        $arrayParam['offset'] = ($arrayParam['page'] - 1) * $arrayParam['limit'];
+    }else{
+        $arrayParam['offset'] = 0;
+    }
+    $category = new Category();
+    $categoryData = $category->getAllCategory($arrayParam);
+    $arrParam = array(
+      'controller'	=> $arrayParam['__CONTROLLER__'],
+      'action'		=> $arrayParam['action'],
             'page'          => (!empty($page))? '/page/'.$page: '',
             'sort'          => (!empty($sort))? '/sort/'.$sort: '',
             'order'         => (!empty($order))? '/order/'.$order: '',
             'txtSearch'     => (!empty($search))? '/txtSearch/'.$search: '',
-        );
-        // dem tong so user
-        $countCategory = $category->countAllCategory($arrayParam);
-        
-        // khoi tao phan trang
-        $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\Null($countCategory[0]['count']));        
-        $paginator->setCurrentPageNumber($arrayParam['page']);
-        $paginator->setItemCountPerPage($arrayParam['limit']);
+    );
+    // dem tong so user
+    $countCategory = $category->countAllCategory($arrayParam);
+
+    // khoi tao phan trang
+    $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\Null($countCategory[0]['count']));        
+    $paginator->setCurrentPageNumber($arrayParam['page']);
+    $paginator->setItemCountPerPage($arrayParam['limit']);
         
 		if(is_numeric($page) && $page > $paginator->count())
 		{
@@ -133,10 +133,10 @@ class CategoryController extends AbstractActionController
         $data['title']          = "Danh mục";
         $data['param']          = $arrParam;
         $data['paginator']      = $paginator;
-		$data['page']			= $page;
-		$data['routeParam']		= $param;
-		$data['controller']		= $arrayParam['__CONTROLLER__'];
-		$data['action']			= $arrayParam['action'];
+        $data['page']			= $page;
+        $data['routeParam']		= $param;
+        $data['controller']		= $arrayParam['__CONTROLLER__'];
+        $data['action']			= $arrayParam['action'];
         $data['paramSort']               = $paramSort;
         $data['current_link'] = $url;     
         $data['list'] = $categoryData;
@@ -265,6 +265,8 @@ class CategoryController extends AbstractActionController
             if($validate->isError() === true){
 						$arrayParam['error'] = $validate->getMessagesError();
             }else{
+                $filter = new \Sky\Filter\SeoUrl();
+                $arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['slug']);
 								$arrayParam['post']['created'] = $arrayParam['post']['changed'] = '';
 								$category->addCategory($arrayParam);
 								$this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật danh mục thành công.</div>');
@@ -590,6 +592,8 @@ class CategoryController extends AbstractActionController
             if($validate->isError() === true){
                 $arrayParam['error'] = $validate->getMessagesError();
             }else{
+              $filter = new \Sky\Filter\SeoUrl();
+              $arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['slug']);
                 $arrayParam['post']['changed'] = time();
                 $category = new Category();
                 $category->updateQuickEdit($arrayParam);
