@@ -130,7 +130,7 @@ class Category extends AbstractTableGateway
     // add category
     public function addCategory($arrayParam = null)
 	{
-			if($this->getCateBySlug($arrayParam)){
+			if($this->getCateBySlug($arrayParam) && !isset($arrayParam['id'])){
 				$arrayParam['post']['slug'] = $arrayParam['post']['slug']. '-1'; 
 			}
 		$data = array(
@@ -145,26 +145,26 @@ class Category extends AbstractTableGateway
             'description'		=> $arrayParam['post']['description'],
             'sort'          => $arrayParam['post']['sort'],
             'status'        => $arrayParam['post']['status'],
-            'taxonomy_id'		=> $arrayParam['post']['taxonomy_id'],
+            'taxonomy_id'		=> $arrayParam['post']['taxonomy_id']
 		);
 		if(isset($arrayParam['id'])){
-            // update
-            unset($data['created']);
-            $data['changed'] = time();
-            if($this->update($data, 'id = '.$arrayParam['id'])){
-                return true;
-            }else{
-                return false;
-            }
+			// update
+			unset($data['created']);
+			$data['changed'] = time();
+			if($this->update($data, 'id = '.$arrayParam['id'])){
+					return true;
+			}else{
+					return false;
+			}
 		}
 		else{
 			// add
-            $data['created'] =  $data['changed'] = time();
+			$data['created'] =  $data['changed'] = time();
 			if($this->insert($data)){
-                return $this->lastInsertValue;
-            }else{
-                return false;
-            }
+				return $this->lastInsertValue;
+			}else{
+					return false;
+			}
 		}
 	}
     public  function deleteCategoryById($id){

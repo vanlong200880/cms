@@ -196,14 +196,13 @@ class ProductController extends AbstractActionController
                 $arrayParam['post']['startday'] = ($arrayParam['post']['startday'])? strtotime($arrayParam['post']['startday']) : 0;
                 $arrayParam['post']['endday'] = ($arrayParam['post']['endday'])? strtotime($arrayParam['post']['endday']) : 0;
                 $arrayParam['post']['created'] = $arrayParam['post']['modified'] = time();
+								$filter = new \Sky\Filter\SeoUrl();
+								if(empty($arrayParam['post']['slug']))
+									$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['name']);
                 $validate = new ValidateProduct($arrayParam, 'add');
                 if($validate->isError() === true){
                     $arrayParam['error'] = $validate->getMessagesError();
                 }else{
-                    $filter = new \Sky\Filter\SeoUrl();
-                    if(empty($arrayParam['post']['slug']))
-                      $arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['name']);
-
                     $id = $product->addProduct($arrayParam);
                     $image = new Image();
                     $uploadFile = new Upload();

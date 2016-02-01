@@ -219,37 +219,37 @@ class CategoryController extends AbstractActionController
 
     public function addAction()
     {
-        $taxonomy = new Taxonomy();
-        $data= array();
-        $data['taxonomyList'] = $taxonomy->getAll();
-        $request = $this->getRequest();
-        $arrayParam = $this->params()->fromRoute();
-        if($request->isPost() == true){
-            $category = new Category();
-            $arrayParam['post'] = $this->params()->fromPost();
-            $validate = new ValidateCategory($arrayParam, 'add');
-            if($validate->isError() === true){
-            $arrayParam['error'] = $validate->getMessagesError();
-            }else{
-                $dataPost = $this->params()->fromPost();
-                $arrayParam['post'] = $dataPost;
-								$filter = new \Sky\Filter\SeoUrl();
-								if(empty($arrayParam['post']['slug']))
-									$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['name']);
-                $arrayParam['post']['created'] = $arrayParam['post']['changed'] = '';
-                $category->addCategory($arrayParam);
-                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Tạo danh mục thành công.</div>');
-                if(isset($arrayParam['post']['save'])){
-                    return $this->redirect()->toRoute('backend', array('controller' => 'category', 'action' => 'index'));
-                }else{
-                    if(isset($arrayParam['post']['save-news'])){
-                        return $this->redirect()->toRoute('backend', array('controller' => 'category', 'action' => 'add'));
-                    }
-                }
-            }
-        }
-        $data['arrayParam'] = $arrayParam;
-        return new ViewModel($data);
+			$taxonomy = new Taxonomy();
+			$data	= array();
+			$data['taxonomyList'] = $taxonomy->getAll();
+			$request = $this->getRequest();
+			$arrayParam = $this->params()->fromRoute();
+			if($request->isPost() == true){
+					$category = new Category();
+					$arrayParam['post'] = $this->params()->fromPost();
+					$validate = new ValidateCategory($arrayParam, 'add');
+					if($validate->isError() === true){
+					$arrayParam['error'] = $validate->getMessagesError();
+					}else{
+							$dataPost = $this->params()->fromPost();
+							$arrayParam['post'] = $dataPost;
+							$filter = new \Sky\Filter\SeoUrl();
+							if(empty($arrayParam['post']['slug']))
+								$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['name']);
+							$arrayParam['post']['created'] = $arrayParam['post']['changed'] = '';
+							$category->addCategory($arrayParam);
+							$this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Tạo danh mục thành công.</div>');
+							if(isset($arrayParam['post']['save'])){
+									return $this->redirect()->toRoute('backend', array('controller' => 'category', 'action' => 'index'));
+							}else{
+									if(isset($arrayParam['post']['save-news'])){
+											return $this->redirect()->toRoute('backend', array('controller' => 'category', 'action' => 'add'));
+									}
+							}
+					}
+			}
+			$data['arrayParam'] = $arrayParam;
+			return new ViewModel($data);
     }
     
     public function editAction(){
@@ -263,14 +263,12 @@ class CategoryController extends AbstractActionController
             $arrayParam['post'] = $this->params()->fromPost();
             $validate = new ValidateCategory($arrayParam, 'edit');
             if($validate->isError() === true){
-				$arrayParam['error'] = $validate->getMessagesError();
+						$arrayParam['error'] = $validate->getMessagesError();
             }else{
-                $dataPost = $this->params()->fromPost();
-                $arrayParam['post'] = $dataPost;
-                $arrayParam['post']['created'] = $arrayParam['post']['changed'] = '';
-                $category->addCategory($arrayParam);
-                $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật danh mục thành công.</div>');
-                return $this->redirect()->toRoute('backend', array('controller' => 'category', 'action' => 'index'));
+								$arrayParam['post']['created'] = $arrayParam['post']['changed'] = '';
+								$category->addCategory($arrayParam);
+								$this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật danh mục thành công.</div>');
+								return $this->redirect()->toRoute('backend', array('controller' => 'category', 'action' => 'index'));
             }
         }else{
             $arrayParam['post'] = $dataCategory;
@@ -592,10 +590,6 @@ class CategoryController extends AbstractActionController
             if($validate->isError() === true){
                 $arrayParam['error'] = $validate->getMessagesError();
             }else{
-							$filter = new \Sky\Filter\SeoUrl();
-							if($arrayParam['post']['slug']){
-								$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['name']);
-							}
                 $arrayParam['post']['changed'] = time();
                 $category = new Category();
                 $category->updateQuickEdit($arrayParam);

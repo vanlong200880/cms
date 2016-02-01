@@ -47,7 +47,7 @@
                                                     <div class="form-group">
                                                         <div class="box-language lang-vi">
                                                             <label for="name">Tên danh mục <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường bắt buộc.">?</span></label>
-                                                            <input type="text" class="form-control" value="<?php echo isset($arrayParam['post']['name'])?$arrayParam['post']['name']:'' ?>" name="name" placeholder="Tên">
+                                                            <input type="text" id="post-name" class="form-control" value="<?php echo isset($arrayParam['post']['name'])?$arrayParam['post']['name']:'' ?>" name="name" placeholder="Tên">
                                                             <p class="error"><?php echo isset($arrayParam['error']['name'])? $arrayParam['error']['name']:'' ?></p>
                                                         </div>
                                                     </div>
@@ -56,7 +56,7 @@
                                                     <div class="form-group">
                                                         <div class="box-language lang-vi">
                                                             <label for="slug">Slug <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường bắt buộc.">?</span></label>
-                                                            <input type="text" class="form-control" placeholder="Slug" value="<?php echo isset($arrayParam['post']['slug'])?$arrayParam['post']['slug']:'' ?>" name="slug">
+                                                            <input type="text" id="post-alias" class="form-control" placeholder="Slug" value="<?php echo isset($arrayParam['post']['slug'])?$arrayParam['post']['slug']:'' ?>" name="slug">
                                                             <p class="error"><?php echo isset($arrayParam['error']['slug'])? $arrayParam['error']['slug']:'' ?></p>
                                                         </div>
                                                     </div>

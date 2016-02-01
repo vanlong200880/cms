@@ -13,7 +13,31 @@ jQuery(document).ready(function($){
         }, 500);
       }, 4000);
     /* end show message */
-    
+		
+    // generator alias
+   $("#post-name").on('keyup, keypress', function(){
+       document.getElementById("post-alias").value = filterName();
+   })
+   function filterName()
+   {
+			var str = (document.getElementById("post-name").value);
+			str= str.toLowerCase(); // chuyển chuỗi sang chữ thường để xử lý
+			/* tìm kiếm và thay thế tất cả các nguyên âm có dấu sang không dấu*/
+			str= str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a");
+			str= str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e");
+			str= str.replace(/ì|í|ị|ỉ|ĩ/g,"i");
+			str= str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o");
+			str= str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u");
+			str= str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y");
+			str= str.replace(/đ/g,"d");
+			str= str.replace(/&amp;/g, "");
+			str= str.replace(/!|@|%|`|\$|\^|\*|\(|\)|\}|\{|\]|\[|[\|]|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'| |\"|\&|\#|\\|~|_/g,"-");
+			/* tìm và thay thế các kí tự đặc biệt trong chuỗi sang kí tự - */
+			str= str.replace(/-+-/g,"-"); //thay thế 2- thành 1-
+			str= str.replace(/^\-+|\-+$/g,"");//cắt bỏ ký tự - ở đầu và cuối chuỗi
+			//document.getElementById("alias").value = str; // xuất kết quả xữ lý ra input mới
+			return str;
+   }
     
     
     

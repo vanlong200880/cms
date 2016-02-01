@@ -379,8 +379,11 @@ i.icon.iconprofile{
 .form-table{
     margin-top: 10px;
 }
-.form-table .table{
+.form-table .table tbody{
     border: 1px solid #DDD;
+}
+.form-table .table thead{
+    border: 1px solid #38B8E6;
 }
 
 .form-table .table th{
