@@ -4,11 +4,12 @@
             <h1>Thêm nhà cung cấp</h1>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <button type="button" class="btn btn-default btn-custom pull-right">Trở lại</button>
+					<a href="<?php echo $this->url('backend', array('controller' => 'supplier', 'action' => 'inex')); ?>" class="btn btn-default btn-custom pull-right">Trở lại</a>
         </div>
     </div>
 </div>
-<div class="container-fluid">
+<form action="<?php echo $this->url('backend', array('controller' => 'supplier', 'action' => 'add')); ?>" method="post" enctype="">
+	<div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
             <div class="content">
@@ -23,77 +24,120 @@
                                             <div class="col-lg-12">
                                                 <div class="form-group">
                                                     <label for="name">Tên nhà cung cấp <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title="Nhập tên nhà cung cấp">?</span></label>
-                                                    <input type="text" class="form-control" id="name" placeholder="Tên nhà cung cấp">
+                                                    <input type="text" class="form-control" value="<?php echo isset($arrayParam['post']['name'])?$arrayParam['post']['name']:'' ?>" id="post-name" name="name">
+																										<p class="error"><?php echo isset($arrayParam['error']['name'])? $arrayParam['error']['name']:'' ?></p>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <label for="weight">Điện thoại <span class="validation">*</span> <span class="help" data-toggle="tooltip" data-placement="right" title='Nhập số điện thoại'>?</span></label>
-                                                            <input type="phone" class="form-control" id="weight" placeholder="Số điện thoại">
-                                                        </div>
-                                                    </div>
+																					
+																						<div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="slug">Slug <span class="help" data-toggle="tooltip" data-placement="right" title="Nhập tên nhà cung cấp">?</span></label>
+                                                    <input type="text" class="form-control" id="post-alias" value="<?php echo isset($arrayParam['post']['slug'])?$arrayParam['post']['slug']:'' ?>" name="slug">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                
                                 <div class="box">
                                     <div class="box-header"><h2>Thông tin thêm</h2></div>
                                     <div class="box-body">
                                         <div class="row">
+																						<div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label for="phone">Điện thoại  <span class="help" data-toggle="tooltip" data-placement="right" title='Nhập số điện thoại'>?</span></label>
+                                                            <input type="phone" class="form-control" name="phone" value="<?php echo isset($arrayParam['post']['phone'])?$arrayParam['post']['phone']:'' ?>" id="phone">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="color">Email <span class="help" data-toggle="tooltip" data-placement="right" title='Đây là trường không bắt buộc.'>?</span></label>
-                                                    <input type="email" class="form-control" id="color" placeholder="Email">
+                                                    <label for="email">Email <span class="help" data-toggle="tooltip" data-placement="right" title='Đây là trường không bắt buộc.'>?</span></label>
+                                                    <input type="email" class="form-control" id="email" value="<?php echo isset($arrayParam['post']['email'])?$arrayParam['post']['email']:'' ?>" name="email">
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
                                                 <div class="form-group">
-                                                    <label for="name">Địa chỉ <span class="help" data-toggle="tooltip" data-placement="right" title='Đây là trường không bắt buộc.'>?</span></label>
-                                                    <input type="text" class="form-control" id="size" placeholder="Địa chỉ">
+                                                    <label for="address">Địa chỉ <span class="help" data-toggle="tooltip" data-placement="right" title='Đây là trường không bắt buộc.'>?</span></label>
+                                                    <input type="text" class="form-control" id="address" value="<?php echo isset($arrayParam['post']['address'])?$arrayParam['post']['address']:'' ?>" name="address">
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-12">
                                                 <div class="form-group">
-                                                    <label for="name">Công ty ( doanh nghiệp ) <span class="help" data-toggle="tooltip" data-placement="right" title='Đây là trường không bắt buộc.'>?</span></label>
-                                                    <input type="text" class="form-control" id="size" placeholder="Tên công ty (doanh nghiệp)" >
+                                                    <label for="companyname">Công ty ( doanh nghiệp ) <span class="help" data-toggle="tooltip" data-placement="right" title='Đây là trường không bắt buộc.'>?</span></label>
+                                                    <input type="text" class="form-control" id="companyname" name="companyname" value="<?php echo isset($arrayParam['post']['companyname'])?$arrayParam['post']['companyname']:'' ?>">
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
-                                                            <label for="weight">Mã số thuế <span class="help" data-toggle="tooltip" data-placement="right" title='Đây là trường không bắt buộc.'>?</span></label>
-                                                            <input type="text" class="form-control" id="weight" placeholder="Mã số thuế">
+                                                            <label for="tax">Mã số thuế <span class="help" data-toggle="tooltip" data-placement="right" title='Đây là trường không bắt buộc.'>?</span></label>
+                                                            <input type="text" class="form-control" value="<?php echo isset($arrayParam['post']['tax'])?$arrayParam['post']['tax']:'' ?>" name="tax" id="tax">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12">
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label for="weight">Ghi chú <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
-                                                            <textarea class="form-control" rows="3" name="description" placeholder="Ghi chú" ></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+																					<div class="col-lg-12">
+																						<div class="row">
+																							<div class="col-lg-6">
+																									<div class="form-group">
+																											<label for="account">Tài khoản <span class="help" data-toggle="tooltip" data-placement="right" title='Đây là trường không bắt buộc.'>?</span></label>
+																											<input type="text" class="form-control" id="account" value="<?php echo isset($arrayParam['post']['account'])?$arrayParam['post']['account']:'' ?>" name="account">
+																									</div>
+																							</div>
+																						</div>
+																					</div>
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12">
+															<div class="box">
+																<div class="box-header"><h2>Thông tin chung</h2></div>
+																<div class="box-body">
+																		<div class="row">
+																				<div class="col-lg-6">
+																					<div class="form-group">
+																							<div class="checkbox">
+																									<label>
+																											<input type="hidden" name="status" value="0">
+																											<input type="checkbox" name="status" id="promote" value="1" <?php echo (!isset($arrayParam['post']['status']))?'checked':((isset($arrayParam['post']['status'])) && $arrayParam['post']['status'] == 1)?'checked':'' ?>>
+																											Đăng
+																									</label>
+																							</div>
+																					</div>
+																			</div>
+
+																				<div class="col-lg-12">
+																						<div class="form-group">
+																								<label for="order">Sắp xếp <span class="help" data-toggle="tooltip" data-placement="right" title="Sắp xếp">?</span></label>
+																								<input type="number" min="0" class="form-control" id="order" value="<?php echo isset($arrayParam['post']['order'])?$arrayParam['post']['order']:'' ?>" name="order">
+																						</div>
+																				</div>
+																				<div class="col-lg-12">
+																						<div class="row">
+																								<div class="col-lg-12">
+																										<div class="form-group">
+																												<label for="weight">Ghi chú <span class="help" data-toggle="tooltip" data-placement="right" title="Đây là trường không bắt buộc.">?</span></label>
+																												<textarea class="form-control" rows="3" name="note" placeholder="Ghi chú" ><?php echo isset($arrayParam['post']['note'])?$arrayParam['post']['note']:'' ?></textarea>
+																										</div>
+																								</div>
+																						</div>
+																				</div>
+																		</div>
+																</div>
+														</div>
+
                                 <div class="box box-botton">
                                     <div class="box-footer">
-                                        <button type="reset" class="btn btn-default btn-back add">Nhập lại</button>
-                                        <button type="button" class="btn btn-default btn-custom add">Lưu</button>
-                                        <button type="button" class="btn btn-default btn-custom add">Lưu & Thêm mới</button>
+																			<button type="reset" class="btn btn-default btn-back add">Nhập lại</button>
+																			<button type="submit" name="save" value="save" class="btn btn-default btn-custom add">Lưu</button>
+																			<button type="submit" name="save-news" value="save-news" class="btn btn-default btn-custom add">Lưu & Thêm mới</button>
                                     </div>
                                 </div>
                             </div>
@@ -104,95 +148,4 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade bs-category modal-custom" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
-            <h4 class="modal-title" id="gridSystemModalLabel">Thêm nhóm hàng</h4>
-        </div>
-        <div class="modal-body">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="form-group">
-                        <label for="keyword">Tên nhóm</label>
-                        <input type="text" class="form-control" id="category_ajax" placeholder="Tên nhóm">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <div class="form-group">
-                            <label for="quantity">Nhóm cha</label>
-                            <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
-                                <option>cow</option>
-                                <option>bull</option>
-                                <option class="get-class" disabled>ox</option>
-                                <optgroup label="test" data-subtext="another test">
-                                    <option>ASD</option>
-                                    <option selected>Bla</option>
-                                    <option>Ble</option>
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default btn-back add" data-dismiss="modal">Bỏ qua</button>
-            <button type="button" class="btn btn-primary btn-custom add">Lưu</button>
-        </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade bs-store modal-custom" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
-            <h4 class="modal-title" id="gridSystemModalLabel">Thêm kho hàng</h4>
-        </div>
-        <div class="modal-body">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="form-group">
-                        <label for="keyword">Tên kho</label>
-                        <input type="text" class="form-control" id="category_ajax" placeholder="Tên kho hàng">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default btn-back add" data-dismiss="modal">Bỏ qua</button>
-            <button type="button" class="btn btn-primary btn-custom add">Lưu</button>
-        </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade bs-trademark modal-custom" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
-            <h4 class="modal-title" id="gridSystemModalLabel">Thêm thương hiệu</h4>
-        </div>
-        <div class="modal-body">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="form-group">
-                        <label for="keyword">Tên thương hiệu</label>
-                        <input type="text" class="form-control" id="category_ajax" placeholder="Tên thương hiệu">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default btn-back add" data-dismiss="modal">Bỏ qua</button>
-            <button type="button" class="btn btn-primary btn-custom add">Lưu</button>
-        </div>
-    </div>
-  </div>
-</div>
+</form>

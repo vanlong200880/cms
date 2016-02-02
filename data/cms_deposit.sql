@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2015 at 04:31 PM
+-- Generation Time: Feb 02, 2016 at 10:55 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -43,15 +43,15 @@ CREATE TABLE IF NOT EXISTS `category` (
   PRIMARY KEY (`id`,`taxonomy_id`),
   UNIQUE KEY `alias_UNIQUE` (`slug`),
   KEY `fk_category_taxonomy1_idx` (`taxonomy_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=57 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=61 ;
 
 --
 -- Dumping data for table `category`
 --
 
 INSERT INTO `category` (`id`, `parent`, `name`, `slug`, `excerpt`, `created`, `changed`, `title`, `keyword`, `description`, `sort`, `status`, `taxonomy_id`) VALUES
-(8, 0, 'root 1', 'abc1112www123123', NULL, 0, NULL, NULL, NULL, NULL, 0, 0, 1),
-(9, 0, 'sdfsdfdsf', 'sdfsdfds', '', 1444668047, 1444668047, '', '', '', 0, 1, 1),
+(8, 0, 'News', 'news', NULL, 0, NULL, NULL, NULL, NULL, 0, 0, 2),
+(9, 0, 'sdfsdfdsf', 'sdfsdfds', '', 1444668047, 1444668047, '', '', '', 0, 0, 1),
 (13, NULL, 'test ajax', 'test-ajax', '', 1445162008, 1445162008, '', '', '', 0, 1, 1),
 (14, NULL, 'hhhhh', 'hhhhh', '', 1445162099, 1445162099, '', '', '', 0, 1, 1),
 (15, NULL, '24234', '234234234', '', 1445162178, 1445162178, '', '', '', 0, 1, 1),
@@ -94,7 +94,10 @@ INSERT INTO `category` (`id`, `parent`, `name`, `slug`, `excerpt`, `created`, `c
 (53, 0, 'demo group', '123-group', '', 1445165399, 1445165399, '', '', '', 0, 1, 1),
 (54, 0, 't11', '5111t', '', 1445177412, 1445177412, '', '', '', 0, 1, 1),
 (55, 0, 'News', 'edit', '', 1445609017, 1445609017, '', '', '', 0, 0, 2),
-(56, 0, 'news demo', 'news-demo', '', 1446131277, 1446131277, '', '', '', 0, 1, 2);
+(56, 8, 'edit', 'edit-1023424', '', 1446131277, 1454307114, '', '', '', 0, 1, 2),
+(58, 15, 'sd sdf dsd fsa fdas', 'sd-sdf-dsd-fsa-fda', '', 1454315065, 1454315065, '', '', '', 0, 1, 1),
+(59, 9, 'demo demo demo demo', 'demo-dem', '', 1454376631, 1454376655, '', '', '', 0, 1, 1),
+(60, 0, 'them nhom hang', 'them-nhom-hang', '', 1454377502, 1454377502, '', '', '', 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -196,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `image` (
   `status` int(1) NOT NULL,
   `highlight` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=117 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=118 ;
 
 --
 -- Dumping data for table `image`
@@ -312,7 +315,8 @@ INSERT INTO `image` (`id`, `product_id`, `type`, `name`, `mine`, `size`, `timest
 (113, 1, 'product', 'GX5051-1445683419.jpg', 'image/jpeg', '36622', 1445683419, 1, 0),
 (114, 15, 'product', '1_660x0-1445762609.jpg', 'image/jpeg', '252192', 1445762609, 1, 1),
 (115, 15, 'product', '37106625-1445762609.png', 'image/png', '128681', 1445762609, 1, 0),
-(116, 15, 'product', '1439613478-1439611064-susu-3-1445762609.jpg', 'image/jpeg', '249929', 1445762609, 1, 0);
+(116, 15, 'product', '1439613478-1439611064-susu-3-1445762609.jpg', 'image/jpeg', '249929', 1445762609, 1, 0),
+(117, 1, 'product', 'GLUCOSE_BALANCE-1454319489.jpg', 'image/jpeg', '858404', 1454319489, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -343,7 +347,19 @@ CREATE TABLE IF NOT EXISTS `news` (
   UNIQUE KEY `alias_UNIQUE` (`slug`),
   KEY `fk_new_category1_idx` (`category_id`),
   KEY `fk_new_user1_idx` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `news`
+--
+
+INSERT INTO `news` (`id`, `name`, `slug`, `excerpt`, `content`, `image`, `created`, `modified`, `title`, `description`, `keyword`, `sort`, `startday`, `endday`, `status`, `category_id`, `user_id`) VALUES
+(1, 'demo', 'demo', 'demo demo', 'demo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demo', '', 0, NULL, NULL, NULL, NULL, 0, NULL, NULL, 1, 8, 1),
+(2, 'demo 1', 'demo-1', 'demo demo 1', 'demo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demo', '', 0, NULL, NULL, NULL, NULL, 0, NULL, NULL, 1, 8, 1),
+(3, 'demo 12', 'demo-12', 'demo demo 12', 'demo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demo', '', 0, NULL, NULL, NULL, NULL, 0, NULL, NULL, 1, 8, 1),
+(4, 'demo 12222', 'demo-12222', 'demo demo 12222', 'demo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demo', '', 0, NULL, NULL, NULL, NULL, 0, NULL, NULL, 1, 8, 1),
+(5, 'demo 122222222', 'demo-12222223', 'demo demo 122223333', 'demo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demo', '', 0, NULL, NULL, NULL, NULL, 0, NULL, NULL, 1, 8, 1),
+(6, 'demo 122222222234', 'demo-12222223234', 'demo demo 34234', 'demo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demodemo demo demo', '', 0, NULL, NULL, NULL, NULL, 0, NULL, NULL, 1, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -597,6 +613,7 @@ CREATE TABLE IF NOT EXISTS `slider` (
 CREATE TABLE IF NOT EXISTS `supplier` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
   `phone` varchar(12) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
@@ -605,30 +622,34 @@ CREATE TABLE IF NOT EXISTS `supplier` (
   `note` text,
   `account` varchar(20) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
+  `order` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
 
 --
 -- Dumping data for table `supplier`
 --
 
-INSERT INTO `supplier` (`id`, `name`, `phone`, `address`, `email`, `companyname`, `tax`, `note`, `account`, `status`) VALUES
-(1, 'supplier', '', NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(2, 'supplier 1', '', NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(3, 'sdf', '', '', '', '', '', '', '', 1),
-(5, 'ahdsdf', '', '', '', '', '', '', '', 1),
-(8, 'sdfdsf', '', '', '', '', '', '', '', 1),
-(18, 'ssdf', '', '', '', '', '', '', '', 1),
-(19, 'ssdf1212', '', '', '', '', '', '', '', 1),
-(20, '345345345', '', '', '', '', '', '', '', 1),
-(21, '23423', '', '', '', '', '', '', '', 1),
-(22, 'werwe', '', '', '', '', '', '', '', 1),
-(23, 'werwerwer', '', '', '', '', '', '', '', 1),
-(24, 'ewsdfsdf', '', '', '', '', '', '', '', 1),
-(25, 'abcs', '', '', '', '', '', '', '', 1),
-(26, 'demo demo', '', '', '', '', '', '', '', 1),
-(27, 'supplier edit', '', '', '', '', '', '', '', 1);
+INSERT INTO `supplier` (`id`, `name`, `slug`, `phone`, `address`, `email`, `companyname`, `tax`, `note`, `account`, `status`, `order`) VALUES
+(1, 'supplier', '', '', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0),
+(2, 'supplier 1', '', '', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0),
+(3, 'sdf', '', '', '', '', '', '', '', '', 1, 0),
+(5, 'ahdsdf', '', '', '', '', '', '', '', '', 1, 0),
+(8, 'sdfdsf', '', '', '', '', '', '', '', '', 1, 0),
+(18, 'ssdf', '', '', '', '', '', '', '', '', 1, 0),
+(19, 'ssdf1212', '', '', '', '', '', '', '', '', 1, 0),
+(20, '345345345', '', '', '', '', '', '', '', '', 1, 0),
+(21, '23423', '', '', '', '', '', '', '', '', 1, 0),
+(22, 'werwe', '', '', '', '', '', '', '', '', 1, 0),
+(23, 'werwerwer', '', '', '', '', '', '', '', '', 1, 0),
+(24, 'ewsdfsdf', '', '', '', '', '', '', '', '', 1, 0),
+(25, 'abcs', '', '', '', '', '', '', '', '', 1, 0),
+(26, 'demo demo', '', '', '', '', '', '', '', '', 1, 0),
+(27, 'supplier edit', '', '', '', '', '', '', '', '', 1, 0),
+(28, 'abc abc abc', 'abc-abc-abc', '', '', '', '', '', '', '', 1, 0),
+(29, 'ten nha cung cap ', 'ten-nha-cung-cap', '0966660127', '25 Le Lai, Phuong 12, Quan Tan Binh', 'vanlong200880@yahoo.com.vn', 'abc', '12312312312', '2323', '123424', 1, 23),
+(30, 'sdf sdfs df', 'sdf-sdfs-d', '', '', '', '', '', '', '', 1, 0);
 
 -- --------------------------------------------------------
 

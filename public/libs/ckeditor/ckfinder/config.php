@@ -32,8 +32,12 @@ $config['authentication'] = function() {
 /*============================ License Key ============================================*/
 // http://docs.cksource.com/ckfinder3-php/configuration.html#configuration_options_licenseKey
 
-$config['licenseName'] = '';
-$config['licenseKey']  = '';
+//$config['licenseName'] = 'tap-seminar.jp';
+//$config['licenseKey']  = 'G2C2-JRJM-2UAE-Z3BQ-H6LR-LZ13-FFA8';
+$config['LicenseName'] = $_SERVER['HTTP_HOST'];
+$str_dom = strlen($_SERVER['HTTP_HOST']);
+$characters = "ZYXWVUTSRQPNMLKJHGFEDCBA987654321";
+$config['LicenseKey'] = "ABCD-EFGH-IJKL-MNOP-QRST-UVWX-YZ12";
 
 /*============================ CKFinder Internal Directory ============================*/
 // http://docs.cksource.com/ckfinder3-php/configuration.html#configuration_options_privateDir

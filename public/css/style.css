@@ -953,3 +953,6 @@ a.block.fa{
 .table>thead>tr>th{
     padding: 5px 8px 0 8px;
 }
+.table>thead>tr>th{
+	border-bottom: none;
+}

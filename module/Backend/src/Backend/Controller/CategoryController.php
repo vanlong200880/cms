@@ -235,7 +235,9 @@ class CategoryController extends AbstractActionController
 							$arrayParam['post'] = $dataPost;
 							$filter = new \Sky\Filter\SeoUrl();
 							if(empty($arrayParam['post']['slug']))
-								$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['name']);
+									$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['name']);
+								else
+									$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['slug']);
 							$arrayParam['post']['created'] = $arrayParam['post']['changed'] = '';
 							$category->addCategory($arrayParam);
 							$this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Tạo danh mục thành công.</div>');

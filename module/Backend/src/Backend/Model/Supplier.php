@@ -140,7 +140,8 @@ class Supplier extends AbstractTableGateway
     public function addSupplier($arrayParam = null)
 	{
 		$data = array(
-            'name'              => $arrayParam['post']['name'], 
+            'name'              => $arrayParam['post']['name'],
+						'slug'              => $arrayParam['post']['slug'],
             'phone'             => $arrayParam['post']['phone'],
             'address'           => $arrayParam['post']['address'],
             'email'             => $arrayParam['post']['email'],
@@ -148,7 +149,8 @@ class Supplier extends AbstractTableGateway
             'tax'               => $arrayParam['post']['tax'],
             'note'              => $arrayParam['post']['note'],
             'account'           => $arrayParam['post']['account'],
-            'status'            => $arrayParam['post']['status']
+            'status'            => $arrayParam['post']['status'],
+						'order'            => $arrayParam['post']['order']
 		);
 		if(isset($arrayParam['id'])){
             // update

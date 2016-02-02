@@ -199,6 +199,8 @@ class ProductController extends AbstractActionController
 								$filter = new \Sky\Filter\SeoUrl();
 								if(empty($arrayParam['post']['slug']))
 									$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['name']);
+								else
+									$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['slug']);
                 $validate = new ValidateProduct($arrayParam, 'add');
                 if($validate->isError() === true){
                     $arrayParam['error'] = $validate->getMessagesError();
@@ -328,6 +330,12 @@ class ProductController extends AbstractActionController
                 $arrayParam['post']['sort']         = 0;
                 $arrayParam['post']['status']       = 1;
                 $arrayParam['post']['taxonomy_id']  = $dataTaxonomy['id'];
+								$filter = new \Sky\Filter\SeoUrl();
+								if(empty($arrayParam['post']['slug'])){
+									$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['name']);
+								}else{
+									$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['slug']);
+								}
                 $id = $category->addCategory($arrayParam);
                 
                 // reload category
@@ -359,6 +367,13 @@ class ProductController extends AbstractActionController
                 $arrayParam['post']['note']         = '';
                 $arrayParam['post']['account']      = '';
                 $arrayParam['post']['status']       = 1;
+								$arrayParam['post']['order']       = 0;
+								$filter = new \Sky\Filter\SeoUrl();
+								if(empty($arrayParam['post']['slug'])){
+									$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['name']);
+								}else{
+									$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['slug']);
+								}
                 $id = $supplier->addSupplier($arrayParam);
                 // reload category
                 $dataSupplier = $supplier->getAllSupplier($arrayParam);
@@ -391,6 +406,12 @@ class ProductController extends AbstractActionController
                 $arrayParam['post']['address']      = '';
                 $arrayParam['post']['fax']        = '';
                 $arrayParam['post']['status']       = 1;
+								$filter = new \Sky\Filter\SeoUrl();
+								if(empty($arrayParam['post']['slug'])){
+									$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['name']);
+								}else{
+									$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['slug']);
+								}
                 $id = $shop->addShop($arrayParam);
                 // reload category
                 $dataSupplier = $shop->getAllShop($arrayParam);
@@ -422,6 +443,12 @@ class ProductController extends AbstractActionController
                 $arrayParam['post']['description']  = '';
                 $arrayParam['post']['keyword']      = '';
                 $arrayParam['post']['status']       = 1;
+								$filter = new \Sky\Filter\SeoUrl();
+								if(empty($arrayParam['post']['slug'])){
+									$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['name']);
+								}else{
+									$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['slug']);
+								}
                 $id = $trademark->addTrademark($arrayParam);
                 // reload category
                 $dataTrademark = $trademark->getAllTrademark($arrayParam);
@@ -461,10 +488,12 @@ class ProductController extends AbstractActionController
                 $arrayParam['post']['startday'] = ($arrayParam['post']['startday'])? strtotime($arrayParam['post']['startday']) : 0;
                 $arrayParam['post']['endday'] = ($arrayParam['post']['endday'])? strtotime($arrayParam['post']['endday']) : 0;
                 $arrayParam['post']['created'] = $arrayParam['post']['modified'] = time();
-                $validate = new ValidateProduct($arrayParam, 'ecit');
+                $validate = new ValidateProduct($arrayParam, 'edit');
                 if($validate->isError() === true){
                     $arrayParam['error'] = $validate->getMessagesError();
                 }else{
+										$filter = new \Sky\Filter\SeoUrl();
+										$arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['slug']);
                     $product->addProduct($arrayParam);
                     // change image
                     if(isset($arrayParam['post']['image']) && !empty($arrayParam['post']['image']['name'])){
@@ -797,9 +826,8 @@ class ProductController extends AbstractActionController
             if($validate->isError() === true){
                 $arrayParam['error'] = $validate->getMessagesError();
             }else{
-                if($arrayParam['post']['slug']){
-                  $arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['name']);
-                }
+								$filter = new \Sky\Filter\SeoUrl();
+                $arrayParam['post']['slug'] = $filter->filter($arrayParam['post']['slug']);
                 $arrayParam['post']['modified'] = time();
                 $product = new Product();
                 $product->quickEdit($arrayParam);
