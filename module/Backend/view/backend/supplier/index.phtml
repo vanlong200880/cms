@@ -1,199 +1,274 @@
-<div class="container-fluid">
-    <div class="row function-title">
-        <div class="col-lg-12">
-            <h1>Nhà cung cấp</h1>
-        </div>
-        <div class="col-lg-12">
-            <div class="row">
-                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                    <select class="form-control selected-custom">
-                        <option>----</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                    <button type="button" class="btn btn-default btn-custom apply">Thực hiện</button>
+<form action="<?php echo $this->url('backend', array('controller' => 'supplier', 'action' => 'index')) ?>" id="form-add-category" method="post" enctype="multipart/form-data">
+    <div class="container-fluid">
+        <div class="row function-title">
+            <div class="col-lg-12">
+                <h1>Nhà cung cấp</h1>
+            </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <select name="function" class="form-control selected-custom">
+                            <option value="">-- Chức năng --</option>
+                            <option value="published">Đăng</option>
+                            <option value="unpublished">Tạm dừng</option>
+                            <option value="sort">Cập nhật vị trí</option>
+                        </select>
+                        <button type="submit" class="btn btn-default btn-custom apply">Thực hiện</button>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><a href="<?php echo $this->url('backend', array('controller' => 'supplier', 'action' => 'add')) ?>" class="btn btn-default btn-custom pull-right">Thêm mới</a></div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><button type="button" class="btn btn-default btn-custom pull-right">Thêm mới</button></div>
             </div>
         </div>
     </div>
-</div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="content">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="filter"> 
-                            <form class="form-horizontal">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="filter"> 
                                 <fieldset>
                                     <legend>Tìm kiếm</legend>
                                     <div class="col-lg-5 col-md-5">
                                         <div class="form-group">
                                             <label for="keyword" class="col-lg-3 col-md-4 control-label">Từ khóa</label>
                                             <div class="col-lg-9 col-md-8 col-sm-12">
-                                                <input type="email" class="form-control" id="keyword">
+                                                <input type="text" class="form-control" id="keyword">
                                             </div>
                                         </div>
                                     </div>
-                                    
                                     <div class="col-lg-2 col-md-2">
-                                        <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <button type="button" class="btn btn-default btn-custom">Tìm</button>
-                                            </div>
-                                        </div>
+																			<div class="form-group">
+																					<button type="button" class="btn btn-default btn-custom">Tìm</button>
+																			</div>
                                     </div>
                                 </fieldset>
-                            </form>
-                        </div>
-                    </div> <!-- end search -->
+                            </div>
+                        </div> <!-- end search -->
 
-                    <div class="col-lg-12">
-                        <div class="form-table">
-                            <table id="table-data" class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th id="all" class="all"><input type="checkbox" class="form-all"></th>
-                                        <th id="key" class="name column_name no-sort">
-                                            <a href="#">Mã <i class="fa fa-sort-asc"></i></a>
-                                        </th>
-                                        <th id="name">
-                                            <a class="desc" href="#">Tên <i class="fa fa-sort-desc"></i></a>
-                                        </th>
-                                        
-                                        <th class="phone column_phone">Điện thoại</th>
-                                        <th class="weight column_weight">Tổng mua</th>
-                                        <th class="quantity column">Nợ cần trả</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-checkbox check-all"></td>
-                                        <td>1</td>
-                                        <td class="column-title column_name">
-                                            <strong class="key-title">A Tên 1</strong>
-                                            <div class="row-action">
-                                                <span class="edit">
-                                                    <a href="#">Sửa</a> | 
-                                                </span>
-                                                <span class="quick-edit">
-                                                    <a data-name="Tên 1" data-slug="ten-1" data-weight="1" href="javascript:void(0)">Sửa nhanh</a> | 
-                                                </span>
-                                                <span class="delete">
-                                                    <a href="#">Xóa</a> | 
-                                                </span>
-                                                <span class="view">
-                                                    <a href="#">Xem</a>
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td class="column_category">09 6666 0127</td>
-                                        <td class="column_price">500.000</td>
-                                        <td class="column_weight">1</td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-checkbox check-all"></td>
-                                        <td>1</td>
-                                        <td class="column-title column_name">
-                                            <strong class="key-title">A Tên 1</strong>
-                                            <div class="row-action">
-                                                <span class="edit">
-                                                    <a href="#">Sửa</a> | 
-                                                </span>
-                                                <span class="quick-edit">
-                                                    <a data-name="Tên 1" data-slug="ten-1" data-weight="1" href="javascript:void(0)">Sửa nhanh</a> | 
-                                                </span>
-                                                <span class="delete">
-                                                    <a href="#">Xóa</a> | 
-                                                </span>
-                                                <span class="view">
-                                                    <a href="#">Xem</a>
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td class="column_category">09 6666 0127</td>
-                                        <td class="column_price">500.000</td>
-                                        <td class="column_weight">1</td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-checkbox check-all"></td>
-                                        <td>1</td>
-                                        <td class="column-title column_name">
-                                            <strong class="key-title">A Tên 1</strong>
-                                            <div class="row-action">
-                                                <span class="edit">
-                                                    <a href="#">Sửa</a> | 
-                                                </span>
-                                                <span class="quick-edit">
-                                                    <a data-name="Tên 1" data-slug="ten-1" data-weight="1" href="javascript:void(0)">Sửa nhanh</a> | 
-                                                </span>
-                                                <span class="delete">
-                                                    <a href="#">Xóa</a> | 
-                                                </span>
-                                                <span class="view">
-                                                    <a href="#">Xem</a>
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td class="column_category">09 6666 0127</td>
-                                        <td class="column_price">500.000</td>
-                                        <td class="column_weight">1</td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-checkbox check-all"></td>
-                                        <td>1</td>
-                                        <td class="column-title column_name">
-                                            <strong class="key-title">A Tên 1</strong>
-                                            <div class="row-action">
-                                                <span class="edit">
-                                                    <a href="#">Sửa</a> | 
-                                                </span>
-                                                <span class="quick-edit">
-                                                    <a data-name="Tên 1" data-slug="ten-1" data-weight="1" href="javascript:void(0)">Sửa nhanh</a> | 
-                                                </span>
-                                                <span class="delete">
-                                                    <a href="#">Xóa</a> | 
-                                                </span>
-                                                <span class="view">
-                                                    <a href="#">Xem</a>
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td class="column_category">09 6666 0127</td>
-                                        <td class="column_price">500.000</td>
-                                        <td class="column_weight">1</td>
-                                    </tr>
+                        <div class="col-lg-12">
+                            <div class="form-table">
+                                <?php if($list): ?>
+                                <table id="table-data" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th id="all" class="all"><input type="checkbox" class="form-all"></th>
+                                            <th id="key" class="name column_name no-sort">
+                                                <?php
+                                                        if(isset($arrayParam['sort']) && $arrayParam['sort'] == 'id' && isset($arrayParam['order']) && !empty($arrayParam['order'])):
+                                                            $class = $arrayParam['order'];
+                                                            $link = $this->url($this->route, array('controller' => 'category', 'action' => 'index')). implode('', $paramSort);
+                                                            $icon = 'fa-sort-'.$arrayParam['order'];
+                                                        else:
+                                                            $arrIdSort = $paramSort;
+                                                            if(!isset($arrIdSort['sort']) || $arrIdSort['sort'] != 'id'){
+                                                                if(isset($arrIdSort['sort']) && $arrIdSort['sort'] != 'id'){
+                                                                    unset($arrIdSort['sort']);
+                                                                }
+                                                                $arrId = array();
+                                                                if(isset($arrIdSort['page'])){
+                                                                    $arrId['page'] = $paramSort['page'];
+                                                                }
+                                                                $arrId['sort'] = '/sort/id';
+                                                                $arrIdSort = array_merge($arrId, $arrIdSort);
+                                                            }
+                                                            $arrIdSort['order'] = '/order/asc';
+                                                            $class = '';
+                                                            $link = $this->url($this->route, array('controller' => 'category', 'action' => 'index')). implode('', $arrIdSort);
+                                                            $icon = 'fa-sort-desc';
+                                                        endif;
+                                                    ?>
+                                                    <a class="<?php echo $class ?>" href="<?php echo $link; ?>">Mã <i class="fa <?php echo $icon; ?>"></i></a>
 
-                                </tbody>
-                            </table>
+                                            </th>
+                                            <th>
+                                                <?php
+                                                        if(isset($arrayParam['sort']) && $arrayParam['sort'] == 'name' && isset($arrayParam['order']) && !empty($arrayParam['order'])):
+                                                            $class = $arrayParam['order'];
+                                                            $link = $this->url($this->route, array('controller' => 'category', 'action' => 'index')). implode('', $paramSort);
+                                                            $icon = 'fa-sort-'.$arrayParam['order'];
+                                                        else:
+                                                            $paramFullnameSort = $paramSort;
+
+                                                            if(!isset($paramFullnameSort['sort']) || $paramFullnameSort['sort'] != 'name'){
+                                                                if(isset($paramFullnameSort['sort']) && $paramFullnameSort['sort'] != 'name'){
+                                                                    unset($paramFullnameSort['sort']);
+                                                                }
+                                                                $arrName = array();
+                                                                if(isset($paramFullnameSort['page'])){
+                                                                    $arrName['page'] = $paramFullnameSort['page'];
+                                                                }
+                                                                $arrName['sort'] = '/sort/name';
+                                                                $paramFullnameSort = array_merge($arrName, $paramFullnameSort);
+                                                            }
+
+                                                            $paramFullnameSort['order'] = '/order/asc';
+                                                            $class = '';
+                                                            $link = $this->url($this->route, array('controller' => 'category', 'action' => 'index')). implode('', $paramFullnameSort);
+                                                            $icon = 'fa-sort-desc';
+                                                        endif;
+                                                    ?>
+                                                    <a class="<?php echo $class; ?>" href="<?php echo $link; ?>">Tên nhà cung cấp <i class="fa <?php echo $icon; ?>"></i></a>
+                                            </th>
+                                            <th class="weight column_sort">Vị trí</th>
+                                            <th class="quantity column_quantity">Số lượng</th>
+                                            <th class="status column_status">Trang thái</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($list as $value): ?>
+                                        <tr id="category-<?php echo $value['id']; ?>">
+                                            <td><input type="checkbox" value="<?php echo $value['id']; ?>" name="check-all[]" class="form-checkbox check-all"></td>
+                                            <td>
+                                                <?php echo $value['id']; ?></td>
+                                            <td class="column-title column_name">
+                                                <strong class="key-title"><?php echo $value['name']; ?></strong>
+                                                <div class="row-action">
+                                                    <span class="edit">
+                                                        <a class="icon-edit" href="<?php echo $this->url('backend', array('controller' => 'supplier', 'action' => 'edit', 'id' => $value['id'])); ?>" title="Sửa"><i class="fa fa-pencil-square-o"></i></a>
+                                                    </span>
+                                                    <span class="quick-edit">
+                                                        <a data-id="<?php echo $value['id']; ?>"  title="Sửa nhanh" href="javascript:void(0)"><i class="fa fa-pencil-square"></i></a>
+                                                    </span>
+                                                    <span class="delete">
+                                                        <a class="icon-delete" title="Xóa" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target=".modal-delete-taxonomy" title="Delete"><i class="fa fa-times"></i></a>  
+                                                    </span>
+                                                    <span class="view">
+                                                        <a href="#" title="Xem"><i class="fa fa-arrows-alt"></i></a>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td class="column_sort"><input type="number" min="0" value="<?php echo $value['order']; ?>" name="sort[<?php echo $value['id'] ?>]" class="update_weight form-control"></td>
+                                            <td class="column_quantity"><?php echo $value['count']; ?></td>
+                                            <td class="column_status status">
+                                                <?php echo ($value['status'] == 1)? '<a data-status='.json_encode(array('id' => $value['id'], 'status' => 1)).' href="javascript:void(0)" title="Hiển thị" class="active fa fa-check-circle"></a>': '<a data-status='.json_encode(array('id' => $value['id'], 'status' => 0)).' title="Không hiển thị" class="unactive fa fa-minus-circle"></a>'; ?>
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                                <?php else: ?>
+                                    <div class="alert alert-info" role="alert">Không tồn tại nhà cung cấp. </div>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="pager">
-                <ul class="pagination">
-                    <li><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                    <li><a href="#" title="Lùi lại"><i class="fa fa-angle-left"></i></a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li class="active"><a>3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#" title="Tiếp theo"><i class="fa fa-angle-right"></i></a></li>
-                    <li><a href="#" title="Trang Cuối"><i class="fa fa-angle-double-right"></i></a></li>
-                </ul>
-
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <?php
+                    echo $this->paginationControl($paginator, 'Elastic', 'partial/pagination.phtml',array('name' => 'backend','controller' => 'category','action' => 'index', 'routeParam' => $routeParam));
+                ?>
             </div>
         </div>
     </div>
-</div>
+</form>
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+        $('.form-table .table>tbody>tr>td span.quick-edit a').on('click', function(){
+            $(".form-table .table>tbody>tr").removeAttr('style');
+            $(this).closest('tr').css('display', 'none');
+            $('.edit-row').remove();
+            var id = $(this).attr('data-id');
+            var taxonomy_id = $(this).attr('data-taxonomy');
+            $.ajax({
+                   type:"POST",
+                   url: "<?php echo $this->url($this->route, array('controller' => 'category', 'action' => 'quickedit')) ?>",
+                   data: {'id': id, 'taxonomy_id': taxonomy_id},
+                   dataType: 'JSON',
+                   beforeSend: function(){
+                   },
+                   success: function(data){
+                       $("#category-"+id).addClass('tr-quick-edit').after(data.html);
+                   }    
+              });
+             $('.selectpicker').selectpicker('refresh');
+        });
+        
+        
+        // quick edit
+        $('.form-table').on('click', '.table>tbody>tr>td #quick-edit', function(){
+            var id = $("#id").val();
+            var name = $("#name").val();
+            var slug = $("#slug").val();
+            var sort = $("#sort").val();
+            var status = $("input[name=status]").is(':checked')? 1 : 0;
+            var parent = $("#basic-quick-edit").val();
+            $.ajax({
+                type:"POST",
+                url: "<?php echo $this->url($this->route, array('controller' => 'category', 'action' => 'quickupdate')) ?>",
+                data: {'id': id, 'name': name, 'slug': slug, 
+                       'sort': sort, 'status': status, 
+                       'parent' : parent},
+                dataType: 'JSON',
+                beforeSend: function(){
+                },
+                success: function(data){
+                    console.log(data);
+                    if(data.error){
+                        $("#error_name").empty().append(data.error.name);
+                        $("#error_slug").empty().append(data.error.slug);
+                    }else{
+                        $("#error_name").empty();
+                        $("#error_slug").empty();
+                        alert('Cập nhật thành công.');
+                        $('.edit-row').remove();
+                        $(".form-table .table>tbody>tr").removeAttr('style');
+                        $(".form-table .table>tbody>tr#category-"+id+ " .key-title").empty().append(name);
+                        $(".form-table .table>tbody>tr#category-"+id+ " .column_sort input").val(sort);
+                    }
+                }    
+            });
+        });
+        
+        $('.form-table').on('click', '.table>tbody>tr .btn-back', function(){
+             $(".form-table .table>tbody>tr").removeAttr('style');
+             $('.edit-row').remove();
+        });
+        
+        // change status
+        $(".form-table .table>tbody>tr>td.column_status a").on('click', function(){
+            var data = $(this).attr('data-status');
+            var loadData = jQuery.parseJSON(data);
+            var obj = { 'id' : loadData.id, 'status': loadData.status };
+            if (confirm('Bạn có muốn thay đổi trạng thái không?')) {
+                $.ajax({
+                    type:"POST",
+                    url: "<?php echo $this->url($this->route, array('controller' => 'supplier', 'action' => 'changestatus')) ?>",
+                    data: obj,
+                    dataType: 'JSON',
+                    beforeSend: function(){
+                    },
+                    success: function(){
+                        location.reload();
+                    }    
+               });
+            }   
+        });
+        
+        // delete category
+        $(".form-table .table>tbody>tr>td .row-action span.delete a").on('click', function(){
+            var category_id = $(this).attr('data-id');
+            var obj = { 'category_id' : category_id};
+            if (confirm('Bạn có muốn xóa không không?')) {
+                $.ajax({
+                    type:"POST",
+                    url: "<?php echo $this->url($this->route, array('controller' => 'category', 'action' => 'deletecategory')) ?>",
+                    data: obj,
+                    dataType: 'JSON',
+                    beforeSend: function(){
+                    },
+                    success: function(data){
+                        location.reload();
+                    }    
+               });
+            }   
+        });
+   
+  
+});
+</script>

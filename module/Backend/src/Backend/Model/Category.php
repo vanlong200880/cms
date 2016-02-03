@@ -37,7 +37,6 @@ class Category extends AbstractTableGateway
         }
         
         // filter
-//        $sort = array('fullname', 'id', 'email', 'role', 'status', 'birthday', 'created');
         if(isset($arrayParam['sort']) && $arrayParam['sort'] !== ''){
             if(isset($arrayParam['order']) == true && $arrayParam['order'] != ''){
                 $select->order($arrayParam['sort'] .' ' . $arrayParam['order']);

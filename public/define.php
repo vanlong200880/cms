@@ -7,7 +7,7 @@ define('FILES_PATH', PUBLIC_PATH . '/files');
 define('USER_ICON', PUBLIC_PATH .'/files/users');
 define('SCRIPTS_PATH',PUBLIC_PATH . '/scripts');
 define('CAPTCHA_PATH',PUBLIC_PATH . '/captcha');
-define('PAGING_LIMIT',30);
+define('PAGING_LIMIT',10);
 define('FRONTEND_PAGING_LIMIT', 20);
 define('PAGE_RAND',10);
 // user default
