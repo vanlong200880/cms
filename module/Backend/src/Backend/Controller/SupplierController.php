@@ -237,6 +237,7 @@ class SupplierController extends AbstractActionController
 							$thumb = new Thumbs();
 							foreach ($dataImage as $val){
 								$thumb->removeImage(PRODUCT_ICON ."/", array('1' => '40x80/', '2' => '160x180/', '3' => '260x300/', '4' => ''), $val['name'], 4);
+								$image->deleteImageByProductId($arrayParam);
 							}
 						}
 						// delete product by id
