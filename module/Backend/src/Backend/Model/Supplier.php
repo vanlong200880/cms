@@ -86,6 +86,43 @@ class Supplier extends AbstractTableGateway
         $resultSet = $this->selectWith($select);
         return $resultSet->toArray();
     }
+		
+		public function updateStatus($arrayParam = null){
+        $data = array(
+					'status' => $arrayParam['status']
+				);
+        if(isset($arrayParam['post']['function'])){
+            if($arrayParam['post']['function'] == 'published'){
+                $data['status'] = 1;
+            }else{
+                 if($arrayParam['post']['function'] == 'unpublished'){
+                     $data['status'] = 0;
+                 }
+            }
+        }
+        if(isset($arrayParam['post']['check-all']) && !empty($arrayParam['post']['check-all'])){
+                foreach ($arrayParam['post']['check-all'] as $value){
+                    $arrayParam['id'] = $value;
+                    if($this->getSupplierById($arrayParam)){
+                        $this->update($data, 'id = '. $value);
+                    }
+                }
+            return true;
+        }else{
+            return false;
+        }
+	}
+	
+	public function updateSortById($dataSort = null){
+        $data = array(
+		  'order' => $dataSort['sort']
+		);
+        $this->update($data, 'id = '.$dataSort['id']);
+	}
+	public  function deleteSupplierById($id){
+		return $this->delete('id = '.$id);
+	}
+	
     
     // get category by taxonomy id
 //    public function getCategoryByTaxonomyId($arrayParam = null){

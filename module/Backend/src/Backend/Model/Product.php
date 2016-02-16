@@ -252,15 +252,25 @@ class Product extends AbstractTableGateway
             return $this->update($data, 'id = '.$arrayParam['id']);
 		}
 	}
-    // count all product id in array all category
-    public function getAllProductByArrayCategoryId($arrayParam = null){
-        $select = new Select();
-        $select->columns(array('id'));
-        $select->from($this->table);
-        $select->where->or->nest->in('category_id',$arrayParam['list']);
-        $resultSet = $this->selectWith($select);
-        $resultSet = $resultSet->toArray();
-        return $resultSet;
-    }
+	// count all product id in array all category
+	public function getAllProductByArrayCategoryId($arrayParam = null){
+			$select = new Select();
+			$select->columns(array('id'));
+			$select->from($this->table);
+			$select->where->or->nest->in('category_id',$arrayParam['list']);
+			$resultSet = $this->selectWith($select);
+			$resultSet = $resultSet->toArray();
+			return $resultSet;
+	}
+	
+	// Get all product by supplier by id
+	public function getAllProductBySupplierId($arrayParam = null){
+		$select = new Select();
+		$select->from($this->table);
+		$select->where(array('supplier_id' => $arrayParam['supplier_id']));
+		$resultSet = $this->selectWith($select);
+		$resultSet = $resultSet->toArray();
+		return $resultSet;
+	}
 }
 

@@ -3,7 +3,13 @@
 namespace Backend\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 use Backend\Model\Supplier;
+use Backend\Model\Product;
+use Backend\Model\Comment;
+use Backend\Model\Image;
+use Sky\Uploads\Upload;
+use Sky\Uploads\Thumbs;
 
 class SupplierController extends AbstractActionController
 {
@@ -37,7 +43,7 @@ class SupplierController extends AbstractActionController
 							break;
 						case 'published': // active
 						case 'unpublished': // deactive
-								if($category->updateStatus($arrayParam)){
+								if($supplier->updateStatus($arrayParam)){
 										$this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật trạng thái thành công.</div>');
 										return $this->redirect()->toUrl($url);
 								}else{
@@ -45,24 +51,24 @@ class SupplierController extends AbstractActionController
 										 return $this->redirect()->toUrl($url);
 								}
 								break;
-						case 'sort': 
+						case 'sort':
 								if(isset($arrayParam['post']['sort']) && !empty($arrayParam['post']['sort'])){
 										$dataSort = array();
 										foreach ($arrayParam['post']['sort'] as $key => $value){
 												$dataSort['id'] = $key;
 												$dataSort['sort'] = $value;
-												$category->updateSortById($dataSort);
+												$supplier->updateSortById($dataSort);
 										}
 										$this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Cập nhật vị trí thành công.</div>');
 										return $this->redirect()->toUrl($url);
 								}
 								break;
 						default :
-								$this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Bạn chưa chọn chức năng.</div>');
-								return $this->redirect()->toUrl($url);
+							$this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Bạn chưa chọn chức năng.</div>');
+							return $this->redirect()->toUrl($url);
 					}
 				}else{
-						$this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Bạn chưa chọn chức năng.</div>');
+					$this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Bạn chưa chọn chức năng.</div>');
 				}
 			}
 			$arrayParam = $this->params()->fromRoute();
@@ -83,10 +89,10 @@ class SupplierController extends AbstractActionController
 			$arrParam = array(
 				'controller'	=> $arrayParam['__CONTROLLER__'],
 				'action'		=> $arrayParam['action'],
-							'page'          => (!empty($page))? '/page/'.$page: '',
-							'sort'          => (!empty($sort))? '/sort/'.$sort: '',
-							'order'         => (!empty($order))? '/order/'.$order: '',
-							'txtSearch'     => (!empty($search))? '/txtSearch/'.$search: '',
+				'page'          => (!empty($page))? '/page/'.$page: '',
+				'sort'          => (!empty($sort))? '/sort/'.$sort: '',
+				'order'         => (!empty($order))? '/order/'.$order: '',
+				'txtSearch'     => (!empty($search))? '/txtSearch/'.$search: '',
 			);
 			// dem tong so user
 			$countCategory = $supplier->countAllSupplier($arrayParam);
@@ -199,12 +205,51 @@ class SupplierController extends AbstractActionController
                 if(is_numeric($id) && is_numeric($status)){
                     $dataSupplier  = $supplier->getSupplierById($arrayParam);
                     if($dataSupplier){
-                        $supplier->changeStatus($arrayParam);
-                        $this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Thay đổi trạng thái thành công.</div>');
+											$supplier->changeStatus($arrayParam);
+											$this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Thay đổi trạng thái thành công.</div>');
                     }
                 }
             }
         }
         return new JsonModel($arrayParam);
     }
+		
+		public function deletesupplierAction(){
+			$arrayParam = array();
+			$supplier = new Supplier();
+			$request = $this->getRequest();
+			if($request->isPost() == true){
+				$arrayParam['supplier_id'] = $this->params()->fromPost('supplier_id');
+				$product = new Product();
+				$dataProduct = $product->getAllProductBySupplierId($arrayParam);
+				if(!empty($dataProduct)){
+					$image = new Image();
+					$comment = new Comment();
+					foreach ($dataProduct as $value){
+						// delete comment by product id
+						$arrayParam['comment_type'] = 'products';
+						$arrayParam['product_id'] = $arrayParam['id'] =  $value['id'];
+						$comment->deleteCommentByProductId($arrayParam);
+						// delete image by product id
+						$arrayParam['type'] = 'product';
+						$dataImage = $image->getImageByProductId($arrayParam);
+						if($dataImage){
+							$thumb = new Thumbs();
+							foreach ($dataImage as $val){
+								$thumb->removeImage(PRODUCT_ICON ."/", array('1' => '40x80/', '2' => '160x180/', '3' => '260x300/', '4' => ''), $val['name'], 4);
+							}
+						}
+						// delete product by id
+						$product->deleteProductById($arrayParam['id']);
+					}
+				}
+				// delete supplier
+				if($supplier->deleteSupplierById($arrayParam['supplier_id'])){
+					$this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa nhà cung cấp thành công.</div>');
+				}else{
+					$this->flashMessenger()->addMessage('<div class="alert alert-success" role="alert">Xóa thất bại...</div>');
+				}
+			}
+			return new JsonModel($arrayParam);
+		}
 }	
